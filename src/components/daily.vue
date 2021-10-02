@@ -39,7 +39,7 @@
 
 <script>
 import DailyIframe from "@daily-co/daily-js";
-import Controls from "./controls.vue";
+import Controls from "./Controls.vue";
 import api from "../api.js";
 
 export default {
