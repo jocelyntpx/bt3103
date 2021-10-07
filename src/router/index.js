@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import FindCounsellor from '@/views/FindCounsellor.vue'
+import FindACounsellor from '@/views/FindACounsellor.vue'
 import About from '@/views/About.vue'
 import UserProfile from '@/views/UserProfile.vue'
 import HelpResources from '@/views/HelpResources.vue'
@@ -16,8 +16,8 @@ const routes = [
  },
  {
     path: '/findcounsellor',
-    name: 'Find Counsellor',
-    component: FindCounsellor
+    name: 'Find A Counsellor',
+    component: FindACounsellor
 },
 {
     path: '/helpresources',
@@ -25,8 +25,10 @@ const routes = [
     component: HelpResources
 }
 ]
+
 const router = createRouter({
  history: createWebHistory(),
  routes
 })
+
 export default router

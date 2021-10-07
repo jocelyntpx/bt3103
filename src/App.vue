@@ -14,10 +14,10 @@
 </template>
 
 <script>
-//import Home from "./components/daily.vue";
+// import Home from "./components/Daily.vue";
 
 export default {
-  //components: {Home },
+  // components: {Home },
   name: 'App'
 }
 </script>
