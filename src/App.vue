@@ -2,9 +2,11 @@
   <!-- <div id="brand">
     <h4>Mental Health Matters</h4>
   </div> -->
+  <!-- <Login/> -->
+  <NavBarGeneral/>
   <div id="nav">
-    <h3 id="mhm">Mental Health Matters</h3>
-    <router-link to="/">My Profile</router-link> | 
+    <!-- <h3 id="mhm">Mental Health Matters</h3> -->
+    <router-link to="/patientProfile">My Profile</router-link> | 
     <router-link to="/findcounsellor">Find A Counsellor</router-link> | 
     <router-link to="/about">About Us</router-link> |
     <router-link to="/helpresources">Help Resources</router-link> 
@@ -14,10 +16,11 @@
 </template>
 
 <script>
-//import Home from "./components/daily.vue";
+// import Login from "./components/Login.vue";
+import NavBarGeneral from "./components/NavBarGeneral.vue"
 
 export default {
-  //components: {Home },
+  components: {NavBarGeneral },
   name: 'App'
 }
 </script>
