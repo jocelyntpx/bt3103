@@ -1,12 +1,5 @@
 <template>
-    <h3>Patient Profile</h3>
-    <div id="bgBlock">
-        <div id="patientDetails">
-            <h3>Name: James Tan</h3>
-            <h3>blahblahblah</h3>
-        </div>
-    </div>
-
+    <h3>Counsellor Profile</h3>
     <div style="text-align:center;" v-if="user">
         <div><h3><strong>This is the profile page</strong></h3></div>
         <div v-if="user">
@@ -23,23 +16,6 @@
 
 <script>
 export default {
-    name:"PatientProfile" 
+    name:"CounsellorProfile" 
 }
 </script>
-
-<style scoped>
-#bgBlock {
-  border-radius: 35px;
-  background: #B9D9EB;
-  padding: 20px;
-  width: 80%;
-  height: 450px;
-  margin:auto;
-}
-
-#patientDetails{
-    float:left;
-    margin-left: 20px;
-}
-
-</style>

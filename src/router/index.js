@@ -7,6 +7,8 @@ import HelpResources from '@/views/HelpResources.vue'
 import AdminLogin from '@/views/AdminLogin.vue'
 import PatientLogin from '@/components/PatientLogin.vue'
 import PatientProfile from '@/views/PatientProfile.vue'
+import CounsellorProfile from '@/views/CounsellorProfile.vue'
+import MyPatients from '@/views/MyPatients.vue'
 import NotFound from '@/views/NotFound.vue'
 const routes = [
  {
@@ -48,6 +50,16 @@ const routes = [
     path: '/patientProfile',
     name: 'PatientProfile',
     component: PatientProfile
+},
+{
+    path: '/counsellorProfile',
+    name: 'CounsellorProfile',
+    component: CounsellorProfile
+},
+{
+    path: '/myPatients',
+    name: 'MyPatients',
+    component: MyPatients
 },
 {
     path: '/:catchAll(.*)',

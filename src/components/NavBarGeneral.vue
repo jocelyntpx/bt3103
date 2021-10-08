@@ -11,6 +11,31 @@
     </div>
 </template>
 
+<style scoped>
+#mhm{
+  float: left;
+  margin-left: 70px;
+  margin-top: -2px;
+
+  /* idk why but only -2px then looks aligned  */
+} 
+
+#nav {
+  text-align: right;
+  /* float: right; */
+  margin-right: 50px; 
+}
+
+#nav a{
+  font-weight: bold;
+  color:lightslategray;
+}
+
+#nav a.router-link-exact-active {
+  color:black;
+}
+</style>
+
 
 
 
