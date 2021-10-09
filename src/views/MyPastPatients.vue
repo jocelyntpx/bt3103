@@ -1,34 +1,32 @@
 <template>
-    <div id=past>
+    <div id=upcoming>
         <router-link to="/myPatients">Upcoming Patients</router-link> | 
         <router-link to="/myPastPatients">Past Patients</router-link>
     </div>
-    <h4>Upcoming patients are patients you have an upcoming appointment with. </h4>
+    <!-- <SearchBar hint="Search hint" :text="searchPhrase" @textChange="onTextChanged" @submit="onSubmit" /> -->
+    <!-- <SearchBar v-model="searchQuery" /> -->
+    <h4>Past patients are patients you have already had an appointment with. </h4>
     <div id="bgBlock">
         <table id="table">
             <tr id=header>
             <th>Date</th> 
             <th>Patient</th>
-            <th>Link</th>
-            <th></th> 
+            <th>My Notes</th>
             </tr>
              <tr>
-                <td>10/10/21</td>
+                <td>9/10/21</td>
                 <td>Benjamin Soh</td>
-                <td>Displayed when user starts session</td>
-                <td>X</td>
+                <td>He faced difficulty with...</td>
             </tr>
             <tr>
-                <td>10/10/21</td>
+                <td>9/10/21</td>
                 <td>Rose Lee</td>
-                <td>Displayed when user starts session</td>
-                <td>X</td>
+                <td>Rose was angry because...</td>
             </tr>
             <tr>
-                <td>10/10/21</td>
+                <td>9/10/21</td>
                 <td>Eunice Tan</td>
-                <td>Displayed when user starts session</td>
-                <td>X</td>
+                <td>Eunice told her that...</td>
             </tr>
         </table>
         <div style="text-align:center;" v-if="user">
@@ -45,7 +43,7 @@
 // const db = getFirestore(firebaseApp);
 
 export default {
-    name:"MyPatients",
+    name:"MyPastPatients",
 }
 // export default {
 //     mounted(){
@@ -59,40 +57,17 @@ export default {
 //                 var table = document.getElementById("table")
 //                 var row = table.insertRow(ind)
 
-//                 var date = yy.getCounsellorUpcomingSessions.getSessionTime
-//                 var patient  = yy.getCounsellorUpcomingSessions.getUserEmail.getUserFirstName + " " + yy.getCounsellorUpcomingSessions.getUserEmail.getUserLastName
-//                 //var link = yy.getCounsellorUpcomingSessions.getLink only if user starts, else "Displayed when user starts session"
+//                 var date = yy.getCounsellorPastSessions.getSessionTime
+//                 var patient  = yy.getCounsellorPastSessions.getUserEmail.getUserFirstName + " " + yy.getCounsellorUpcomingSessions.getUserEmail.getUserLastName
+//                 var notes = yy.getCounsellorPastSessions.getSessionNotes
             
 //                 var cell1 = row.insertCell(0); var cell2 = row.insertCell(1); var cell3 = row.insertCell(2); 
-//                 var cell4 = row.insertCell(3); 
                 
-
-//                 cell1.innerHTML = date; cell2.innerHTML = patient; cell3.innerHTML = "Displayed when user starts session"; cell4.innerHTML = 0;
-
-//                 var bu = document.createElement("button")
-//                 bu.className = "bwt"
-//                 bu.id = String(coin)
-//                 bu.innerHTML = "X"
-//                 bu.onclick = function(){
-//                     cancelSession(yy.getCounsellorUpcomingSessions, False)
-//                 }
-//                 cell4.appendChild(bu)
+//                 cell1.innerHTML = date; cell2.innerHTML = patient; cell3.innerHTML = notes; 
 
 //             })
 //         }
 //         display()
-
-//         async function cancelSession(Session_ID, Boolean) {
-//             var x = yy.getCounsellorUpcomingSessions
-//             alert("You are going to cancel this appointment." + x)
-//             await deleteDoc(doc(db,"Counsellor_Email",x))
-//             console.log("Document successfully deleted!", x);
-//             let tb = document.getElementById("table")
-//             while (tb.rows.length > 1){
-//                 tb.deleteRow(1)
-//             }
-//             display()
-//         }
 
 //     }
 // }
@@ -109,12 +84,9 @@ export default {
   margin:auto;
 }
 
-
-
 h4{
     color: grey;
 }
-
 
 #table{
     /* width: 630px; */
@@ -142,16 +114,16 @@ th{
     color: white;
 }
 
-#past {
+#upcoming {
     font-size:25px ;
 }
 
-#past a{
+#upcoming a{
   font-weight: bold;
   color:lightslategray;
 }
 
-#past a.router-link-exact-active {
+#upcoming a.router-link-exact-active {
   color:black;
 }
 

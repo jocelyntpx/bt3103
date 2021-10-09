@@ -1,38 +1,52 @@
+
 <template>
-    <div id=past>
-        <router-link to="/myPatients">Upcoming Patients</router-link> | 
-        <router-link to="/myPastPatients">Past Patients</router-link>
-    </div>
-    <h4>Upcoming patients are patients you have an upcoming appointment with. </h4>
+<br><br><br><br>
     <div id="bgBlock">
-        <table id="table">
+        <h3>Upcoming Appointments</h3>
+        <table id="table1">
             <tr id=header>
             <th>Date</th> 
-            <th>Patient</th>
+            <th>Counsellor</th>
             <th>Link</th>
             <th></th> 
             </tr>
              <tr>
                 <td>10/10/21</td>
-                <td>Benjamin Soh</td>
-                <td>Displayed when user starts session</td>
+                <td>Mdm Lim</td>
+                <td>Time for your session. Create your link now!</td>
                 <td>X</td>
             </tr>
             <tr>
-                <td>10/10/21</td>
-                <td>Rose Lee</td>
-                <td>Displayed when user starts session</td>
-                <td>X</td>
-            </tr>
-            <tr>
-                <td>10/10/21</td>
-                <td>Eunice Tan</td>
-                <td>Displayed when user starts session</td>
+                <td>11/10/21</td>
+                <td>Mr Tan</td>
+                <td>Session link can be created when it is time for your session.</td>
                 <td>X</td>
             </tr>
         </table>
+        <br><br><br>
+        <h3>Past Appointments</h3>
+        <table id="table2">
+            <tr id=header>
+            <th>Date</th> 
+            <th>Counsellor</th>
+            <th>Link</th>
+            <th>Rating</th> 
+            </tr>
+             <tr>
+                <td>10/10/21</td>
+                <td>Mdm Lim</td>
+                <td>Link expired</td>
+                <td>Rate session</td>
+            </tr>
+            <tr>
+                <td>11/10/21</td>
+                <td>Mr Tan</td>
+                <td>Link expired</td>
+                <td>★★★☆☆</td>
+            </tr>
+        </table>
         <div style="text-align:center;" v-if="user">
-            <div><h3><strong>This is the my patients page</strong></h3></div>
+            <div><h3><strong>This is the appointment page</strong></h3></div>
             <Logout/>
         </div>
     </div>
@@ -47,10 +61,11 @@
 export default {
     name:"MyPatients",
 }
+//havent changed this yet to fit Users
 // export default {
 //     mounted(){
 //         async function display() {
-//             let z = await getDocs(collection(db,"Counsellor_Email"))
+//             let z = await getDocs(collection(db,"User_Email"))
 //             let ind = 1
 //             var tp = 0
 
@@ -110,13 +125,7 @@ export default {
 }
 
 
-
-h4{
-    color: grey;
-}
-
-
-#table{
+#table1, #table2{
     /* width: 630px; */
     font-family: Arial, sans-serif;
     border-collapse: collapse;
@@ -142,18 +151,8 @@ th{
     color: white;
 }
 
-#past {
-    font-size:25px ;
-}
 
-#past a{
-  font-weight: bold;
-  color:lightslategray;
-}
 
-#past a.router-link-exact-active {
-  color:black;
-}
 
 
   /* button.bwt{
