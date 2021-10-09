@@ -5,6 +5,7 @@
             <h3>Name: James Tan</h3>
             <h3>blahblahblah</h3>
         </div>
+        <router-link to="/allAppointments">view all appointments</router-link>
     </div>
 
     <div style="text-align:center;" v-if="user">
