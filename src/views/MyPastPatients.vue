@@ -10,12 +10,13 @@
     <div id="bgBlock">
         <input id=searchPatient type="text"  v-model="search" placeholder="Search for a patient"/>
         <br><br><br><br>
-
+        
+        <!-- will be able to click onto name and get redirected to the profile -->
         <div id="patientNames">
             <h3 id=name1> Benjamin Soh </h3>
-            <h3 id=name2> Rose Lee </h3>
+            <h3 id=name2><router-link to="/patientRecords">Rose Lee</router-link></h3> 
+            <!-- <h3 id=name2> Rose Lee </h3> -->
             <h3 id=name3> Eunice Tan Bla Bla </h3>
-            <!-- will be able to click onto name and get redirected to the profile -->
         </div>
         <!-- <table id="table">
             <tr id=header>

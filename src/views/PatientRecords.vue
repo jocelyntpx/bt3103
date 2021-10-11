@@ -1,8 +1,9 @@
 <template>
-  <h1> Rose Lee </h1>
+
+  <h1>Rose Lee </h1>
+   
   <UserInfo/>
   <br>
-  <h3> Previous Sessions </h3>
   <UserPreviousSessions/>
 </template>
 
@@ -14,6 +15,7 @@ export default {
 components: {
     UserInfo,UserPreviousSessions
 },
+name: "PatientRecords",
 data() {
     return {
 
