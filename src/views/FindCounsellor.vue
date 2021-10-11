@@ -57,7 +57,7 @@
 
 
 <script>
-import Home from "@/components/Daily.vue";
+import Home from "@/components/daily.vue";
 import PatientRecords from './PatientRecords.vue';
 
 import CounsellorsCurrentlyAvailable from "@/components/CounsellorsCurrentlyAvailable.vue";
