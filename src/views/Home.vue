@@ -59,7 +59,7 @@ export default {
     text-align:center;
     transition: all 0.2s;
 }
-#bregisterButton:hover{
+#registerButton:hover{
     background-color:#4095c6;
 }
 </style>
