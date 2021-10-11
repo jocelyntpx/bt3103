@@ -24,7 +24,7 @@
             </tr>
         </table>
         <br><br><br>
-        <h3>Past Appointments</h3>
+        <!-- <h3>Past Appointments</h3>
         <table id="table2">
             <tr id=header>
             <th>Date</th> 
@@ -44,7 +44,8 @@
                 <td>Link expired</td>
                 <td>★★★☆☆</td>
             </tr>
-        </table>
+        </table> -->
+        <UserPreviousSessions/>
         <div style="text-align:center;" v-if="user">
             <div><h3><strong>This is the appointment page</strong></h3></div>
             <Logout/>
@@ -58,7 +59,10 @@
 // import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 // const db = getFirestore(firebaseApp);
 
+import UserPreviousSessions from "@/components/UserPreviousSessions.vue"
+ 
 export default {
+    components: {UserPreviousSessions},
     name:"MyPatients",
 }
 //havent changed this yet to fit Users
@@ -125,7 +129,7 @@ export default {
 }
 
 
-#table1, #table2{
+#table1{
     /* width: 630px; */
     font-family: Arial, sans-serif;
     border-collapse: collapse;
