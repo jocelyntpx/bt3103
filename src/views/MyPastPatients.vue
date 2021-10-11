@@ -6,8 +6,18 @@
     <!-- <SearchBar hint="Search hint" :text="searchPhrase" @textChange="onTextChanged" @submit="onSubmit" /> -->
     <!-- <SearchBar v-model="searchQuery" /> -->
     <h4>Past patients are patients you have already had an appointment with. </h4>
+
     <div id="bgBlock">
-        <table id="table">
+        <input id=searchPatient type="text"  v-model="search" placeholder="Search for a patient"/>
+        <br><br><br><br>
+
+        <div id="patientNames">
+            <h3 id=name1> Benjamin Soh </h3>
+            <h3 id=name2> Rose Lee </h3>
+            <h3 id=name3> Eunice Tan Bla Bla </h3>
+            <!-- will be able to click onto name and get redirected to the profile -->
+        </div>
+        <!-- <table id="table">
             <tr id=header>
             <th>Date</th> 
             <th>Patient</th>
@@ -28,7 +38,7 @@
                 <td>Eunice Tan</td>
                 <td>Eunice told her that...</td>
             </tr>
-        </table>
+        </table> -->
         <div style="text-align:center;" v-if="user">
             <div><h3><strong>This is the my patients page</strong></h3></div>
             <Logout/>
@@ -75,6 +85,16 @@ export default {
 </script>
 
 <style>
+#name1, #name2, #name3{
+    display: inline-block;
+    margin: 10px;
+    height: 30px;
+    width: 18%;
+    background-color: rgb(224, 236, 247);
+    border-radius: 35px;
+    border: 30px solid rgb(224, 236, 247) ;
+
+}
 #bgBlock {
   border-radius: 35px;
   background: #B9D9EB;
@@ -125,6 +145,10 @@ th{
 
 #upcoming a.router-link-exact-active {
   color:black;
+}
+
+#searchPatient {
+    float: right;
 }
 
 
