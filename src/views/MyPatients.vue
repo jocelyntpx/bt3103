@@ -4,9 +4,9 @@
         <router-link to="/myPastPatients">Past Patients</router-link>
     </div>
     <h4>Upcoming patients are patients you have an upcoming appointment with. </h4>
-    <div id="bgBlock">
-        <table id="table">
-            <tr id=header>
+    <div class="bgBlock">
+        <table class="table">
+            <tr class=header>
             <th>Date</th> 
             <th>Patient</th>
             <th>Link</th>
@@ -100,13 +100,14 @@ export default {
 
 </script>
 
-<style>
-#bgBlock {
+<style> 
+/* FYI: i'm using this .bgBlock, and table styling for other FindCounsellor.vue, CounsellorReviews.vue as well */
+.bgBlock {
   border-radius: 35px;
   background: #B9D9EB;
   padding: 20px;
   width: 80%;
-  height: 450px;
+  height: auto;
   margin:auto;
 }
 
@@ -117,7 +118,7 @@ h4{
 }
 
 
-#table{
+.table{
     /* width: 630px; */
     font-family: Arial, sans-serif;
     border-collapse: collapse;
@@ -135,7 +136,7 @@ tr:nth-child(even){
     background-color: #e3edee;
 }
 
-#header {
+.header {
     background-color: black;
 }
 

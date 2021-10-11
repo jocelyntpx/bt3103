@@ -29,7 +29,8 @@ export default {
 <style scoped>
 #available_counsellor_preview_box {
   padding: 5px;
-  width: 30%;
+  width: 35%;
+  height: 180px;
   background-color: white;
 }
 #consult_now {

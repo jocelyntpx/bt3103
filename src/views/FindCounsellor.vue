@@ -18,7 +18,7 @@
 
   </div><br><br>
 
-  <div class = "counsellors_list">
+  <div class = "bgBlock">
 <!-- Currently available counsellors -->
     <div class = "available_counsellors_list" v-if = "showCurrentlyAvailable">  
       <h2> Showing Currently Available Counsellors </h2>
@@ -37,7 +37,7 @@
       <h2> Showing all counsellors, with currently available counsellors shown at the top. </h2>
       <h5> You can go to a counsellor's profile to schedule a future session or see more information. </h5> <br>
         <div> 
-          <h3> Currently Available Counsellors </h3>
+          <h3 style = "text-decoration:underline"> Currently Available Counsellors </h3>
             <!-- Would need some kind of for loop -->
             <div class = "counsellors_box">
               <CounsellorsCurrentlyAvailable/>
@@ -45,7 +45,7 @@
         </div><br>
 
     <div>
-      <h3> Not Currently Available </h3>
+      <h3 style = "text-decoration:underline"> Not Currently Available </h3>
         <!-- Would need some kind of for loop -->
         <div class = "counsellors_box">
           <NotAvailableCounsellors/>
@@ -82,6 +82,14 @@ methods:{
 </script>
 
 <style scoped>
+/* #reviews {
+  border-radius: 35px;
+  background: #B9D9EB;
+  padding: 20px;
+  width: 80%;
+  height: 450px;
+  margin:auto;
+} */
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
