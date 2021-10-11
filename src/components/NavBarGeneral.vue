@@ -1,7 +1,10 @@
 <template>
     <div id="logged">
         <div id="nav">
-            <h3 id="mhm">Mental Health Matters</h3>
+            <!-- <div id="mhm"> -->
+              <img id="mhmlogo" src="@/assets/mhmlogo.png" alt="" width="60" height="35">
+              <h3 id="mhm">Mental Health Matters</h3>
+            <!-- </div> -->
             <router-link to="/adminLogin">Admin</router-link> | 
             <router-link to="/">Home</router-link> | 
             <router-link to="/about">About Us</router-link> | 
@@ -12,13 +15,21 @@
 </template>
 
 <style scoped>
+
 #mhm{
   float: left;
-  margin-left: 70px;
+  margin-left: 5px;
   margin-top: -2px;
 
   /* idk why but only -2px then looks aligned  */
 } 
+
+#mhmlogo {
+  float: left;
+  margin-left: 70px;
+  margin-top: -10px;
+
+}
 
 #nav {
   text-align: right;
