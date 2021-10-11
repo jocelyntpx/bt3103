@@ -45,9 +45,11 @@
                 <td>★★★☆☆</td>
             </tr>
         </table> -->
-        <UserPreviousSessions/>
+
         <div style="text-align:center;" v-if="user">
-            <div><h3><strong>This is the appointment page</strong></h3></div>
+            <UserPreviousSessions/> 
+            <!-- ^ not copying over the correct information from the v-if=user from UserPreviousSessions, brings else info here instead -->
+            <!-- <div><h3><strong>This is the appointment page</strong></h3></div> -->
             <Logout/>
         </div>
     </div>
@@ -64,6 +66,12 @@ import UserPreviousSessions from "@/components/UserPreviousSessions.vue"
 export default {
     components: {UserPreviousSessions},
     name:"MyPatients",
+    data() {
+        return {
+                user : true
+            }
+    }
+
 }
 //havent changed this yet to fit Users
 // export default {

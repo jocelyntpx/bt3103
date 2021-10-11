@@ -3,31 +3,34 @@
    <h3>Past Appointments</h3>
     
         <table id="table2">
-          <div v-if = "user">
+          <!-- <div v-if = "user"> -->
       <!-- would ultimately have some kind of for loop to pull the appropriate fields from Firebase Sessions collection -->
             <tr class=header> 
             <th>Date</th> 
             <th>Counsellor</th>
             <th>Link</th>
-            <th>Rating</th> 
+            <th v-if="user">Rating</th>
+            <th v-else>Notes</th> 
             </tr>
              <tr>
                 <td>10/10/21</td>
                 <td>Mdm Lim</td>
                 <td>Link expired</td>
-                <td>Rate session</td>
+                <td v-if="user">Rate session</td>
+                <td v-else>Having problems with...</td>
             </tr>
             <tr>
                 <td>11/10/21</td>
                 <td>Mr Tan</td>
                 <td>Link expired</td>
-                <td>★★★☆☆</td>
+                <td v-if="user">★★★☆☆</td>
+                <td v-else>Rose was angry because...</td>
             </tr>
-          </div> 
+          <!-- </div>  -->
 
-          <div v-else>  
+          <!-- <div v-else>   -->
             <!-- if viewed by counsellor -->
-              <tr class=header> 
+              <!-- <tr class=header> 
             <th>Date</th> 
             <th>Counsellor</th>
             <th>Notes</th>
@@ -37,7 +40,7 @@
                 <td>Mdm Lim</td>
                 <td>Having problems with...</td>
             </tr>
-          </div> 
+          </div>  -->
       </table>
 </template>
 
@@ -48,7 +51,7 @@ export default {
 </script>
 
 <style scoped>
-#table1{
+#table2{
     /* width: 630px; */
     font-family: Arial, sans-serif;
     border-collapse: collapse;
