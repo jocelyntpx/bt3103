@@ -21,11 +21,12 @@
   <div class = "counsellors_list">
 <!-- Currently available counsellors -->
     <div class = "available_counsellors_list" v-if = "showCurrentlyAvailable">  
+      <h2> Showing Currently Available Counsellors </h2>
       <h5>These counsellors are available now to take on your choice of call, video call or chat session. <br>
-      You can also choose to schedule a session with them for later, subjected to their availability. </h5> <br>
+      You can go to a counsellor's profile to schedule a future session or see more information. </h5> <br>
       
       <div> 
-      Currently avail counsellors shown here, 3 per row <br>
+        <!-- Would need some kind of for loop -->
         <div class = "counsellors_box">
           <CounsellorsCurrentlyAvailable/>
         </div>
@@ -33,11 +34,26 @@
     </div>
 <!-- All counsellors -->
     <div class = "all_counsellors_list" v-else> 
-      <h5> Showing all counsellors. </h5> <br>
+      <h2> Showing all counsellors, with currently available counsellors shown at the top. </h2>
+      <h5> You can go to a counsellor's profile to schedule a future session or see more information. </h5> <br>
+        <div> 
+          <h3> Currently Available Counsellors </h3>
+            <!-- Would need some kind of for loop -->
+            <div class = "counsellors_box">
+              <CounsellorsCurrentlyAvailable/>
+            </div>
+        </div><br>
 
-      <div> All counsellors shown here, 3 per row </div>
+    <div>
+      <h3> Not Currently Available </h3>
+        <!-- Would need some kind of for loop -->
+        <div class = "counsellors_box">
+          <NotAvailableCounsellors/>
+        </div>
     </div>
+
   </div> 
+  </div>
 
 
 
@@ -45,12 +61,13 @@
 
 
 <script>
-import CounsellorsCurrentlyAvailable from "@/components/CounsellorsCurrentlyAvailable.vue";
+import CounsellorsCurrentlyAvailable from "@/components/CounsellorsCurrentlyAvailable.vue"
 import FilterByCounsellorCategory from "@/components/FilterByCounsellorCategory.vue"
+import NotAvailableCounsellors from "@/components/NotAvailableCounsellors.vue"
 
 export default {
   components: {
-    CounsellorsCurrentlyAvailable,FilterByCounsellorCategory
+    CounsellorsCurrentlyAvailable,FilterByCounsellorCategory,NotAvailableCounsellors
    },
   name: 'FindCounsellor', 
 data(){

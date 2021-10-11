@@ -1,10 +1,10 @@
 <template>
   <div id = "available_counsellor_preview_box"> 
-      <h5> Mr John Tan </h5>
+     <h5><router-link to="/counsellorProfile">Mr John Tan</router-link></h5>
       ★★★☆☆ <br>
       Career <br><br>
       <!-- <button id = "consult_now" @click="goToRoom"> Consult Now </button>  -->
-      <button><router-link to="/dailyUserView">Consult Now</router-link></button>
+      <button id = "consult_now"><router-link to="/dailyUserView">Consult Now</router-link></button>
 
   </div>
 </template>
@@ -33,7 +33,7 @@ export default {
   background-color: white;
 }
 #consult_now {
-  background-color: blueviolet;
+  background-color: yellow;
   color: white;
 }
 </style>
