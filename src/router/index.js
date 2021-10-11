@@ -11,6 +11,9 @@ import CounsellorProfile from '@/views/CounsellorProfile.vue'
 import MyPatients from '@/views/MyPatients.vue'
 import MyPastPatients from '@/views/MyPastPatients.vue'
 import AllAppointments from '@/views/AllAppointments.vue'
+import PatientRecords from '@/views/PatientRecords.vue'
+import DailyUserView from '@/views/DailyUserView.vue'
+import DailyCounsellorView from '@/views/DailyCounsellorView.vue'
 import NotFound from '@/views/NotFound.vue'
 const routes = [
  {
@@ -72,6 +75,21 @@ const routes = [
     path: '/allAppointments',
     name: 'AllAppointments',
     component: AllAppointments
+},
+{
+    path: '/patientRecords',
+    name: 'PatientRecords',
+    component: PatientRecords
+},
+{
+    path: '/dailyUserView',
+    name: 'DailyUserView',
+    component: DailyUserView
+},
+{
+    path: '/dailyCounsellorView',
+    name: 'DailyCounsellorView',
+    component: DailyCounsellorView
 },
 {
     path: '/:catchAll(.*)',

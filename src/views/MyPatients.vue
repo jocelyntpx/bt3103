@@ -20,7 +20,8 @@
             </tr>
             <tr>
                 <td>10/10/21</td>
-                <td>Rose Lee</td>
+                <td><router-link to="/patientRecords">Rose Lee</router-link></td> 
+                <!-- Later on would have to pass props via router?? not too sure -->
                 <td>Displayed when user starts session</td>
                 <td>X</td>
             </tr>

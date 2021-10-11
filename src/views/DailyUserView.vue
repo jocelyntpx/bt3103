@@ -39,12 +39,12 @@
 
 <script>
 import DailyIframe from "@daily-co/daily-js";
-import Controls from "./Controls.vue";
+import Controls from "@/components/Controls.vue";
 import api from "../api.js";
 
 export default {
  components: { Controls },
- name: "Home",
+ name: "DailyUserView",
  data() {
    return {
      roomUrl: "",
