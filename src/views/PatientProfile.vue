@@ -9,43 +9,33 @@
 
     <div id="bgBlock">
         <div id="patientDetails" v-if="user"> 
-            <h3>Name: James Tan</h3>
-            <h3>blahblahblah</h3>
-                <p> Name: <strong>Rose Lee</strong><br>
-                Email: <strong>rose@abc.com</strong><br>
-                Uid: <strong>123</strong><br>
-                Provider: <strong>??</strong> </p>
+            <p> Name: <strong>{{user.displayName}}</strong><br>
+            Email: <strong>{{user.email}}</strong><br>
+            User ID: <strong>{{user.uid}}</strong></p>
         </div>
         <router-link to="/allAppointments">view all appointments</router-link>
-    </div>
-
-    <div style="text-align:center;" v-if=false>
-        <div>
-            <div>
-                <!-- <p> Name: <strong>{{user.displayName}}</strong><br>
-                Email: <strong>{{user.displayName}}</strong><br>
-                Uid: <strong>{{user.displayName}}</strong><br>
-                Provider: <strong>{{user.displayName}}</strong> </p> -->
-            </div>
-            <UserInfo/>
-        </div>
-        <Logout/>
     </div>
 </template>
 
 <script>
-import UserInfo from "@/components/UserInfo.vue";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default {
-    components: {UserInfo},
     name:"PatientProfile",
 
     data(){
         return{
-            userNotLeftReview: true, // Ultimately i think this argument wld be passed as a prop or something??
-            user: true
+            userNotLeftReview: true,
+            user:false,
         }
-    }
+    },
+
+    mounted() {
+        const auth = getAuth();
+        onAuthStateChanged(auth, user => {
+            this.user = user;
+        })
+    },
 }
 </script>
 
