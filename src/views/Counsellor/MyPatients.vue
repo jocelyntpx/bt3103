@@ -36,9 +36,6 @@
                     <td>X</td>
                 </tr>
             </table>
-            <div style="text-align:center;" v-if="user">
-                <div><h3><strong>This is the my patients page</strong></h3></div>
-            </div>
         </div>
     </div>
 </template>
@@ -55,7 +52,7 @@ export default {
     components: {NavBarCounsellor},    
     name:"MyPatients",
 
-        data(){
+    data(){
         return{
             user:false,
         }
