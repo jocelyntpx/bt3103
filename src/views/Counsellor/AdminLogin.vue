@@ -52,7 +52,7 @@
 import firebase from '@/uifire.js'
 import 'firebase/compat/auth';
 import 'firebaseui/dist/firebaseui.css'
-import firebaseApp from '../firebase.js';
+import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { collection, query, where, getDocs } from "firebase/firestore";
 import NavBarGeneral from "@/components/NavBarGeneral.vue"

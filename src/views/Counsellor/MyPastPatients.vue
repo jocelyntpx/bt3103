@@ -1,4 +1,8 @@
 <template>
+    <div v-if="user"> 
+        <br><br>
+        <NavBarCounsellor/>
+        <br><br>
     <div id=upcoming>
         <router-link to="/myPatients">Upcoming Patients</router-link> | 
         <router-link to="/myPastPatients">Past Patients</router-link>
@@ -40,10 +44,7 @@
                 <td>Eunice told her that...</td>
             </tr>
         </table> -->
-        <div style="text-align:center;" v-if="user">
-            <div><h3><strong>This is the my patients page</strong></h3></div>
-            <Logout/>
-        </div>
+    </div>
     </div>
 </template>
 
@@ -52,9 +53,25 @@
 // import { getFirestore } from "firebase/firestore"
 // import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 // const db = getFirestore(firebaseApp);
+import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default {
+    components: {NavBarCounsellor},   
     name:"MyPastPatients",
+
+    data(){
+        return{
+            user:false,
+        }
+    },
+
+    mounted() {
+        const auth = getAuth();
+        onAuthStateChanged(auth, user => {
+            this.user = user;
+        })
+    },
 }
 // export default {
 //     mounted(){
