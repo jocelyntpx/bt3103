@@ -1,5 +1,4 @@
 <template>
-    <br><br>
     <div id="bg">
         <br><br>
         <NavBarGeneral/>
@@ -22,6 +21,7 @@ import NavBarGeneral from "@/components/NavBarGeneral.vue"
 export default {
     components: {NavBarGeneral},
     name:"Home",
+
 }
 </script>
 
@@ -35,6 +35,7 @@ export default {
     background-image: url("~@/assets/Home.png");
     background-repeat: no-repeat;
     background-position: center;
+    background-attachment: fixed;
 }
 #main{
   float: right;
