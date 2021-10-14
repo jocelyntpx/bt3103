@@ -1,30 +1,31 @@
 <template>
-    <h3>Counsellor Profile</h3>
-    <!-- Removed the user check for now bc doesnt seem to be loading properly -->
-    <!-- <div style="text-align:center;" v-if="user"> -->
-    <div style="text-align:center;">
-        <!-- <div v-if="user"> -->
-        <div id="bgBlock"> 
-            <div id="counsellorDetails" v-if="user"> 
-                <p> Name: <strong>{{user.displayName}}</strong><br>
-                Email: <strong>{{user.email}}</strong><br>
-                User ID: <strong>{{user.uid}}</strong></p>
-            </div>
+    <div v-if="user"> 
+        <br><br>
+        <NavBarCounsellor/>
+        <div style="text-align:center;">
+            <h1>Counsellor Profile</h1>
+            <div id="bgBlock"> 
+                <div id="counsellorDetails"> 
+                    <p> Name: <strong>{{user.displayName}}</strong><br>
+                    Email: <strong>{{user.email}}</strong><br>
+                    User ID: <strong>{{user.uid}}</strong></p>
+                </div>
 
-            <div id = "reviewsTab"> 
-                <router-link to="/CounsellorReviews">View Patients' Reviews</router-link>
-            </div>
+                <div id = "reviewsTab"> 
+                    <router-link to="/CounsellorReviews">View Patients' Reviews</router-link>
+                </div>
 
+            </div>
         </div>
-        <Logout/>
     </div>
 </template>
 
-
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 
 export default {
+    components: {NavBarCounsellor},
     name:"CounsellorProfile" ,
 
     data(){

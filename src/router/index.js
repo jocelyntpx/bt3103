@@ -4,6 +4,7 @@ import FindCounsellor from '@/views/FindCounsellor.vue'
 import About from '@/views/About.vue'
 import UserProfile from '@/views/UserProfile.vue'
 import HelpResources from '@/views/HelpResources.vue'
+import HelpResourcesAdmin from '@/views/HelpResourcesAdmin.vue'
 import AdminLogin from '@/views/AdminLogin.vue'
 import PatientLogin from '@/views/PatientLogin.vue'
 import PatientProfile from '@/views/PatientProfile.vue'
@@ -42,6 +43,11 @@ const routes = [
     path: '/helpResources',
     name: 'HelpResources',
     component: HelpResources
+},
+{
+    path: '/helpResourcesAdmin',
+    name: 'HelpResourcesAdmin',
+    component: HelpResourcesAdmin
 },
 {
     path: '/adminLogin',
