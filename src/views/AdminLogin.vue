@@ -25,7 +25,7 @@
         </div> -->
     </div> 
 
-    <div class="wrapper fadeInDown">
+    <div class="wrapper">
         <div id="formContent">
             <!-- Tabs Titles -->
             <h2 class="active"> Sign In </h2>
@@ -71,7 +71,6 @@ export default {
     },
     methods: {
         async login() {
-
             this.email=document.getElementById("email").value;
             this.password=document.getElementById("password").value;
 
@@ -102,7 +101,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;800;900&display=swap');
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -152,8 +150,6 @@ h2 {
   color: #cccccc;
 }
 
-
-
 /* STRUCTURE */
 
 .wrapper {
@@ -190,14 +186,12 @@ h2 {
 }
 
 
-
 /* TABS */
 
 h2.active {
   color: #0d0d0d;
   border-bottom: 2px solid #5fbae9;
 }
-
 
 
 /* FORM TYPOGRAPHY*/
@@ -266,45 +260,7 @@ input[type=text]:placeholder {
   color: #cccccc;
 }
 
-
-
 /* ANIMATIONS */
-
-/* Simple CSS3 Fade-in-down Animation */
-.fadeInDown {
-  -webkit-animation-name: fadeInDown;
-  animation-name: fadeInDown;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-@-webkit-keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
 
 /* Simple CSS3 Fade-in Animation */
 @-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }

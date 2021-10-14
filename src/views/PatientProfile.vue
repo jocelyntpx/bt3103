@@ -1,26 +1,35 @@
 <template>
-    <h3>Patient Profile</h3>
+    <div v-if="user">
+        <br><br>
+        <NavBarPatient/>
+        <h1>Patient Profile</h1>
 
-    <div id = "leaveReview" v-if = "userNotLeftReview">
-        We notice you have not yet left a review for your previous session with Mr John Tan. 
-        Leave a review now!
-        <router-link to="/rateCounsellor">Rate Counsellor!</router-link>
-    </div><br>
+        <div id = "leaveReview" v-if = "userNotLeftReview">
+            We notice you have not yet left a review for your previous session with Mr John Tan. 
+            Leave a review now!
+            <router-link to="/rateCounsellor">Rate Counsellor!</router-link>
+        </div><br>
 
-    <div id="bgBlock">
-        <div id="patientDetails" v-if="user"> 
-            <p> Name: <strong>{{user.displayName}}</strong><br>
-            Email: <strong>{{user.email}}</strong><br>
-            User ID: <strong>{{user.uid}}</strong></p>
+        <div id="bgBlock">
+            <div id="patientDetails"> 
+                <p> Name: <strong>{{user.displayName}}</strong><br>
+                Email: <strong>{{user.email}}</strong><br>
+                User ID: <strong>{{user.uid}}</strong></p>
+            </div>
+            <router-link to="/allAppointments">view all appointments</router-link>
         </div>
-        <router-link to="/allAppointments">view all appointments</router-link>
     </div>
 </template>
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import NavBarPatient from "@/components/NavBarPatient.vue"
+
 
 export default {
+    components: {
+        NavBarPatient
+    },
     name:"PatientProfile",
 
     data(){

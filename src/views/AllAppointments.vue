@@ -1,6 +1,11 @@
 
 <template>
-<br><br><br><br>
+    <br><br>
+    <div id = "backBtn">
+        <router-link to="/patientProfile"> ← Back to My Profile page</router-link>
+    </div>
+    <br><br>
+    
     <div id="bgBlock">
         <h3>Upcoming Appointments</h3>
         <table id="table1">
@@ -135,7 +140,10 @@ export default {
   height: 450px;
   margin:auto;
 }
-
+#backBtn{
+  text-align: left;
+  margin-left: 250px; 
+}
 
 #table1{
     /* width: 630px; */
@@ -162,9 +170,6 @@ tr:nth-child(even){
 th{
     color: white;
 }
-
-
-
 
 
   /* button.bwt{

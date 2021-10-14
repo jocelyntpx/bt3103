@@ -2,7 +2,6 @@
     <div id="bg">
         <br><br>
         <NavBarGeneral/>
-        <!-- <img id="bg" src="@/assets/Home.png" alt="" class="center"> -->
         <div id="main">
             <h1 id="heading">Mental Health Matters</h1>
             <p>blahblahblah...</p>
@@ -22,6 +21,11 @@ export default {
     components: {NavBarGeneral},
     name:"Home",
 
+    data() {
+        return{
+            user:false,
+        }
+    },
 }
 </script>
 

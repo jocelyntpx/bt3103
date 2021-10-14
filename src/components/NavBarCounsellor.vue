@@ -1,10 +1,12 @@
 <template>
     <div id="logged" v-if="user">
         <div id="nav">
+            <img id="mhmlogo" src="@/assets/mhmlogo.png" alt="" width="60" height="35">
+            <h3 id="mhm">Mental Health Matters</h3>
             <router-link to="/counsellorProfile">My Profile</router-link> | 
             <router-link to="/myPatients">My Patients</router-link> | 
-            <router-link to="/about">About Us</router-link> | 
-            <router-link to="/helpResources">Help Resources</router-link> | 
+            <!-- <router-link to="/about">About Us</router-link> |  -->
+            <router-link to="/helpResourcesAdmin">Help Resources</router-link> | 
             <Logout/>
             <!-- <router-link to="/logout">Logout</router-link> -->
         </div>
@@ -42,14 +44,20 @@ export default {
 </script>
 
 <style scoped>
-
 #mhm{
   float: left;
-  margin-left: 100px;
+  margin-left: 10px;
   margin-top: -2px;
 
   /* idk why but only -2px then looks aligned  */
 } 
+
+#mhmlogo {
+  float: left;
+  margin-left: 110px;
+  margin-top: -10px;
+
+}
 #nav {
   text-align: right;
   /* float: right; */

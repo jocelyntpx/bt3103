@@ -1,40 +1,44 @@
 <template>
-    <div id=past>
-        <router-link to="/myPatients">Upcoming Patients</router-link> | 
-        <router-link to="/myPastPatients">Past Patients</router-link>
-    </div>
-    <h4>Upcoming patients are patients you have an upcoming appointment with. </h4>
-    <div class="bgBlock">
-        <table class="table">
-            <tr class=header>
-            <th>Date</th> 
-            <th>Patient</th>
-            <th>Link</th>
-            <th></th> 
-            </tr>
-             <tr>
-                <td>10/10/21</td>
-                <td>Benjamin Soh</td>
-                <td>Displayed when user starts session</td>
-                <td>X</td>
-            </tr>
-            <tr>
-                <td>10/10/21</td>
-                <td><router-link to="/patientRecords">Rose Lee</router-link></td> 
-                <!-- Later on would have to pass props via router?? not too sure -->
-                <td>Displayed when user starts session</td>
-                <td>X</td>
-            </tr>
-            <tr>
-                <td>10/10/21</td>
-                <td>Eunice Tan</td>
-                <td>Displayed when user starts session</td>
-                <td>X</td>
-            </tr>
-        </table>
-        <div style="text-align:center;" v-if="user">
-            <div><h3><strong>This is the my patients page</strong></h3></div>
-            <Logout/>
+    <div v-if="user"> 
+        <br><br>
+        <NavBarCounsellor/>
+        <br><br>
+        <div id=past>
+            <router-link to="/myPatients">Upcoming Patients</router-link> | 
+            <router-link to="/myPastPatients">Past Patients</router-link>
+        </div>
+        <h4>Upcoming patients are patients you have an upcoming appointment with. </h4>
+        <div class="bgBlock">
+            <table class="table">
+                <tr class=header>
+                <th>Date</th> 
+                <th>Patient</th>
+                <th>Link</th>
+                <th></th> 
+                </tr>
+                <tr>
+                    <td>10/10/21</td>
+                    <td>Benjamin Soh</td>
+                    <td>Displayed when user starts session</td>
+                    <td>X</td>
+                </tr>
+                <tr>
+                    <td>10/10/21</td>
+                    <td><router-link to="/patientRecords">Rose Lee</router-link></td> 
+                    <!-- Later on would have to pass props via router?? not too sure -->
+                    <td>Displayed when user starts session</td>
+                    <td>X</td>
+                </tr>
+                <tr>
+                    <td>10/10/21</td>
+                    <td>Eunice Tan</td>
+                    <td>Displayed when user starts session</td>
+                    <td>X</td>
+                </tr>
+            </table>
+            <div style="text-align:center;" v-if="user">
+                <div><h3><strong>This is the my patients page</strong></h3></div>
+            </div>
         </div>
     </div>
 </template>
@@ -44,9 +48,25 @@
 // import { getFirestore } from "firebase/firestore"
 // import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 // const db = getFirestore(firebaseApp);
+import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default {
+    components: {NavBarCounsellor},    
     name:"MyPatients",
+
+        data(){
+        return{
+            user:false,
+        }
+    },
+
+    mounted() {
+        const auth = getAuth();
+        onAuthStateChanged(auth, user => {
+            this.user = user;
+        })
+    },
 }
 // export default {
 //     mounted(){

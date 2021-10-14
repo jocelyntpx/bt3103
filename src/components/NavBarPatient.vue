@@ -1,9 +1,11 @@
 <template>
     <div id="logged" v-if="user">
         <div id="nav">
+            <img id="mhmlogo" src="@/assets/mhmlogo.png" alt="" width="60" height="35">
+            <h3 id="mhm">Mental Health Matters</h3>
             <router-link to="/patientProfile">My Profile</router-link> | 
             <router-link to="/findcounsellor">Find A Counsellor</router-link> | 
-            <router-link to="/about">About Us</router-link> |
+            <!-- <router-link to="/about">About Us</router-link> | -->
             <router-link to="/helpresources">Help Resources</router-link> |  
             <Logout/>
             <!-- <router-link to="/logout">Logout</router-link> -->
@@ -39,6 +41,19 @@ export default {
 </script>
 
 <style scoped>
+#mhm{
+  float: left;
+  margin-left: 10px;
+  margin-top: -2px;
+
+  /* idk why but only -2px then looks aligned  */
+} 
+#mhmlogo {
+  float: left;
+  margin-left: 110px;
+  margin-top: -10px;
+
+}
 #nav {
   text-align: right;
   /* float: right; */

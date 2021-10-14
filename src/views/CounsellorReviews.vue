@@ -1,4 +1,8 @@
 <template>
+    <div id = "backBtn">
+        <router-link to="/counsellorProfile"> ← Back to My Profile page</router-link>
+    </div>
+
     <h1> Reviews for Mr John Tan </h1><br><br>
 
     <div class = "bgBlock">
@@ -26,6 +30,9 @@
 </script>
 
 <style scoped>
-
+#backBtn{
+  text-align: left;
+  margin-left: 250px; 
+}
 
 </style>
