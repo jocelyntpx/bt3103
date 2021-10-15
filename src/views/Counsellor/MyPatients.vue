@@ -59,6 +59,8 @@ export default {
     },
 
     mounted() {
+        // console.log("MyPatients.vue");
+
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;

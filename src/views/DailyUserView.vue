@@ -1,26 +1,15 @@
 <template>
  <main class="wrapper">
    <div class="home" v-if="status === 'home'">
-     <h2>Daily Demo</h2>
-     <p>Start demo with a new unique room or paste in your own room URL</p>
+     <h2>Before you start...</h2>
+     <p>This is a safe space. All our counsellors are certified by ..... blah blah <br>
+     When you are ready, click the button below and the counsellor will counsellor will join the room shortly.</p>
      <div class="start-call-container">
        <button @click="createAndJoinRoom">
-         Create room and start
+         Start Session
        </button>
-       <p v-if="roomError" class="error">Room could not be created</p>
-       <p class="subtext">or</p>
-       <!-- Daily room URL is entered here -->
-       <input
-         type="text"
-         placeholder="Enter room URL..."
-         v-model="roomUrl"
-         pattern="^(https:\/\/)?[\w.-]+(\.(daily\.(co)))+[\/\/]+[\w.-]+$"
-         @input="validateInput"
-       />
-       <!-- button to submit URL and join call -->
-       <button @click="submitJoinRoom" :disabled="!validRoomURL">
-         Join room
-       </button>
+       <p v-if="roomError" class="error">Session could not be started, please try again later.</p>
+       
      </div>
    </div>
 
@@ -67,6 +56,10 @@ export default {
        .then((room) => {
          this.roomUrl = room.url;
          this.joinRoom(room.url);
+
+        // createImmediateSession
+
+
        })
        .catch((e) => {
          console.log(e);

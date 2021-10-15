@@ -31,13 +31,20 @@ export default {
     data(){
         return{
             user:false,
+            user_type:"patient",
+            counsellor_ID:this.$route.params.id
         }
     },
 
     mounted() {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
-            this.user = user;
+            if (user) {
+                this.user = user;
+                if (user.user_type == "counsellor") {
+                    this.user_type = "counsellor";
+                }
+            }
         })
     },
 }

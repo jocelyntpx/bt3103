@@ -59,7 +59,8 @@ const routes = [
     component: PatientProfile
 },
 {
-    path: '/counsellorProfile',
+    // path: '/counsellorProfile',
+    path: '/counsellorProfile/:id',
     name: 'CounsellorProfile',
     component: CounsellorProfile
 },
