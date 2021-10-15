@@ -35,13 +35,23 @@
             </div>
           </div>
         </div>
+
         <!-- All counsellors -->
         <div class = "all_counsellors_list" v-else> 
-          <h2> Showing all counsellors, with currently available counsellors shown at the top. </h2>
+          <div id = "filter_by_date"> 
+            <h2> CALENDAR TO FILTER COUNSELLOR BY DATE HERE </h2>
+          </div>
+
+          By default show all counsellors
+          <NotAvailableCounsellors/>
+
+
+
+
+          <!-- <h2> Showing all counsellors, with currently available counsellors shown at the top. </h2>
           <h5> You can go to a counsellor's profile to schedule a future session or see more information. </h5> <br>
             <div> 
               <h3 style = "text-decoration:underline"> Currently Available Counsellors </h3>
-                <!-- Would need some kind of for loop -->
                 <div class = "counsellors_box">
                   <CounsellorsCurrentlyAvailable/>
                 </div>
@@ -49,11 +59,10 @@
 
             <div>
               <h3 style = "text-decoration:underline"> Not Currently Available </h3>
-                <!-- Would need some kind of for loop -->
                 <div class = "counsellors_box">
                   <NotAvailableCounsellors/>
                 </div>
-            </div>
+            </div> -->
         </div> 
       </div>
   </div>
