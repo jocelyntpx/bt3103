@@ -41,11 +41,10 @@ export default {
         async onDayClick(day) {
         const idx = this.days.findIndex(d => d.id === day.id)
         
-        //replace "sGHf8AiFOv3GBajQISHf" with user id
-        const docRef = doc(db, "Patients", "sGHf8AiFOv3GBajQISHf")
+        const docRef = doc(db, "Patients", "Rose")
         const docSnap = await getDoc(docRef);
         let z = docSnap.data()
-        var upcoming = z.Upcoming_User_Sessions
+        var upcoming = z.upcoming_user_sessions
 
         if (idx >= 0) {
             this.days.splice(idx, 1)

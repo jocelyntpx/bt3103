@@ -22,11 +22,11 @@ export default {
     methods: {
         async create(){
             //replace 'stgoR2Rpq16f4KH0uOk2' with counsellor id
-            let docRef = doc(db, 'Counsellors', 'stgoR2Rpq16f4KH0uOk2')
+            let docRef = doc(db, 'Counsellors', 'john@gmail.com')
             let docSnap = await getDoc(docRef)
-            let sessions = docSnap.data().Upcoming_Counsellor_Sessions
+            let sessions = docSnap.data().upcoming_counsellor_sessions
             sessions.push(this.date)
-            setDoc(docRef, {Upcoming_Counsellor_Sessions: sessions}, {merge: true})
+            setDoc(docRef, {upcoming_counsellor_sessions: sessions}, {merge: true})
             alert("New session created for " + this.date + " !")
         }
     }
