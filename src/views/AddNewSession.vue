@@ -41,17 +41,17 @@
             </button>
         </div>
         <div id="col-2">
-            <h3>Select date to view upcoming appointments</h3>
-            <CounsellorCalendar/>
+            <h3>Create new session</h3>
+            <CreateSession/>
         </div>
     </div>
 </template>
 
 <script>
-import CounsellorCalendar from '@/components/CounsellorCalendar.vue'
+import CreateSession from '@/components/CreateSession.vue'
 export default {
     name:"CounsellorProfile",
-    components:{CounsellorCalendar}
+    components:{CreateSession}
 }
 </script>
 

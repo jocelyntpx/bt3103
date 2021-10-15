@@ -4,10 +4,11 @@ import router from './router/index.js'
 // import vuetify from './plugins/vuetify'
 import myButton from './components/myButton.vue'
 // import firebase from 'firebase';
+import VCalendar from 'v-calendar';
 
 const app = createApp(App)
 app.component('myButton',myButton)
-app.use(router).mount('#app')
+app.use(router).use(VCalendar).mount('#app')
 
 // firebase.auth().onAuthStateChanged(user => {
 //     console.log(user)
@@ -18,3 +19,4 @@ app.use(router).mount('#app')
 //       }).$mount('#app')
 //     }
 //   });
+
