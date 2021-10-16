@@ -1,27 +1,34 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/views/General/Home.vue'
-import FindCounsellor from '@/views/Patient/FindCounsellor.vue'
-import About from '@/views/General/About.vue'
-import HelpResources from '@/views/General/HelpResources.vue'
-import HelpResourcesAdmin from '@/views/Counsellor/HelpResourcesAdmin.vue'
-import AdminLogin from '@/views/Counsellor/AdminLogin.vue'
-import PatientLogin from '@/views/Patient/PatientLogin.vue'
-import PatientProfile from '@/views/Patient/PatientProfile.vue'
-import CounsellorProfile from '@/views/Counsellor/CounsellorProfile.vue'
-import MyPatients from '@/views/Counsellor/MyPatients.vue'
-import AllAppointments from '@/views/Patient/AllAppointments.vue'
-import PatientRecords from '@/views/Counsellor/PatientRecords.vue'
+import Home from '@/views/Home.vue'
+import FindCounsellor from '@/views/FindCounsellor.vue'
+import About from '@/views/About.vue'
+import UserProfile from '@/views/UserProfile.vue'
+import HelpResources from '@/views/HelpResources.vue'
+import AdminLogin from '@/views/AdminLogin.vue'
+import PatientLogin from '@/components/PatientLogin.vue'
+import PatientProfile from '@/views/PatientProfile.vue'
+import CounsellorProfile from '@/views/CounsellorProfile.vue'
+import MyPatients from '@/views/MyPatients.vue'
+import MyPastPatients from '@/views/MyPastPatients.vue'
+import AllAppointments from '@/views/AllAppointments.vue'
+import PatientRecords from '@/views/PatientRecords.vue'
 import DailyUserView from '@/views/DailyUserView.vue'
 import DailyCounsellorView from '@/views/DailyCounsellorView.vue'
 import CounsellorReviews from '@/views/Counsellor/CounsellorReviews.vue'
 import RateCounsellor from '@/views/Patient/RateCounsellor.vue'
 import NotFound from '@/views/General/NotFound.vue'
+import AddNewSession from '@/views/Counsellor/AddNewSession.vue'
 const routes = [
  {
  path: '/',
  name: 'Home',
  component: Home
  },
+ {
+    path: '/userProfile',
+    name: 'UserProfile',
+    component: UserProfile
+    },
  {
  path: '/about',
  name: 'About',
@@ -36,11 +43,6 @@ const routes = [
     path: '/helpResources',
     name: 'HelpResources',
     component: HelpResources
-},
-{
-    path: '/helpResourcesAdmin',
-    name: 'HelpResourcesAdmin',
-    component: HelpResourcesAdmin
 },
 {
     path: '/adminLogin',
@@ -59,7 +61,6 @@ const routes = [
 },
 {
     path: '/counsellorProfile',
-    // path: '/counsellorProfile/:id',
     name: 'CounsellorProfile',
     component: CounsellorProfile
 },
@@ -67,6 +68,11 @@ const routes = [
     path: '/myPatients',
     name: 'MyPatients',
     component: MyPatients
+},
+{
+    path: '/myPastPatients',
+    name: 'MyPastPatients',
+    component: MyPastPatients
 },
 {
     path: '/allAppointments',
@@ -102,6 +108,11 @@ const routes = [
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound
+},
+{
+    path:'/addNewSession',
+    name: 'AddNewSession',
+    component: AddNewSession
 }
 ]
 const router = createRouter({

@@ -5,7 +5,7 @@
         <div style="text-align:center;">
             <h1>Counsellor Profile</h1>
             <div id="bgBlock"> 
-                <div id="col-1">
+                <div id = "col-1">
                     <div id="counsellorDetails"> 
                         <p> Name: <strong>{{user.displayName}}</strong><br>
                         Email: <strong>{{user.email}}</strong><br>
@@ -15,10 +15,10 @@
                     <div id = "reviewsTab"> 
                         <router-link to="/CounsellorReviews">View Patients' Reviews</router-link>
                     </div>
-                </div> 
-                <div id="col-2">
-                    <h3>Select date to view upcoming appointments</h3>
-                    <CounsellorCalendar/>
+                </div>
+                <div id = "col-2">
+                    <h3>Create New Session</h3>
+                    <CreateSession/>
                 </div>
             </div>
         </div>
@@ -28,10 +28,10 @@
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
-import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
+import CreateSession from '@/components/CreateSession.vue'
 
 export default {
-    components: {NavBarCounsellor, CounsellorCalendar},
+    components: {NavBarCounsellor, CreateSession},
     name:"CounsellorProfile" ,
 
     data(){
@@ -80,4 +80,9 @@ export default {
   flex: 1;
 }
 
+
+#counsellorDetails{
+    float:left;
+    margin-left: 20px;
+}
 </style>
