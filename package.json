@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "firebase": "^9.1.2",
     "firebaseui": "^0.600.0",
+    "moment": "^2.29.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.11"
   },
