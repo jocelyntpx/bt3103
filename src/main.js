@@ -4,7 +4,7 @@ import router from './router/index.js'
 // import vuetify from './plugins/vuetify'
 import myButton from './components/myButton.vue'
 // import firebase from 'firebase';
-import VCalendar from 'v-calendar'
+import VCalendar from 'v-calendar';
 
 const app = createApp(App)
 app.component('myButton',myButton)
@@ -19,3 +19,4 @@ app.use(router).use(VCalendar).mount('#app')
 //       }).$mount('#app')
 //     }
 //   });
+

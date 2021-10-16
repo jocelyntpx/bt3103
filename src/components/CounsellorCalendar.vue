@@ -1,22 +1,24 @@
 <template>
-    <v-calendar :attributes="attributes" @dayclick="onDayClick"/>
-    <div v-if="upcoming.length != 0">
-        <h3>Upcoming Sessions</h3>
-        <div v-for="item in upcoming" :key="item">
-            {{ item.date }} {{ item.time }}
+    <div>
+        <v-calendar :attributes="attributes" @dayclick="onDayClick"/>
+        <div v-if="upcoming.length != 0">
+            <h3>Upcoming Sessions</h3>
+            <div v-for="item in upcoming" :key="item">
+                {{ item.date }} {{ item.time }}
+            </div>
         </div>
-    </div>
-    <div v-if="avail.length != 0">
-        <h3>Available Sessions</h3>
-        <div v-for="item in avail" :key="item">
-            {{ item.date }} {{ item.time }}
+        <div v-if="avail.length != 0">
+            <h3>Available Sessions</h3>
+            <div v-for="item in avail" :key="item">
+                {{ item.date }} {{ item.time }}
+            </div>
         </div>
+        <div v-if="upcoming.length == 0 && avail.length == 0 && days.length!=0">
+            <h4>No session for selected day(s)</h4>
+        </div>
+        <br><br>
+        <button><router-link to="/addNewSession">Add New Session</router-link></button>
     </div>
-    <div v-if="upcoming.length == 0 && avail.length == 0 && days.length!=0">
-        <h4>No session for selected day(s)</h4>
-    </div>
-    <br><br>
-    <button><router-link to="/addNewSession">Add New Session</router-link></button>
 </template>
 
 <script>
