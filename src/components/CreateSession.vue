@@ -1,8 +1,10 @@
 <template>
-    <v-date-picker v-model="date" mode="dateTime"/>
-    <br><br>
-    <button v-on:click="create()">Create Session</button>
-    <button><router-link to="/counsellorProfile">Back to appointments calendar</router-link></button>
+    <div>
+        <v-date-picker v-model="date" mode="dateTime"/>
+        <br><br>
+        <button v-on:click="create()">Create Session</button>
+        <button><router-link to="/counsellorProfile">Back to appointments calendar</router-link></button>
+    </div>
 </template>
 
 <script>
