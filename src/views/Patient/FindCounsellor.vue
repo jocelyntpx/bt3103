@@ -21,7 +21,7 @@
 
       </div><br><br>
 
-      <div class = "bgBlock">
+      <div class = "bgBlock1"> 
         <!-- Currently available counsellors -->
         <div class = "available_counsellors_list" v-if = "showCurrentlyAvailable">  
           <h2> Showing Currently Available Counsellors </h2>
