@@ -14,10 +14,10 @@ import AllAppointments from '@/views/AllAppointments.vue'
 import PatientRecords from '@/views/PatientRecords.vue'
 import DailyUserView from '@/views/DailyUserView.vue'
 import DailyCounsellorView from '@/views/DailyCounsellorView.vue'
-import CounsellorReviews from '@/views/CounsellorReviews.vue'
-import RateCounsellor from '@/views/RateCounsellor.vue'
-import NotFound from '@/views/NotFound.vue'
-import AddNewSession from '@/views/AddNewSession.vue'
+import CounsellorReviews from '@/views/Counsellor/CounsellorReviews.vue'
+import RateCounsellor from '@/views/Patient/RateCounsellor.vue'
+import NotFound from '@/views/General/NotFound.vue'
+import AddNewSession from '@/views/Counsellor/AddNewSession.vue'
 const routes = [
  {
  path: '/',
@@ -110,7 +110,7 @@ const routes = [
     component: NotFound
 },
 {
-    path: '/addNewSession',
+    path:'/addNewSession',
     name: 'AddNewSession',
     component: AddNewSession
 }

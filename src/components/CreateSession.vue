@@ -1,8 +1,10 @@
 <template>
-    <v-date-picker v-model="date" mode="dateTime"/>
-    <br><br>
-    <button v-on:click="create()">Create Session</button>
-    <button><router-link to="/counsellorProfile">Back to appointments calendar</router-link></button>
+    <div>
+        <v-date-picker v-model="date" mode="dateTime"/>
+        <br><br>
+        <button v-on:click="create()">Create Session</button>
+        <button><router-link to="/counsellorProfile">Back to appointments calendar</router-link></button>
+    </div>
 </template>
 
 <script>
@@ -12,7 +14,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore'
 const db = getFirestore(firebaseApp)
 
 export default {
-    name:"AddNewSession",
+    name:"CreateSession",
     data() {
     return {
         date: new Date(),
@@ -21,12 +23,11 @@ export default {
     },
     methods: {
         async create(){
-            //replace 'stgoR2Rpq16f4KH0uOk2' with counsellor id
             let docRef = doc(db, 'Counsellors', 'john@gmail.com')
             let docSnap = await getDoc(docRef)
-            let sessions = docSnap.data().upcoming_counsellor_sessions
-            sessions.push(this.date)
-            setDoc(docRef, {upcoming_counsellor_sessions: sessions}, {merge: true})
+            let slots = docSnap.data().available_slots
+            slots.push(this.date)
+            setDoc(docRef, {available_slots: slots}, {merge: true})
             alert("New session created for " + this.date + " !")
         }
     }

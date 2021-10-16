@@ -1,9 +1,7 @@
 <template>
-    <br><br>
     <div id="bg">
         <br><br>
         <NavBarGeneral/>
-        <!-- <img id="bg" src="@/assets/Home.png" alt="" class="center"> -->
         <div id="main">
             <h1 id="heading">Mental Health Matters</h1>
             <p>blahblahblah...</p>
@@ -22,6 +20,12 @@ import NavBarGeneral from "@/components/NavBarGeneral.vue"
 export default {
     components: {NavBarGeneral},
     name:"Home",
+
+    data() {
+        return{
+            user:false,
+        }
+    },
 }
 </script>
 
@@ -35,6 +39,7 @@ export default {
     background-image: url("~@/assets/Home.png");
     background-repeat: no-repeat;
     background-position: center;
+    background-attachment: fixed;
 }
 #main{
   float: right;

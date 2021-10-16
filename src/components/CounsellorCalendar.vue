@@ -1,29 +1,31 @@
 <template>
-    <v-calendar :attributes="attributes" @dayclick="onDayClick"/>
-    <div v-if="upcoming.length != 0">
-        <h3>Upcoming Sessions</h3>
-        <div v-for="item in upcoming" :key="item">
-            {{ item.date }} {{ item.time }}
+    <div>
+        <v-calendar :attributes="attributes" @dayclick="onDayClick"/>
+        <div v-if="upcoming.length != 0">
+            <h3>Upcoming Sessions</h3>
+            <div v-for="item in upcoming" :key="item">
+                {{ item.date }} {{ item.time }}
+            </div>
         </div>
-    </div>
-    <div v-if="avail.length != 0">
-        <h3>Available Sessions</h3>
-        <div v-for="item in avail" :key="item">
-            {{ item.date }} {{ item.time }}
+        <div v-if="avail.length != 0">
+            <h3>Available Sessions</h3>
+            <div v-for="item in avail" :key="item">
+                {{ item.date }} {{ item.time }}
+            </div>
         </div>
+        <div v-if="upcoming.length == 0 && avail.length == 0 && days.length!=0">
+            <h4>No session for selected day(s)</h4>
+        </div>
+        <br><br>
+        <button><router-link to="/addNewSession">Add New Session</router-link></button>
     </div>
-    <div v-if="upcoming.length == 0 && avail.length == 0 && days.length!=0">
-        <h4>No session for selected day(s)</h4>
-    </div>
-    <br><br>
-    <button><router-link to="/addNewSession">Add New Session</router-link></button>
 </template>
 
 <script>
-import firebaseApp from '../firebase.js'
+import firebaseApp from '../firebase.js';
 import { getFirestore } from 'firebase/firestore'
-import { doc, getDoc } from 'firebase/firestore'
-const db = getFirestore(firebaseApp)
+import { doc, getDoc } from 'firebase/firestore';
+const db = getFirestore(firebaseApp);
 
 export default {
     name:"CounsellorCalendar",
@@ -65,8 +67,12 @@ export default {
             date: day.date,
             })
 
-            upcoming.forEach((appointment) => {
-                let a = appointment.toDate()
+            upcoming.forEach(async (s) => {
+                const sessionRef = doc(db, "Sessions", s)
+                const sessionSnap = await getDoc(sessionRef)
+                let session = sessionSnap.data().session_time
+
+                let a = session.toDate()
                 let a_date = a.toDateString()
                 let a_time = a.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
                 let a_gmtDate = new Date(a.setHours(a.getHours() + 8))

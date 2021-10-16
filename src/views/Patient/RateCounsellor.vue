@@ -1,5 +1,9 @@
 <template>
-    <h3>Rate Counsellor!</h3>
+    <br><br>
+    <div id = "backBtn">
+        <router-link to="/patientProfile"> ← Back to My Profile page</router-link>
+    </div>
+    <h1>Rate Counsellor!</h1>
     <p> Kindly leave a rating/review for your counsellor. </p>
     <div id="bgBlock">
         <h2>Mr John Tan</h2>
@@ -52,5 +56,9 @@ export default {
 }
 #submit:hover{
     background-color:#4095c6;
+}
+#backBtn{
+  text-align: left;
+  margin-left: 250px; 
 }
 </style>

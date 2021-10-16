@@ -67,6 +67,7 @@ export default {
        .then((room) => {
          this.roomUrl = room.url;
          this.joinRoom(room.url);
+        //  console.log("Room url is: " + room.url);
        })
        .catch((e) => {
          console.log(e);
