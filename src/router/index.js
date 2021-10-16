@@ -16,6 +16,7 @@ import DailyCounsellorView from '@/views/DailyCounsellorView.vue'
 import CounsellorReviews from '@/views/Counsellor/CounsellorReviews.vue'
 import RateCounsellor from '@/views/Patient/RateCounsellor.vue'
 import NotFound from '@/views/General/NotFound.vue'
+import AddNewSession from '@/views/Counsellor/AddNewSession.vue'
 const routes = [
  {
  path: '/',
@@ -102,6 +103,11 @@ const routes = [
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound
+},
+{
+    path:'/addNewSession',
+    name: 'AddNewSession',
+    component: AddNewSession
 }
 ]
 const router = createRouter({

@@ -11,12 +11,18 @@
         </div><br>
 
         <div id="bgBlock">
-            <div id="patientDetails"> 
-                <p> Name: <strong>{{user.displayName}}</strong><br>
-                Email: <strong>{{user.email}}</strong><br>
-                User ID: <strong>{{user.uid}}</strong></p>
+            <div id="col-1">
+                <div id="patientDetails"> 
+                    <p> Name: <strong>{{user.displayName}}</strong><br>
+                    Email: <strong>{{user.email}}</strong><br>
+                    User ID: <strong>{{user.uid}}</strong></p>
+                </div>
+                <router-link to="/allAppointments">View All Appointments</router-link>
+            </div> 
+            <div id="col-2">
+                <h3>Select date to view upcoming appointments</h3>
+                <PatientCalendar/>
             </div>
-            <router-link to="/allAppointments">view all appointments</router-link>
         </div>
     </div>
 </template>
@@ -24,11 +30,13 @@
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarPatient from "@/components/NavBarPatient.vue"
+import PatientCalendar from '@/components/PatientCalendar.vue'
 
 
 export default {
     components: {
-        NavBarPatient
+        NavBarPatient,
+        PatientCalendar
     },
     name:"PatientProfile",
 
@@ -50,17 +58,26 @@ export default {
 
 <style scoped>
 #bgBlock {
-  border-radius: 35px;
-  background: #B9D9EB;
-  padding: 20px;
-  width: 80%;
-  height: 450px;
-  margin:auto;
+    display:flex;
+    border-style:solid;
+    border-color:#B9D9EB;
+    border-width: 2px;
+    background: transparent;
+    border-radius: 20px;
+    padding: 20px;
+    width: 80%;
+    height: 500px;
+    margin: auto;
 }
 
-#patientDetails{
-    float:left;
-    margin-left: 20px;
+#col-1 {
+  background-color: transparent;
+  flex: 1;
+  text-align: left;
+}
+#col-2 {
+  background-color:rgb(224, 236, 247);
+  flex: 1;
 }
 
 #leaveReview {
