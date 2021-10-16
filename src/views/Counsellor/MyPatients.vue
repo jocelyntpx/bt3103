@@ -1,43 +1,40 @@
 <template>
-    <div v-if="user"> 
-        <br><br>
-        <NavBarCounsellor/>
-        <br><br>
-        <div id=past>
-            <router-link to="/myPatients">Upcoming Patients</router-link> | 
-            <router-link to="/myPastPatients">Past Patients</router-link>
+  <div v-if="user">
+      <br><br>
+      <NavBarCounsellor/>
+      <br><br>
+          
+      <div class = "main">
+        <div class = "allPatients">
+          <div><a @click="showUpcoming = true" id = "counsellorUpcomingPatient">Upcoming Patients</a></div> 
+          <div><a @click="showUpcoming = false" id = "counsellorPastPatient">Past Patients</a></div>
         </div>
-        <h4>Upcoming patients are patients you have an upcoming appointment with. </h4>
-        <div class="bgBlock">
-            <table class="table">
-                <tr class=header>
-                <th>Date</th> 
-                <th>Patient</th>
-                <th>Link</th>
-                <th></th> 
-                </tr>
-                <tr>
-                    <td>10/10/21</td>
-                    <td>Benjamin Soh</td>
-                    <td>Displayed when user starts session</td>
-                    <td>X</td>
-                </tr>
-                <tr>
-                    <td>10/10/21</td>
-                    <td><router-link to="/patientRecords">Rose Lee</router-link></td> 
-                    <!-- Later on would have to pass props via router?? not too sure -->
-                    <td>Displayed when user starts session</td>
-                    <td>X</td>
-                </tr>
-                <tr>
-                    <td>10/10/21</td>
-                    <td>Eunice Tan</td>
-                    <td>Displayed when user starts session</td>
-                    <td>X</td>
-                </tr>
-            </table>
+
+      </div>
+
+      <div class = "bigContainer">
+        <br><br>
+        <!-- Upcoming patients -->
+        <div class = "upcoming_patients_list" v-if = "showUpcoming">  
+          <h4> Upcoming patients are patients you have an upcoming appointment with. </h4>
+            <div class = "bgBlock1">
+              <UpcomingPatients/>
+              <br><br><br><br><br><br><br><br>
+            </div>
         </div>
-    </div>
+
+        <!-- Past patients -->
+        <div class = "past_patients_list" v-else> 
+            <h4>Past patients are patients you have already had an appointment with. </h4>
+            <div class = "bgBlock2">
+                <input id=searchPatient type="text"  v-model="search" placeholder="Search for a patient"/>
+                <PastPatients/>
+                <br><br><br><br><br><br><br><br>
+            </div>
+        </div> 
+      </div>
+  </div>
+
 </template>
 
 <script>
@@ -46,14 +43,17 @@
 // import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 // const db = getFirestore(firebaseApp);
 import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
+import UpcomingPatients from "@/components/UpcomingPatients.vue"
+import PastPatients from "@/components/PastPatients.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default {
-    components: {NavBarCounsellor},    
+    components: {NavBarCounsellor, UpcomingPatients, PastPatients},    
     name:"MyPatients",
 
     data(){
         return{
+            showUpcoming: true,
             user:false,
         }
     },
@@ -67,61 +67,12 @@ export default {
         })
     },
 }
-// export default {
-//     mounted(){
-//         async function display() {
-//             let z = await getDocs(collection(db,"Counsellor_Email"))
-//             let ind = 1
-//             var tp = 0
-
-//             z.forEach((docs) => {
-//                 let yy = docs.data()
-//                 var table = document.getElementById("table")
-//                 var row = table.insertRow(ind)
-
-//                 var date = yy.getCounsellorUpcomingSessions.getSessionTime
-//                 var patient  = yy.getCounsellorUpcomingSessions.getUserEmail.getUserFirstName + " " + yy.getCounsellorUpcomingSessions.getUserEmail.getUserLastName
-//                 //var link = yy.getCounsellorUpcomingSessions.getLink only if user starts, else "Displayed when user starts session"
-            
-//                 var cell1 = row.insertCell(0); var cell2 = row.insertCell(1); var cell3 = row.insertCell(2); 
-//                 var cell4 = row.insertCell(3); 
-                
-
-//                 cell1.innerHTML = date; cell2.innerHTML = patient; cell3.innerHTML = "Displayed when user starts session"; cell4.innerHTML = 0;
-
-//                 var bu = document.createElement("button")
-//                 bu.className = "bwt"
-//                 bu.id = String(coin)
-//                 bu.innerHTML = "X"
-//                 bu.onclick = function(){
-//                     cancelSession(yy.getCounsellorUpcomingSessions, False)
-//                 }
-//                 cell4.appendChild(bu)
-
-//             })
-//         }
-//         display()
-
-//         async function cancelSession(Session_ID, Boolean) {
-//             var x = yy.getCounsellorUpcomingSessions
-//             alert("You are going to cancel this appointment." + x)
-//             await deleteDoc(doc(db,"Counsellor_Email",x))
-//             console.log("Document successfully deleted!", x);
-//             let tb = document.getElementById("table")
-//             while (tb.rows.length > 1){
-//                 tb.deleteRow(1)
-//             }
-//             display()
-//         }
-
-//     }
-// }
 
 </script>
 
 <style> 
 /* FYI: i'm using this .bgBlock, and table styling for other FindCounsellor.vue, CounsellorReviews.vue as well */
-.bgBlock {
+ .bgBlock1, .bgBlock2 {
   border-radius: 35px;
   background: #B9D9EB;
   padding: 20px;
@@ -130,62 +81,36 @@ export default {
   margin:auto;
 }
 
-
-
 h4{
     color: grey;
 }
 
-
-.table{
-    /* width: 630px; */
-    font-family: Arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    background-color:rgb(242, 242, 243);
-}
-th,td { 
-    /* background-color: whitesmoke;  */
-    border: 1px solid #dddddd;
-    padding: 8px;
-    text-align: center;
+.allPatients {
+    display: inline;
+    font-size: 25px;
+    font-weight: bold;
 }
 
-tr:nth-child(even){
-    background-color: #e3edee;
+#counsellorUpcomingPatient {
+    float:left;
+    margin-left: 550px;
 }
 
-.header {
-    background-color: black;
+ #counsellorPastPatient {
+    float:left;
+    margin-left: 50px;
+    color:lightslategray;
 }
 
-th{
-    color: white;
+#counsellorUpcomingPatient:hover, #counsellorPastPatient:hover  {
+     box-shadow: 3px 3px #B9D9EB;
+     border-radius: 1px; 
+     outline: #B9D9EB;
+     color:#a4c8dd;
+ } 
+
+#searchPatient {
+    float: right;
 }
-
-#past {
-    font-size:25px ;
-}
-
-#past a{
-  font-weight: bold;
-  color:lightslategray;
-}
-
-#past a.router-link-exact-active {
-  color:black;
-}
-
-
-  /* button.bwt{
-     color:white;
-     background-color: rgb(255, 94, 0);
- }
-
- .bwt:hover{
-     box-shadow: 3px 3px purple;
-     border-radius: 1px;
-     outline: purple;
- }  */
 
 </style>

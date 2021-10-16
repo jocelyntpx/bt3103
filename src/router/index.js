@@ -9,7 +9,6 @@ import PatientLogin from '@/views/Patient/PatientLogin.vue'
 import PatientProfile from '@/views/Patient/PatientProfile.vue'
 import CounsellorProfile from '@/views/Counsellor/CounsellorProfile.vue'
 import MyPatients from '@/views/Counsellor/MyPatients.vue'
-import MyPastPatients from '@/views/Counsellor/MyPastPatients.vue'
 import AllAppointments from '@/views/Patient/AllAppointments.vue'
 import PatientRecords from '@/views/Counsellor/PatientRecords.vue'
 import DailyUserView from '@/views/DailyUserView.vue'
@@ -59,8 +58,8 @@ const routes = [
     component: PatientProfile
 },
 {
-    // path: '/counsellorProfile',
-    path: '/counsellorProfile/:id',
+    path: '/counsellorProfile',
+    // path: '/counsellorProfile/:id',
     name: 'CounsellorProfile',
     component: CounsellorProfile
 },
@@ -68,11 +67,6 @@ const routes = [
     path: '/myPatients',
     name: 'MyPatients',
     component: MyPatients
-},
-{
-    path: '/myPastPatients',
-    name: 'MyPastPatients',
-    component: MyPastPatients
 },
 {
     path: '/allAppointments',
