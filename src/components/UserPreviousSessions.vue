@@ -2,6 +2,7 @@
   <!-- This component templates the user's previous sessions (seen in Patients records, User's profile page ) -->
    <h3>Past Appointments</h3>
     
+      <div class = "bgBlock">
         <table id="table2">
           <!-- <div v-if = "user"> -->
       <!-- would ultimately have some kind of for loop to pull the appropriate fields from Firebase Sessions collection -->
@@ -42,6 +43,7 @@
             </tr>
           </div>  -->
       </table>
+      </div>
 </template>
 
 <script>

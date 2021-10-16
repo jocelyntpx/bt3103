@@ -1,7 +1,9 @@
 <template>
+    <br><br>
+    <NavBarGeneral/>
     <div style="text-align:center;">
         <h1 id="mainHead">Login Page</h1>
-        <p>testing</p>
+        <p>For first time users, you can either sign in with Google or sign up by clicking on "Sign in with email". </p>
         <div id="firebaseui-auth-container"></div>
     </div>
 </template>
@@ -11,12 +13,14 @@ import firebase from '@/uifire.js'
 import 'firebase/compat/auth';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
+import NavBarGeneral from "@/components/NavBarGeneral.vue"
 
 export default {
+    components: {NavBarGeneral},
     name: "Login",
 
     mounted(){
-        var ui = firebase.auth.AuthUI.getInstance();
+        var ui = firebaseui.auth.AuthUI.getInstance();
         if (!ui){
             ui = new firebaseui.auth.AuthUI(firebase.auth());
         }
@@ -33,6 +37,7 @@ export default {
 }
 </script>
 
+
 <style scoped>
 #firebaseui-auth-container {
     margin-top: 50px;;
@@ -46,7 +51,7 @@ export default {
 }
 #mainHead{
     text-align: center;
-    text-shadow: 2px 2px grey;
+    /* text-shadow: 2px 2px grey; */
 }
 #bg{
     display: block;
@@ -54,4 +59,10 @@ export default {
     margin-right: auto;
     width:60%
 }
+h5{
+    text-align: center;
+    background-color: rgb(194,202,188);
+}
 </style>
+
+
