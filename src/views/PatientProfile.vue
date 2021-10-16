@@ -8,36 +8,38 @@
     </div><br>
 
     <div id="bgBlock">
-        <div id="patientDetails" v-if="user"> 
-            <h3>Name: James Tan</h3>
-            <h3>blahblahblah</h3>
-                <p> Name: <strong>Rose Lee</strong><br>
-                Email: <strong>rose@abc.com</strong><br>
-                Uid: <strong>123</strong><br>
-                Provider: <strong>??</strong> </p>
-        </div>
-        <router-link to="/allAppointments">view all appointments</router-link>
-    </div>
-
-    <div style="text-align:center;" v-if=false>
-        <div>
-            <div>
-                <!-- <p> Name: <strong>{{user.displayName}}</strong><br>
-                Email: <strong>{{user.displayName}}</strong><br>
-                Uid: <strong>{{user.displayName}}</strong><br>
-                Provider: <strong>{{user.displayName}}</strong> </p> -->
+        <div id="col-1">
+            <div id="counsellor">
+                <div id="col-1-1">
+                    <img id="profilePic" alt="Vue logo" src="https://icon-library.com/images/user-icon-jpg/user-icon-jpg-28.jpg">
+                </div>
+                <div id="col-1-2">
+                    <div id="PatientDetails" v-if="user">
+                        <UserInfo/>
+                        <br>
+                        <router-link to="/allAppointments">view all appointments</router-link>
+                    </div>
+                </div>
             </div>
-            <UserInfo/>
+            <ul id="counsellorInfo">
+                <li>Blahblahblah</li>
+            </ul>
+
         </div>
-        <Logout/>
+        <div id="col-2">
+            <h3>Select date to view upcoming appointments</h3>
+            <PatientCalendar/>
+        </div>
     </div>
+    <Logout/>
 </template>
 
 <script>
 import UserInfo from "@/components/UserInfo.vue";
+import PatientCalendar from "@/components/PatientCalendar.vue"
 
 export default {
-    components: {UserInfo},
+    components: {UserInfo, PatientCalendar},
     name:"PatientProfile",
 
     data(){
@@ -51,17 +53,48 @@ export default {
 
 <style scoped>
 #bgBlock {
-  border-radius: 35px;
-  background: #B9D9EB;
-  padding: 20px;
-  width: 80%;
-  height: 450px;
-  margin:auto;
+    display:flex;
+    border-style:solid;
+    border-color:#B9D9EB;
+    border-width: 2px;
+    background: transparent;
+    border-radius: 20px;
+    padding: 20px;
+    width: 80%;
+    height: 500px;
+    margin: auto;
+}
+#col-1 {
+  background-color: transparent;
+  flex: 1;
+  text-align: left;
 }
 
-#patientDetails{
-    float:left;
-    margin-left: 20px;
+#col-2 {
+  background-color:rgb(224, 236, 247);
+  flex: 1;
+}
+
+#col-1-1, #col-1-2 {
+    align-self: center;
+    padding: 20px;
+}
+
+#counsellor {
+    display: flex;
+}
+
+#counsellorInfo {
+    text-align: left;
+    line-height: 2em;
+}
+
+#profilePic {
+    height: 120px;
+    border-radius: 50%;
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
 }
 
 #leaveReview {
