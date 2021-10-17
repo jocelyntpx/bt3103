@@ -4,7 +4,6 @@
   <!-- <div><h3 id = "profile_page"><strong>This is the User Info</strong></h3></div> -->
 
   <div id = "user_info"> 
-    <p> Joined since 10/05/2021 </p>
     <strong>Name:</strong> Rose Lee<br>
     <strong>Email:</strong> roseLee@gmail.com<br>
   </div> 
@@ -19,15 +18,32 @@
 </template>
 
 <script>
-export default {
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
+export default {
+    name: "UserInfo",
+
+    data(){
+        return{
+            user:false,
+        }
+    },
+
+    mounted() {
+        const auth = getAuth();
+        onAuthStateChanged(auth, user => {
+            this.user = user;
+        })
+    },
 }
 </script>
 
 <style scoped>
 #user_info {
-  align-content: center;
-  /* text-align:left; */
+  align-content: left;
+  text-align:left;
+  margin-left: 20px;
+  font-size: 19px;
 }
 
 </style>
