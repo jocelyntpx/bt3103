@@ -1,13 +1,15 @@
 <template>
-    <div id = "backBtn">
-        <router-link to="/myPatients"> ← Back to My Patients page</router-link>
-    </div>
+  <div id = "backBtn">
+    <router-link to="/myPatients"> ← Back to My Patients page</router-link>
+  </div>
+  <h2>Patient's Records</h2>
 
-    <h1>Rose Lee</h1>
-    
-    <UserInfo/>
-    <br>
-    <UserPreviousSessions/>
+    <div id="bgBlock">
+      <UserInfo/>
+      <br>
+      <UserPreviousSessions/>
+      <br>
+    </div>
   <!-- </div>  -->
 </template>
 
@@ -31,6 +33,15 @@ data() {
 </script>
 
 <style scoped>
+#bgBlock {
+    border-radius: 35px;
+    background: #B9D9EB;
+    padding: 20px;
+    width: 80%;
+    height: 100%;
+    margin:auto;
+} 
+
 #backBtn{
   text-align: left;
   margin-left: 250px; 
