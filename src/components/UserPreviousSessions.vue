@@ -27,28 +27,28 @@
                 <td v-if="user">★★★☆☆</td>
                 <td v-else>Rose was angry because...</td>
             </tr>
-          <!-- </div>  -->
-
-          <!-- <div v-else>   -->
-            <!-- if viewed by counsellor -->
-              <!-- <tr class=header> 
-            <th>Date</th> 
-            <th>Counsellor</th>
-            <th>Notes</th>
-            </tr>
-             <tr>
-                <td>10/10/21</td>
-                <td>Mdm Lim</td>
-                <td>Having problems with...</td>
-            </tr>
-          </div>  -->
       </table>
       </div>
 </template>
 
 <script>
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 export default {
-  name: "UserPreviousSessions"
+    name: "UserPreviousSessions",
+
+    data(){
+        return{
+            user:false,
+        }
+    },
+
+    mounted() {
+        const auth = getAuth();
+        onAuthStateChanged(auth, user => {
+            this.user = user;
+        })
+    },
 }
 </script>
 
