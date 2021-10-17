@@ -7,7 +7,7 @@
             <div id="bgBlock"> 
                 <div id="col-1">
                     <div id="counsellorDetails"> 
-                        <p> Name: <strong>{{user.displayName}}</strong><br>
+                        <p> Name: <strong>{{user.name}}</strong><br>
                         Email: <strong>{{user.email}}</strong><br>
                         User ID: <strong>{{user.uid}}</strong></p>
                     </div>

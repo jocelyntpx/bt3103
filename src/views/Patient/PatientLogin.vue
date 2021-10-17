@@ -2,7 +2,8 @@
     <br><br>
     <NavBarGeneral/>
     <div style="text-align:center;">
-        <h1 id="mainHead">Login Page</h1>
+        <br><br>
+        <h1 id="mainHead">Login/Register Page</h1>
         <p>For first time users, you can either sign in with Google or sign up by clicking on "Sign in with email". </p>
         <div id="firebaseui-auth-container"></div>
     </div>

@@ -5,8 +5,8 @@
 
     <h1> Reviews for Mr John Tan </h1><br><br>
 
-    <div class = "bgBlock">
-        <h3> Recent Reviews (Total: 2 Reviews) </h3>
+    <div id = "bgBlock">
+        <h3> All Reviews (Total: 2 Reviews) </h3>
         <table class="table">
             <tr class="header"> 
                 <th>Review Date</th> 
@@ -30,6 +30,14 @@
 </script>
 
 <style scoped>
+#bgBlock {
+    border-radius: 35px;
+    background: #B9D9EB;
+    padding: 20px;
+    width: 80%;
+    height: 100%;
+    margin:auto;
+} 
 #backBtn{
   text-align: left;
   margin-left: 250px; 

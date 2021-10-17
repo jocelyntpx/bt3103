@@ -1,33 +1,27 @@
 <template>
-  <!-- This component templates the user's previous sessions (seen in Patients records, User's profile page ) -->
-   <h3>Past Appointments</h3>
-    
+  <!-- This component templates the user's upcoming sessions (seen in Patients records, User's profile page ) -->    
       <div>
+        <h3>Upcoming Appointments</h3>
         <table id="table2">
-          <!-- <div v-if = "user"> -->
-      <!-- would ultimately have some kind of for loop to pull the appropriate fields from Firebase Sessions collection -->
-            <tr class=header> 
+            <tr id="header">
             <th>Date</th> 
             <th>Counsellor</th>
-            <!-- <th>Link</th> -->
-            <th v-if=(counsellor)>Notes</th> 
-            <th v-else>Rating</th>
+            <th>Link</th>
+            <th></th> 
             </tr>
-             <tr>
+            <tr>
                 <td>10/10/21</td>
-                <td>Mdm Lim</td>
-                <!-- <td>Link expired</td> -->
-                <td v-if=(counsellor)>Having problems with...</td>
-                <td v-else>Rate session</td>
+                <td>John Tan</td>
+                <td>Link not yet created.</td>
+                <td>X</td>
             </tr>
             <tr>
                 <td>11/10/21</td>
                 <td>Mr Tan</td>
-                <!-- <td>Link expired</td> -->
-                <td v-if=(counsellor)>Rose was angry because...</td>
-                <td v-else>★★★☆☆</td>
+                <td>NA</td>
+                <td></td>
             </tr>
-      </table>
+        </table>
       </div>
 </template>
 
@@ -102,7 +96,7 @@ tr:nth-child(even){
     background-color: #e3edee;
 }
 
-.header {
+#header {
     background-color: black;
 }
 
