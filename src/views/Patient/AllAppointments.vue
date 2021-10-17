@@ -1,3 +1,4 @@
+// to be removed once patient profile is done
 
 <template>
     <br><br>
@@ -55,7 +56,6 @@
             <UserPreviousSessions/> 
             <!-- ^ not copying over the correct information from the v-if=user from UserPreviousSessions, brings else info here instead -->
             <!-- <div><h3><strong>This is the appointment page</strong></h3></div> -->
-            <Logout/>
         </div>
     </div>
 </template>
