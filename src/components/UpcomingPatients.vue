@@ -2,7 +2,7 @@
             <table class="table" id="table">
                 <tr class=header>
                 <th>Date</th> 
-                <!-- <th>Time</th> -->
+                <th>Time</th>
                 <th>Patient</th>
                 <th>Link</th>
                 <th>X</th> 
@@ -30,10 +30,9 @@
 </template>
 
 <script>
-//import moment from 'moment' //see if need install npm?
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { collection, getDocs, doc, deleteDoc, updateDoc, arrayRemove, query, where } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc, updateDoc, arrayRemove, getDoc  } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 // import NavBarCounsellor from "@/components/NavBarCounsellor.vue" since nvr use
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -62,60 +61,69 @@ export default {
 
     methods: {
         async displayUpcomingPatients(user) {
-       
-            let allCounsellors = await getDocs(collection(db,"Counsellors"))
+            let docRef = doc(db, "Counsellors", String(user));
+            let counsellorDoc = await getDoc(docRef);
+            //let allCounsellors = await getDoc(collection(db,"Counsellors",String(user)))
             let allSessions = await getDocs(collection(db,"Sessions"))
-            //let allPatients = await getDocs(collection(db,"Patients"))
+            let allPatients = await getDocs(collection(db,"Patients"))
             let ind = 1
 
-            allCounsellors.forEach((counsellor) => {
+            let session = counsellorDoc.data().upcoming_counsellor_sessions
 
-                let session = counsellor.data().upcoming_counsellor_sessions //assuming is an array of session ID(string)
+
+            session.forEach((upcomingSession) => {
+                //let session = counsellor.data().upcoming_counsellor_sessions //assuming is an array of session ID(string)
                 var table = document.getElementById("table")
                 var row = table.insertRow(ind)
 
                 //can consider using query instead of for loops also!
                 // const q = query(collection(db, "Patients"), where("upcoming_user_sessions", "array-contains", sessionID));
                 // let patient = await getDocs(q);
-
-                allSessions.forEach(async (sessionID) => { //for each session in array, get the desired session info
-                        //var date = moment(String(sessionID.data().session_time)).format('MM/DD/YYYY hh:mm')
-                        var date = sessionID.data().session_time.toDate().toDateString()
+                
+                allSessions.forEach((sessionID) => { //for each session in array, get the desired session info
+                    if (upcomingSession == sessionID.id)
+                        var date = sessionID.data().session_time.toDate().toDateString() 
+                        var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                         var link =  sessionID.room_ID 
                         var cell1 = row.insertCell(0); 
                         var cell2 = row.insertCell(1); 
                         var cell3 = row.insertCell(2); 
                         var cell4 = row.insertCell(3); 
+                        var cell5 = row.insertCell(4); 
                         cell1.innerHTML = date; 
-                        cell3.innerHTML = link; 
-                        cell4.innerHTML = "";
+                        cell2.innerHTML = time;
+                        cell4.innerHTML = link; 
+                        cell5.innerHTML = "";
                      
                     
-                        //allPatients.forEach(patient => {
-                    
-                            //if (patient.upcoming_user_sessions.some(s => s.id === sessionID.data().user_email.id)) {
-                                const q = query(collection(db, "Patients"), where("upcoming_user_sessions", "array-contains", String(sessionID)));
-                                let patient = await getDocs(q);
+                        allPatients.forEach(patient => {
+                            // console.log(patient.data().upcoming_user_sessions[0])
+                            // console.log(sessionID.id)
+                            if (patient.data().upcoming_user_sessions.some(s => s === sessionID.id)) {
+                                //const q = query(collection(db, "Patients"), where("upcoming_user_sessions", "array-contains", String(sessionID)));
+                                //let patient = await getDocs(q);
+                                //console.log(patient.getDocuments())
 
-                                //something wrong here, not sure what type of var patient is, why not accessing name
                                 // console.log("entered foreach3")
-                                var patientName = patient.name;
+                                var patientName = patient.data().name;
                         
-                                cell2.innerHTML = patientName; 
+                                cell3.innerHTML = patientName; 
 
                                 var bu = document.createElement("button")
                                 bu.className = "bwt"
                                 bu.id = String(patientName)
                                 bu.innerHTML = "X"
                                 bu.onclick = ()=>{
-                                    this.cancelSession(session,patient,user)
+                                    this.cancelSession(sessionID.id,patient.id,user)
+                                    //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
                                 }
-                                cell4.appendChild(bu)
+                                cell5.appendChild(bu)
+                
                                 
                             }
-                        //})
+                        })
                     
-                )                
+                })                
 
             })
         },
@@ -125,7 +133,7 @@ export default {
             alert("You are going to cancel this appointment with Session ID of " + session)
             //remove session from patient's and counsellor's upcoming appointments array
             await updateDoc(doc(db,"Counsellors",user), {upcoming_counsellor_sessions: arrayRemove(session)});
-            await updateDoc(doc(db,"Patients",patient), {upcoming_patient_sessions: arrayRemove(session)});
+            await updateDoc(doc(db,"Patients",patient), {upcoming_user_sessions: arrayRemove(session)});
 
             //delete session from sessions collection
             await deleteDoc(doc(db,"Sessions",session))
