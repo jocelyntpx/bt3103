@@ -7,7 +7,7 @@
             <p>We provide free, private online counselling <br>
             for everyone. A video call, voice call or just chat - <br>
             choose whichever you are comfortable with!</p> <br>
-            <button id="registerButton">Register</button>
+            <button id="registerButton" @click="goToLogin()">Register</button>
             
         </div>
         <br><br><br><br><br><br><br><br><br><br><br>
@@ -28,6 +28,12 @@ export default {
             user:false,
         }
     },
+
+    methods:{
+        goToLogin(){
+            this.$router.push('/patientLogin')
+        }
+    }
 }
 </script>
 

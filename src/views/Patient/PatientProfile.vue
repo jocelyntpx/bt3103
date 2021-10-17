@@ -23,6 +23,8 @@
                 <PatientCalendar/>
             </div> -->
 
+<!-- this entire chunk for upcoming appointment to be replaced to UserUpcomingSessions component. 
+do v-if v-else to show links and X -->
             <h3>Upcoming Appointments</h3>
             <table id="table1">
                 <tr id=header>

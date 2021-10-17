@@ -6,10 +6,18 @@
     <div v-else>
         <NavBarGeneral/>
     </div>
-    
-    <h1>Help Resources</h1><br><br>
-    <h5>Browse through our articles to find out <br>
-        how you can cope better with mental health.</h5>
+    <br>
+    <div id="bg">
+        <br><br>
+        <div id="textPosition">
+            <h1>Help Resources</h1>
+            <p>Browse through our articles to find out <br>
+                how you can cope better with mental health.</p>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br>
+    </div>
 </template>
 
 <script>
@@ -37,3 +45,26 @@ export default {
 
 }
 </script>
+
+<style scoped>
+#bg{
+    position: relative;
+    width: 100%;
+    height: 550px;
+    background-size: cover;
+    background-image: url("~@/assets/helpResources.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    text-align: center;
+    margin:auto;
+    padding: 0;
+}
+#textPosition{
+    position: relative;
+    float: right;
+    margin-right: 300px;
+    margin-top: 50px;
+    text-align: left;
+}
+
+</style>

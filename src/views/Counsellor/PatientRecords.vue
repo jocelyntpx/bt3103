@@ -1,4 +1,7 @@
 <template>
+
+<!-- this whole page very similar to patient profile page. can consider to combine them using v-if v-else -->
+
   <div id = "backBtn">
     <router-link to="/myPatients"> ← Back to My Patients page</router-link>
   </div>
@@ -6,6 +9,8 @@
 
     <div id="bgBlock">
       <UserInfo/>
+      <br>
+      <UserUpcomingSessions/>
       <br>
       <UserPreviousSessions/>
       <br>
@@ -16,10 +21,11 @@
 <script>
 import UserInfo from "@/components/UserInfo.vue";
 import UserPreviousSessions from "@/components/UserPreviousSessions.vue"
+import UserUpcomingSessions from "@/components/UserUpcomingSessions.vue"
 
 export default {
 components: {
-    UserInfo,UserPreviousSessions
+    UserInfo,UserPreviousSessions,UserUpcomingSessions
 },
 name: "PatientRecords",
 data() {
