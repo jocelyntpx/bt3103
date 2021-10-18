@@ -68,19 +68,6 @@ methods: {
           this.all_counsellors.push(counsellor)
         }
         })
-
-        //    slots.forEach((slot) => {
-        //     let a = slots.toDate()
-        //     let a_gmtDate = new Date(a.setHours(a.getHours() + 8))
-        //     if (a_gmtDate.toISOString().substr(0,10) == this.filteredDays) {
-        //       this.all_counsellors.push(counsellor)
-        //       break;
-        //     }
-        //   });
-        // } else {
-        //   this.all_counsellors.push(counsellor)
-        // }
-      // })
     },
     formattedSpecialisations(specialisations) {
       var stringOutput = ""

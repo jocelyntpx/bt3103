@@ -33,7 +33,7 @@ const db = getFirestore(firebaseApp);
 
 export default {
   name: "CounsellorsCurrentlyAvailable",
-  // components: {router},
+
   data() {
     return {
       user: false,
@@ -131,7 +131,7 @@ export default {
 
     let sessionID = counsellorEmail + String(slot) // unique session ID
     
-    // set doc in session
+    // set doc into Sessions
     setDoc(doc(db,"Sessions",sessionID), {
       user_email: this.fbuser,
       counsellor_email: counsellorEmail,
@@ -159,6 +159,11 @@ export default {
           this.removeSlot(counsellor, x)
         }
       })
+    } else {
+      await updateDoc(counsellorDocRef, {
+        available_slots: arrayRemove(slot)
+      })
+      console.log("removed avail slot ", slot, " for " , counsellor.data().name);
     }
     await updateDoc(counsellorDocRef, {
       upcoming_counsellor_sessions: arrayUnion(sessionID)
