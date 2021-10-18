@@ -100,19 +100,23 @@ export default {
     
 
         async cancelSession(session, patient, user) {
-            alert("You are going to cancel this appointment with Session ID of " + session)
-            //remove session from patient's and counsellor's upcoming appointments array
-            await updateDoc(doc(db,"Counsellors",user), {upcoming_counsellor_sessions: arrayRemove(session)});
-            await updateDoc(doc(db,"Patients",patient), {upcoming_user_sessions: arrayRemove(session)});
+            var confirmDelete = confirm("Press 'OK' to proceed to cancel this appointment with Session ID of " + session);
+            //alert("You are going to cancel this appointment with Session ID of " + session)
+            if (confirmDelete) { //pressed OK
+                //remove session from patient's and counsellor's upcoming appointments array
+                await updateDoc(doc(db,"Counsellors",user), {upcoming_counsellor_sessions: arrayRemove(session)});
+                await updateDoc(doc(db,"Patients",patient), {upcoming_user_sessions: arrayRemove(session)});
 
-            //delete session from sessions collection
-            await deleteDoc(doc(db,"Sessions",session))
-            console.log("Session successfully deleted!");
-            let tb = document.getElementById("table")
-            while (tb.rows.length > 1){
-                tb.deleteRow(1)
+                //delete session from sessions collection
+                await deleteDoc(doc(db,"Sessions",session))
+                console.log("Session successfully deleted!");
+                let tb = document.getElementById("table")
+                while (tb.rows.length > 1){
+                    tb.deleteRow(1)
+                }
+                this.displayUpcomingPatients(this.counsellorUser); 
             }
-            this.displayUpcomingPatients(this.counsellorUser); 
+            
         }
     }
 
