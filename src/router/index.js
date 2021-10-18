@@ -90,7 +90,8 @@ const routes = [
     component: CounsellorReviews
 },
 {
-    path: '/rateCounsellor',
+    // path: '/rateCounsellor/',
+    path: '/rateCounsellor/:id',
     name: 'RateCounsellor',
     component: RateCounsellor
 },

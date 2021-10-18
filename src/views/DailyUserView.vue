@@ -36,7 +36,7 @@ import api from "../api.js";
 
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
 
@@ -58,6 +58,19 @@ export default {
    if (window?.location?.origin.includes("localhost")) {
      this.runningLocally = true;
    }
+ }, 
+ async beforeUnmount() {
+   console.log("entered beforeUnmount");
+    const sessionDocRef = doc(db, "Sessions", this.sessionID)
+    const sessionSnap = await getDoc(sessionDocRef);
+    console.log("user of session : " , sessionSnap.data().user_email);
+    // update backend for PATIENT (backend for counsellor will be updated separately in DailyCounsellorView.vue)
+    const patientDocRef = doc(db, "Patients", sessionSnap.data().user_email)
+    await updateDoc(patientDocRef, {
+      upcoming_user_sessions: arrayRemove(this.sessionID),
+      past_user_sessions: arrayUnion(this.sessionID)
+    })
+    console.log("end of beforeUnmount")     ;
  },
  methods: {
    createAndJoinRoom() {
@@ -92,10 +105,13 @@ export default {
      const goToLobby = () => (this.status = "lobby");
      const goToCall = () => (this.status = "call");
      const leaveCall = () => {
+       this.patientEndCall();
+
        if (this.callFrame) {
          this.status = "home";
          this.callFrame.destroy();
        }
+       // update backend when the user ends the call.
      };
      // DailyIframe container element
      const callWrapper = this.$refs.callRef;
@@ -132,6 +148,15 @@ export default {
    validateInput(e) {
      this.validRoomURL = !!this.roomUrl && e.target.checkValidity();
    },
+
+   async patientEndCall() {
+    console.log("call patientEndCall() in DailyUserView");
+    // note that the backend is in beforeUnmount()
+    
+    // route user to the review page.
+    this.$router.push({ name: 'RateCounsellor', params: { id: this.sessionID } } )
+    console.log("bottom of patientEndCall()");
+   }
  },
 };
 </script>
