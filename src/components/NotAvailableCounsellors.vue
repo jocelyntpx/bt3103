@@ -4,7 +4,7 @@
     <!-- This temporarily prints as a list -->
       <li v-for="counsellor in all_counsellors" v-bind:key="counsellor.index">
         <div id="counsellor_preview_box"> 
-          <h5><router-link to="/counsellorProfile/:{{counsellor.data().uid}}">{{counsellor.data().name}}</router-link></h5>
+          <h5><router-link :to="{ name: 'CounsellorProfile', params: { id: counsellor.data().email }}"> {{counsellor.data().name}}</router-link></h5>
           {{counsellor.data().past_ratings}}<br> 
           {{ formattedSpecialisations(counsellor.data().counsellor_specialisations) }}<br><br>
         </div>

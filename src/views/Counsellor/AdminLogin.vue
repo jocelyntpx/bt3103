@@ -88,7 +88,8 @@ export default {
                         .signInWithEmailAndPassword(this.email, this.password)
                         .then(() => {
                             alert('Successfully logged in');
-                            this.$router.push({ path: '/counsellorProfile'});
+                            // this.$router.push({ path: '/counsellorProfile'});
+                            this.$router.push({ name: 'CounsellorProfile', params: { id: this.email } });
                         })
                         .catch(error => {
                             alert(error.message);

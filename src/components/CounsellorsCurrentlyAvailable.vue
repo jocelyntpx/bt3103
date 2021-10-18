@@ -4,10 +4,10 @@
     <!-- This temporarily prints as a list -->
       <li v-for="counsellorSlot in available" v-bind:key="counsellorSlot.index"> 
         <div id="available_counsellor_preview_box"> 
-          <h5><router-link to="/counsellorProfile/:{{counsellorSlot[0].data().uid}}">{{counsellorSlot[0].data().name}}</router-link></h5>
+          <h5><router-link :to="{ name: 'CounsellorProfile', params: { id: counsellorSlot[0].data().email }}"> {{counsellorSlot[0].data().name}}</router-link></h5>
           {{counsellorSlot[0].data().past_ratings}}<br> 
           {{ formattedSpecialisations(counsellorSlot[0].data().counsellor_specialisations) }}<br><br>
-          <button id = "consult_now" @click="createImmediateSessionSlot(counsellorSlot[0],counsellorSlot[1])"> Consult Now </button> 
+          <button id = "consult_now" @click="createImmediateSession(counsellorSlot[0],counsellorSlot[1])"> Consult Now </button> 
         </div>
       </li>
   </ul>
@@ -24,9 +24,9 @@
 <script>
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { collection, getDocs, Timestamp, updateDoc, doc } from "firebase/firestore";
+import { collection, getDocs, Timestamp, updateDoc, doc, setDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged} from "firebase/auth";
-// import router from './router/index.js'
+
 
 const db = getFirestore(firebaseApp);
 
@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       user: false,
+      fbuser: "",
       user_type: "patient",
       available:[],
     }
@@ -45,7 +46,8 @@ export default {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
     if (user) {
-      this.user = user;      
+      this.user = user;
+      this.fbuser = auth.currentUser.email;      
     }
   })
   this.displayAvailableCounsellors();
@@ -102,7 +104,40 @@ export default {
     })
   }
   return stringOutput.slice(2)
-}
+  },
+
+  async createImmediateSession(counsellor, slot) {
+    const counsellorEmail = counsellor.data().email;
+    const patientDocRef = doc(db, "Patients", this.fbuser)
+    // let patientDocSnap = await getDoc(patientDocRef)
+    const counsellorDocRef = doc(db, "Counsellors", counsellorEmail)
+
+    let sessionID = counsellorEmail + String(slot) // unique session ID
+    
+    // set doc in session
+    setDoc(doc(db,"Sessions",sessionID), {
+      user_email: this.fbuser,
+      counsellor_email: counsellorEmail,
+      room_ID: "",
+      session_notes: "",
+      rating: null,
+      session_time: slot // a timestamp
+    })
+
+    // add to upcoming session of patient
+    setDoc(patientDocRef, {upcoming_user_sessions: sessionID}, {merge: true})
+
+    // add to upcoming session of counsellor
+    if (counsellor.data().currently_available) { // toggle was ON
+      await updateDoc(counsellorDocRef, {currently_available: false})
+    }
+    setDoc(counsellorDocRef, {upcoming_counsellor_sessions: sessionID}, {merge: true})
+
+    // user is redirected
+    this.$router.push({ name: 'DailyUserView', params: { id: sessionID } }) // https://router.vuejs.org/guide/essentials/navigation.html 
+  }
+
+
   }
 }
 

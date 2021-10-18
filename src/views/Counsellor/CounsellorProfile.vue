@@ -1,4 +1,5 @@
 <template>
+    <!-- <h1> id is {{this.counsellor_ID}} </h1> -->
     <div v-if="user"> 
         <br><br>
         <NavBarCounsellor/>
@@ -38,7 +39,8 @@ export default {
         return{
             user:false,
             user_type:"patient",
-            counsellor_ID:this.$route.params.id
+            counsellor_ID: this.$route.params.id,
+            fbuser:"",
         }
     },
 
@@ -50,6 +52,7 @@ export default {
                 if (user.user_type == "counsellor") {
                     this.user_type = "counsellor";
                 }
+                this.fbuser = user.email
             }
         })
     },
