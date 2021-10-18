@@ -71,7 +71,8 @@ export default {
     data(){
         return{
             showCurrentlyAvailable: true,
-            user:false,
+            user:false, // firebase's "auth" user
+            fbuser:"", // email of user on firebase firestore
             refreshComponent: 0,
             filteringDays: "any day",
         }
@@ -80,7 +81,8 @@ export default {
     mounted() {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
-            this.user = user;
+            this.user = user; // for my reference: user is the user in firebase auth, NOT firestore. need to use this email to access patient/counsellor in firestore.
+            this.fbuser = auth.currentUser.email
         })
     },
 
@@ -90,6 +92,7 @@ export default {
         this.filteringDays = event // prop passed to child "NotAvailableCounsellors"
         this.refreshComponent += 1
         console.log("From FindCounsellor, refreshComp: ",this.refreshComponent);
+        console.log("this.fbuser ", this.fbuser);
       }
     }
 }

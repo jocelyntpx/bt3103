@@ -58,8 +58,8 @@ const routes = [
     component: PatientProfile
 },
 {
-    path: '/counsellorProfile',
-    // path: '/counsellorProfile/:id',
+    // path: '/counsellorProfile',
+    path: '/counsellorProfile/:id',
     name: 'CounsellorProfile',
     component: CounsellorProfile
 },
@@ -74,7 +74,8 @@ const routes = [
     component: PatientRecords
 },
 {
-    path: '/dailyUserView',
+    // path: '/dailyUserView',
+    path: '/dailyUserView/:id',
     name: 'DailyUserView',
     component: DailyUserView
 },

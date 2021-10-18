@@ -13,7 +13,14 @@ export default {
 
     data() {
         return {
-            date: ""
+            date: "",
+            // attributes: [
+            //     {
+            //         key: this.date,
+            //         highlight: true,
+            //         dates: this.date
+            //     }
+            // ]
         }
     },
 

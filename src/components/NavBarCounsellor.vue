@@ -3,7 +3,8 @@
         <div id="nav">
             <img id="mhmlogo" src="@/assets/mhmlogo.png" alt="" width="60" height="35">
             <h3 id="mhm">Mental Health Matters</h3>
-            <router-link to="/counsellorProfile">My Profile</router-link> | 
+            <router-link :to="{ name: 'CounsellorProfile', params: { id: this.fbuser }}">My Profile</router-link> |
+            <!-- <router-link to="/counsellorProfile">My Profile</router-link> |  -->
             <router-link to="/myPatients">My Patients</router-link> | 
             <!-- <router-link to="/about">About Us</router-link> |  -->
             <router-link to="/helpResourcesAdmin">Help Resources</router-link> | 
@@ -26,6 +27,7 @@ export default {
     data() {
         return {
             user:false,
+            fbuser:"",
         }     
     },
 
@@ -37,9 +39,10 @@ export default {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.user = user;
+                this.fbuser = user.email;
             }
-        })
-    }
+        });
+    },
 }
 </script>
 

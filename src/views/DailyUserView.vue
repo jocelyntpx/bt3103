@@ -1,4 +1,7 @@
 <template>
+  <h1> the route id is {{ $route.params.id }} </h1>
+
+
  <main class="wrapper">
    <div class="home" v-if="status === 'home'">
      <h2>Before you start...</h2>
@@ -42,6 +45,7 @@ export default {
      validRoomURL: false,
      roomError: false,
      runningLocally: false,
+     sessionID: this.$route.params.id,
    };
  },
  created() {
