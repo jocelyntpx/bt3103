@@ -29,6 +29,7 @@ do v-if v-else to show links and X -->
             <table class="table" id="table">
                 <tr id=header>
                 <th>Date</th> 
+                <th>Time</th> 
                 <th>Counsellor</th>
                 <th>Link</th>
                 <th>X</th> 
@@ -53,10 +54,11 @@ do v-if v-else to show links and X -->
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarPatient from "@/components/NavBarPatient.vue"
 import UserPreviousSessions from "@/components/UserPreviousSessions.vue"
-// import firebaseApp from '../../firebase.js';
-// import { getFirestore } from "firebase/firestore"
+import firebaseApp from '../../firebase.js';
+import { getFirestore } from "firebase/firestore"
+import {  doc, getDoc, setDoc } from "firebase/firestore";
 // import {  doc, deleteDoc, updateDoc, arrayRemove, getDoc  } from "firebase/firestore";
-// const db = getFirestore(firebaseApp);
+const db = getFirestore(firebaseApp);
 // import PatientCalendar from '@/components/PatientCalendar.vue'
 
 
@@ -82,12 +84,33 @@ export default {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;
+            this.fbuser = user.email;
+            this.updateFirebase(this.fbuser);
         });
         // this.counsellorUser = auth.currentUser.email;
         // this.displayUpcomingAppointments(this.counsellorUser);
     },
 
-    // methods: {
+    methods: {
+        // not working yet. idky they say user exist even tho is not in firebase
+        async updateFirebase(user) {
+            let patientDoc = await getDoc(doc(db, "Patients", String(user)));
+            // let patientDoc = await getDoc(docRef);  
+
+            if (!patientDoc.exists) {
+                console.log("update patient into firebase")
+                await setDoc(doc(db,"Patients"), {
+                    name: user.displayName,
+                    email: user.email,
+                    join_date: user.creationTime,
+                    userID: user.uid,
+                })
+            } else {
+                console.log("exists")
+                console.log(this.fbuser)
+            }
+
+        }
     //     async displayUpcomingAppointments(user) {
     //         let docRef = doc(db, "Counsellors", String(user));
     //         let counsellorDoc = await getDoc(docRef);
@@ -158,7 +181,7 @@ export default {
     //         }
             
     //     }
-    // }
+    }
 }
 </script>
 

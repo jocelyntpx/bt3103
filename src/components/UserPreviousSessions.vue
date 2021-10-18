@@ -8,6 +8,7 @@
       <!-- would ultimately have some kind of for loop to pull the appropriate fields from Firebase Sessions collection -->
             <tr class=header> 
             <th>Date</th> 
+            <th>Time</th> 
             <th>Counsellor</th>
             <!-- <th>Link</th> -->
             <th v-if=(counsellor)>Notes</th> 
@@ -15,6 +16,7 @@
             </tr>
              <tr>
                 <td>10/10/21</td>
+                <td></td>
                 <td>Mdm Lim</td>
                 <!-- <td>Link expired</td> -->
                 <td v-if=(counsellor)>Having problems with...</td>
@@ -22,6 +24,7 @@
             </tr>
             <tr>
                 <td>11/10/21</td>
+                <td></td>
                 <td>Mr Tan</td>
                 <!-- <td>Link expired</td> -->
                 <td v-if=(counsellor)>Rose was angry because...</td>

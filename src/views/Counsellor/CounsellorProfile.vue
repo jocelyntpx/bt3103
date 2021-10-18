@@ -19,9 +19,12 @@
             <div id="bgBlock"> 
                 <div id="col-1">
                     <div id="counsellorDetails"> 
-                        <p> Name: <strong>{{user.name}}</strong><br>
+                        <p> Name: <strong>{{this.name}}</strong><br>
                         Email: <strong>{{user.email}}</strong><br>
-                        User ID: <strong>{{user.uid}}</strong></p>
+                        Gender: <strong>{{this.gender}}</strong><br>
+                        Counsellor ID: <strong>{{user.uid}}</strong><br>
+                        Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
+                        Rating: <strong>{{this.avgRatings}}</strong><br></p>
                     </div>
 
                     <div id = "reviewsTab"> 
@@ -44,7 +47,7 @@ import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
 
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
 
@@ -58,7 +61,11 @@ export default {
             user_type:"patient",
             counsellor_ID: this.$route.params.id,
             fbuser:"",
-            currentlyAvailable:null
+            currentlyAvailable:null,
+            name:"",
+            ratings:[],
+            avgRatings:"",
+            specialisations_formatted:"",
         }
     },
 
@@ -70,13 +77,55 @@ export default {
                 if (user.user_type == "counsellor") {
                     this.user_type = "counsellor";
                 }
-                this.fbuser = user.email
+                this.fbuser = user.email;
+                this.getDetails(this.fbuser);
                 this.updateCurrentlyAvailable();
+                this.avgRating(this.fbuser);
             }
         })
     },
 
     methods: {
+        async getDetails(user) {
+            let docRef = doc(db, "Counsellors", String(user));
+            let counsellorDoc = await getDoc(docRef);      
+            this.name = counsellorDoc.data().name;
+            this.gender = counsellorDoc.data().gender;
+            this.specialisations = counsellorDoc.data().counsellor_specialisations;
+            this.ratings = counsellorDoc.data().past_ratings;  
+
+            var avg = 0
+            if (this.ratings.length>0) {
+                var numRatings = this.ratings.length
+                var sum = 0
+                this.ratings.forEach(item => {
+                sum = sum + item
+                })
+                avg = sum / numRatings
+            }
+            if (avg == 5) {
+                this.avgRatings = "★★★★★"
+            } else if (avg >= 4) {
+                this.avgRatings = "★★★★☆"
+            } else if (avg >= 3) {
+                this.avgRatings = "★★★☆☆"
+            } else if (avg >= 2) {
+                this.avgRatings = "★★☆☆☆"
+            } else if (avg >= 1) {
+                this.avgRatings = "★☆☆☆☆"
+            } else {
+                this.avgRatings = "☆☆☆☆☆" 
+            } 
+
+            var stringOutput = ""
+            if (this.specialisations.length > 0) {
+                this.specialisations.forEach(item => {
+                stringOutput = stringOutput + ", " + item
+                })
+            }
+            this.specialisations_formatted = stringOutput.slice(2)
+        },
+
         async updateCurrentlyAvailable() {
             const counsellorDoc = doc(db,"Counsellors",this.fbuser);
             this.currentlyAvailable = counsellorDoc.data().currentlyAvailable;
@@ -85,7 +134,7 @@ export default {
             let counsellorDocRef = doc(db, "Counsellors", this.fbuser)
             await updateDoc(counsellorDocRef, {currently_available: !this.currentlyAvailable})
             this.currentlyAvailable = !this.currentlyAvailable;
-        }
+        },
     }
 }
 </script>
