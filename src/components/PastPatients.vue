@@ -71,8 +71,7 @@ export default {
     width: 15%;
     background-color: rgb(224, 236, 247);
     border-radius: 35px;
-    border: 30px solid rgb(224, 236, 247) ;
-
+    border: 30px solid rgb(224, 236, 247);
 }
 #patientName{
     color: black;

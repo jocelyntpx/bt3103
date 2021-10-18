@@ -2,14 +2,14 @@
 <div class="available_counsellors">
   <ul>
     <!-- This temporarily prints as a list -->
-      <li v-for="counsellorSlot in available" v-bind:key="counsellorSlot.index"> 
+      <a v-for="counsellorSlot in available" v-bind:key="counsellorSlot.index"> 
         <div id="available_counsellor_preview_box"> 
-          <h5><router-link :to="{ name: 'CounsellorProfile', params: { id: counsellorSlot[0].data().email }}"> {{counsellorSlot[0].data().name}}</router-link></h5>
-          {{counsellorSlot[0].data().past_ratings}}<br> 
+          <h4><router-link :to="{ name: 'CounsellorProfile', params: { id: counsellorSlot[0].data().email }}"> {{counsellorSlot[0].data().name}}</router-link></h4>
+          {{avgRating(counsellorSlot[0].data().past_ratings)}}<br> 
           {{ formattedSpecialisations(counsellorSlot[0].data().counsellor_specialisations) }}<br><br>
           <button id = "consult_now" @click="createImmediateSession(counsellorSlot[0],counsellorSlot[1])"> Consult Now </button> 
         </div>
-      </li>
+      </a>
   </ul>
 </div>
 
@@ -122,6 +122,31 @@ export default {
   }
   return stringOutput.slice(2)
   },
+  avgRating(ratings) {
+      // Create a reference for a new rating, for use inside the transaction
+      var avg = 0
+
+      if (ratings.length>0) {
+        var numRatings = ratings.length
+        var sum = 0
+        ratings.forEach(item => {
+          sum = sum + item
+        })
+        avg = sum / numRatings
+      }
+      if (avg == 5) {
+        return "★★★★★"
+      } else if (avg >= 4) {
+        return "★★★★☆"
+      } else if (avg >= 3) {
+        return "★★★☆☆"
+      } else if (avg >= 2) {
+        return "★★☆☆☆"
+      } else if (avg >= 1) {
+        return "★☆☆☆☆"
+      }
+      return "☆☆☆☆☆"
+  },
 
   async createImmediateSession(counsellor, slot) {
     const counsellorEmail = counsellor.data().email;
@@ -181,12 +206,18 @@ export default {
 
 <style scoped>
 #available_counsellor_preview_box {
-  padding: 5px;
-  width: 35%;
-  height: 180px;
-  background-color: white;
+    display: inline-block;
+    margin: 20px;
+    height: 80px;
+    width: 20%;
+    background-color: rgb(224, 236, 247);
+    border-radius: 35px;
+    border: 30px solid rgb(224, 236, 247);
 }
 #consult_now {
   background-color: yellow;
+}
+h4{
+  margin-top: 5px;
 }
 </style>

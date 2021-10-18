@@ -4,7 +4,7 @@
     <div style="text-align:center;">
         <br><br>
         <h1 id="mainHead">Login/Register Page</h1>
-        <p>For first time users, you can either sign in with Google or sign up by clicking on "Sign in with email". </p>
+        <p>For first time users, you can register with the sign in form below as well. </p>
         <div id="firebaseui-auth-container"></div>
     </div>
 </template>
@@ -29,7 +29,7 @@ export default {
         var uiConfig = {
             signInSuccessUrl: "/patientProfile",
             signInOptions: [
-                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                // firebase.auth.GoogleAuthProvider.PROVIDER_ID,
                 firebase.auth.EmailAuthProvider.PROVIDER_ID,
             ]
         };
