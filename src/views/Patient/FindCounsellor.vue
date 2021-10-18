@@ -39,30 +39,11 @@
         <!-- All counsellors -->
         <div class = "all_counsellors_list" v-else> 
           <div id = "filter_by_date"> 
-            <h2> CALENDAR TO FILTER COUNSELLOR BY DATE HERE </h2>
+            <h3> Now showing counsellors available on {{filteringDays}}. </h3>
+            <h4> Use the calendar to show counsellors with slots available on your selected day. </h4>
+            <AllCounsellorsCalendarFilter @updateFilteredDays = "showFilteredDays" />
           </div>
-
-          By default show all counsellors
-          <NotAvailableCounsellors/>
-
-
-
-
-          <!-- <h2> Showing all counsellors, with currently available counsellors shown at the top. </h2>
-          <h5> You can go to a counsellor's profile to schedule a future session or see more information. </h5> <br>
-            <div> 
-              <h3 style = "text-decoration:underline"> Currently Available Counsellors </h3>
-                <div class = "counsellors_box">
-                  <CounsellorsCurrentlyAvailable/>
-                </div>
-            </div><br>
-
-            <div>
-              <h3 style = "text-decoration:underline"> Not Currently Available </h3>
-                <div class = "counsellors_box">
-                  <NotAvailableCounsellors/>
-                </div>
-            </div> -->
+          <NotAvailableCounsellors :key="refreshComponent" :filteredDays=this.filteringDays />
         </div> 
       </div>
   </div>
@@ -76,18 +57,23 @@ import FilterByCounsellorCategory from "@/components/FilterByCounsellorCategory.
 import NotAvailableCounsellors from "@/components/NotAvailableCounsellors.vue"
 import NavBarPatient from "@/components/NavBarPatient.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import AllCounsellorsCalendarFilter from '@/components/AllCounsellorsCalendarFilter.vue'
 
 
 export default {
   components: {
-    CounsellorsCurrentlyAvailable, FilterByCounsellorCategory, NotAvailableCounsellors, NavBarPatient
+    CounsellorsCurrentlyAvailable, FilterByCounsellorCategory, NotAvailableCounsellors, NavBarPatient,
+    AllCounsellorsCalendarFilter
    },
+
   name: 'FindCounsellor', 
 
     data(){
         return{
             showCurrentlyAvailable: true,
             user:false,
+            refreshComponent: 0,
+            filteringDays: "any day",
         }
     },
 
@@ -97,6 +83,15 @@ export default {
             this.user = user;
         })
     },
+
+    methods: {
+      showFilteredDays(event) {
+        console.log("From FindCounsellor: ", event);
+        this.filteringDays = event // prop passed to child "NotAvailableCounsellors"
+        this.refreshComponent += 1
+        console.log("From FindCounsellor, refreshComp: ",this.refreshComponent);
+      }
+    }
 }
 </script>
 
