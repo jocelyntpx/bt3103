@@ -96,7 +96,7 @@ h4{
     margin-left: 550px;
 }
 
- #counsellorPastPatient {
+#counsellorPastPatient {
     float:left;
     margin-left: 50px;
     color:lightslategray;

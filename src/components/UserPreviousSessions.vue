@@ -18,7 +18,7 @@
                 <td>Mdm Lim</td>
                 <!-- <td>Link expired</td> -->
                 <td v-if=(counsellor)>Having problems with...</td>
-                <td v-else>Rate session</td>
+                <td v-else><router-link to="/rateCounsellor">Rate Session</router-link></td>
             </tr>
             <tr>
                 <td>11/10/21</td>

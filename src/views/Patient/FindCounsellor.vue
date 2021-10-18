@@ -43,7 +43,7 @@
             <h4> Use the calendar to show counsellors with slots available on your selected day. </h4>
             <AllCounsellorsCalendarFilter @updateFilteredDays = "showFilteredDays" />
           </div>
-          <NotAvailableCounsellors :key="refreshComponent" :filteredDays=this.filteringDays />
+          <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays />
         </div> 
       </div>
   </div>
@@ -54,7 +54,7 @@
 <script>
 import CounsellorsCurrentlyAvailable from "@/components/CounsellorsCurrentlyAvailable.vue"
 import FilterByCounsellorCategory from "@/components/FilterByCounsellorCategory.vue"
-import NotAvailableCounsellors from "@/components/NotAvailableCounsellors.vue"
+import AllCounsellors from "@/components/AllCounsellors.vue"
 import NavBarPatient from "@/components/NavBarPatient.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import AllCounsellorsCalendarFilter from '@/components/AllCounsellorsCalendarFilter.vue'
@@ -62,7 +62,7 @@ import AllCounsellorsCalendarFilter from '@/components/AllCounsellorsCalendarFil
 
 export default {
   components: {
-    CounsellorsCurrentlyAvailable, FilterByCounsellorCategory, NotAvailableCounsellors, NavBarPatient,
+    CounsellorsCurrentlyAvailable, FilterByCounsellorCategory, AllCounsellors, NavBarPatient,
     AllCounsellorsCalendarFilter
    },
 
