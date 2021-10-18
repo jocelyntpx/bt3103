@@ -14,8 +14,8 @@
 </div>
 
 
-
-
+  <!-- TEMPORARY BUTTON TO PROPAGATE COUNSELLOR INTO FIREBASE -->
+  <button @click="newCounsellor()">Temporary helper button: click to create new counsellor</button>
 
 
 
@@ -24,7 +24,7 @@
 <script>
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { collection, getDocs, Timestamp, updateDoc, doc, setDoc } from "firebase/firestore";
+import { collection, getDocs, Timestamp, updateDoc, doc, setDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { getAuth, onAuthStateChanged} from "firebase/auth";
 
 
@@ -54,46 +54,63 @@ export default {
   },
 
   methods: {
+  // TEMP METHOD
+  async newCounsellor() {
+    let counsellor_name = "Bruce Tan"
+    let counsellor_email = "bruce@gmail.com"
+    setDoc(doc(db, "Counsellors", counsellor_email), {
+      email: counsellor_email,
+      name: counsellor_name,
+      available_slots: new Array(),
+      counsellor_specialisations: new Array(),
+      gender:"Female",
+      currently_available:true,
+      past_ratings:new Array(),
+      upcoming_counsellor_sessions:new Array()
+    });
+    console.log("CREATED COUNSELLOR");
+  },
+
 
   async displayAvailableCounsellors() { // WORKS
     let allCounsellors = await getDocs(collection(db,"Counsellors"))
 
     allCounsellors.forEach((counsellor) => {
-        console.log(counsellor.data().name)
+      console.log(counsellor.data().name)
       // check if counsellor is currently available i.e. available slot <= 10 minutes from current time
-      var slots = counsellor.data().available_slots // array of timestamp
 
-      slots.forEach((slot) => {
-        const diff = slot - Timestamp.now()
-        console.log("diff is : " , slot-Timestamp.now());
+      // if the currently_available toggle is on, that takes precedence over a specified available_slot. Slot created is for timestamp NOW.
+      if (counsellor.data().currently_available) {
+        console.log(counsellor.data().name + " has toggle currently_available on");
+        this.available.push([counsellor, Timestamp.now()]);
+      } else {
+        var slots = counsellor.data().available_slots // array of timestamp
 
-        // remove an available slot from the backend if the slot time has passed.
-        if (diff < 0) {  // WORKS.
-          console.log("Deleting slot for " + counsellor.data().name + " slot time " + slot);
-          var updated = [];
-          // console.log(slots);
-          slots.forEach((x) => {
-            if (x != slot) {
-              updated.push(x);
-            }
-          })
-          this.removeSlot(counsellor,updated)
-        }
-          
-        if (diff <= 10*60 & diff > 0) { // Can only have at max one slot that meets criteria, since each slot is one hour long.
-          console.log("Slot is within 10mins")
-          this.available.push([counsellor, slot])
-        }
-      })
+        slots.forEach((slot) => {
+          const diff = slot - Timestamp.now()
+          console.log("diff is : " , slot-Timestamp.now());
+
+          // remove an available slot from the backend if the slot time has passed.
+          if (diff < 0) {  // WORKS.
+            console.log("Deleting slot for " + counsellor.data().name + " slot time " + slot);
+            this.removeSlot(counsellor, slot);
+          }
+            
+          if (diff <= 10*60 & diff > 0) { // Can only have at max one slot that meets criteria, since each slot is one hour long.
+            console.log("Slot is within 10mins")
+            this.available.push([counsellor, slot])
+          }      
+        })
+      }
     })
-    console.log(this.available)
+    console.log("this.available is ", this.available);
   },
-  async removeSlot(counsellor, updated) { // WORKS.
+
+  async removeSlot(counsellor, slotToRemove) { 
     const counsellorDoc = doc(db,"Counsellors",counsellor.data().email);
-    console.log("DOC IS ",counsellorDoc);
-    await updateDoc(counsellorDoc, { 
-      available_slots: updated 
-      })
+    await updateDoc(counsellorDoc, {
+      available_slots: arrayRemove(slotToRemove)
+    })
     console.log("Successfully removed slot from Firebase.");
   },
   formattedSpecialisations(specialisations) { // WORKS.
@@ -109,7 +126,7 @@ export default {
   async createImmediateSession(counsellor, slot) {
     const counsellorEmail = counsellor.data().email;
     const patientDocRef = doc(db, "Patients", this.fbuser)
-    // let patientDocSnap = await getDoc(patientDocRef)
+
     const counsellorDocRef = doc(db, "Counsellors", counsellorEmail)
 
     let sessionID = counsellorEmail + String(slot) // unique session ID
@@ -125,50 +142,35 @@ export default {
     })
 
     // add to upcoming session of patient
-    setDoc(patientDocRef, {upcoming_user_sessions: sessionID}, {merge: true})
+    await updateDoc(patientDocRef, {
+      upcoming_user_sessions: arrayUnion(sessionID)
+      });
 
-    // add to upcoming session of counsellor
+    // add to upcoming session of counsellor, remove from existing available slot 
     if (counsellor.data().currently_available) { // toggle was ON
       await updateDoc(counsellorDocRef, {currently_available: false})
+      
+      // if there is a session starting within the next 1 hour, we remove this from available_slots. (Bc slot is no longer "available")
+      var slots = counsellor.data().available_slots
+      slots.forEach((x) => {
+        const diff = x - slot; // would be > 0
+        console.log("counsellor w toggle ON. difference between next avail slot and now was ", diff);
+        if (diff < 60 * 60) { 
+          this.removeSlot(counsellor, x)
+        }
+      })
     }
-    setDoc(counsellorDocRef, {upcoming_counsellor_sessions: sessionID}, {merge: true})
+    await updateDoc(counsellorDocRef, {
+      upcoming_counsellor_sessions: arrayUnion(sessionID)
+    });
 
     // user is redirected
     this.$router.push({ name: 'DailyUserView', params: { id: sessionID } }) // https://router.vuejs.org/guide/essentials/navigation.html 
   }
-
-
   }
 }
 
 
-  
-//   createImmediateSessionSlot(counsellor,slot) { // "Consult Now" on Find a Counsellor page. Booking of an available slot that counsellor has marked as available.
-//       const auth = getAuth();
-//       this.user = auth.currentUser;
-
-//       const sessionKey = () => {
-//        return new Date().getTime().toString() + "_" + String(this.user.email)
-//       }
-
-//       try{
-//         const docRef = await setDoc(doc(db, "Sessions", sessionKey),{
-//           user_email: this.user.email,
-//           counsellor_email: ,
-//           room_ID: ,
-//           session_notes: "",
-//           rating: null,
-//           session_time: null
-//         })
-//       }
-//       catch(error) {
-//           console.error("Error creating immediate session slot: ", error);
-//       }
-//     }
-//   }
-// }
-
-// <button id = "consult_now"><router-link to="/dailyUserView">Consult Now</router-link></button>
 
 </script>
 

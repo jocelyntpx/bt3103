@@ -5,6 +5,17 @@
         <NavBarCounsellor/>
         <div style="text-align:center;">
             <h1>Counsellor Profile</h1>
+
+            <!-- Need a toggle button for currently_available -->
+            <div class = "toggle">
+                <button id = "toggleButton" @click="toggleCurrentlyAvailable">Click to toggle current availability on/off</button>
+                <h3> You are 
+                    <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
+                    <strong v-else> not available to take a spontaneous session. </strong> 
+                </h3>
+            </div>
+
+
             <div id="bgBlock"> 
                 <div id="col-1">
                     <div id="counsellorDetails"> 
@@ -31,6 +42,12 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
 
+import firebaseApp from '@/firebase.js';
+import { getFirestore } from "firebase/firestore"
+import { doc, updateDoc } from "firebase/firestore";
+
+const db = getFirestore(firebaseApp);
+
 export default {
     components: {NavBarCounsellor, CounsellorCalendar},
     name:"CounsellorProfile" ,
@@ -41,6 +58,7 @@ export default {
             user_type:"patient",
             counsellor_ID: this.$route.params.id,
             fbuser:"",
+            currentlyAvailable:null
         }
     },
 
@@ -53,9 +71,22 @@ export default {
                     this.user_type = "counsellor";
                 }
                 this.fbuser = user.email
+                this.updateCurrentlyAvailable();
             }
         })
     },
+
+    methods: {
+        async updateCurrentlyAvailable() {
+            const counsellorDoc = doc(db,"Counsellors",this.fbuser);
+            this.currentlyAvailable = counsellorDoc.data().currentlyAvailable;
+        },
+        async toggleCurrentlyAvailable() {
+            let counsellorDocRef = doc(db, "Counsellors", this.fbuser)
+            await updateDoc(counsellorDocRef, {currently_available: !this.currentlyAvailable})
+            this.currentlyAvailable = !this.currentlyAvailable;
+        }
+    }
 }
 </script>
 

@@ -34,6 +34,12 @@ import DailyIframe from "@daily-co/daily-js";
 import Controls from "@/components/Controls.vue";
 import api from "../api.js";
 
+import firebaseApp from '@/firebase.js';
+import { getFirestore } from "firebase/firestore"
+import { updateDoc, doc } from "firebase/firestore";
+
+const db = getFirestore(firebaseApp);
+
 export default {
  components: { Controls },
  name: "DailyUserView",
@@ -59,17 +65,22 @@ export default {
        .createRoom()
        .then((room) => {
          this.roomUrl = room.url;
+         this.updateSessionFirebase(); // update backend here.
+         console.log("DailyUserView - The room url is ", room.url);
          this.joinRoom(room.url);
-
-        // createImmediateSession
-
-
        })
        .catch((e) => {
          console.log(e);
          this.roomError = true;
        });
    },
+    
+  async updateSessionFirebase() {
+    const sessionDocRef = doc(db, "Sessions", this.sessionID);
+    await updateDoc(sessionDocRef, {room_ID: this.roomUrl});
+    // NOTE: IS IT POSSIBLE TO ALERT COUNSELLOR OF THIS SESSION?
+  },
+
    // Daily callframe created and joined below
    joinRoom(url) {
      if (this.callFrame) {
