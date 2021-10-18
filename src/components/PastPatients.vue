@@ -3,7 +3,7 @@
             <a v-for= "patient in AllMyPatients" v-bind:key="patient.index">
                 <div id="patient_box">
                     <!-- router link not correct, not sure what to put yet -->
-                    <h3><router-link to="/patientRecords" id="patientName">{{patient}}</router-link></h3>
+                    <h3><router-link to="/patientRecords" id="patientName">{{patient.data().name}}</router-link></h3>
                 </div>
             </a>
     </div>
@@ -46,9 +46,13 @@ export default {
             let docRef = doc(db, "Counsellors", String(user));
             let counsellorDoc = await getDoc(docRef);
             let myPatients = counsellorDoc.data().my_patients
-           //console.log("before forEach");
-            myPatients.forEach((patient)=> {
+
+           //console.log(counsellorDoc.data());
+            myPatients.forEach(async (patient_email)=> {
+                let patientDocRef = doc(db, "Patients", patient_email);
+                let patient = await getDoc(patientDocRef);
                 //console.log(patient);
+                
                 this.AllMyPatients.push(patient)
             })
 
