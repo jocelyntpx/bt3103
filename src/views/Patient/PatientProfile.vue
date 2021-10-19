@@ -92,7 +92,6 @@ export default {
     },
 
     methods: {
-        // not working yet. idky they say user exist even tho is not in firebase
         async updateFirebase(user) {
             const patientDoc = await getDoc(doc(db, "Patients", String(user)));
 
