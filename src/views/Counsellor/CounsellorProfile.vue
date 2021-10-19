@@ -11,7 +11,7 @@
                 <button id = "toggleButton" @click="toggleCurrentlyAvailable">Click to toggle current availability on/off</button>
                 <h3> You are 
                     <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
-                    <strong v-else> not available to take a spontaneous session. </strong> 
+                    <strong v-else> NOT available to take a spontaneous session. </strong> 
                 </h3>
             </div>
 
@@ -47,7 +47,7 @@ import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
 
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
 
@@ -79,8 +79,11 @@ export default {
                 }
                 this.fbuser = user.email;
                 this.getDetails(this.fbuser);
-                this.updateCurrentlyAvailable();
-                this.avgRating(this.fbuser);
+                // this.updateCurrentlyAvailable();
+                // this.avgRating(this.fbuser);
+                // this.mountedCheckCurrentlyAvailable();
+                console.log("bottom of mounted()");
+                // console.log("time is ", Timestamp.valueOf(Timestamp.now()))
             }
         })
     },
@@ -93,6 +96,9 @@ export default {
             this.gender = counsellorDoc.data().gender;
             this.specialisations = counsellorDoc.data().counsellor_specialisations;
             this.ratings = counsellorDoc.data().past_ratings;  
+            
+            this.currentlyAvailable = counsellorDoc.data().currently_available;
+            this.updateCurrentlyAvailable();
 
             var avg = 0
             if (this.ratings.length>0) {
@@ -127,14 +133,66 @@ export default {
         },
 
         async updateCurrentlyAvailable() {
-            const counsellorDoc = doc(db,"Counsellors",this.fbuser);
-            this.currentlyAvailable = counsellorDoc.data().currentlyAvailable;
+            const counsellorDocRef = doc(db,"Counsellors",this.fbuser);
+            
+            //  if counsellor is currently available, check if have upcoming session within <= 1hour, if so, toggle OFF.
+            if (this.currentlyAvailable) {
+                var upcomingSession = this.checkExistenceUpcomingSession();
+                console.log("in updateCurrentlyAvailable, upcomingSession: ", upcomingSession)
+                if (upcomingSession) {
+                    alert("You have an upcoming session in less than an hour - Setting toggle for 'Currently Available' as Off");
+                    this.currentlyAvailable = false;
+                    await updateDoc(counsellorDocRef, {currently_available: false})
+                }
+            }
         },
         async toggleCurrentlyAvailable() {
+            console.log("in toggleCurrentlyAvailable()")
+
             let counsellorDocRef = doc(db, "Counsellors", this.fbuser)
-            await updateDoc(counsellorDocRef, {currently_available: !this.currentlyAvailable})
-            this.currentlyAvailable = !this.currentlyAvailable;
+            console.log("current availability: " , this.currentlyAvailable)
+
+            if (!this.currentlyAvailable) {
+                // counsellor can only toggle it ON if he does not have an upcoming session < 1 hour from now.
+                var upcomingSession = await this.checkExistenceUpcomingSession(); 
+                console.log("in toggleCurrentlyAvailable, upcomingSession is ", upcomingSession)
+                if (upcomingSession) {
+                    alert("Unable to turn on toggle - you have an upcoming session in less than an hour.");
+                } else {
+                    this.currentlyAvailable = true;
+                    await updateDoc(counsellorDocRef, {currently_available: true})
+                }
+            } else {
+                this.currentlyAvailable = false;
+                await updateDoc(counsellorDocRef, {currently_available: false})
+            }
         },
+
+        async checkExistenceUpcomingSession() { 
+            console.log("in checkExistenceUpcomingSession()");
+            const counsellorDocRef = doc(db, "Counsellors", this.fbuser)
+            const counsellorDocSnap = await getDoc(counsellorDocRef)
+            const upcomingSessions = counsellorDocSnap.data().upcoming_counsellor_sessions
+
+            for (const session of upcomingSessions) {
+                let sessionDocRef = doc(db, "Sessions",session)
+                let sessionDocSnap = await getDoc(sessionDocRef)
+                let sessionTime = sessionDocSnap.data().session_time.toDate()
+                let timeNow = Timestamp.now().toDate()
+                
+                // console.log("SESSION : ", sessionTime.toDate() , "NOW : ", Timestamp.now().toDate())
+                // console.log("diff is in MILLISECONDS: " , sessionTime.toDate() - Timestamp.now().toDate()) // this gives you difference in MILLISECONDS.
+
+                if (sessionTime - timeNow <= 60 * 60 * 1000 ) {
+                    console.log("existence of upcoming session");
+                    console.log("SESSION : ", sessionTime , "NOW : ", timeNow)
+                    return true;
+                }
+            }
+            console.log("no upcoming session - returning false")
+            return false;
+        },
+       
     }
 }
 </script>

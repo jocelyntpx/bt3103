@@ -1,7 +1,5 @@
 <template>
-  <h1> the route id is {{ $route.params.id }} </h1>
-
-
+  <!-- <h1> the route id is {{ $route.params.id }} </h1> -->
  <main class="wrapper">
    <div class="home" v-if="status === 'home'">
      <h2>Before you start...</h2>

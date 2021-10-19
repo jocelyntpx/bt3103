@@ -24,7 +24,7 @@
 <script>
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { collection, getDocs, Timestamp, updateDoc, doc, setDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { collection, getDocs, Timestamp, updateDoc, doc, setDoc, arrayUnion, arrayRemove,  } from "firebase/firestore";
 import { getAuth, onAuthStateChanged} from "firebase/auth";
 
 
@@ -47,7 +47,7 @@ export default {
     onAuthStateChanged(auth, (user) => {
     if (user) {
       this.user = user;
-      this.fbuser = auth.currentUser.email;      
+      this.fbuser = auth.currentUser.email;  
     }
   })
   this.displayAvailableCounsellors();
@@ -73,6 +73,8 @@ export default {
 
 
   async displayAvailableCounsellors() { // WORKS
+    // await this.updateCounsellorAvailability();    
+
     let allCounsellors = await getDocs(collection(db,"Counsellors"))
 
     allCounsellors.forEach((counsellor) => {
@@ -105,6 +107,46 @@ export default {
     })
     console.log("this.available is ", this.available);
   },
+
+  // async updateCounsellorAvailability() {
+  //   console.log("inside updateCounsellorAvailability")
+  //   // check if the toggle is incorrectly on (ie. counsellor has upcoming session in <= 1 hour. Then, the toggle should be turned off.)
+  //   let allCounsellors = await getDocs(collection(db,"Counsellors"))
+  //   allCounsellors.forEach((counsellor) => {
+  //     if (counsellor.data().currently_available) {
+  //       console.log("currently available counsellor: ", counsellor.data().name)
+  //       var upcomingSession = this.checkExistenceUpcomingSession(counsellor);
+  //           if (upcomingSession) {
+  //             const counsellorDocRef = doc(db,"Counsellors",counsellor.data().email);
+  //             console.log("toggle for ", counsellor.data().name, "is incorrectly turned on - turning it off now");
+  //             // this.updateCounsellorAvailability(counsellorDocRef, false);
+  //             updateDoc(counsellorDocRef, {currently_available: false});
+  //           }
+  //         }
+  //       })
+  //   },
+
+
+    // var results = []
+    // allCounsellors.forEach((counsellor) => results.push(counsellor.data()))
+    // const arrayCounsellors = await Promise.all(results);
+
+    // for (const counsellor in arrayCounsellors) {
+    //   console.log("counsellor is", counsellor.email)
+    //   console.log("currently avialabel counsellor: ", counsellor.data().name)
+
+    //   if (counsellor.data().currently_available) {
+  
+    //     var upcomingSession = this.checkExistenceUpcomingSession(counsellor);
+    //     if (upcomingSession) {
+    //       const counsellorDocRef = doc(db,"Counsellors",counsellor.data().email);
+    //       console.log("toggle for ", counsellor.data().name, "is incorrectly turned on - turning it off now");
+    //       // this.updateCounsellorAvailability(counsellorDocRef, false);
+    //       await updateDoc(counsellorDocRef, {currently_available: false});
+    //     }
+    //   }
+    // }
+    // },
 
   async removeSlot(counsellor, slotToRemove) { 
     const counsellorDoc = doc(db,"Counsellors",counsellor.data().email);
@@ -196,7 +238,39 @@ export default {
 
     // user is redirected
     this.$router.push({ name: 'DailyUserView', params: { id: sessionID } }) // https://router.vuejs.org/guide/essentials/navigation.html 
-  }
+  },
+
+//   async checkExistenceUpcomingSession(counsellor) { 
+//     console.log("in checkExistenceUpcomingSession");
+//     // const counsellorDocRef = doc(db, "Counsellors", this.fbuser)
+//     const counsellorDocSnap = await getDoc(counsellor)
+//     console.log("this is " , counsellorDocSnap.data().name)
+//     const upcomingSessions = counsellorDocSnap.data().upcoming_counsellor_sessions
+//     console.log("upcomingsessions: ", upcomingSessions)
+
+//     if (upcomingSessions.length > 0) {
+//       console.log("whats in upcomingSessions: ", upcomingSessions, counsellorDocSnap.data().name)
+//       for (const session of upcomingSessions) {
+//         let sessionDocRef = doc(db, "Sessions",session)
+//         let sessionDocSnap = await getDoc(sessionDocRef)
+//         let sessionTime = sessionDocSnap.data().session_time.toDate()
+//         let timeNow = Timestamp.now().toDate()
+        
+//         // console.log("SESSION : ", sessionTime.toDate() , "NOW : ", Timestamp.now().toDate())
+//         // console.log("diff is in MILLISECONDS: " , sessionTime.toDate() - Timestamp.now().toDate()) // this gives you difference in MILLISECONDS.
+
+//         if (sessionTime - timeNow <= 60 * 60 * 1000 ) {
+//             console.log("existence of upcoming session");
+//             console.log("SESSION : ", sessionTime , "NOW : ", timeNow)
+//             return true;
+//         }
+//     }
+//     }
+    
+//     console.log("no upcoming session - returning false")
+//     return false;
+// },
+
   }
 }
 

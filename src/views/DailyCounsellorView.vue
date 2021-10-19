@@ -1,25 +1,24 @@
 <template>
  <main class="wrapper">
    <div class="home" v-if="status === 'home'">
-     <h2>Daily Demo</h2>
-     <p>Start demo with a new unique room or paste in your own room URL</p>
+     <!-- <h2>Daily Demo</h2>
+     <p>Start demo with a new unique room or paste in your own room URL</p> -->
      <div class="start-call-container">
-       <button @click="createAndJoinRoom">
+       <!-- <button @click="createAndJoinRoom">
          Create room and start
        </button>
        <p v-if="roomError" class="error">Room could not be created</p>
-       <p class="subtext">or</p>
-       <!-- Daily room URL is entered here -->
-       <input
+       <p class="subtext">or</p> -->
+       <!-- <input
          type="text"
-         placeholder="Enter room URL..."
+         :placeholder= this.sesionID
          v-model="roomUrl"
          pattern="^(https:\/\/)?[\w.-]+(\.(daily\.(co)))+[\/\/]+[\w.-]+$"
          @input="validateInput"
-       />
-       <!-- button to submit URL and join call -->
-       <button @click="submitJoinRoom" :disabled="!validRoomURL">
-         Join room
+       /> -->
+       <h4> some intro msg blah </h4>
+       <button @click="submitJoinRoom">
+         Click to join the session!
        </button>
      </div>
    </div>
@@ -40,40 +39,50 @@
 <script>
 import DailyIframe from "@daily-co/daily-js";
 import Controls from "@/components/Controls.vue";
-import api from "../api.js";
+// import api from "../api.js";
 
 export default {
  components: { Controls },
  name: "DailyCounsellorView",
  data() {
    return {
-     roomUrl: "",
+    //  roomUrl: "",
      status: "home",
      callFrame: null,
-     validRoomURL: false,
+    //  validRoomURL: false,
      roomError: false,
      runningLocally: false,
+    roomUrl: this.$route.params.id,
    };
  },
  created() {
    if (window?.location?.origin.includes("localhost")) {
      this.runningLocally = true;
    }
+  //  this.submitJoinRoom(this.sessionID)
  },
+// mounted() {
+//   this.joinRoom(this.sessionID);
+// },
  methods: {
-   createAndJoinRoom() {
-     api
-       .createRoom()
-       .then((room) => {
-         this.roomUrl = room.url;
-         this.joinRoom(room.url);
-        //  console.log("Room url is: " + room.url);
-       })
-       .catch((e) => {
-         console.log(e);
-         this.roomError = true;
-       });
-   },
+  // async joinUserSession() {
+  //   this.joinRoom(this.sessionID);
+  // },
+
+
+  //  createAndJoinRoom() {
+  //    api
+  //      .createRoom()
+  //      .then((room) => {
+  //        this.roomUrl = room.url;
+  //        this.joinRoom(room.url);
+  //       //  console.log("Room url is: " + room.url);
+  //      })
+  //      .catch((e) => {
+  //        console.log(e);
+  //        this.roomError = true;
+  //      });
+  //  },
    // Daily callframe created and joined below
    joinRoom(url) {
      if (this.callFrame) {
@@ -122,9 +131,9 @@ export default {
    submitJoinRoom() {
      this.joinRoom(this.roomUrl);
    },
-   validateInput(e) {
-     this.validRoomURL = !!this.roomUrl && e.target.checkValidity();
-   },
+  //  validateInput(e) {
+  //    this.validRoomURL = !!this.roomUrl && e.target.checkValidity();
+  //  },
  },
 };
 </script>
