@@ -67,7 +67,10 @@ export default {
                 var date = sessionID.data().session_time.toDate().toDateString() 
                 var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var patientName = patient.data().name;
-                var link =  sessionID.room_ID 
+                var link =  sessionID.data().room_ID 
+                if (link == "") {
+                    link = "Link will be displayed when user starts the session."
+                }
                 var cell1 = row.insertCell(0); 
                 var cell2 = row.insertCell(1); 
                 var cell3 = row.insertCell(2); 
@@ -76,7 +79,22 @@ export default {
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
                 cell3.innerHTML = patientName; 
-                cell4.innerHTML = link; 
+
+                if (link == "") {
+                    console.log("no link")
+                    cell4.innerHTML = "Link will be displayed when user starts the session.";
+                } else {
+                    console.log("upcomingSession is " , upcomingSession);
+                    var linkSession = document.createElement("button")
+                    linkSession.id = "linkSession"
+                    linkSession.innerHTML = "Join Session Now!"
+                    linkSession.onclick = () => {
+                        // this.$router.push({ name: 'DailyCounsellorView', params: { id: upcomingSession } }) 
+                        // NOTE: This router link works, commented out bc DailyCounsellorView.vue not working properly yet
+                    }
+                    cell4.appendChild(linkSession)
+                }
+
                 cell5.innerHTML = "";
 
 

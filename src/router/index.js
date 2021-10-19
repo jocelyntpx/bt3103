@@ -80,7 +80,7 @@ const routes = [
     component: DailyUserView
 },
 {
-    path: '/dailyCounsellorView',
+    path: '/dailyCounsellorView/:id',
     name: 'DailyCounsellorView',
     component: DailyCounsellorView
 },
