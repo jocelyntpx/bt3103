@@ -55,8 +55,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarPatient from "@/components/NavBarPatient.vue"
 import UserPreviousSessions from "@/components/UserPreviousSessions.vue"
 import firebaseApp from '../../firebase.js';
-import { getFirestore } from "firebase/firestore"
-import {  doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, getFirestore } from "firebase/firestore"
+import {  doc, getDoc, setDoc} from "firebase/firestore";
 // import {  doc, deleteDoc, updateDoc, arrayRemove, getDoc  } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 // import PatientCalendar from '@/components/PatientCalendar.vue'
@@ -85,7 +85,7 @@ export default {
         onAuthStateChanged(auth, user => {
             this.user = user;
             this.fbuser = user.email;
-            this.updateFirebase(this.fbuser);
+            this.updateFirebase(user);
         });
         // this.counsellorUser = auth.currentUser.email;
         // this.displayUpcomingAppointments(this.counsellorUser);
@@ -94,15 +94,14 @@ export default {
     methods: {
         // not working yet. idky they say user exist even tho is not in firebase
         async updateFirebase(user) {
-            let patientDoc = await getDoc(doc(db, "Patients", String(user)));
-            // let patientDoc = await getDoc(docRef);  
+            const patientDoc = await getDoc(doc(db, "Patients", String(user)));
 
-            if (!patientDoc.exists) {
+            if (!patientDoc.exists()) {
                 console.log("update patient into firebase")
-                await setDoc(doc(db,"Patients"), {
+                const patientRef = collection(db,"Patients");
+                await setDoc(doc(patientRef,String(user.email)), {
                     name: user.displayName,
                     email: user.email,
-                    join_date: user.creationTime,
                     userID: user.uid,
                 })
             } else {
