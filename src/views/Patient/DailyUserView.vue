@@ -30,7 +30,7 @@
 <script>
 import DailyIframe from "@daily-co/daily-js";
 // import Controls from "@/components/Controls.vue";
-import api from "../api.js";
+import api from "../../api.js";
 
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
