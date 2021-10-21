@@ -40,6 +40,11 @@
         <div class = "all_counsellors_list" v-else> 
           <div id = "filter_by_date"> 
             <h3> Now showing counsellors available on {{filteringDays}}. </h3>
+
+            <div v-if="this.filteringDays != 'any day'">
+              <button id = "reset_filter" @click = "resetCalendarFilter"> Show all days </button>
+            </div>
+
             <h4> Use the calendar to show counsellors with slots available on your selected day. </h4>
             <AllCounsellorsCalendarFilter @updateFilteredDays = "showFilteredDays" />
           </div>
@@ -93,6 +98,10 @@ export default {
         this.refreshComponent += 1
         console.log("From FindCounsellor, refreshComp: ",this.refreshComponent);
         console.log("this.fbuser ", this.fbuser);
+      },
+      resetCalendarFilter() {
+        this.filteringDays = "any day"
+        this.refreshComponent += 1
       }
     }
 }
