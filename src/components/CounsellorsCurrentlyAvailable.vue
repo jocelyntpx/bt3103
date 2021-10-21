@@ -201,10 +201,10 @@ export default {
       slots.forEach((x) => {
         const diff = x.toDate() - slot.toDate(); // would be > 0; need to use toDate() to take care of slot and x being on DIFF DAYS
         console.log("counsellor w toggle ON. difference between next avail slot and now was ", diff);
-        console.log("slot removed: ", x.toDate());
         // if (diff < 60 * 60) { 
         if (diff <= 60 * 60 * 1000) { // with toDate(), need to deal in terms of milliseconds
           this.removeSlot(counsellor, x) 
+          console.log("slot removed: ", x.toDate());
         }
       })
     } else {

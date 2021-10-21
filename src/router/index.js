@@ -16,6 +16,8 @@ import CounsellorReviews from '@/views/Counsellor/CounsellorReviews.vue'
 import RateCounsellor from '@/views/Patient/RateCounsellor.vue'
 import NotFound from '@/views/General/NotFound.vue'
 import AddNewSession from '@/views/Counsellor/AddNewSession.vue'
+import SessionNotes from '@/views/Counsellor/SessionNotes.vue'
+
 const routes = [
  {
  path: '/',
@@ -74,7 +76,6 @@ const routes = [
     component: PatientRecords
 },
 {
-    // path: '/dailyUserView',
     path: '/dailyUserView/:id',
     name: 'DailyUserView',
     component: DailyUserView
@@ -83,6 +84,11 @@ const routes = [
     path: '/dailyCounsellorView/:id',
     name: 'DailyCounsellorView',
     component: DailyCounsellorView
+},
+{
+    path: '/sessionNotes/:id',
+    name: 'SessionNotes',
+    component: SessionNotes
 },
 {
     path: '/counsellorReviews',

@@ -89,7 +89,7 @@ export default {
                     linkSession.id = "linkSession"
                     linkSession.innerHTML = "Join Session Now!"
                     linkSession.onclick = () => {
-                        // this.$router.push({ name: 'DailyCounsellorView', params: { id: upcomingSession } }) 
+                        this.$router.push({ name: 'DailyCounsellorView', params: { id: upcomingSession } }) 
                         // NOTE: This router link works, commented out bc DailyCounsellorView.vue not working properly yet
                     }
                     cell4.appendChild(linkSession)
