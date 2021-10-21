@@ -29,7 +29,6 @@ export default {
         var uiConfig = {
             signInSuccessUrl: "/patientProfile",
             signInOptions: [
-                // firebase.auth.GoogleAuthProvider.PROVIDER_ID,
                 firebase.auth.EmailAuthProvider.PROVIDER_ID,
             ]
         };
