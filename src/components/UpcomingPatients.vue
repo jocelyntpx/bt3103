@@ -13,7 +13,7 @@
 <script>
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore"
-import {  doc, deleteDoc, updateDoc, arrayRemove, getDoc  } from "firebase/firestore";
+import {  doc, deleteDoc, updateDoc, arrayRemove, getDoc, arrayUnion, Timestamp  } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 // import NavBarCounsellor from "@/components/NavBarCounsellor.vue" since nvr use
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -59,12 +59,23 @@ export default {
                 let patientDocRef = doc(db, "Patients", sessionID.data().user_email);
                 let patient = await getDoc(patientDocRef);
 
+                let sessionTime = sessionID.data().session_time.toDate()
+                let timeNow = Timestamp.now().toDate()
+                if (sessionTime - timeNow <= 60*60*1000) {
+                    await updateDoc(doc(db,"Counsellors",user), {upcoming_counsellor_sessions: arrayRemove(sessionID.id)});
+                    await updateDoc(doc(db,"Patients",patient.id), {upcoming_user_sessions: arrayRemove(sessionID.id)});
+                    await updateDoc(doc(db,"Counsellors",user), {past_counsellor_sessions: arrayUnion(sessionID.id)});
+                    await updateDoc(doc(db,"Patients",patient.id), {past_user_sessions: arrayUnion(sessionID.id)});
+                    // console.log("moved from upcoming to past")
+                    continue
+                }
+
                 var table = document.getElementById("table")
                 var row = table.insertRow(ind)
 
                 //console.log(sessionID.data())
 
-                var date = sessionID.data().session_time.toDate().toDateString() 
+                var date = sessionTime.toDateString() 
                 var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var patientName = patient.data().name;
                 var link =  sessionID.data().room_ID 

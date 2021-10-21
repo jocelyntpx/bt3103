@@ -3,7 +3,7 @@
    <h3>Past Appointments</h3>
     
       <div>
-        <table id="table2">
+        <table id="table3">
           <!-- <div v-if = "user"> -->
       <!-- would ultimately have some kind of for loop to pull the appropriate fields from Firebase Sessions collection -->
             <tr class=header> 
@@ -14,22 +14,22 @@
             <th v-if=(counsellor)>Notes</th> 
             <th v-else>Rating</th>
             </tr>
-             <tr>
+             <!-- <tr>
                 <td>10/10/21</td>
                 <td></td>
-                <td>Mdm Lim</td>
+                <td>Mdm Lim</td> -->
                 <!-- <td>Link expired</td> -->
-                <td v-if=(counsellor)>Having problems with...</td>
+                <!-- <td v-if=(counsellor)>Having problems with...</td>
                 <td v-else><router-link to="/rateCounsellor">Rate Session</router-link></td>
             </tr>
             <tr>
                 <td>11/10/21</td>
                 <td></td>
-                <td>Mr Tan</td>
+                <td>Mr Tan</td> -->
                 <!-- <td>Link expired</td> -->
-                <td v-if=(counsellor)>Rose was angry because...</td>
+                <!-- <td v-if=(counsellor)>Rose was angry because...</td>
                 <td v-else>★★★☆☆</td>
-            </tr>
+            </tr> -->
       </table>
       </div>
 </template>
@@ -63,6 +63,7 @@ export default {
         })
         this.user_email = auth.currentUser.email;
         this.isCounsellor(this.user_email);
+        this.displayPastSessions(this.user_email);
     },
 
     methods: {
@@ -81,13 +82,56 @@ export default {
               this.counsellor = false;
             }
 
+        },
+
+        async displayPastSessions(user) {
+            let docRef = doc(db, "Patients", String(user));
+            let patientDoc = await getDoc(docRef);
+            let ind = 1
+
+            let session = patientDoc.data().past_user_sessions
+            //console.log(session)
+
+            for ( const pastSession of session) {
+                let sessionDocRef = doc(db, "Sessions", pastSession);
+                let sessionID = await getDoc(sessionDocRef);
+                let counsellorDocRef = doc(db, "Counsellors", sessionID.data().counsellor_email);
+                let counsellor = await getDoc(counsellorDocRef);
+
+                let sessionTime = sessionID.data().session_time.toDate()
+
+                var table = document.getElementById("table3")
+                var row = table.insertRow(ind)
+
+                var date = sessionTime.toDateString() 
+                var time = sessionID.data().session_time.toDate().toLocaleTimeString()
+                var counsellorName = counsellor.data().name;
+                var rating =  sessionID.data().rating[0]
+                var notes = sessionID.data().session_notes
+
+                var cell1 = row.insertCell(0); 
+                var cell2 = row.insertCell(1); 
+                var cell3 = row.insertCell(2); 
+                var cell4 = row.insertCell(3); 
+                cell1.innerHTML = date; 
+                cell2.innerHTML = time;
+                cell3.innerHTML = counsellorName; 
+                if (this.isCounsellor(user)) {
+                    cell4.innerHTML = notes
+                } else {
+                    cell4.innerHTML = rating
+                }
+                                
+            }                    
+
         }
+
     }
 }
 </script>
 
 <style scoped>
-#table2{
+#table3{
     /* width: 630px; */
     font-family: Arial, sans-serif;
     border-collapse: collapse;

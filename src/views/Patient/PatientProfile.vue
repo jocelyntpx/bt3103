@@ -25,8 +25,8 @@
 
 <!-- this entire chunk for upcoming appointment to be replaced to UserUpcomingSessions component. 
 do v-if v-else to show links and X -->
-            <h3>Upcoming Appointments</h3>
-            <table class="table" id="table">
+            <UserUpcomingSessions/> 
+            <!-- <table class="table" id="table">
                 <tr id=header>
                 <th>Date</th> 
                 <th>Time</th> 
@@ -34,7 +34,7 @@ do v-if v-else to show links and X -->
                 <th>Link</th>
                 <th>X</th> 
                 </tr>
-            </table>
+            </table> -->
 
             <br><br>
 
@@ -53,6 +53,7 @@ do v-if v-else to show links and X -->
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarPatient from "@/components/NavBarPatient.vue"
+import UserUpcomingSessions from "@/components/UserUpcomingSessions.vue"
 import UserPreviousSessions from "@/components/UserPreviousSessions.vue"
 import firebaseApp from '../../firebase.js';
 import { collection, getFirestore } from "firebase/firestore"
@@ -66,6 +67,7 @@ export default {
     components: {
         NavBarPatient,
         UserPreviousSessions,
+        UserUpcomingSessions
         // PatientCalendar
     },
     name:"PatientProfile",

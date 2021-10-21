@@ -5,11 +5,12 @@
         <table id="table2">
             <tr id="header">
             <th>Date</th> 
+            <th>Time</th>
             <th>Counsellor</th>
             <th>Link</th>
-            <th></th> 
+            <th>X</th> 
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>10/10/21</td>
                 <td>John Tan</td>
                 <td>Link not yet created.</td>
@@ -20,7 +21,7 @@
                 <td>Mr Tan</td>
                 <td>NA</td>
                 <td></td>
-            </tr>
+            </tr> -->
         </table>
       </div>
 </template>
@@ -28,7 +29,7 @@
 <script>
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, arrayRemove, arrayUnion, Timestamp, updateDoc,deleteDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
@@ -54,6 +55,7 @@ export default {
         })
         this.user_email = auth.currentUser.email;
         this.isCounsellor(this.user_email);
+        this.displayUpcomingSessions(this.user_email);
     },
 
     methods: {
@@ -72,7 +74,110 @@ export default {
               this.counsellor = false;
             }
 
+        },
+
+        async displayUpcomingSessions(user) {
+            let docRef = doc(db, "Patients", String(user));
+            let patientDoc = await getDoc(docRef);
+            let ind = 1
+
+            let session = patientDoc.data().upcoming_user_sessions
+            //console.log(session)
+
+            for ( const upcomingSession of session) {
+                // console.log(upcomingSession);
+                let sessionDocRef = doc(db, "Sessions", upcomingSession);
+                let sessionID = await getDoc(sessionDocRef);
+                let counsellorDocRef = doc(db, "Counsellors", sessionID.data().counsellor_email);
+                let counsellor = await getDoc(counsellorDocRef);
+
+                let sessionTime = sessionID.data().session_time.toDate()
+                let timeNow = Timestamp.now().toDate()
+                if (sessionTime - timeNow <= 60*60*1000) {
+                    await updateDoc(doc(db,"Counsellors",counsellor.id), {upcoming_counsellor_sessions: arrayRemove(sessionID.id)});
+                    await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(sessionID.id)});
+                    await updateDoc(doc(db,"Counsellors",counsellor.id), {past_counsellor_sessions: arrayUnion(sessionID.id)});
+                    await updateDoc(doc(db,"Patients",user), {past_user_sessions: arrayUnion(sessionID.id)});
+                    // console.log("moved from upcoming to past")
+                    continue
+                }
+
+                var table = document.getElementById("table2")
+                var row = table.insertRow(ind)
+
+                var date = sessionTime.toDateString() 
+                var time = sessionID.data().session_time.toDate().toLocaleTimeString()
+                var counsellorName = counsellor.data().name;
+                var link =  sessionID.data().room_ID 
+                if (link == "") {
+                    link = "Link will be displayed when user starts the session."
+                }
+                var cell1 = row.insertCell(0); 
+                var cell2 = row.insertCell(1); 
+                var cell3 = row.insertCell(2); 
+                var cell4 = row.insertCell(3); 
+                var cell5 = row.insertCell(4); 
+                cell1.innerHTML = date; 
+                cell2.innerHTML = time;
+                cell3.innerHTML = counsellorName; 
+
+                if (link == "") {
+                    console.log("no link")
+                    cell4.innerHTML = "Link will be displayed when user starts the session.";
+                } else {
+                    console.log("upcomingSession is " , upcomingSession);
+                    var linkSession = document.createElement("button")
+                    linkSession.id = "linkSession"
+                    linkSession.innerHTML = "Join Session Now!"
+                    linkSession.onclick = () => {
+                        this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
+                        // NOTE: This router link works, commented out bc DailyCounsellorView.vue not working properly yet
+                    }
+                    cell4.appendChild(linkSession)
+                }
+
+                cell5.innerHTML = "";
+
+
+                var bu = document.createElement("button")
+                bu.className = "bwt"
+                bu.id = String(counsellorName)
+                bu.innerHTML = "X"
+                bu.onclick = ()=>{
+                    this.cancelSession(sessionID.id,counsellor.id,user)
+                    //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
+                }
+                cell5.appendChild(bu)
+                
+                                
+            }
+                        //})
+                    
+                                
+
+        },
+    
+
+        async cancelSession(session, counsellor, user) {
+            var confirmDelete = confirm("Press 'OK' to proceed to cancel this appointment with Session ID of " + session);
+            //alert("You are going to cancel this appointment with Session ID of " + session)
+            if (confirmDelete) { //pressed OK
+                //remove session from patient's and counsellor's upcoming appointments array
+                await updateDoc(doc(db,"Counsellors",counsellor), {upcoming_counsellor_sessions: arrayRemove(session)});
+                await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(session)});
+
+                //delete session from sessions collection
+                await deleteDoc(doc(db,"Sessions",session))
+                console.log("Session successfully deleted!");
+                let tb = document.getElementById("table")
+                while (tb.rows.length > 1){
+                    tb.deleteRow(1)
+                }
+                this.displayUpcomingSessions(this.user_email); 
+            }
+            
         }
+
     }
 }
 </script>
