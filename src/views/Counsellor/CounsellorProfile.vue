@@ -179,11 +179,8 @@ export default {
                 let sessionDocSnap = await getDoc(sessionDocRef)
                 let sessionTime = sessionDocSnap.data().session_time.toDate()
                 let timeNow = Timestamp.now().toDate()
-                
-                // console.log("SESSION : ", sessionTime.toDate() , "NOW : ", Timestamp.now().toDate())
-                // console.log("diff is in MILLISECONDS: " , sessionTime.toDate() - Timestamp.now().toDate()) // this gives you difference in MILLISECONDS.
 
-                if (sessionTime - timeNow <= 60 * 60 * 1000 ) {
+                if (sessionTime - timeNow <= 60 * 60 * 1000 ) { // the difference is in terms of milliseconds.
                     console.log("existence of upcoming session");
                     console.log("SESSION : ", sessionTime , "NOW : ", timeNow)
                     return true;
