@@ -95,7 +95,7 @@ export default {
 
     methods: {
         async updateFirebase(user) {
-            const patientDoc = await getDoc(doc(db, "Patients", String(user)));
+            const patientDoc = await getDoc(doc(db, "Patients", user.email));
 
             if (!patientDoc.exists()) {
                 console.log("update patient into firebase")
@@ -104,6 +104,8 @@ export default {
                     name: user.displayName,
                     email: user.email,
                     userID: user.uid,
+                    upcoming_user_sessions: [],
+                    past_user_sessions: [],
                 })
             } else {
                 console.log("exists")
