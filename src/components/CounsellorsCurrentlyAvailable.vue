@@ -1,5 +1,5 @@
 <template>
-<div class="available_counsellors">
+<div class="available_counsellors" :key="componentKey">
   <ul>
     <!-- This temporarily prints as a list -->
       <a v-for="counsellorSlot in available" v-bind:key="counsellorSlot.index"> 
@@ -7,7 +7,7 @@
           <h4><router-link :to="{ name: 'CounsellorProfile', params: { id: counsellorSlot[0].data().email }}"> {{counsellorSlot[0].data().name}}</router-link></h4>
           {{avgRating(counsellorSlot[0].data().past_ratings)}}<br> 
           {{ formattedSpecialisations(counsellorSlot[0].data().counsellor_specialisations) }}<br><br>
-          <button id = "consult_now" @click="createImmediateSession(counsellorSlot[0],counsellorSlot[1])"> Consult Now </button> 
+          <button id = "consult_now" @click="createImmediateSession(counsellorSlot)"> Consult Now </button> 
         </div>
       </a>
   </ul>
@@ -24,7 +24,7 @@
 <script>
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { collection, getDocs, Timestamp, updateDoc, doc, setDoc, arrayUnion, arrayRemove,  } from "firebase/firestore";
+import { collection, getDocs, Timestamp, updateDoc, doc, setDoc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged} from "firebase/auth";
 
 
@@ -40,6 +40,7 @@ export default {
       fbuser: "",
       user_type: "patient",
       available:[],
+      componentKey: 0, // for purposes of rerendering component
     }
   },
   mounted() {
@@ -71,7 +72,6 @@ export default {
     console.log("CREATED COUNSELLOR");
   },
 
-
   async displayAvailableCounsellors() { // WORKS
     // await this.updateCounsellorAvailability();    
 
@@ -89,8 +89,7 @@ export default {
         var slots = counsellor.data().available_slots // array of timestamp
 
         slots.forEach((slot) => {
-          const diff = slot - Timestamp.now()
-          console.log("diff is : " , slot-Timestamp.now());
+          const diff = slot.toDate() - Timestamp.now().toDate()
 
           // remove an available slot from the backend if the slot time has passed.
           if (diff < 0) {  // WORKS.
@@ -98,7 +97,7 @@ export default {
             this.removeSlot(counsellor, slot);
           }
             
-          if (diff <= 10*60 & diff > 0) { // Can only have at max one slot that meets criteria, since each slot is one hour long.
+          if (diff <= 10*60*1000 & diff > 0) { // Can only have at max one slot that meets criteria, since each slot is one hour long.
             console.log("Slot is within 10mins")
             this.available.push([counsellor, slot])
           }      
@@ -107,46 +106,6 @@ export default {
     })
     console.log("this.available is ", this.available);
   },
-
-  // async updateCounsellorAvailability() {
-  //   console.log("inside updateCounsellorAvailability")
-  //   // check if the toggle is incorrectly on (ie. counsellor has upcoming session in <= 1 hour. Then, the toggle should be turned off.)
-  //   let allCounsellors = await getDocs(collection(db,"Counsellors"))
-  //   allCounsellors.forEach((counsellor) => {
-  //     if (counsellor.data().currently_available) {
-  //       console.log("currently available counsellor: ", counsellor.data().name)
-  //       var upcomingSession = this.checkExistenceUpcomingSession(counsellor);
-  //           if (upcomingSession) {
-  //             const counsellorDocRef = doc(db,"Counsellors",counsellor.data().email);
-  //             console.log("toggle for ", counsellor.data().name, "is incorrectly turned on - turning it off now");
-  //             // this.updateCounsellorAvailability(counsellorDocRef, false);
-  //             updateDoc(counsellorDocRef, {currently_available: false});
-  //           }
-  //         }
-  //       })
-  //   },
-
-
-    // var results = []
-    // allCounsellors.forEach((counsellor) => results.push(counsellor.data()))
-    // const arrayCounsellors = await Promise.all(results);
-
-    // for (const counsellor in arrayCounsellors) {
-    //   console.log("counsellor is", counsellor.email)
-    //   console.log("currently avialabel counsellor: ", counsellor.data().name)
-
-    //   if (counsellor.data().currently_available) {
-  
-    //     var upcomingSession = this.checkExistenceUpcomingSession(counsellor);
-    //     if (upcomingSession) {
-    //       const counsellorDocRef = doc(db,"Counsellors",counsellor.data().email);
-    //       console.log("toggle for ", counsellor.data().name, "is incorrectly turned on - turning it off now");
-    //       // this.updateCounsellorAvailability(counsellorDocRef, false);
-    //       await updateDoc(counsellorDocRef, {currently_available: false});
-    //     }
-    //   }
-    // }
-    // },
 
   async removeSlot(counsellor, slotToRemove) { 
     const counsellorDoc = doc(db,"Counsellors",counsellor.data().email);
@@ -190,15 +149,70 @@ export default {
       return "☆☆☆☆☆"
   },
 
-  async createImmediateSession(counsellor, slot) {
-    const counsellorEmail = counsellor.data().email;
-    const patientDocRef = doc(db, "Patients", this.fbuser)
+  async createImmediateSession(counsellorSlot) {
+    console.log("In createImmediateSesssion()");
+    const slot = counsellorSlot[1]
+
+    const counsellorEmail = counsellorSlot[0].data().email;
 
     const counsellorDocRef = doc(db, "Counsellors", counsellorEmail)
+    const patientDocRef = doc(db, "Patients", this.fbuser)
+
+    const counsellor = await getDoc(counsellorDocRef); // because the backend might have changed - e.g. another user on platform booked an available slot while the focal user was navigating the Find Counsellor page.
 
     let sessionID = counsellorEmail + String(slot) // unique session ID
     
-    // set doc into Sessions
+    var upcomingSessions = counsellor.data().upcoming_counsellor_sessions
+    console.log("array for upcoming sessions is ", upcomingSessions)
+    for (const upcomingSession of upcomingSessions) {
+      const upcomingSessionDocRef = await doc(db, "Sessions", upcomingSession)
+      const upcomingSessionDocSnap = await getDoc(upcomingSessionDocRef);
+      const upcomingSessionTime = upcomingSessionDocSnap.data().session_time
+      console.log("upcomingSessionTime is ", upcomingSessionTime);
+      const diff = upcomingSessionTime.toDate() - Timestamp.now().toDate(); 
+
+      // two cases for this if check:
+      // (1) user on platform booked an available slot while the focal user was navigating the Find Counsellor page. 
+      // (2) counsellor forgot to turn off their toggle, when they have an upcoming session in <= 1 hour. hence rightfully, counsellor is not
+      // "currently available". we turn off the toggle here.
+      if (diff <= 60 * 60 * 1000) {
+        alert("Sorry! This counsellor is no longer available right now. You can try to book a future session, or consult a different counsellor.");
+
+        if (counsellor.data().currently_available) { 
+          console.log("toggle was incorrectly ON, turning it off now")
+          await updateDoc(counsellorDocRef, {currently_available: false})
+        }
+        // re-rendering of component
+        const newAvailableCounsellors = this.available.filter(x => (x != counsellorSlot));
+        this.available = newAvailableCounsellors          
+        return this.forceRerender(); // force the component to rerender.
+      }
+    }
+      
+    // add to upcoming session of counsellor, remove from existing available slot  
+    if (counsellor.data().currently_available) {
+      // if there is an available slot starting within the next 1 hour, we remove this from available_slots. (Bc slot is no longer "available")
+      var slots = counsellor.data().available_slots
+      slots.forEach((x) => {
+        const diff = x.toDate() - slot.toDate(); // would be > 0; need to use toDate() to take care of slot and x being on DIFF DAYS
+        console.log("counsellor w toggle ON. difference between next avail slot and now was ", diff);
+        console.log("slot removed: ", x.toDate());
+        // if (diff < 60 * 60) { 
+        if (diff <= 60 * 60 * 1000) { // with toDate(), need to deal in terms of milliseconds
+          this.removeSlot(counsellor, x) 
+        }
+      })
+    } else {
+      await updateDoc(counsellorDocRef, {
+        available_slots: arrayRemove(slot)
+      })
+      console.log("removed avail slot ", slot, " for " , counsellor.data().name);
+    }
+    await updateDoc(counsellorDocRef, {
+      upcoming_counsellor_sessions: arrayUnion(sessionID)
+    });
+
+    // create new doc in Sessions
     setDoc(doc(db,"Sessions",sessionID), {
       user_email: this.fbuser,
       counsellor_email: counsellorEmail,
@@ -213,64 +227,15 @@ export default {
       upcoming_user_sessions: arrayUnion(sessionID)
       });
 
-    // add to upcoming session of counsellor, remove from existing available slot 
-    if (counsellor.data().currently_available) { // toggle was ON
-      await updateDoc(counsellorDocRef, {currently_available: false})
-      
-      // if there is a session starting within the next 1 hour, we remove this from available_slots. (Bc slot is no longer "available")
-      var slots = counsellor.data().available_slots
-      slots.forEach((x) => {
-        const diff = x - slot; // would be > 0
-        console.log("counsellor w toggle ON. difference between next avail slot and now was ", diff);
-        if (diff < 60 * 60) { 
-          this.removeSlot(counsellor, x)
-        }
-      })
-    } else {
-      await updateDoc(counsellorDocRef, {
-        available_slots: arrayRemove(slot)
-      })
-      console.log("removed avail slot ", slot, " for " , counsellor.data().name);
-    }
-    await updateDoc(counsellorDocRef, {
-      upcoming_counsellor_sessions: arrayUnion(sessionID)
-    });
-
     // user is redirected
     this.$router.push({ name: 'DailyUserView', params: { id: sessionID } }) // https://router.vuejs.org/guide/essentials/navigation.html 
   },
 
-//   async checkExistenceUpcomingSession(counsellor) { 
-//     console.log("in checkExistenceUpcomingSession");
-//     // const counsellorDocRef = doc(db, "Counsellors", this.fbuser)
-//     const counsellorDocSnap = await getDoc(counsellor)
-//     console.log("this is " , counsellorDocSnap.data().name)
-//     const upcomingSessions = counsellorDocSnap.data().upcoming_counsellor_sessions
-//     console.log("upcomingsessions: ", upcomingSessions)
-
-//     if (upcomingSessions.length > 0) {
-//       console.log("whats in upcomingSessions: ", upcomingSessions, counsellorDocSnap.data().name)
-//       for (const session of upcomingSessions) {
-//         let sessionDocRef = doc(db, "Sessions",session)
-//         let sessionDocSnap = await getDoc(sessionDocRef)
-//         let sessionTime = sessionDocSnap.data().session_time.toDate()
-//         let timeNow = Timestamp.now().toDate()
-        
-//         // console.log("SESSION : ", sessionTime.toDate() , "NOW : ", Timestamp.now().toDate())
-//         // console.log("diff is in MILLISECONDS: " , sessionTime.toDate() - Timestamp.now().toDate()) // this gives you difference in MILLISECONDS.
-
-//         if (sessionTime - timeNow <= 60 * 60 * 1000 ) {
-//             console.log("existence of upcoming session");
-//             console.log("SESSION : ", sessionTime , "NOW : ", timeNow)
-//             return true;
-//         }
-//     }
-//     }
-    
-//     console.log("no upcoming session - returning false")
-//     return false;
-// },
-
+  forceRerender() {
+    console.log("in forceRerender()")
+    this.componentKey += 1; 
+    console.log(this.componentKey) 
+  },
   }
 }
 
