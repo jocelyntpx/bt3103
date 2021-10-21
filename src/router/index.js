@@ -15,6 +15,7 @@ import DailyCounsellorView from '@/views/DailyCounsellorView.vue'
 import CounsellorReviews from '@/views/Counsellor/CounsellorReviews.vue'
 import RateCounsellor from '@/views/Patient/RateCounsellor.vue'
 import NotFound from '@/views/General/NotFound.vue'
+import ContactUs from '@/views/General/ContactUs.vue'
 import AddNewSession from '@/views/Counsellor/AddNewSession.vue'
 import SessionNotes from '@/views/Counsellor/SessionNotes.vue'
 
@@ -110,6 +111,11 @@ const routes = [
     path: '/addNewSession',
     name: 'AddNewSession',
     component: AddNewSession
+},
+{
+    path: '/contactUs',
+    name: 'ContactUs',
+    component: ContactUs
 }
 ]
 const router = createRouter({

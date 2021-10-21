@@ -9,6 +9,7 @@
             <router-link to="/">Home</router-link> | 
             <router-link to="/about">About Us</router-link> | 
             <router-link to="/helpResources">Help Resources</router-link> | 
+            <router-link to="/contactUs">Contact Us</router-link> | 
             <router-link to="/patientLogin">Login</router-link> 
         </div>
     </div>
