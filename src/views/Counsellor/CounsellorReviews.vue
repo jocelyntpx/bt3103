@@ -1,6 +1,6 @@
 <template>
     <div id = "backBtn">
-        <router-link to="/counsellorProfile"> ← Back to My Profile page</router-link>
+        <router-link :to="{ name: 'CounsellorProfile', params: { id: counsellor.data().email }}"> ← Back to My Profile page</router-link>
     </div>
 
     <h1> Reviews for Mr John Tan </h1><br><br>
