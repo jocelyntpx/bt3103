@@ -18,18 +18,18 @@
      <!-- The Daily Prebuilt iframe is embedded in the div below using the ref -->
      <div id="call" ref="callRef"></div>
      <!-- Only show the control panel if a call is live -->
-     <controls
+     <!-- <controls
        v-if="status === 'call'"
        :roomUrl="roomUrl"
        :callFrame="callFrame"
-     />
+     /> -->
    </div>
  </main>
 </template>
 
 <script>
 import DailyIframe from "@daily-co/daily-js";
-import Controls from "@/components/Controls.vue";
+// import Controls from "@/components/Controls.vue";
 import api from "../api.js";
 
 import firebaseApp from '@/firebase.js';
@@ -39,7 +39,7 @@ import { updateDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebase/firest
 const db = getFirestore(firebaseApp);
 
 export default {
- components: { Controls },
+//  components: { Controls },
  name: "DailyUserView",
  data() {
    return {
@@ -109,7 +109,6 @@ export default {
          this.status = "home";
          this.callFrame.destroy();
        }
-       // update backend when the user ends the call.
      };
      // DailyIframe container element
      const callWrapper = this.$refs.callRef;
