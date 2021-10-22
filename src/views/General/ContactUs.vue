@@ -6,7 +6,7 @@
         <div id="textPosition">
             <h1>Contact Us</h1>
             <p>Do let us know of any queries/concerns/feedback you might have.<br>
-                Our team value your opinions and will get back to you as soon as possible!
+                We value your opinions and will get back to you as soon as possible!
             </p>
             <div id="wrapper">
                 <div id="contact-form">
