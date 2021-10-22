@@ -1,25 +1,10 @@
 <template>
-  <!-- <div id="brand">
-    <h4>Mental Health Matters</h4>
-  </div> -->
-  <!-- <Login/> -->
-  <!-- <NavBarGeneral/> -->
-  <div id="nav">
-    <!-- <h3 id="mhm">Mental Health Matters</h3> -->
-  <!-- <NavBarPatient/>
-  <NavBarCounsellor/> -->
-  </div>
   <router-view/>
 </template>
 
 <script>
-// import Login from "./components/Login.vue";
-// import NavBarGeneral from "./components/NavBarGeneral.vue"
-// import NavBarPatient from "./components/NavBarPatient.vue"
-// import NavBarCounsellor from "./components/NavBarCounsellor.vue"
 
 export default {
-  // components: {NavBarPatient, NavBarCounsellor },
   name: 'App'
 }
 </script>
