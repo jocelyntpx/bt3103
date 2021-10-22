@@ -19,8 +19,45 @@
             <div id="bgBlock"> 
                 <div id="col-1">
                     <div id="counsellorDetails"> 
+
+                     <div class="App container mt-5">
+     
+                    <div class="mb-3">
+                    <label for="formFile" class="form-label">Upload Image:</label>
+                    
+                    <input class="form-control" ref="fileInput" type="file" @input="preview">
+                    </div>
+                    <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
+                    
+                    <div class="text-center">
+                        <button @click="uploadImage(this.user)">upload</button>
+                    </div>
+                    </div>
+
+                    <!-- <div>
+                        <div >
+                            <button @click="selectImage">choose photo</button> 
+                            <input type="file" ref="input1"
+                                style="display: none"
+                                @input="previewImage" accept="image/*" >                
+                        </div>
+                    
+                        <div v-if="imageData!=null">       
+                            <div class="preview" height="268" width="356" 
+                            :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
+
+                            <img class="preview" height="268" width="356" :src="img1">
+                        <br>
+                        </div>   
+                        
+
+                        <div class="text-center">
+                            <button @click="create">upload</button>
+                        </div>
+                    </div> -->
+
                         <p> Name: <strong>{{this.name}}</strong><br>
-                        Email: <strong>{{user.email}}</strong><br>
+                        Email: <strong>{{this.email}}</strong><br>
                         Gender: <strong>{{this.gender}}</strong><br>
                         Counsellor ID: <strong>{{user.uid}}</strong><br>
                         Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
@@ -48,8 +85,10 @@ import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 export default {
     components: {NavBarCounsellor, CounsellorCalendar},
@@ -58,6 +97,7 @@ export default {
     data(){
         return{
             user:false,
+            email:"",
             user_type:"patient",
             counsellor_ID: this.$route.params.id,
             fbuser:"",
@@ -66,6 +106,8 @@ export default {
             ratings:[],
             avgRatings:"",
             specialisations_formatted:"",
+            previewImage: null,
+            profile_pic: "",
         }
     },
 
@@ -96,6 +138,8 @@ export default {
             this.gender = counsellorDoc.data().gender;
             this.specialisations = counsellorDoc.data().counsellor_specialisations;
             this.ratings = counsellorDoc.data().past_ratings;  
+            this.profile_pic = counsellorDoc.data().profile_pic; 
+            this.email = counsellorDoc.data().email; 
             
             this.currentlyAvailable = counsellorDoc.data().currently_available;
             this.updateCurrentlyAvailable();
@@ -189,12 +233,149 @@ export default {
             console.log("no upcoming session - returning false")
             return false;
         },
+
+        create() {
+            const post = {
+                photo: this.img1,
+                caption: this.caption        
+            }
+            db.ref('counsellorProfilePic').push(post)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        },
+
+        // selectImage() {
+        //     console.log("select image")
+        //     this.$refs.input1.click()   
+        //     },
+
+        // previewImage(event) {
+        //     console.log("preview")
+        //     this.uploadValue=0;
+        //     this.img1=null;
+        //     this.imageData = event.target.files[0];
+        //     this.onUpload()
+        //     console.log("test")
+        // },
+
+
+        selectImage() {
+            this.$refs.fileInput.click()
+        },
+
+        preview() {
+            let input = this.$refs.fileInput
+            let file = input.files
+            if (file && file[0]) {
+            let reader = new FileReader
+            reader.onload = e => {
+                this.previewImage = e.target.result
+            }
+            reader.readAsDataURL(file[0])
+            this.$emit('input', file[0])
+            // this.onUpload()
+            }
+        },
+
+        async uploadImage(user) {
+            console.log("upload image")
+            const picRef = ref(storage, 'counsellorProfilePic');
+            const storageRef=ref(picRef, `${this.user.email}`);
+            if (this.profile_pic) {
+                console.log("delete")
+                await deleteObject(storageRef);
+            }
+            await uploadBytes(storageRef, this.previewImage).then((snapshot) => {
+                console.log("test3")
+                this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+            },
+ 
+            await getDownloadURL(storageRef).then(async function(url) {
+                console.log("test4")
+                const docRef = doc(db, "Counsellors", user.email);
+                console.log("test5") 
+                await updateDoc(docRef, {
+                    "profile_pic": url.toString()
+                }).then (
+                    alert("Profile picture uploaded successfully!"),
+                    await new Promise((resolve) => setTimeout(resolve,1000)),
+                    location.reload(),
+                ).catch(e => {
+                    console.log(e)
+                })
+            }))
+            
+        },
+
+        // onUpload(){
+        //     console.log("test2")
+        //     this.img1=null;
+        //     const picRef = ref(storage, 'counsellorProfilePic');
+        //     // add indiv counsellor folder
+        //     const storageRef=ref(picRef, `${this.user.email}`);
+        //     uploadBytes(storageRef, this.previewImage).then((snapshot) => {
+        //         console.log("test3")
+        //         this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+        //             }, error=>{console.log(error.message)},
+        //         ()=>{this.uploadValue=100;
+        //         storageRef.snapshot.ref.getDownloadURL().then((url)=>{
+        //             this.img1 =url;
+        //             console.log("test4")
+        //             console.log(this.img1)
+        //             });
+        //     });
+        
+
+        // onUpload(){
+        //     console.log("test2")
+        //     this.img1=null;
+        //     const picRef = ref(storage, 'counsellorProfilePic');
+        //     // add indiv counsellor folder
+        //     const storageRef=ref(picRef, `${this.imageData.name}`);
+        //     uploadBytes(storageRef, this.imageData).then((snapshot) => {
+        //         console.log("test3")
+        //         this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+        //             }, error=>{console.log(error.message)},
+        //         ()=>{this.uploadValue=100;
+        //         storageRef.snapshot.ref.getDownloadURL().then((url)=>{
+        //             this.img1 =url;
+        //             console.log("test4")
+        //             console.log(this.img1)
+        //             });
+        //     });
+
+            // const storageRef=ref(picRef, `${this.imageData.name}`).put(this.imageData);
+            // storageRef.on(`state_changed`,snapshot=>{
+            //     this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+            //         }, error=>{console.log(error.message)},
+            //     ()=>{this.uploadValue=100;
+            //     storageRef.snapshot.ref.getDownloadURL().then((url)=>{
+            //         this.img1 =url;
+            //         console.log(this.img1)
+            //         });
+            //     }      
+            // );
+        // },
        
     }
 }
 </script>
 
 <style scoped>
+.imagePreviewWrapper {
+  background-repeat: no-repeat;
+    width: 250px;
+    height: 250px;
+    display: block;
+    cursor: pointer;
+    margin: 0 auto 30px;
+    background-size: contain;
+    background-position: center center;
+}
 #bgBlock {
     display:flex;
     border-style:solid;
