@@ -10,18 +10,6 @@
             <th>Link</th>
             <th>X</th> 
             </tr>
-            <!-- <tr>
-                <td>10/10/21</td>
-                <td>John Tan</td>
-                <td>Link not yet created.</td>
-                <td>X</td>
-            </tr>
-            <tr>
-                <td>11/10/21</td>
-                <td>Mr Tan</td>
-                <td>NA</td>
-                <td></td>
-            </tr> -->
         </table>
       </div>
 </template>
@@ -34,7 +22,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
 export default {
-    name: "UserPreviousSessions",
+    name: "UserUpcomingSessions",
 
     data(){
         return{
