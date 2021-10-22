@@ -90,9 +90,10 @@ export default {
             let ind = 1
 
             let session = patientDoc.data().past_user_sessions
-            //console.log(session)
+            // console.log(session)
 
             for ( const pastSession of session) {
+                // console.log(pastSession)
                 let sessionDocRef = doc(db, "Sessions", pastSession);
                 let sessionID = await getDoc(sessionDocRef);
                 let counsellorDocRef = doc(db, "Counsellors", sessionID.data().counsellor_email);
@@ -106,21 +107,52 @@ export default {
                 var date = sessionTime.toDateString() 
                 var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var counsellorName = counsellor.data().name;
-                var rating =  sessionID.data().rating[0]
-                var notes = sessionID.data().session_notes
+                var rating =  sessionID.data().rating
 
                 var cell1 = row.insertCell(0); 
                 var cell2 = row.insertCell(1); 
                 var cell3 = row.insertCell(2); 
                 var cell4 = row.insertCell(3); 
+                if (rating != null) {
+                    var stars = rating.shift()
+                    if (stars == 5) {
+                        rating = "★★★★★"
+                    } else if (stars >= 4) {
+                        rating = "★★★★☆"
+                    } else if (stars >=3) {
+                        rating = "★★★☆☆"
+                    } else if (stars >=2) {
+                        rating = "★★☆☆☆"
+                    } else if (stars >=1) {
+                        rating = "★☆☆☆☆"
+                    } else {
+                        rating = "☆☆☆☆☆" 
+                    }
+                    
+                } else {
+                    var rateSession = document.createElement("button")
+                    rateSession.id = "rateSession"
+                    rateSession.innerHTML = "Rate Session Now!"
+                    rateSession.onclick = () => {
+                        this.$router.push({ name: 'RateCounsellor', params: { id: pastSession } }) 
+                    }
+                    cell4.appendChild(rateSession)
+                }
+
+                var notes = sessionID.data().session_notes
+
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
                 cell3.innerHTML = counsellorName; 
-                if (this.isCounsellor(user)) {
+
+                if (rating != null) {
+                    if (this.isCounsellor(user)) { //check the if else condition again
+                        cell4.innerHTML = rating
+                    } else {
                     cell4.innerHTML = notes
-                } else {
-                    cell4.innerHTML = rating
+                    }
                 }
+
                                 
             }                    
 
