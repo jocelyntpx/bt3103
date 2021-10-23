@@ -63,6 +63,8 @@ export default {
                 let timeNow = Timestamp.now().toDate()
                 // if (sessionTime - timeNow <= 60*60*1000) {
                 if (timeNow - sessionTime > 60*60*1000) {
+                    console.log("moving????????")
+                    console.log(patient.data().name);
                     console.log("moved from upcoming to past", timeNow, sessionTime)
                     await updateDoc(doc(db,"Counsellors",user), {upcoming_counsellor_sessions: arrayRemove(sessionID.id)});
                     await updateDoc(doc(db,"Patients",patient.id), {upcoming_user_sessions: arrayRemove(sessionID.id)});
@@ -80,9 +82,7 @@ export default {
                 var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var patientName = patient.data().name;
                 var link =  sessionID.data().room_ID 
-                if (link == "") {
-                    link = "Link will be displayed when user starts the session."
-                }
+
                 var cell1 = row.insertCell(0); 
                 var cell2 = row.insertCell(1); 
                 var cell3 = row.insertCell(2); 
@@ -92,11 +92,13 @@ export default {
                 cell2.innerHTML = time;
                 cell3.innerHTML = patientName; 
 
+                console.log("room link is ", link);
+
                 if (link == "") {
-                    console.log("no link")
+                    console.log("NO LINK FOR session with patient name: ", patientName);
                     cell4.innerHTML = "Link will be displayed when user starts the session.";
                 } else {
-                    console.log("upcomingSession is " , upcomingSession);
+                    console.log("has a room link, upcomingSession is " , upcomingSession);
                     var linkSession = document.createElement("button")
                     linkSession.id = "linkSession"
                     linkSession.innerHTML = "Join Session Now!"
