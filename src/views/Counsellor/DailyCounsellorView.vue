@@ -30,6 +30,7 @@ import DailyIframe from "@daily-co/daily-js";
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { updateDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
+// import {  doc,  getDoc } from "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
 
@@ -58,21 +59,6 @@ export default {
    this.updateRoomUrl();
  },
 
-async beforeUnmount() {
-  console.log("entered beforeUnmount");
-  const sessionDocRef = doc(db, "Sessions", this.sessionID)
-  const sessionSnap = await getDoc(sessionDocRef);
-  console.log("user of session : " , sessionSnap.data().counsellor_email);
-  // update backend for COUNSELLOR (backend for patient will be updated separately in DailyUserView.vue)
-  const counsellorDocRef = doc(db, "Counsellors", sessionSnap.data().counsellor_email)
-  await updateDoc(counsellorDocRef, {
-    upcoming_counsellor_sessions: arrayRemove(this.sessionID),
-    past_counsellor_sessions: arrayUnion(this.sessionID)
-  })
-  console.log("end of beforeUnmount")     ;
- },
-
-
  methods: {
    async updateRoomUrl() {
     const sessionDocRef = doc(db, "Sessions", this.sessionID)
@@ -92,13 +78,13 @@ async beforeUnmount() {
      const goToLobby = () => (this.status = "lobby");
      const goToCall = () => (this.status = "call");
      const leaveCall = () => {
-       this.counsellorEndCall();
-
-       if (this.callFrame) {
+           if (this.callFrame) {
          this.status = "home";
          this.callFrame.destroy();
        }
+       this.counsellorEndCall();
      };
+
      // DailyIframe container element
      const callWrapper = this.$refs.callRef;
 
@@ -134,7 +120,17 @@ async beforeUnmount() {
 
    async counsellorEndCall() {
     console.log("call counsellorEndCall() in DailyCounsellorView");
-    // note that the backend is in beforeUnmount()
+
+    // update backend for COUNSELLOR (backend for patient will be updated separately in DailyUserView.vue)
+    const sessionDocRef = doc(db, "Sessions", this.sessionID)
+    const sessionSnap = await getDoc(sessionDocRef);
+    console.log("user of session : " , sessionSnap.data().counsellor_email);
+
+    const counsellorDocRef = doc(db, "Counsellors", sessionSnap.data().counsellor_email)
+    await updateDoc(counsellorDocRef, {
+      upcoming_counsellor_sessions: arrayRemove(this.sessionID),
+      past_counsellor_sessions: arrayUnion(this.sessionID)
+    })
     
     // route counsellor to the notes page.
     this.$router.push({ name: 'SessionNotes', params: { id: this.sessionID } } )

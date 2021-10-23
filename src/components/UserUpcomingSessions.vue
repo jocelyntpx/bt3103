@@ -81,7 +81,9 @@ export default {
 
                 let sessionTime = sessionID.data().session_time.toDate()
                 let timeNow = Timestamp.now().toDate()
-                if (sessionTime - timeNow <= 60*60*1000) {
+                if (timeNow - sessionTime > 60*60*1000) {
+                    console.log("moved from upcoming to past", timeNow, sessionTime)
+                // if (sessionTime - timeNow <= 60*60*1000) {
                     await updateDoc(doc(db,"Counsellors",counsellor.id), {upcoming_counsellor_sessions: arrayRemove(sessionID.id)});
                     await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(sessionID.id)});
                     await updateDoc(doc(db,"Counsellors",counsellor.id), {past_counsellor_sessions: arrayUnion(sessionID.id)});
@@ -97,9 +99,7 @@ export default {
                 var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var counsellorName = counsellor.data().name;
                 var link =  sessionID.data().room_ID 
-                if (link == "") {
-                    link = "Link will be displayed when user starts the session."
-                }
+
                 var cell1 = row.insertCell(0); 
                 var cell2 = row.insertCell(1); 
                 var cell3 = row.insertCell(2); 
@@ -109,17 +109,19 @@ export default {
                 cell2.innerHTML = time;
                 cell3.innerHTML = counsellorName; 
 
-                if (link == "") {
-                    console.log("no link")
+                if (link == "") { // no room link yet. 
+                    console.log("NO LINK FOR session");
+                    // if ( timeNow - sessionTime >= 10*60*1000 )
+
+
                     cell4.innerHTML = "Link will be displayed when user starts the session.";
                 } else {
-                    console.log("upcomingSession is " , upcomingSession);
+                    console.log("has a room link, upcomingSession is " , upcomingSession);
                     var linkSession = document.createElement("button")
                     linkSession.id = "linkSession"
                     linkSession.innerHTML = "Join Session Now!"
                     linkSession.onclick = () => {
                         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
-                        // NOTE: This router link works, commented out bc DailyCounsellorView.vue not working properly yet
                     }
                     cell4.appendChild(linkSession)
                 }

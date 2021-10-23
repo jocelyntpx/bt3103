@@ -57,19 +57,7 @@ export default {
      this.runningLocally = true;
    }
  }, 
- async beforeUnmount() {
-   console.log("entered beforeUnmount");
-    const sessionDocRef = doc(db, "Sessions", this.sessionID)
-    const sessionSnap = await getDoc(sessionDocRef);
-    console.log("user of session : " , sessionSnap.data().user_email);
-    // update backend for PATIENT (backend for counsellor will be updated separately in DailyCounsellorView.vue)
-    const patientDocRef = doc(db, "Patients", sessionSnap.data().user_email)
-    await updateDoc(patientDocRef, {
-      upcoming_user_sessions: arrayRemove(this.sessionID),
-      past_user_sessions: arrayUnion(this.sessionID)
-    })
-    console.log("end of beforeUnmount")     ;
- },
+
  methods: {
    createAndJoinRoom() {
      api
@@ -103,12 +91,11 @@ export default {
      const goToLobby = () => (this.status = "lobby");
      const goToCall = () => (this.status = "call");
      const leaveCall = () => {
-       this.patientEndCall();
-
        if (this.callFrame) {
          this.status = "home";
          this.callFrame.destroy();
        }
+      this.patientEndCall();
      };
      // DailyIframe container element
      const callWrapper = this.$refs.callRef;
@@ -148,7 +135,17 @@ export default {
 
    async patientEndCall() {
     console.log("call patientEndCall() in DailyUserView");
-    // note that the backend is in beforeUnmount()
+
+    // update backend for PATIENT (backend for counsellor will be updated separately in DailyCounsellorView.vue)
+    const sessionDocRef = doc(db, "Sessions", this.sessionID)
+    const sessionSnap = await getDoc(sessionDocRef);
+    console.log("user of session : " , sessionSnap.data().user_email);
+    
+    const patientDocRef = doc(db, "Patients", sessionSnap.data().user_email)
+    await updateDoc(patientDocRef, {
+      upcoming_user_sessions: arrayRemove(this.sessionID),
+      past_user_sessions: arrayUnion(this.sessionID)
+    })
     
     // route user to the review page.
     this.$router.push({ name: 'RateCounsellor', params: { id: this.sessionID } } )
