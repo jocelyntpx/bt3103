@@ -63,7 +63,6 @@ export default {
                 let timeNow = Timestamp.now().toDate()
                 // if (sessionTime - timeNow <= 60*60*1000) {
                 if (timeNow - sessionTime > 60*60*1000) {
-                    console.log("moving????????")
                     console.log(patient.data().name);
                     console.log("moved from upcoming to past", timeNow, sessionTime)
                     await updateDoc(doc(db,"Counsellors",user), {upcoming_counsellor_sessions: arrayRemove(sessionID.id)});
