@@ -115,22 +115,25 @@ export default {
                     console.log("No link yet, and DOES NOT meet criteria to create  a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
                     cell4.innerHTML = "You can enter your session room up to 10 minutes before the slot timing.";
                 } else {
-                    // (1) within 10 minutes from session start, or (2) session slot already begun, or 
-                    // (3) link already exists.
+                    // (1) within 10 minutes from session start, or (2) session slot already begun, or (3) link already exists.
                     console.log("No link yet, but meets criteria to create a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
                     var linkSession = document.createElement("button")
                     linkSession.id = "linkSession"
                     linkSession.innerHTML = "Enter Session Room Now!"
-                    if (sessionTime - timeNow <= 10*60*1000) { 
-                        console.log("sessionTime - timeNow <= 10*60*1000");
-                        linkSession.onclick = () => {
-                            this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
-                        }
-                    } else {
-                        linkSession.onclick = () => {
-                            this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
-                        }
+                    
+                    linkSession.onclick = () => {
+                        this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
                     }
+                    // if (sessionTime - timeNow <= 10*60*1000) { 
+                    //     console.log("sessionTime - timeNow <= 10*60*1000");
+                    //     linkSession.onclick = () => {
+                    //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
+                    //     }
+                    // } else {
+                    //     linkSession.onclick = () => {
+                    //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
+                    //     }
+                    // }
                     cell4.appendChild(linkSession)
                 }
                 
