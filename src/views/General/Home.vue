@@ -10,9 +10,6 @@
             <button id="registerButton" @click="goToLogin()">Register</button>
             
         </div>
-        <br><br><br><br><br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br><br><br><br><br>
     </div>
 </template>
 
@@ -42,7 +39,7 @@ export default {
 
 #bg{
     position: relative;
-    height: 100%;
+    height: 100vh;
     background-size: cover;
     background-image: url("~@/assets/Home.png");
     background-repeat: no-repeat;

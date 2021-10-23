@@ -80,7 +80,6 @@ label{
     justify-content: center;
     width: 100%;
     min-height: 100%;
-    padding: 20px;
     border-radius: 5px;
 }
 #contact-form{

@@ -25,7 +25,7 @@ export default {
 #bg{
     position: relative;
     width: 100%;
-    height: 720px;
+    height: 90vh;
     background-size: cover;
     background-image: url("~@/assets/aboutUs.png");
     background-repeat: no-repeat;

@@ -56,10 +56,11 @@
                         </div>
                     </div> -->
 
+                        <img id="profilepic" :src='this.profile_pic'>
+
                         <p> Name: <strong>{{this.name}}</strong><br>
                         Email: <strong>{{this.email}}</strong><br>
                         Gender: <strong>{{this.gender}}</strong><br>
-                        Counsellor ID: <strong>{{user.uid}}</strong><br>
                         Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
                         Rating: <strong>{{this.avgRatings}}</strong><br></p>
                     </div>
@@ -85,7 +86,7 @@ import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
@@ -103,11 +104,13 @@ export default {
             fbuser:"",
             currentlyAvailable:null,
             name:"",
+            gender:"",
             ratings:[],
             avgRatings:"",
             specialisations_formatted:"",
             previewImage: null,
             profile_pic: "",
+            imageData:null,
         }
     },
 
@@ -270,6 +273,7 @@ export default {
         preview() {
             let input = this.$refs.fileInput
             let file = input.files
+            this.imageData = event.target.files[0]
             if (file && file[0]) {
             let reader = new FileReader
             reader.onload = e => {
@@ -277,90 +281,36 @@ export default {
             }
             reader.readAsDataURL(file[0])
             this.$emit('input', file[0])
-            // this.onUpload()
             }
         },
 
         async uploadImage(user) {
             console.log("upload image")
             const picRef = ref(storage, 'counsellorProfilePic');
-            const storageRef=ref(picRef, `${this.user.email}`);
-            if (this.profile_pic) {
-                console.log("delete")
-                await deleteObject(storageRef);
-            }
-            await uploadBytes(storageRef, this.previewImage).then((snapshot) => {
-                console.log("test3")
-                this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-            },
- 
-            await getDownloadURL(storageRef).then(async function(url) {
-                console.log("test4")
-                const docRef = doc(db, "Counsellors", user.email);
-                console.log("test5") 
-                await updateDoc(docRef, {
-                    "profile_pic": url.toString()
-                }).then (
-                    alert("Profile picture uploaded successfully!"),
-                    await new Promise((resolve) => setTimeout(resolve,1000)),
-                    location.reload(),
-                ).catch(e => {
-                    console.log(e)
-                })
-            }))
+            let storageRef=ref(picRef, `${this.user.email}`);
+            // if (user.email) {
+            //     console.log("delete")
+            //     await deleteObject(storageRef);
+            // }
+            let snapshot = await uploadBytes(storageRef, this.imageData)
+            console.log("test1")
+            this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100
+            
+            let url = await getDownloadURL(storageRef)
+            console.log("test2")
+            const docRef = doc(db, "Counsellors", user.email);
+            console.log("test3") 
+            updateDoc(docRef, {
+                "profile_pic": url.toString()
+            }).then (
+                alert("Profile picture uploaded successfully!"),
+                await new Promise((resolve) => setTimeout(resolve,1000)),
+                location.reload(),
+            ).catch(e => {
+                console.log(e)
+            })
             
         },
-
-        // onUpload(){
-        //     console.log("test2")
-        //     this.img1=null;
-        //     const picRef = ref(storage, 'counsellorProfilePic');
-        //     // add indiv counsellor folder
-        //     const storageRef=ref(picRef, `${this.user.email}`);
-        //     uploadBytes(storageRef, this.previewImage).then((snapshot) => {
-        //         console.log("test3")
-        //         this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-        //             }, error=>{console.log(error.message)},
-        //         ()=>{this.uploadValue=100;
-        //         storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-        //             this.img1 =url;
-        //             console.log("test4")
-        //             console.log(this.img1)
-        //             });
-        //     });
-        
-
-        // onUpload(){
-        //     console.log("test2")
-        //     this.img1=null;
-        //     const picRef = ref(storage, 'counsellorProfilePic');
-        //     // add indiv counsellor folder
-        //     const storageRef=ref(picRef, `${this.imageData.name}`);
-        //     uploadBytes(storageRef, this.imageData).then((snapshot) => {
-        //         console.log("test3")
-        //         this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-        //             }, error=>{console.log(error.message)},
-        //         ()=>{this.uploadValue=100;
-        //         storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-        //             this.img1 =url;
-        //             console.log("test4")
-        //             console.log(this.img1)
-        //             });
-        //     });
-
-            // const storageRef=ref(picRef, `${this.imageData.name}`).put(this.imageData);
-            // storageRef.on(`state_changed`,snapshot=>{
-            //     this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-            //         }, error=>{console.log(error.message)},
-            //     ()=>{this.uploadValue=100;
-            //     storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-            //         this.img1 =url;
-            //         console.log(this.img1)
-            //         });
-            //     }      
-            // );
-        // },
-       
     }
 }
 </script>
@@ -375,6 +325,12 @@ export default {
     margin: 0 auto 30px;
     background-size: contain;
     background-position: center center;
+}
+#profilepic {
+    border-radius: 50%;
+    margin-top: 10px;
+    width: 250px;
+    height: 250px;
 }
 #bgBlock {
     display:flex;
