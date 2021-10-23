@@ -1,15 +1,20 @@
 <template>
     <div v-if="user">
         <br><br>
+        <!-- if user is patient -->
         <NavBarPatient/>
         <h1>My Profile</h1>
-
         <!-- <div id = "leaveReview" v-if = "userNotLeftReview">
             We notice you have not yet left a review for your previous session with Mr John Tan. 
             Leave a review now!
             <router-link to="/rateCounsellor">Rate Counsellor!</router-link>
         </div><br> -->
 
+        <!-- else (user is counsellor from MyPatients) -->
+        <!-- <NavBarCounsellor/> -->
+        <!-- <div id = "backBtn">
+            <router-link to="/myPatients"> ← Back to My Patients page</router-link>
+        </div> -->
         <div id="bgBlock">
             <div id="col-1">
                 <div id="patientDetails"> 
@@ -66,6 +71,7 @@ export default {
 
     data(){
         return{
+            patient_ID: this.$route.params.id,
             userNotLeftReview: true,
             user:false,
             counsellorUser:"",
