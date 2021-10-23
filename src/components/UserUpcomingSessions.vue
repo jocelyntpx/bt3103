@@ -98,7 +98,7 @@ export default {
                 var date = sessionTime.toDateString() 
                 var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var counsellorName = counsellor.data().name;
-                var link =  sessionID.data().room_ID 
+                // var link =  sessionID.data().room_ID 
 
                 var cell1 = row.insertCell(0); 
                 var cell2 = row.insertCell(1); 
@@ -108,26 +108,36 @@ export default {
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
                 cell3.innerHTML = counsellorName; 
-
-                if (link == "") { // no room link yet. 
-                    console.log("NO LINK FOR session");
-                    // if ( timeNow - sessionTime >= 10*60*1000 )
-
-
-                    cell4.innerHTML = "Link will be displayed when user starts the session.";
+                
+                console.log("diff is ", sessionTime - timeNow)
+                // if (link == "" && !(sessionTime - timeNow <= 10*60*1000)) { // no room link yet. 
+                if (10*60*1000 < sessionTime - timeNow) { // it is OVER 10 mins till the start of the session time 
+                    console.log("No link yet, and DOES NOT meet criteria to create  a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
+                    cell4.innerHTML = "You can enter your session room up to 10 minutes before the slot timing.";
                 } else {
-                    console.log("has a room link, upcomingSession is " , upcomingSession);
+                    // (1) within 10 minutes from session start, or (2) session slot already begun, or (3) link already exists.
+                    console.log("No link yet, but meets criteria to create a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
                     var linkSession = document.createElement("button")
                     linkSession.id = "linkSession"
-                    linkSession.innerHTML = "Join Session Now!"
+                    linkSession.innerHTML = "Enter Session Room Now!"
+                    
                     linkSession.onclick = () => {
                         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
                     }
+                    // if (sessionTime - timeNow <= 10*60*1000) { 
+                    //     console.log("sessionTime - timeNow <= 10*60*1000");
+                    //     linkSession.onclick = () => {
+                    //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
+                    //     }
+                    // } else {
+                    //     linkSession.onclick = () => {
+                    //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
+                    //     }
+                    // }
                     cell4.appendChild(linkSession)
                 }
-
+                
                 cell5.innerHTML = "";
-
 
                 var bu = document.createElement("button")
                 bu.className = "bwt"
@@ -137,14 +147,8 @@ export default {
                     this.cancelSession(sessionID.id,counsellor.id,user)
                     //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
                 }
-                cell5.appendChild(bu)
-                
-                                
-            }
-                        //})
-                    
-                                
-
+                cell5.appendChild(bu)                        
+            }                   
         },
     
 

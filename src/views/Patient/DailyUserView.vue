@@ -2,6 +2,13 @@
   <!-- <h1> the route id is {{ $route.params.id }} </h1> -->
  <main class="wrapper">
    <div class="home" v-if="status === 'home'">
+     <!-- <div id ="notice_for_early_enter" v-if="this.userEarly">
+       <h4> You have entered before the allocated session slot time. Your counsellor has been notified, 
+         however, please understand if your counsellor is only able to join at the allocated slot time.
+         Thank you! 
+        </h4>
+     </div> -->
+
      <h2>Before you start...</h2>
      <p>This is a safe space. All our counsellors are certified by ..... blah blah <br>
      When you are ready, click the button below and the counsellor will counsellor will join the room shortly.</p>
@@ -50,6 +57,7 @@ export default {
      roomError: false,
      runningLocally: false,
      sessionID: this.$route.params.id,
+     userEarly: false,
    };
  },
  created() {
@@ -59,8 +67,13 @@ export default {
  }, 
 
  methods: {
-   createAndJoinRoom() {
-     api
+   async createAndJoinRoom() {
+    const sessionDocRef = doc(db, "Sessions", this.sessionID)
+    const sessionSnap = await getDoc(sessionDocRef);
+    let roomID = sessionSnap.data().room_ID
+    if (roomID == "") { // ie first time user is joining this session
+      console.log("roomID == ''");
+      api
        .createRoom()
        .then((room) => {
          this.roomUrl = room.url;
@@ -72,9 +85,19 @@ export default {
          console.log(e);
          this.roomError = true;
        });
+
+    } else { // ie repeated time joining this session - the room_ID of the session should not change.
+      console.log("room_ID is not empty string. Join back existing room");
+      this.roomUrl = roomID
+      this.submitJoinRoom();
+
+    }
+
+
+     
    },
     
-  async updateSessionFirebase() {
+  async updateSessionFirebase() { // this method updates the room_ID in firebase.
     const sessionDocRef = doc(db, "Sessions", this.sessionID);
     await updateDoc(sessionDocRef, {room_ID: this.roomUrl});
     // NOTE: IS IT POSSIBLE TO ALERT COUNSELLOR OF THIS SESSION?
@@ -140,7 +163,7 @@ export default {
     const sessionDocRef = doc(db, "Sessions", this.sessionID)
     const sessionSnap = await getDoc(sessionDocRef);
     console.log("user of session : " , sessionSnap.data().user_email);
-    
+
     const patientDocRef = doc(db, "Patients", sessionSnap.data().user_email)
     await updateDoc(patientDocRef, {
       upcoming_user_sessions: arrayRemove(this.sessionID),
