@@ -6,103 +6,109 @@
 
     <div v-if="user"> 
         <br><br>
-        <NavBarCounsellor/>
+        <div v-if ="this.user_type == 'counsellor'">
+            <NavBarCounsellor/>
+        </div>
+        <div v-else>
+            <NavBarPatient/>
+        </div>
         <div style="text-align:center;">
             <h1>Counsellor Profile</h1>
-
-            <!-- Need a toggle button for currently_available -->
-            <div class = "toggle">
-                <button id = "toggleButton" @click="toggleCurrentlyAvailable">Click to toggle current availability on/off</button>
-                <br><br>
-                <h3> You are 
-                    <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
-                    <strong v-else> NOT available to take a spontaneous session. </strong> 
-                </h3>
+            <div v-if ="this.user_type =='counsellor'">
+                <!-- Need a toggle button for currently_available -->
+                <div class = "toggle">
+                    <button id = "toggleButton" @click="toggleCurrentlyAvailable">Click to toggle current availability on/off</button>
+                    <br><br>
+                    <h3> You are 
+                        <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
+                        <strong v-else> NOT available to take a spontaneous session. </strong> 
+                    </h3>
+                </div>
             </div>
 
 
-            <div id="bgBlock"> 
-                <div id="col-1">
-                    <div id="counsellorDetails"> 
-
-                    <div>
-                        <label for="formFile">Upload Image:</label>
+                <div id="bgBlock"> 
+                    <div id="col-1">
+                        <div id="counsellorDetails"> 
                         
-                        <input class="form-control" ref="fileInput" type="file" @input="preview">
-                        
-                        <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
-                        
-                        <div>
-                            <button @click="uploadImage(this.user)">upload</button>
-                        </div>
-                    </div>
-
-                    <!-- <div>
-                        <div class="text-center">
-                            <button @click="create">upload</button>
-                        </div>
-                    </div> -->
-                        <div v-if="this.profile_pic">
-                            <img id="profilepic" :src='this.profile_pic'>
+                        <div v-if="this.user_type=='counsellor'">
+                            <label for="formFile">Upload Image:</label>
+                            
+                            <input class="form-control" ref="fileInput" type="file" @input="preview">
+                            
+                            <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
+                            
+                            <div>
+                                <button @click="uploadImage(this.user)">upload</button>
+                            </div>
                         </div>
 
-                        <!-- <div class="container p-5">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Edit Profile Picture
-                            </button>
+                        <!-- <div>
+                            <div class="text-center">
+                                <button @click="create">upload</button>
+                            </div>
+                        </div> -->
+                            <div v-if="this.profile_pic">
+                                <img id="profilepic" :src='this.profile_pic'>
+                            </div>
 
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title text-danger" id="exampleModalLabel">Edit Profile Picture</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
+                            <!-- <div class="container p-5">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Edit Profile Picture
+                                </button>
 
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-danger" id="exampleModalLabel">Edit Profile Picture</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                                <input type="password" class="form-control" id="exampleInputPassword1">
-                                            </div>
-                                            <div class="mb-3">
-                                            <label for="formFile">Upload Image:</label>
-                                            <input class="form-control" ref="fileInput" type="file" @input="preview">
-                                            <br>
-                                            <button @click="uploadImage(this.user)" class="btn btn-primary">Upload</button>
-                                            <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
-                                            </div>
-                                        </div>
 
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                                                    <input type="password" class="form-control" id="exampleInputPassword1">
+                                                </div>
+                                                <div class="mb-3">
+                                                <label for="formFile">Upload Image:</label>
+                                                <input class="form-control" ref="fileInput" type="file" @input="preview">
+                                                <br>
+                                                <button @click="uploadImage(this.user)" class="btn btn-primary">Upload</button>
+                                                <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div> -->
+                            </div> -->
 
-                        <p> Name: <strong>{{this.name}}</strong><br>
-                        Email: <strong>{{this.email}}</strong><br>
-                        Gender: <strong>{{this.gender}}</strong><br>
-                        Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
-                        Rating: <strong>{{this.avgRatings}}</strong><br></p>
-                    </div>
+                            <p> Name: <strong>{{this.name}}</strong><br>
+                            Email: <strong>{{this.email}}</strong><br>
+                            Gender: <strong>{{this.gender}}</strong><br>
+                            Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
+                            Rating: <strong>{{this.avgRatings}}</strong><br></p>
+                        </div>
 
-                    <div id = "reviewsTab"> 
-                        <router-link :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
+                        <div id = "reviewsTab"> 
+                            <router-link :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
+                        </div>
+                    </div> 
+                    <div id="col-2">
+                        <br>
+                        <h3>Select date to view upcoming appointments</h3>
+                        <CounsellorCalendar/>
                     </div>
-                </div> 
-                <div id="col-2">
-                    <br>
-                    <h3>Select date to view upcoming appointments</h3>
-                    <CounsellorCalendar/>
                 </div>
-            </div>
         </div>
     </div>
 </template>
@@ -110,6 +116,7 @@
 <script scoped>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
+import NavBarPatient from '@/components/NavBarPatient.vue'
 import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
 import AlertCounsellorSession from '@/components/AlertCounsellorSession.vue'
 
@@ -122,7 +129,7 @@ const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
 
 export default {
-    components: {NavBarCounsellor, CounsellorCalendar,AlertCounsellorSession},
+    components: {NavBarCounsellor, NavBarPatient, CounsellorCalendar,AlertCounsellorSession},
     name:"CounsellorProfile" ,
 
     data(){
@@ -153,6 +160,7 @@ export default {
                     this.user_type = "counsellor";
                 }
                 this.fbuser = user.email;
+
                 this.getDetails(this.fbuser);
                 // this.updateCurrentlyAvailable();
                 // this.avgRating(this.fbuser);
