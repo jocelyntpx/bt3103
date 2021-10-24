@@ -10,6 +10,7 @@
   "dependencies": {
     "@daily-co/daily-js": "^0.19.0",
     "@popperjs/core": "^2.10.2",
+    "awesome-vue-star-rating": "^1.0.9",
     "components": "^0.1.0",
     "core-js": "^3.6.5",
     "emailjs-com": "^3.2.0",
@@ -18,7 +19,8 @@
     "moment": "^2.29.1",
     "v-calendar": "^3.0.0-alpha.6",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.11"
+    "vue-router": "^4.0.11",
+    "vue3-star-ratings": "^1.0.7"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -27,7 +29,8 @@
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0"
+    "eslint-plugin-vue": "^7.0.0",
+    "sass-loader": "^12.2.0"
   },
   "eslintConfig": {
     "root": true,
