@@ -100,7 +100,11 @@ export default {
   async updateSessionFirebase() { // this method updates the room_ID in firebase.
     const sessionDocRef = doc(db, "Sessions", this.sessionID);
     await updateDoc(sessionDocRef, {room_ID: this.roomUrl});
-    // NOTE: IS IT POSSIBLE TO ALERT COUNSELLOR OF THIS SESSION?
+    
+    // ALERT COUNSELLOR OF THIS SESSION
+    let sessionSnap = await getDoc(sessionDocRef)
+    let counsellorDocRef = doc(db, "Counsellors", sessionSnap.data().counsellor_email)
+    await updateDoc(counsellorDocRef, {alert_counsellor: true});
   },
 
    // Daily callframe created and joined below
