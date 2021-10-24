@@ -87,7 +87,8 @@ const routes = [
     component: SessionNotes
 },
 {
-    path: '/counsellorReviews',
+    // path: '/counsellorReviews',
+    path: '/counsellorReviews/:id',
     name: 'CounsellorReviews',
     component: CounsellorReviews
 },

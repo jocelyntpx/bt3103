@@ -73,8 +73,9 @@ export default {
         },
 
         async sendReviewRating() {
-            if (this.rating == '') {
-                alert("You have to at least select a rating to proceed.")
+            if (this.rating == '' || this.review == '' ) {
+                alert("You have to complete all fields to proceed.")
+                // alert("You have to at least select a rating to proceed.")
             } else {
                 if (confirm("Confirm to proceed?")) {
                     //add in to counsellors past ratings
