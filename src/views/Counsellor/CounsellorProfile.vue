@@ -66,7 +66,7 @@
                     </div>
 
                     <div id = "reviewsTab"> 
-                        <router-link to="/CounsellorReviews">View Patients' Reviews</router-link>
+                        <router-link :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
                     </div>
                 </div> 
                 <div id="col-2">
