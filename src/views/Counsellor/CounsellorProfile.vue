@@ -9,6 +9,7 @@
             <!-- Need a toggle button for currently_available -->
             <div class = "toggle">
                 <button id = "toggleButton" @click="toggleCurrentlyAvailable">Click to toggle current availability on/off</button>
+                <br><br>
                 <h3> You are 
                     <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
                     <strong v-else> NOT available to take a spontaneous session. </strong> 
@@ -20,43 +21,66 @@
                 <div id="col-1">
                     <div id="counsellorDetails"> 
 
-                     <div class="App container mt-5">
-     
-                    <div class="mb-3">
-                    <label for="formFile" class="form-label">Upload Image:</label>
-                    
-                    <input class="form-control" ref="fileInput" type="file" @input="preview">
-                    </div>
-                    <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
-                    
-                    <div class="text-center">
-                        <button @click="uploadImage(this.user)">upload</button>
-                    </div>
+                    <div>
+                        <label for="formFile">Upload Image:</label>
+                        
+                        <input class="form-control" ref="fileInput" type="file" @input="preview">
+                        
+                        <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
+                        
+                        <div>
+                            <button @click="uploadImage(this.user)">upload</button>
+                        </div>
                     </div>
 
                     <!-- <div>
-                        <div >
-                            <button @click="selectImage">choose photo</button> 
-                            <input type="file" ref="input1"
-                                style="display: none"
-                                @input="previewImage" accept="image/*" >                
-                        </div>
-                    
-                        <div v-if="imageData!=null">       
-                            <div class="preview" height="268" width="356" 
-                            :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
-
-                            <img class="preview" height="268" width="356" :src="img1">
-                        <br>
-                        </div>   
-                        
-
                         <div class="text-center">
                             <button @click="create">upload</button>
                         </div>
                     </div> -->
+                        <div v-if="this.profile_pic">
+                            <img id="profilepic" :src='this.profile_pic'>
+                        </div>
 
-                        <img id="profilepic" :src='this.profile_pic'>
+                        <!-- <div class="container p-5">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Edit Profile Picture
+                            </button>
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-danger" id="exampleModalLabel">Edit Profile Picture</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                                <input type="password" class="form-control" id="exampleInputPassword1">
+                                            </div>
+                                            <div class="mb-3">
+                                            <label for="formFile">Upload Image:</label>
+                                            <input class="form-control" ref="fileInput" type="file" @input="preview">
+                                            <br>
+                                            <button @click="uploadImage(this.user)" class="btn btn-primary">Upload</button>
+                                            <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
 
                         <p> Name: <strong>{{this.name}}</strong><br>
                         Email: <strong>{{this.email}}</strong><br>
@@ -70,6 +94,7 @@
                     </div>
                 </div> 
                 <div id="col-2">
+                    <br>
                     <h3>Select date to view upcoming appointments</h3>
                     <CounsellorCalendar/>
                 </div>
@@ -78,7 +103,7 @@
     </div>
 </template>
 
-<script>
+<script scoped>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
@@ -237,50 +262,28 @@ export default {
             return false;
         },
 
-        create() {
-            const post = {
-                photo: this.img1,
-                caption: this.caption        
-            }
-            db.ref('counsellorProfilePic').push(post)
-            .then((response) => {
-                console.log(response)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        },
-
-        // selectImage() {
-        //     console.log("select image")
-        //     this.$refs.input1.click()   
-        //     },
-
-        // previewImage(event) {
-        //     console.log("preview")
-        //     this.uploadValue=0;
-        //     this.img1=null;
-        //     this.imageData = event.target.files[0];
-        //     this.onUpload()
-        //     console.log("test")
-        // },
-
-
         selectImage() {
             this.$refs.fileInput.click()
         },
 
         preview() {
+            console.log("preview")
             let input = this.$refs.fileInput
             let file = input.files
             this.imageData = event.target.files[0]
+            console.log("preview3")
             if (file && file[0]) {
-            let reader = new FileReader
-            reader.onload = e => {
-                this.previewImage = e.target.result
+                console.log("preview4")
+                let reader = new FileReader
+                reader.onload = e => {
+                    this.previewImage = e.target.result
+                    console.log("preview5")
             }
+            console.log("preview6")
             reader.readAsDataURL(file[0])
+            console.log("preview7")
             this.$emit('input', file[0])
+            console.log("preview done")
             }
         },
 
@@ -288,27 +291,25 @@ export default {
             console.log("upload image")
             const picRef = ref(storage, 'counsellorProfilePic');
             let storageRef=ref(picRef, `${this.user.email}`);
-            // if (user.email) {
-            //     console.log("delete")
-            //     await deleteObject(storageRef);
-            // }
-            let snapshot = await uploadBytes(storageRef, this.imageData)
-            console.log("test1")
-            this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100
-            
-            let url = await getDownloadURL(storageRef)
-            console.log("test2")
-            const docRef = doc(db, "Counsellors", user.email);
-            console.log("test3") 
-            updateDoc(docRef, {
-                "profile_pic": url.toString()
-            }).then (
-                alert("Profile picture uploaded successfully!"),
-                await new Promise((resolve) => setTimeout(resolve,1000)),
-                location.reload(),
-            ).catch(e => {
-                console.log(e)
-            })
+
+            if (this.imageData!=null) {
+                let snapshot = await uploadBytes(storageRef, this.imageData)
+                this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100
+                
+                let url = await getDownloadURL(storageRef)
+                const docRef = doc(db, "Counsellors", user.email);
+                updateDoc(docRef, {
+                    "profile_pic": url.toString()
+                }).then (
+                    alert("Profile picture uploaded successfully! Please wait a few seconds for the page to reload."),
+                    await new Promise((resolve) => setTimeout(resolve,800)),
+                    location.reload(),
+                ).catch(e => {
+                    console.log(e)
+                })
+            } else {
+                alert("Please select an image.")
+            }
             
         },
     }
@@ -317,9 +318,9 @@ export default {
 
 <style scoped>
 .imagePreviewWrapper {
-  background-repeat: no-repeat;
-    width: 250px;
-    height: 250px;
+    background-repeat: no-repeat;
+    width: 230px;
+    height: 230px;
     display: block;
     cursor: pointer;
     margin: 0 auto 30px;
@@ -329,8 +330,9 @@ export default {
 #profilepic {
     border-radius: 50%;
     margin-top: 10px;
-    width: 250px;
-    height: 250px;
+    width: 230px;
+    height: 230px;
+    margin-bottom: -20px;
 }
 #bgBlock {
     display:flex;
@@ -341,7 +343,7 @@ export default {
     border-radius: 20px;
     padding: 20px;
     width: 80%;
-    height: 500px;
+    height: auto;
     margin: auto;
 }
 
