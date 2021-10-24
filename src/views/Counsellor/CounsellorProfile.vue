@@ -1,5 +1,9 @@
 <template>
     <!-- <h1> id is {{this.counsellor_ID}} </h1> -->
+    <div v-if="fbuser != ''">
+        <AlertCounsellorSession :counsellorEmail=this.fbuser />
+    </div>
+
     <div v-if="user"> 
         <br><br>
         <NavBarCounsellor/>
@@ -107,6 +111,7 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
+import AlertCounsellorSession from '@/components/AlertCounsellorSession.vue'
 
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
@@ -117,7 +122,7 @@ const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
 
 export default {
-    components: {NavBarCounsellor, CounsellorCalendar},
+    components: {NavBarCounsellor, CounsellorCalendar,AlertCounsellorSession},
     name:"CounsellorProfile" ,
 
     data(){

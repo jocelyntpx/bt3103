@@ -69,6 +69,8 @@ export default {
       past_ratings:new Array(),
       upcoming_counsellor_sessions:new Array(),
       my_patients:new Array(),
+      user_type:"counsellor",
+      alert_counsellor:false,
     });
     console.log("CREATED COUNSELLOR");
   },
