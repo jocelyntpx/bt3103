@@ -6,33 +6,15 @@
 
     <div v-if="user"> 
         <br><br>
-        <NavBarCounsellor/>
+        <NavBarPatient/>
         <div style="text-align:center;">
             <h1>Counsellor Profile</h1>
-            <div>
-                <!-- Need a toggle button for currently_available -->
-                <div class = "toggle">
-                    <button id = "toggleButton" @click="toggleCurrentlyAvailable">Click to toggle current availability on/off</button>
-                    <br><br>
-                    <h3> You are 
-                        <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
-                        <strong v-else> NOT available to take a spontaneous session. </strong> 
-                    </h3>
-                </div>
-            </div>
-
-
                 <div id="bgBlock"> 
                     <div id="col-1">
                         <div id="counsellorDetails"> 
 
                             <div v-if="this.profile_pic">
                                 <img id="profilepic" :src='this.profile_pic'>
-                            </div>
-
-
-                            <div class="save-btn">
-                                <button @click="showModal = true">Edit Profile Picture</button>
                             </div>
 
                             <p> Name: <strong>{{this.name}}</strong><br>
@@ -48,8 +30,8 @@
                     </div> 
                     <div id="col-2">
                         <br>
-                        <h3>Select date to view upcoming appointments</h3>
-                        <CounsellorCalendar/>
+                        <h3>Select date to view sessions available for booking</h3>
+                        <CounsellorCalendarPatient/>
                     </div>
                 </div>
         </div>
@@ -59,9 +41,8 @@
 
 <script scoped>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
-// import NavBarPatient from '@/components/NavBarPatient.vue'
-import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
+import NavBarPatient from '@/components/NavBarPatient.vue'
+import CounsellorCalendarPatient from "@/components/CounsellorCalendarPatient.vue"
 import AlertCounsellorSession from '@/components/AlertCounsellorSession.vue'
 import CounsellorProfilePicModal from "@/components/CounsellorProfilePicModal.vue"
 
@@ -72,7 +53,7 @@ import { doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 export default {
-    components: {NavBarCounsellor,CounsellorCalendar, AlertCounsellorSession,CounsellorProfilePicModal},
+    components: {NavBarPatient,CounsellorCalendarPatient, AlertCounsellorSession,CounsellorProfilePicModal},
     name:"CounsellorProfile" ,
 
     data(){
@@ -103,7 +84,7 @@ export default {
                 }
                 this.fbuser = user.email;
 
-                this.getDetails(this.fbuser);
+                this.getDetails(this.counsellor_ID);
                 // this.updateCurrentlyAvailable();
                 // this.avgRating(this.fbuser);
                 // this.mountedCheckCurrentlyAvailable();

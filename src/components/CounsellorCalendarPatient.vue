@@ -1,30 +1,15 @@
 <template>
     <div v-if="user">
-        <div v-if="createSession == true">
-            <v-date-picker v-model="date" mode="dateTime"/>
-            <br><br>
-            <button v-on:click="create()">Create Session</button>
-            <button v-on:click="createSession = false">Back to appointments calendar</button>
+        <v-calendar :attributes="attributes" @dayclick="onDayClick"/>
+        <div v-if="avail.length != 0">
+            <h3>Available Sessions</h3>
+            <div v-for="item in avail" :key="item">
+                {{ item.date }} {{ item.time }}
+                <button v-on:click="book(this.counsellor_ID, item)">Book</button>
+            </div>
         </div>
         <div v-else>
-            <v-calendar :attributes="attributes" @dayclick="onDayClick"/>
-            <div v-if="upcoming.length != 0">
-                <h3>Upcoming Sessions</h3>
-                <div v-for="item in upcoming" :key="item">
-                    {{ item.date }} {{ item.time }}
-                </div>
-            </div>
-            <div v-if="avail.length != 0">
-                <h3>Available Sessions</h3>
-                <div v-for="item in avail" :key="item">
-                    {{ item.date }} {{ item.time }} 
-                </div>
-            </div>
-            <div v-if="upcoming.length == 0 && avail.length == 0 && days.length!=0">
-                <h4>No session for selected day(s)</h4>
-            </div>
-            <br><br>
-            <button v-on:click="createSession = true">Add New Session</button>
+            <h4>No session for selected day(s)</h4>
         </div>
     </div>
 </template>
@@ -169,27 +154,6 @@ export default {
             alert("New appointment booked for " + item.time + " " + item.date + "!")
             location.reload()
         },
-
-        async create(){
-            //edit counsellor > add to available_slots
-            const docRef = doc(db, "Counsellors", this.counsellor_ID)
-            const docSnap = await getDoc(docRef)
-            let z = docSnap.data()
-            var avail = z.available_slots
-            avail.push(this.counsellor_ID+this.date)
-            await setDoc(docRef, {available_slots: avail}, {merge: true})
-
-            //create new session
-            await setDoc(doc(db, "Sessions", this.counsellor_ID+this.date), {
-                counsellor_email: this.counsellor_ID,
-                rating: null,
-                room_ID: "",
-                session_notes: "",
-                session_time: this.date,
-                user_email: ""
-            });
-            alert("New session created for " + this.date + " !")
-        }
     }
 }
 </script>

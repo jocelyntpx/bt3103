@@ -15,8 +15,8 @@ import CounsellorReviews from '@/views/Counsellor/CounsellorReviews.vue'
 import RateCounsellor from '@/views/Patient/RateCounsellor.vue'
 import NotFound from '@/views/General/NotFound.vue'
 import ContactUs from '@/views/General/ContactUs.vue'
-import AddNewSession from '@/views/Counsellor/AddNewSession.vue'
 import SessionNotes from '@/views/Counsellor/SessionNotes.vue'
+import CounsellorProfilePatient from '@/views/Patient/CounsellorProfilePatient.vue'
 
 const routes = [
  {
@@ -67,6 +67,12 @@ const routes = [
     component: CounsellorProfile
 },
 {
+    // path: '/counsellorProfilePatient',
+    path: '/counsellorProfilePatient/:id',
+    name: 'CounsellorProfilePatient',
+    component: CounsellorProfilePatient
+},
+{
     path: '/myPatients',
     name: 'MyPatients',
     component: MyPatients
@@ -102,11 +108,6 @@ const routes = [
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound
-},
-{
-    path: '/addNewSession',
-    name: 'AddNewSession',
-    component: AddNewSession
 },
 {
     path: '/contactUs',
