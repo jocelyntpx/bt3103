@@ -41,7 +41,8 @@
 
             <!-- Remind Passowrd -->
             <div id="formFooter">
-                <a class="underlineHover" href="#">Forgot Password?</a>
+               <!-- <ResetPassword v-show="showModal" @close-modal="showModal = false"/> -->
+                <a class="underlineHover" href="" >Forgot Password?</a>
             </div>
         </div>
     </div>
@@ -60,7 +61,7 @@ import NavBarGeneral from "@/components/NavBarGeneral.vue"
 const db = getFirestore(firebaseApp);
 
 export default {
-    components: {NavBarGeneral},
+    components: {NavBarGeneral, },
     name: "AdminLogin",
 
     data() {
