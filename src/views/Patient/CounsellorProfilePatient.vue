@@ -6,22 +6,9 @@
 
     <div v-if="user"> 
         <br><br>
-        <NavBarCounsellor/>
+        <NavBarPatient/>
         <div style="text-align:center;">
             <h1>Counsellor Profile</h1>
-            <div>
-                <!-- Need a toggle button for currently_available -->
-                <div class = "toggle">
-                    <button id = "toggleButton" @click="toggleCurrentlyAvailable">Click to toggle current availability on/off</button>
-                    <br><br>
-                    <h3> You are 
-                        <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
-                        <strong v-else> NOT available to take a spontaneous session. </strong> 
-                    </h3>
-                </div>
-            </div>
-
-
                 <div id="bgBlock"> 
                     <div id="col-1">
                         <div id="counsellorDetails"> 
@@ -30,22 +17,11 @@
                                 <img id="profilepic" :src='this.profile_pic'>
                             </div>
 
-
-                            <div class="save-btn">
-                                <button @click="showModal1 = true">Edit Profile Picture</button>
-                            </div>
-
                             <p> Name: <strong>{{this.name}}</strong><br>
                             Email: <strong>{{this.email}}</strong><br>
                             Gender: <strong>{{this.gender}}</strong><br>
                             Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
-                            Credentials: <strong>{{this.credentials}}</strong><br>
-                            Additional Details: <strong>{{this.additional_details}}</strong><br>
                             Rating: <strong>{{this.avgRatings}}</strong><br></p>
-
-                            <div class="save-btn">
-                                <button @click="showModal2 = true">Edit Profile Details</button>
-                            </div>
                         </div>
 
                         <div id = "reviewsTab"> 
@@ -54,25 +30,21 @@
                     </div> 
                     <div id="col-2">
                         <br>
-                        <h3>Select date to view upcoming appointments</h3>
-                        <CounsellorCalendar/>
+                        <h3>Select date to view sessions available for booking</h3>
+                        <CounsellorCalendarPatient/>
                     </div>
                 </div>
         </div>
     </div>
-    <CounsellorProfilePicModal v-show="showModal1" @close-modal="showModal1 = false" />
-    <CounsellorEditProfileModal v-show="showModal2" @close-modal="showModal2 = false" />
-
+    <CounsellorProfilePicModal v-show="showModal" @close-modal="showModal = false" />
 </template>
 
 <script scoped>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
-// import NavBarPatient from '@/components/NavBarPatient.vue'
-import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
+import NavBarPatient from '@/components/NavBarPatient.vue'
+import CounsellorCalendarPatient from "@/components/CounsellorCalendarPatient.vue"
 import AlertCounsellorSession from '@/components/AlertCounsellorSession.vue'
 import CounsellorProfilePicModal from "@/components/CounsellorProfilePicModal.vue"
-import CounsellorEditProfileModal from "@/components/CounsellorEditProfileModal.vue"
 
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
@@ -81,7 +53,7 @@ import { doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 export default {
-    components: {NavBarCounsellor,CounsellorCalendar,AlertCounsellorSession,CounsellorProfilePicModal,CounsellorEditProfileModal },
+    components: {NavBarPatient,CounsellorCalendarPatient, AlertCounsellorSession,CounsellorProfilePicModal},
     name:"CounsellorProfile" ,
 
     data(){
@@ -97,11 +69,8 @@ export default {
             ratings:[],
             avgRatings:"",
             specialisations_formatted:"",
-            credentials:"",
-            additional_details:"",
             profile_pic: "",
-            showModal1: false,
-            showModal2: false,
+            showModal: false,
         }
     },
 
@@ -115,7 +84,7 @@ export default {
                 }
                 this.fbuser = user.email;
 
-                this.getDetails(this.fbuser);
+                this.getDetails(this.counsellor_ID);
                 // this.updateCurrentlyAvailable();
                 // this.avgRating(this.fbuser);
                 // this.mountedCheckCurrentlyAvailable();
@@ -135,8 +104,7 @@ export default {
             this.ratings = counsellorDoc.data().past_ratings;  
             this.profile_pic = counsellorDoc.data().profile_pic; 
             this.email = counsellorDoc.data().email; 
-            this.credentials = counsellorDoc.data().credentials;
-            this.additional_details = counsellorDoc.data().additional_details; 
+            
             this.currentlyAvailable = counsellorDoc.data().currently_available;
             this.updateCurrentlyAvailable();
 
