@@ -32,14 +32,20 @@
 
 
                             <div class="save-btn">
-                                <button @click="showModal = true">Edit Profile Picture</button>
+                                <button @click="showModal1 = true">Edit Profile Picture</button>
                             </div>
 
                             <p> Name: <strong>{{this.name}}</strong><br>
                             Email: <strong>{{this.email}}</strong><br>
                             Gender: <strong>{{this.gender}}</strong><br>
                             Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
+                            Credentials: <strong>{{this.credentials}}</strong><br>
+                            Additional Details: <strong>{{this.additional_details}}</strong><br>
                             Rating: <strong>{{this.avgRatings}}</strong><br></p>
+
+                            <div class="save-btn">
+                                <button @click="showModal2 = true">Edit Profile Details</button>
+                            </div>
                         </div>
 
                         <div id = "reviewsTab"> 
@@ -54,7 +60,9 @@
                 </div>
         </div>
     </div>
-    <CounsellorProfilePicModal v-show="showModal" @close-modal="showModal = false" />
+    <CounsellorProfilePicModal v-show="showModal1" @close-modal="showModal1 = false" />
+    <CounsellorEditProfileModal v-show="showModal2" @close-modal="showModal2 = false" />
+
 </template>
 
 <script scoped>
@@ -64,6 +72,7 @@ import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
 import AlertCounsellorSession from '@/components/AlertCounsellorSession.vue'
 import CounsellorProfilePicModal from "@/components/CounsellorProfilePicModal.vue"
+import CounsellorEditProfileModal from "@/components/CounsellorEditProfileModal.vue"
 
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
@@ -72,7 +81,7 @@ import { doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 export default {
-    components: {NavBarCounsellor,CounsellorCalendar, AlertCounsellorSession,CounsellorProfilePicModal},
+    components: {NavBarCounsellor,CounsellorCalendar,AlertCounsellorSession,CounsellorProfilePicModal,CounsellorEditProfileModal },
     name:"CounsellorProfile" ,
 
     data(){
@@ -88,8 +97,11 @@ export default {
             ratings:[],
             avgRatings:"",
             specialisations_formatted:"",
+            credentials:"",
+            additional_details:"",
             profile_pic: "",
-            showModal: false,
+            showModal1: false,
+            showModal2: false,
         }
     },
 
@@ -123,7 +135,8 @@ export default {
             this.ratings = counsellorDoc.data().past_ratings;  
             this.profile_pic = counsellorDoc.data().profile_pic; 
             this.email = counsellorDoc.data().email; 
-            
+            this.credentials = counsellorDoc.data().credentials;
+            this.additional_details = counsellorDoc.data().additional_details; 
             this.currentlyAvailable = counsellorDoc.data().currently_available;
             this.updateCurrentlyAvailable();
 
