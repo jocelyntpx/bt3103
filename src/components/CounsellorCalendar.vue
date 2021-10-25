@@ -142,35 +142,10 @@ export default {
 
             }
         },
-
-        async book(counsellor, item){
-           //edit counsellor > remove from available_slots and add to upcoming_counsellor_sessions
-           const counsellorRef = doc(db, "Counsellors", this.counsellor_ID)
-            const counsellorSnap = await getDoc(counsellorRef)
-            let z = counsellorSnap.data()
-            var avail = z.available_slots
-            var idx = avail.indexOf(item.session)
-            avail.splice(idx, 1)
-            var upcoming = z.upcoming_counsellor_sessions
-            upcoming.push(item.session)
-            await setDoc(counsellorRef, {upcoming_counsellor_sessions: upcoming, available_slots: avail}, {merge: true})
-           
-           //edit session > set user_email
-            await setDoc(doc(db, "Sessions", item.session), {user_email: this.fbuser}, {merge: true})
-            
-            //edit patient > add to upcoming_user_sessions
-            const patientRef = doc(db, "Patients", this.fbuser)
-            const patientSnap = await getDoc(patientRef)
-            let y = patientSnap.data()
-            var patient_upcoming = y.upcoming_user_sessions
-            patient_upcoming.push(item.session)
-            await setDoc(doc(db, "Patients", this.fbuser), {upcoming_user_sessions: patient_upcoming}, {merge: true})
-
-            alert("New appointment booked for " + item.time + " " + item.date + "!")
-            location.reload()
-        },
+        
 
         async create(){
+           
             //edit counsellor > add to available_slots
             const docRef = doc(db, "Counsellors", this.counsellor_ID)
             const docSnap = await getDoc(docRef)
