@@ -6,40 +6,20 @@
         <p>This page is only for counsellors. Please use the login button on the navigation bar <br> 
             above to login to/register your account. </p>
         <br/>
-        <!-- <div>
-            <div>
-                <div class = "formli">
-                    <form id ="myForm">
-                        <label for="email">Email: </label>
-                        <input type="text" id="email" required="" placeholder="Enter email"> <br><br>
-                        <label for="password">Password: </label>
-                        <input type="text" id="password" required="" placeholder="Enter password"> <br><br>
-                    </form>
-                </div>
-                <div>
-                    <form @submit.prevent="login()">
-                        <button id="savebutton" type="button" v-on:click="login()">Login</button>
-                    </form>
-                </div>
-            </div>
-        </div> -->
     </div> 
 
     <div class="wrapper">
         <div id="formContent">
-            <!-- Tabs Titles -->
             <h2 class="active"> Sign In </h2>
 
-            <!-- Login Form -->
             <form>
             <input type="text" id="email" class="fadeIn second" required="" name="login" placeholder="Enter email">
             <input type="text" id="password" class="fadeIn third" required="" name="login" placeholder="Enter password">
             </form>
-            <form @submit.prevent="login()">
-                <input type="submit" id="savebutton" class="fadeIn fourth" value="LogIn" v-on:click="login()">
-            </form>
+  
+            <input type="submit" id="savebutton" class="fadeIn fourth" value="LogIn" v-on:click="login()">
 
-            <!-- Remind Passowrd -->
+
             <div id="formFooter">
                <!-- <ResetPassword v-show="showModal" @close-modal="showModal = false"/> -->
                 <a class="underlineHover" href="" >Forgot Password?</a>
