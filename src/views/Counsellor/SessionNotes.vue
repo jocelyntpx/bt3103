@@ -1,6 +1,7 @@
 <template>
     <br><br>
-    <NavBarCounsellor/> 
+    <!-- I removed this so that they will only be able to proceed by pressing submit, cannot go elsewhere -->
+    <!-- <NavBarCounsellor/>  -->  
     <!-- remain as this or change to backBtn? not sure -->
     <br><br>
 
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
+// import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 import firebaseApp from '@/firebase.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore"
@@ -29,7 +30,7 @@ const db = getFirestore(firebaseApp);
 
 export default {
     name: "SessionNotes",
-    components: {NavBarCounsellor},
+    // components: {NavBarCounsellor},
     data() {
         return {
             user:false,
@@ -70,8 +71,8 @@ export default {
                     //update session notes
                     await updateDoc(doc(db, "Sessions", this.$route.params.id), {session_notes: this.sessionNotes})
 
-                    // console.log(this.sessionNotes)
-
+                    // route back to MyPatients page
+                    this.$router.push({ name: 'MyPatients'})
                 }
 
             }
@@ -98,6 +99,7 @@ export default {
   padding: 20px;
   width: 60%;
   height: 250px;
+  font-family:'Roboto',sans-serif;
   margin:auto;
 }
 #submit{
