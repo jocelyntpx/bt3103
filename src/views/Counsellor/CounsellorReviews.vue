@@ -1,8 +1,9 @@
 <template>
-<div v-if="user"> 
+<!-- <div v-if="user">  -->
     <br><br>
     <div id = "backBtn">
-        <router-link :to="{ name: 'CounsellorProfile', params: { id: this.$route.params.id }}"> ← Back to My Profile page</router-link>
+        <router-link :to="{ name: 'CounsellorProfile', params: { id: this.$route.params.id }}" v-if=(counsellor)> ← Back to My Profile page</router-link>
+        <router-link :to="{ name: 'CounsellorProfilePatient', params: { id: this.$route.params.id }}" v-else> ← Back to Counsellor's Profile page</router-link>
     </div>
 
     <h1> Reviews for {{this.counsellorName}}</h1><br><br>
@@ -16,7 +17,7 @@
                 <th>Review</th>
             </tr>
         </table>
-    </div>
+    <!-- </div> -->
 </div>
 
 </template>
@@ -36,6 +37,8 @@ export default {
     data() {
         return {
             user:false,
+            counsellor: false,
+            user_email:"",
             fbuser:"",
             counsellorName:"",
             numberReviews:0, //increment by one each time successfully get a review OR just get length of past_rating
@@ -51,10 +54,29 @@ export default {
                 this.fbuser = user.email;
             }
         })
+        
         this.findCounsellorName();
         this.displayReviews();
+        this.user_email = auth.currentUser.email;
+        this.isCounsellor(this.user_email);
     },
     methods: {
+            async isCounsellor(user) {
+            // const checkUser = db.collection('Counsellors').doc(user.email);
+            // const doc = await checkUser.get();
+            console.log(user)
+            let docRef = doc(db, "Counsellors", String(user));
+            let counsellorDoc = await getDoc(docRef);
+                
+            if (counsellorDoc.data().user_type == "counsellor") {
+              console.log('Is counsellor!');
+              this.counsellor = true;
+            } else {
+              console.log('No such counsellor!');
+              this.counsellor = false;
+            }
+
+            },
             async findCounsellorName() {
                 // let sessionDocRef = doc(db, "Sessions", this.$route.params.id);
                 // let sessionID = await getDoc(sessionDocRef);

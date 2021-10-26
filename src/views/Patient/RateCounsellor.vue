@@ -13,7 +13,7 @@
             <!-- </div> -->
    
             <div id="innerBlock">
-                <textarea v-model= "review" id="reviewText" placeholder="Enter your review here (Optional)"></textarea>
+                <textarea v-model= "review" id="reviewText" placeholder="Enter your review here"></textarea>
             </div>
             <button v-on:click = "sendReviewRating()" id="submit">Submit</button>
             <!-- for me to check if the review and rating are working under v-model! -->
