@@ -10,26 +10,9 @@
             <th>Date</th> 
             <th>Time</th> 
             <th>Counsellor</th>
-            <!-- <th>Link</th> -->
-            <th v-if=(counsellor)>Notes</th> 
-            <th v-else>Rating</th>
+            <th>Rating</th>
             </tr>
-             <!-- <tr>
-                <td>10/10/21</td>
-                <td></td>
-                <td>Mdm Lim</td> -->
-                <!-- <td>Link expired</td> -->
-                <!-- <td v-if=(counsellor)>Having problems with...</td>
-                <td v-else><router-link to="/rateCounsellor">Rate Session</router-link></td>
-            </tr>
-            <tr>
-                <td>11/10/21</td>
-                <td></td>
-                <td>Mr Tan</td> -->
-                <!-- <td>Link expired</td> -->
-                <!-- <td v-if=(counsellor)>Rose was angry because...</td>
-                <td v-else>★★★☆☆</td>
-            </tr> -->
+
       </table>
       </div>
 </template>
@@ -67,7 +50,8 @@ export default {
     },
 
     methods: {
-        async isCounsellor(user) {
+        // actually this isCounsellor method not needed already because not using v-if v-else for tables now
+        async isCounsellor(user) { 
             // const checkUser = db.collection('Counsellors').doc(user.email);
             // const doc = await checkUser.get();
 
@@ -139,18 +123,16 @@ export default {
                     cell4.appendChild(rateSession)
                 }
 
-                var notes = sessionID.data().session_notes
-
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
                 cell3.innerHTML = counsellorName; 
 
                 if (rating != null) {
-                    if (this.isCounsellor(user)) { //check the if else condition again
+                    // if (this.isCounsellor(user)) { //check the if else condition again
                         cell4.innerHTML = rating
-                    } else {
-                    cell4.innerHTML = notes
-                    }
+                    // } else {
+                    // cell4.innerHTML = notes
+                    // }
                 }
 
                                 
