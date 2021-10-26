@@ -2,7 +2,7 @@
     <br><br>
     <div v-if="user">
         <div id = "backBtn">
-            <router-link :to="{ name: 'PatientProfile', params: { id: this.fbuser }}"> ← Back to My Profile page</router-link>
+            <router-link :to="{ name: 'PatientProfile', params: { id: this.fbuser }}"> ← Submit Later</router-link>
         </div>
         <h1>Rate Counsellor!</h1>
         <p> Kindly leave a rating/review for your counsellor. </p>
@@ -82,7 +82,7 @@ export default {
                     await updateDoc(doc(db, "Counsellors", this.counsellorEmail), {past_ratings: arrayUnion(this.rating)});
 
                     //change session ratingsfrom null to an array of rating,review
-                    await updateDoc(doc(db, "Sessions", this.$route.params.id), {rating: [this.rating,this.review,Timestamp.now().toDate().toLocaleTimeString()]})
+                    await updateDoc(doc(db, "Sessions", this.$route.params.id), {rating: [this.rating,this.review,Timestamp.now().toDate().toLocaleDateString()]})
 
                     // console.log(this.rating)
                     // console.log(this.review)
