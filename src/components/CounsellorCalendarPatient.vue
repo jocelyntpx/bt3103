@@ -45,7 +45,6 @@ export default {
                     this.user_type = "counsellor";
                 }
                 this.fbuser = user.email;
-                this.getDetails(this.fbuser);
                 // this.updateCurrentlyAvailable();
                 // this.avgRating(this.fbuser);
                 // this.mountedCheckCurrentlyAvailable();

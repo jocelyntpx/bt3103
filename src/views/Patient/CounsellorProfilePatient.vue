@@ -1,10 +1,5 @@
 <template>
-    <!-- <h1> id is {{this.counsellor_ID}} </h1> -->
-    <div v-if="fbuser != ''">
-        <AlertCounsellorSession :counsellorEmail=this.fbuser />
-    </div>
-
-    <div v-if="user"> 
+    <div v-if="user">
         <br><br>
         <NavBarPatient/>
         <div style="text-align:center;">
@@ -21,6 +16,8 @@
                             Email: <strong>{{this.email}}</strong><br>
                             Gender: <strong>{{this.gender}}</strong><br>
                             Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
+                            Credentials: <strong>{{this.credentials}}</strong><br>
+                            Additional Details: <strong>{{this.additional_details}}</strong><br>
                             Rating: <strong>{{this.avgRatings}}</strong><br></p>
                         </div>
 
@@ -36,24 +33,21 @@
                 </div>
         </div>
     </div>
-    <CounsellorProfilePicModal v-show="showModal" @close-modal="showModal = false" />
 </template>
 
 <script scoped>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarPatient from '@/components/NavBarPatient.vue'
 import CounsellorCalendarPatient from "@/components/CounsellorCalendarPatient.vue"
-import AlertCounsellorSession from '@/components/AlertCounsellorSession.vue'
-import CounsellorProfilePicModal from "@/components/CounsellorProfilePicModal.vue"
 
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
+import { doc, getDoc} from "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
 
 export default {
-    components: {NavBarPatient,CounsellorCalendarPatient, AlertCounsellorSession,CounsellorProfilePicModal},
+    components: {NavBarPatient,CounsellorCalendarPatient},
     name:"CounsellorProfile" ,
 
     data(){
@@ -63,14 +57,16 @@ export default {
             user_type:"counsellor",
             counsellor_ID: this.$route.params.id,
             fbuser:"",
-            currentlyAvailable:null,
+            // currentlyAvailable:null,
             name:"",
             gender:"",
             ratings:[],
             avgRatings:"",
+            specialisations:[],
             specialisations_formatted:"",
             profile_pic: "",
-            showModal: false,
+            credentials:"",
+            additional_details:"",
         }
     },
 
@@ -83,13 +79,8 @@ export default {
                     this.user_type = "counsellor";
                 }
                 this.fbuser = user.email;
-
                 this.getDetails(this.counsellor_ID);
-                // this.updateCurrentlyAvailable();
-                // this.avgRating(this.fbuser);
-                // this.mountedCheckCurrentlyAvailable();
                 console.log("bottom of mounted()");
-                // console.log("time is ", Timestamp.valueOf(Timestamp.now()))
             }
         })
     },
@@ -104,9 +95,9 @@ export default {
             this.ratings = counsellorDoc.data().past_ratings;  
             this.profile_pic = counsellorDoc.data().profile_pic; 
             this.email = counsellorDoc.data().email; 
-            
-            this.currentlyAvailable = counsellorDoc.data().currently_available;
-            this.updateCurrentlyAvailable();
+            this.credentials = counsellorDoc.data().credentials;
+            this.additional_details = counsellorDoc.data().additional_details;            
+            // this.currentlyAvailable = counsellorDoc.data().currently_available;
 
             var avg = 0
             if (this.ratings.length>0) {
@@ -138,64 +129,6 @@ export default {
                 })
             }
             this.specialisations_formatted = stringOutput.slice(2)
-        },
-
-        async updateCurrentlyAvailable() {
-            const counsellorDocRef = doc(db,"Counsellors",this.fbuser);
-            
-            //  if counsellor is currently available, check if have upcoming session within <= 1hour, if so, toggle OFF.
-            if (this.currentlyAvailable) {
-                var upcomingSession = this.checkExistenceUpcomingSession();
-                console.log("in updateCurrentlyAvailable, upcomingSession: ", upcomingSession)
-                if (upcomingSession) {
-                    alert("You have an upcoming session in less than an hour - Setting toggle for 'Currently Available' as Off");
-                    this.currentlyAvailable = false;
-                    await updateDoc(counsellorDocRef, {currently_available: false})
-                }
-            }
-        },
-        async toggleCurrentlyAvailable() {
-            console.log("in toggleCurrentlyAvailable()")
-
-            let counsellorDocRef = doc(db, "Counsellors", this.fbuser)
-            console.log("current availability: " , this.currentlyAvailable)
-
-            if (!this.currentlyAvailable) {
-                // counsellor can only toggle it ON if he does not have an upcoming session < 1 hour from now.
-                var upcomingSession = await this.checkExistenceUpcomingSession(); 
-                console.log("in toggleCurrentlyAvailable, upcomingSession is ", upcomingSession)
-                if (upcomingSession) {
-                    alert("Unable to turn on toggle - you have an upcoming session in less than an hour.");
-                } else {
-                    this.currentlyAvailable = true;
-                    await updateDoc(counsellorDocRef, {currently_available: true})
-                }
-            } else {
-                this.currentlyAvailable = false;
-                await updateDoc(counsellorDocRef, {currently_available: false})
-            }
-        },
-
-        async checkExistenceUpcomingSession() { 
-            console.log("in checkExistenceUpcomingSession()");
-            const counsellorDocRef = doc(db, "Counsellors", this.fbuser)
-            const counsellorDocSnap = await getDoc(counsellorDocRef)
-            const upcomingSessions = counsellorDocSnap.data().upcoming_counsellor_sessions
-
-            for (const session of upcomingSessions) {
-                let sessionDocRef = doc(db, "Sessions",session)
-                let sessionDocSnap = await getDoc(sessionDocRef)
-                let sessionTime = sessionDocSnap.data().session_time.toDate()
-                let timeNow = Timestamp.now().toDate()
-
-                if (sessionTime - timeNow <= 60 * 60 * 1000 ) { // the difference is in terms of milliseconds.
-                    console.log("existence of upcoming session");
-                    console.log("SESSION : ", sessionTime , "NOW : ", timeNow)
-                    return true;
-                }
-            }
-            console.log("no upcoming session - returning false")
-            return false;
         },
 
     }
