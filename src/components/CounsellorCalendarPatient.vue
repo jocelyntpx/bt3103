@@ -30,7 +30,6 @@ export default {
         user_type:"patient",
         counsellor_ID: this.$route.params.id,
         days: [],
-        upcoming: [],
         avail: [],
         booked: [],
         createSession: false,
@@ -74,11 +73,9 @@ export default {
 
             let z = docSnap.data()
             var avail = z.available_slots
-            var upcoming = z.upcoming_counsellor_sessions
 
             if (idx >= 0) {
                 this.days.splice(idx, 1)
-                this.upcoming.splice(idx, upcoming.length)
                 this.avail.splice(idx, avail.length)
             } else {
                 this.days.push({
@@ -86,45 +83,31 @@ export default {
                 date: day.date,
                 })
 
-                upcoming.forEach(async (s) => {
-                    const sessionRef = doc(db, "Sessions", s)
-                    const sessionSnap = await getDoc(sessionRef)
-                    let session = sessionSnap.data().session_time
-
-                    let a = session.toDate()
-                    let a_date = a.toDateString()
-                    let a_time = a.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
-                    let a_gmtDate = new Date(a.setHours(a.getHours() + 8))
-
-                    if (a_gmtDate.toISOString().substr(0,10) == day.id) {
-                        this.upcoming.push({
-                            date: a_date,
-                            time: a_time,
-                        })
-                    }
-                })
-
                 avail.forEach(async (x) => {
+                    
                     const slotRef = doc(db, "Sessions", x)
                     const slotSnap = await getDoc(slotRef)
                     let slot = slotSnap.data().session_time
                     
+                    let curr = new Date()
                     let s = slot.toDate()
-                    let s_date = s.toDateString()
-                    let s_time = s.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
-                    let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
+                    
+                    if (s > curr) {
+                        let s_date = s.toDateString()
+                        let s_time = s.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+                        let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
 
-                    if (s_gmtDate.toISOString().substr(0,10) == day.id) {
-                        let s_originalDate = new Date(s_gmtDate.setHours(s_gmtDate.getHours() - 8 ))
-                        this.avail.push({
-                            date: s_date,
-                            time: s_time,
-                            session: this.counsellor_ID+s_originalDate
-                        })
+                        if (s_gmtDate.toISOString().substr(0,10) == day.id) {
+                            let s_originalDate = new Date(s_gmtDate.setHours(s_gmtDate.getHours() - 8 ))
+                            this.avail.push({
+                                date: s_date,
+                                time: s_time,
+                                session: this.counsellor_ID+s_originalDate
+                            })
+                        }
                     }
+
                 })
-
-
             }
         },
 
