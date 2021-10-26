@@ -4,7 +4,7 @@ import FindCounsellor from '@/views/Patient/FindCounsellor.vue'
 import About from '@/views/General/About.vue'
 import HelpResources from '@/views/General/HelpResources.vue'
 import HelpResourcesAdmin from '@/views/Counsellor/HelpResourcesAdmin.vue'
-import AdminLogin from '@/views/Counsellor/AdminLogin.vue'
+import CounsellorLogin from '@/views/Counsellor/CounsellorLogin.vue'
 import PatientLogin from '@/views/Patient/PatientLogin.vue'
 import PatientProfile from '@/views/Patient/PatientProfile.vue'
 import CounsellorProfile from '@/views/Counsellor/CounsellorProfile.vue'
@@ -46,9 +46,9 @@ const routes = [
     component: HelpResourcesAdmin
 },
 {
-    path: '/adminLogin',
-    name: 'AdminLogin',
-    component: AdminLogin
+    path: '/counsellorLogin',
+    name: 'CounsellorLogin',
+    component: CounsellorLogin
 },
 {
     path: '/patientLogin',

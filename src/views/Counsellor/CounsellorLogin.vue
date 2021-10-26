@@ -43,7 +43,7 @@ const db = getFirestore(firebaseApp);
 
 export default {
     components: {NavBarGeneral, ResetPasswordModal},
-    name: "AdminLogin",
+    name: "CounsellorLogin",
 
     data() {
         return {
