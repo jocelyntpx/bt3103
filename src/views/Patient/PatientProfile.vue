@@ -4,11 +4,10 @@
         <!-- if user is patient -->
         <NavBarPatient/>
         <h1>My Profile</h1>
-        <!-- <div id = "leaveReview" v-if = "userNotLeftReview">
-            We notice you have not yet left a review for your previous session with Mr John Tan. 
+        <div id = "leaveReview" v-if = "userNotLeftReview">
+            We notice you have not yet left a review for a previous session. 
             Leave a review now!
-            <router-link to="/rateCounsellor">Rate Counsellor!</router-link>
-        </div><br> -->
+        </div><br>
 
         <!-- else (user is counsellor from MyPatients) -->
         <!-- <NavBarCounsellor/> -->
@@ -24,21 +23,14 @@
                     <!-- delete user ID and instead put joined_date? -->
                 </div>
             </div> 
-            <!-- <div id="col-2">
-                <h3>Select date to view upcoming appointments</h3>
-                <PatientCalendar/>
-            </div> -->
 
-<!-- this entire chunk for upcoming appointment to be replaced to UserUpcomingSessions component. 
-do v-if v-else to show links and X -->
             <UserUpcomingSessions/> 
 
             <br><br>
 
             <div style="text-align:center;" v-if="user">
             <UserPreviousSessions/> 
-            <!-- ^ not copying over the correct information from the v-if=user from UserPreviousSessions, brings else info here instead -->
-            <!-- <div><h3><strong>This is the appointment page</strong></h3></div> -->
+
             </div>
 
             <br>
@@ -72,7 +64,7 @@ export default {
     data(){
         return{
             patient_ID: this.$route.params.id,
-            userNotLeftReview: true,
+            userNotLeftReview: false,
             user:false,
             counsellorUser:"",
             count:"",
@@ -86,7 +78,9 @@ export default {
             this.user = user;
             this.fbuser = user.email;
             this.updateFirebase(user);
+            this.checkReviews(user)
         });
+
         // this.counsellorUser = auth.currentUser.email;
         // this.displayUpcomingAppointments(this.counsellorUser);
     },
@@ -110,6 +104,23 @@ export default {
                 console.log(this.fbuser)
             }
 
+        },
+
+        async checkReviews(user) {
+            const patientDoc = await getDoc(doc(db, "Patients", user.email));
+            let session = patientDoc.data().past_user_sessions
+
+            for ( const pastSession of session) {
+                let sessionDocRef = doc(db, "Sessions", pastSession);
+                let sessionID = await getDoc(sessionDocRef);
+                if (sessionID.data().rating == null) {
+                    
+                    // means have a review not left yet
+                    this.userNotLeftReview = true
+                    break
+                } 
+                // if all reviews have been left, will not go into if condition and will remain false by default
+            }
         }
    
     }
