@@ -10,26 +10,9 @@
             <th>Date</th> 
             <th>Time</th> 
             <th>Counsellor</th>
-            <!-- <th>Link</th> -->
-            <th v-if=(counsellor)>Notes</th> 
-            <th v-else>Rating</th>
+            <th>Notes</th> 
+
             </tr>
-             <!-- <tr>
-                <td>10/10/21</td>
-                <td></td>
-                <td>Mdm Lim</td> -->
-                <!-- <td>Link expired</td> -->
-                <!-- <td v-if=(counsellor)>Having problems with...</td>
-                <td v-else><router-link to="/rateCounsellor">Rate Session</router-link></td>
-            </tr>
-            <tr>
-                <td>11/10/21</td>
-                <td></td>
-                <td>Mr Tan</td> -->
-                <!-- <td>Link expired</td> -->
-                <!-- <td v-if=(counsellor)>Rose was angry because...</td>
-                <td v-else>★★★☆☆</td>
-            </tr> -->
       </table>
       </div>
 </template>
@@ -89,51 +72,20 @@ export default {
                 var date = sessionTime.toDateString() 
                 var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var counsellorName = counsellor.data().name;
-                var rating =  sessionID.data().rating
 
                 var cell1 = row.insertCell(0); 
                 var cell2 = row.insertCell(1); 
                 var cell3 = row.insertCell(2); 
                 var cell4 = row.insertCell(3); 
-                if (rating != null) {
-                    var stars = rating.shift()
-                    if (stars == 5) {
-                        rating = "★★★★★"
-                    } else if (stars >= 4) {
-                        rating = "★★★★☆"
-                    } else if (stars >=3) {
-                        rating = "★★★☆☆"
-                    } else if (stars >=2) {
-                        rating = "★★☆☆☆"
-                    } else if (stars >=1) {
-                        rating = "★☆☆☆☆"
-                    } else {
-                        rating = "☆☆☆☆☆" 
-                    }
-                    
-                } else {
-                    var rateSession = document.createElement("button")
-                    rateSession.id = "rateSession"
-                    rateSession.innerHTML = "Rate Session Now!"
-                    rateSession.onclick = () => {
-                        this.$router.push({ name: 'RateCounsellor', params: { id: pastSession } }) 
-                    }
-                    cell4.appendChild(rateSession)
-                }
-
                 var notes = sessionID.data().session_notes
 
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
                 cell3.innerHTML = counsellorName; 
 
-                if (rating != null) {
-                    if (this.isCounsellor(user)) { //check the if else condition again
-                        cell4.innerHTML = rating
-                    } else {
-                    cell4.innerHTML = notes
-                    }
-                }
+                cell4.innerHTML = notes
+
+                
 
                                 
             }                    
