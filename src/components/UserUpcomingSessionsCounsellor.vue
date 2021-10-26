@@ -26,10 +26,9 @@ export default {
 
     data(){
         return{
-            counsellor: false,
             user_email:"",
-            user_type: "patient",
-
+            user_type: "counsellor",
+            patient_id:this.$route.params.id
         }
     },
 
@@ -42,38 +41,20 @@ export default {
             // }
         })
         this.user_email = auth.currentUser.email;
-        this.isCounsellor(this.user_email);
-        this.displayUpcomingSessions(this.user_email)
+        this.displayUpcomingSessions(this.patient_id)
     },
 
     methods: {
-        async isCounsellor(user) {
-            // const checkUser = db.collection('Counsellors').doc(user.email);
-            // const doc = await checkUser.get();
-
-            let docRef = doc(db, "Counsellors", String(user));
-            let counsellorDoc = await getDoc(docRef);
-                
-            if (counsellorDoc.data().user_type == "counsellor") {
-              console.log('Is counsellor!');
-              this.counsellor = true;
-            } else {
-              console.log('No such counsellor!');
-              this.counsellor = false;
-            }
-
-        },
-
         async displayUpcomingSessions(user) {
             let docRef = doc(db, "Patients", String(user));
             let patientDoc = await getDoc(docRef);
             let ind = 1
 
             let session = patientDoc.data().upcoming_user_sessions
-            //console.log(session)
+            console.log(session)
 
             for ( const upcomingSession of session) {
-                // console.log(upcomingSession);
+                console.log(upcomingSession);
                 let sessionDocRef = doc(db, "Sessions", upcomingSession);
                 let sessionID = await getDoc(sessionDocRef);
                 let counsellorDocRef = doc(db, "Counsellors", sessionID.data().counsellor_email);

@@ -1,13 +1,13 @@
 <template>
-            <table class="table" id="table">
-                <tr class=header>
-                <th>Date</th> 
-                <th>Time</th>
-                <th>Patient</th>
-                <th>Link</th>
-                <th>X</th> 
-                </tr>
-            </table>
+    <table class="table" id="table">
+        <tr class=header>
+        <th>Date</th> 
+        <th>Time</th>
+        <th>Patient</th>
+        <th>Link</th>
+        <th>X</th> 
+        </tr>
+    </table>
 </template>
 
 <script>
@@ -24,7 +24,7 @@ export default {
 
     data(){
         return{
-            // user:false,
+            //user:false,
             counsellorUser:"",
             count:"",
         }
