@@ -120,7 +120,7 @@ export default {
                 })
 
                 avail.forEach(async (x) => {
-                    const slotRef = doc(db, "Sessions", x)
+                    const slotRef = doc(db, "Sessions", this.fbuser+x)
                     const slotSnap = await getDoc(slotRef)
                     let slot = slotSnap.data().session_time
                     
@@ -154,7 +154,7 @@ export default {
             if (this.date < new Date()) {
                 alert("Session cannot be created in the past")
             } else {
-                 avail.push(this.counsellor_ID+this.date)
+                avail.push(this.date)
                 await setDoc(docRef, {available_slots: avail}, {merge: true})
 
                 //create new session

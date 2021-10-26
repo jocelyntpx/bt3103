@@ -85,7 +85,9 @@ export default {
 
                 avail.forEach(async (x) => {
                     
-                    const slotRef = doc(db, "Sessions", x)
+                    console.log(x.toDate())
+                    console.log(this.counsellor_ID+x.toDate())
+                    const slotRef = doc(db, "Sessions", this.counsellor_ID+x.toDate())
                     const slotSnap = await getDoc(slotRef)
                     let slot = slotSnap.data().session_time
                     
@@ -126,7 +128,9 @@ export default {
             const patientRef = doc(db, "Patients", this.fbuser)
             const patientSnap = await getDoc(patientRef)
             let y = patientSnap.data()
-            if (y.upcoming_user_sessions.length == 5) {
+            var patient_upcoming = y.upcoming_user_sessions
+
+            if (patient_upcoming.length == 5) {
                 alert('You have booked a maximum of 5 sessions!')
             }
             else {
@@ -137,17 +141,13 @@ export default {
                 await setDoc(doc(db, "Sessions", item.session), {user_email: this.fbuser}, {merge: true})
                 
                 //edit patient > add to upcoming_user_sessions
-                const patientRef = doc(db, "Patients", this.fbuser)
-                const patientSnap = await getDoc(patientRef)
-                let y = patientSnap.data()
-                var patient_upcoming = y.upcoming_user_sessions
                 patient_upcoming.push(item.session)
                 await setDoc(doc(db, "Patients", this.fbuser), {upcoming_user_sessions: patient_upcoming}, {merge: true})
 
                 alert("New appointment booked for " + item.time + " " + item.date + "!")
             }
             
-            location.reload()
+            //location.reload()
         },
     }
 }
