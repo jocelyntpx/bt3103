@@ -57,15 +57,15 @@ export default {
   methods: {
   // TEMP METHOD
   async newCounsellor() {
-    let counsellor_name = "Jane Tan"
-    let counsellor_email = "janeTan@gmail.com"
+    let counsellor_name = "Jackson Tan"
+    let counsellor_email = "jacksonTan@gmail.com"
     setDoc(doc(db, "Counsellors", counsellor_email), {
       email: counsellor_email,
       name: counsellor_name,
       available_slots: new Array(),
       counsellor_specialisations: new Array(),
       gender:"Female",
-      currently_available:true,
+      currently_available:false,
       past_ratings:new Array(),
       upcoming_counsellor_sessions:new Array(),
       my_patients:new Array(),
@@ -162,7 +162,7 @@ export default {
 
     const counsellor = await getDoc(counsellorDocRef); // because the backend might have changed - e.g. another user on platform booked an available slot while the focal user was navigating the Find Counsellor page.
 
-    let sessionID = counsellorEmail + String(slot) // unique session ID
+    let sessionID = counsellorEmail + String(slot.toDate()) // unique session ID
     
     var upcomingSessions = counsellor.data().upcoming_counsellor_sessions
     console.log("array for upcoming sessions is ", upcomingSessions)
