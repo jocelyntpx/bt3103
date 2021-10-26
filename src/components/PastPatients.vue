@@ -3,7 +3,7 @@
             <a v-for= "patient in AllMyPatients" v-bind:key="patient.index">
                 <div id="patient_box">
                     <!-- <h3>{{patient.data().name}}</h3> -->
-                    <h3><router-link :to="{ name: 'PatientProfile', params: { id: patient.id }}">{{patient.data().name}}</router-link></h3>
+                    <h3><router-link :to="{ name: 'PatientProfileCounsellor', params: { id: patient.id }}">{{patient.data().name}}</router-link></h3>
                 </div>
             </a>
     </div>
