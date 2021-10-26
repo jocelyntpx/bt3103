@@ -92,7 +92,7 @@ export default {
   height: auto;
   margin:auto;
 }
-#sessionText {
+#notesText {
   border-radius: 35px;
   background: azure;;
   padding: 20px;
