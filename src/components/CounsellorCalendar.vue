@@ -151,19 +151,23 @@ export default {
             const docSnap = await getDoc(docRef)
             let z = docSnap.data()
             var avail = z.available_slots
-            avail.push(this.counsellor_ID+this.date)
-            await setDoc(docRef, {available_slots: avail}, {merge: true})
+            if (this.date < new Date()) {
+                alert("Session cannot be created in the past")
+            } else {
+                 avail.push(this.counsellor_ID+this.date)
+                await setDoc(docRef, {available_slots: avail}, {merge: true})
 
-            //create new session
-            await setDoc(doc(db, "Sessions", this.counsellor_ID+this.date), {
-                counsellor_email: this.counsellor_ID,
-                rating: null,
-                room_ID: "",
-                session_notes: "",
-                session_time: this.date,
-                user_email: ""
-            });
-            alert("New session created for " + this.date + " !")
+                //create new session
+                await setDoc(doc(db, "Sessions", this.counsellor_ID+this.date), {
+                    counsellor_email: this.counsellor_ID,
+                    rating: null,
+                    room_ID: "",
+                    session_notes: "",
+                    session_time: this.date,
+                    user_email: ""
+                });
+                alert("New session created for " + this.date + " !")
+            }
         }
     }
 }
