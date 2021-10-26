@@ -12,7 +12,7 @@
         <h3> All Reviews (Total: {{this.numberReviews}} Reviews) </h3>
         <table class="table" id="tableReview">
             <tr class="header"> 
-                <th>Review Time</th> 
+                <th>Review Date</th> 
                 <th>Rating</th>
                 <th>Review</th>
             </tr>
