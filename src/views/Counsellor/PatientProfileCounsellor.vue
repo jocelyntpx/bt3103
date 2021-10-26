@@ -53,8 +53,8 @@ import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 import UserUpcomingSessionsCounsellor from "@/components/UserUpcomingSessionsCounsellor.vue"
 import UserPreviousSessionsCounsellor from "@/components/UserPreviousSessionsCounsellor.vue"
 import firebaseApp from '../../firebase.js';
-import { collection, getFirestore } from "firebase/firestore"
-import {  doc, getDoc, setDoc} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore"
+import {  doc, getDoc } from "firebase/firestore";
 // import {  doc, deleteDoc, updateDoc, arrayRemove, getDoc  } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 // import PatientCalendar from '@/components/PatientCalendar.vue'
@@ -87,7 +87,6 @@ export default {
         onAuthStateChanged(auth, user => {
             this.user = user;
             this.fbuser = user.email;
-            this.updateFirebase(user);
             this.getDetails(this.patient_ID);
         });
         // this.counsellorUser = auth.currentUser.email;
@@ -101,26 +100,6 @@ export default {
             this.patient_name = patientDoc.data().name;
             this.patient_uid = patientDoc.data().userID;
         },
-
-        async updateFirebase(user) {
-            const patientDoc = await getDoc(doc(db, "Patients", user.email));
-
-            if (!patientDoc.exists()) {
-                console.log("update patient into firebase")
-                const patientRef = collection(db,"Patients");
-                await setDoc(doc(patientRef,String(user.email)), {
-                    name: user.displayName,
-                    email: user.email,
-                    userID: user.uid,
-                    upcoming_user_sessions: [],
-                    past_user_sessions: [],
-                })
-            } else {
-                console.log("exists")
-                console.log(this.fbuser)
-            }
-
-        }
    
     }
 }
