@@ -28,7 +28,7 @@
 import firebaseApp from '@/firebase.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore"
-import { doc, getDoc,updateDoc, arrayUnion,} from "firebase/firestore";
+import { doc, getDoc,updateDoc, arrayUnion,Timestamp} from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 import vue3starRatings from "vue3-star-ratings";
 
@@ -82,7 +82,7 @@ export default {
                     await updateDoc(doc(db, "Counsellors", this.counsellorEmail), {past_ratings: arrayUnion(this.rating)});
 
                     //change session ratingsfrom null to an array of rating,review
-                    await updateDoc(doc(db, "Sessions", this.$route.params.id), {rating: [this.rating,this.review]})
+                    await updateDoc(doc(db, "Sessions", this.$route.params.id), {rating: [this.rating,this.review,Timestamp.now().toDate().toLocaleTimeString()]})
 
                     // console.log(this.rating)
                     // console.log(this.review)
