@@ -112,16 +112,21 @@ export default {
         },
 
         async book(counsellor, item){
-           //edit counsellor > remove from available_slots and add to upcoming_counsellor_sessions
+
+            //edit counsellor > remove from available_slots and add to upcoming_counsellor_sessions
             const counsellorRef = doc(db, "Counsellors", this.counsellor_ID)
             const counsellorSnap = await getDoc(counsellorRef)
             let z = counsellorSnap.data()
-
             var avail = z.available_slots
             var idx = avail.indexOf(item.session)
             avail.splice(idx, 1)
             var upcoming = z.upcoming_counsellor_sessions
-            if (upcoming.length == 5) {
+
+            //check if patient has <5 upcoming appointment
+            const patientRef = doc(db, "Patients", this.fbuser)
+            const patientSnap = await getDoc(patientRef)
+            let y = patientSnap.data()
+            if (y.upcoming_user_sessions.length == 5) {
                 alert('You have booked a maximum of 5 sessions!')
             }
             else {
