@@ -7,6 +7,11 @@
         <p>For first time users, you can register with the sign in form below as well. </p>
         <div id="firebaseui-auth-container"></div>
     </div>
+
+    <div>
+        <ResetPasswordModal v-show="showModal" @close-modal="showModal = false"/>
+        <button @click="showModal = true">Forgot Password?</button>
+    </div>
 </template>
 
 <script>
@@ -15,10 +20,17 @@ import 'firebase/compat/auth';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
 import NavBarGeneral from "@/components/NavBarGeneral.vue"
+import ResetPasswordModal from "@/components/ResetPasswordModal.vue"
 
 export default {
-    components: {NavBarGeneral},
+    components: {NavBarGeneral, ResetPasswordModal},
     name: "Login",
+
+    data() {
+        return {
+            showModal:false,
+        };
+    },
 
     mounted(){
         var ui = firebaseui.auth.AuthUI.getInstance();
