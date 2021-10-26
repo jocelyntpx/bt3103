@@ -21,8 +21,8 @@
 
 
             <div id="formFooter">
-               <!-- <ResetPassword v-show="showModal" @close-modal="showModal = false"/> -->
-                <a class="underlineHover" href="" >Forgot Password?</a>
+               <ResetPasswordModal v-show="showModal" @close-modal="showModal = false"/>
+                <a class="underlineHover" @click="showModal = true">Forgot Password?</a>
             </div>
         </div>
     </div>
@@ -37,17 +37,19 @@ import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { collection, query, where, getDocs } from "firebase/firestore";
 import NavBarGeneral from "@/components/NavBarGeneral.vue"
+import ResetPasswordModal from "@/components/ResetPasswordModal.vue"
 
 const db = getFirestore(firebaseApp);
 
 export default {
-    components: {NavBarGeneral, },
+    components: {NavBarGeneral, ResetPasswordModal},
     name: "AdminLogin",
 
     data() {
         return {
             email: "",
             password: "",
+            showModal:false,
         };
     },
     methods: {

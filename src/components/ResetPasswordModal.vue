@@ -23,19 +23,26 @@
 
     <div class="modal-overlay" @click="$emit('close-modal')">
     <div class="modal" @click.stop>
-      <!-- <img class="check" src="~/assets/check-icon.png" alt="" /> -->
       <h6>Reset Password</h6>
-      <p>blah </p>
-      <button>Go Home</button>
+      <p>Note: Click anywhere outside this pop-up to exit.</p>
+
+      <div>
+        <label for="email"><strong>Email: </strong></label>
+        <input type="text" id="email" required="" name="email" v-model="email">
+        <!-- <input type="text" id="password" required="" name="login" placeholder="Enter password"> -->
+      </div>
+
+      <br>
+      <button @click="reset()" >Reset</button>
     </div>
     <div class="close" @click="$emit('close-modal')">
-      <!-- <img class="close-img" src="~/assets/close-icon.svg" alt="" /> -->
     </div>
   </div>
 </template>
 
 <script>
-import firebase from "firebase/app";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+
 export default {
   data: function() {
     return {
@@ -43,72 +50,79 @@ export default {
     };
   },
   methods: {
-    reset: async function() {
-      var auth = firebase.auth();
+    reset() {
+      console.log(this.email)
+      const auth = getAuth();
       if (this.email != "") {
-        //The email takes awhile
-        await auth
-          .sendPasswordResetEmail(this.email)
-          .then(function() {
-            // Email sent.
-            console.log("Sent Successfully")
+        sendPasswordResetEmail(auth, this.email)
+          .then(() => {
+            console.log("email sent")
             alert("Check your email for further instructions to reset your password!")
           })
           .catch(function(error) {
             alert(error);
           });
-        
-        this.$router.push({path: "/login"});
       } else {
-        alert("Please fill in your email");
-        console.log(this.$router)
+        alert("Please fill in your email.");
       }
     },
   },
-};
+}
 </script>
 
 <style scoped>
-#ResetPassword {
-  position: relative;
-  background-size: cover;
-  /* background-image: url("https://images.unsplash.com/photo-1421789665209-c9b2a435e3dc?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80"); */
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 100%;
-}
-#vcard {
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
+  background-color: #000000da;
+  z-index: 1;
 }
-h1 {
-  text-align: left;
-  padding-left: 20px;
-  color: rgb(255, 255, 255);
-  font-family: Nunito;
-  font-weight: bolder;
-  font-size: 40px;
-}
-h2 {
-  font-size: 34px;
-  font-family: Nunito;
-  font-weight: bolder;
-  margin-top: 15px;
-  color: rgb(255, 255, 255);
-}
-h3 {
-  font-size: 34px;
-  font-family: Nunito;
-  font-weight: bolder;
-  margin-top: 75px;
-  color: rgb(4, 9, 53);
-}
-#test {
-  padding-left: 20px;
+
+.modal {
   text-align: center;
+  background-color: white;
+  height: 500px;
+  width: 500px;
+  margin-top: 10%;
+  padding: 60px 0;
+  border-radius: 20px;
 }
-#content {
-  padding: 3%;
+.close {
+  margin: 10% 0 0 16px;
+  cursor: pointer;
 }
+
+.close-img {
+  width: 25px;
+}
+
+.check {
+  width: 150px;
+}
+
+h6 {
+  font-weight: 500;
+  font-size: 28px;
+  margin: 20px 0;
+}
+
+p {
+  font-size: 16px;
+  margin: 20px 0;
+}
+
+button {
+  background-color: #ac003e;
+  width: 150px;
+  height: 40px;
+  color: white;
+  font-size: 14px;
+  border-radius: 16px;
+}
+
 </style>

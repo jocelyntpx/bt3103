@@ -53,6 +53,7 @@
                                 <button @click="showModal2 = true">Edit Profile Details</button>
                             </div>
                         </div>
+                        <br>
 
                         <div id = "reviewsTab"> 
                             <router-link :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>

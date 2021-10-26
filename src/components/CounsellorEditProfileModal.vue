@@ -21,11 +21,9 @@
 
       <br><br>
       <label for="credentials"><strong>Credentials: </strong></label><br>
-      <!-- <input type="text" id="credentials" v-model="this.credentials"> -->
       <textarea id="credentials" cols="30" rows="4" v-model="this.credentials"></textarea>
       <br><br>
       <label for="add_details"><strong>Additional Details: </strong></label><br>
-      <!-- <input type="text" id="add_details" v-model="this.additional_details"> -->
       <textarea id="add_details" cols="30" rows="4" v-model="this.additional_details"></textarea>
     </form>
 
@@ -111,7 +109,6 @@ export default {
 </script>
 
 <style scoped>
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -164,7 +161,6 @@ button {
   color: white;
   font-size: 14px;
   border-radius: 16px;
-  /* margin-top: 50px; */
 }
 
 </style>

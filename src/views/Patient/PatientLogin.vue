@@ -41,7 +41,6 @@ export default {
 }
 </script>
 
-
 <style scoped>
 #firebaseui-auth-container {
     margin-top: 50px;;
