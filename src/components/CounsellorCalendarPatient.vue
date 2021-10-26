@@ -1,30 +1,15 @@
 <template>
     <div v-if="user">
-        <div v-if="createSession == true">
-            <v-date-picker v-model="date" mode="dateTime"/>
-            <br><br>
-            <button v-on:click="create()">Create Session</button>
-            <button v-on:click="createSession = false">Back to appointments calendar</button>
+        <v-calendar :attributes="attributes" @dayclick="onDayClick"/>
+        <div v-if="avail.length != 0">
+            <h3>Available Sessions</h3>
+            <div v-for="item in avail" :key="item">
+                {{ item.date }} {{ item.time }}
+                <button v-on:click="book(this.counsellor_ID, item)">Book</button>
+            </div>
         </div>
         <div v-else>
-            <v-calendar :attributes="attributes" @dayclick="onDayClick"/>
-            <div v-if="upcoming.length != 0">
-                <h3>Upcoming Sessions</h3>
-                <div v-for="item in upcoming" :key="item">
-                    {{ item.date }} {{ item.time }}
-                </div>
-            </div>
-            <div v-if="avail.length != 0">
-                <h3>Available Sessions</h3>
-                <div v-for="item in avail" :key="item">
-                    {{ item.date }} {{ item.time }} 
-                </div>
-            </div>
-            <div v-if="upcoming.length == 0 && avail.length == 0 && days.length!=0">
-                <h4>No session for selected day(s)</h4>
-            </div>
-            <br><br>
-            <button v-on:click="createSession = true">Add New Session</button>
+            <h4>No session for selected day(s)</h4>
         </div>
     </div>
 </template>
@@ -61,7 +46,7 @@ export default {
                     this.user_type = "counsellor";
                 }
                 this.fbuser = user.email;
-                // this.getDetails(this.fbuser);
+                this.getDetails(this.fbuser);
                 // this.updateCurrentlyAvailable();
                 // this.avgRating(this.fbuser);
                 // this.mountedCheckCurrentlyAvailable();
@@ -142,29 +127,40 @@ export default {
 
             }
         },
-        
 
-        async create(){
-           
-            //edit counsellor > add to available_slots
-            const docRef = doc(db, "Counsellors", this.counsellor_ID)
-            const docSnap = await getDoc(docRef)
-            let z = docSnap.data()
+        async book(counsellor, item){
+           //edit counsellor > remove from available_slots and add to upcoming_counsellor_sessions
+            const counsellorRef = doc(db, "Counsellors", this.counsellor_ID)
+            const counsellorSnap = await getDoc(counsellorRef)
+            let z = counsellorSnap.data()
+
             var avail = z.available_slots
-            avail.push(this.counsellor_ID+this.date)
-            await setDoc(docRef, {available_slots: avail}, {merge: true})
+            var idx = avail.indexOf(item.session)
+            avail.splice(idx, 1)
+            var upcoming = z.upcoming_counsellor_sessions
+            if (upcoming.length == 5) {
+                alert('You have booked a maximum of 5 sessions!')
+            }
+            else {
+                upcoming.push(item.session)
+                await setDoc(counsellorRef, {upcoming_counsellor_sessions: upcoming, available_slots: avail}, {merge: true})
+            
+                //edit session > set user_email
+                await setDoc(doc(db, "Sessions", item.session), {user_email: this.fbuser}, {merge: true})
+                
+                //edit patient > add to upcoming_user_sessions
+                const patientRef = doc(db, "Patients", this.fbuser)
+                const patientSnap = await getDoc(patientRef)
+                let y = patientSnap.data()
+                var patient_upcoming = y.upcoming_user_sessions
+                patient_upcoming.push(item.session)
+                await setDoc(doc(db, "Patients", this.fbuser), {upcoming_user_sessions: patient_upcoming}, {merge: true})
 
-            //create new session
-            await setDoc(doc(db, "Sessions", this.counsellor_ID+this.date), {
-                counsellor_email: this.counsellor_ID,
-                rating: null,
-                room_ID: "",
-                session_notes: "",
-                session_time: this.date,
-                user_email: ""
-            });
-            alert("New session created for " + this.date + " !")
-        }
+                alert("New appointment booked for " + item.time + " " + item.date + "!")
+            }
+            
+            location.reload()
+        },
     }
 }
 </script>
