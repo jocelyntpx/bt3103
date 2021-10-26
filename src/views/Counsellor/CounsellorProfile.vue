@@ -218,6 +218,7 @@ export default {
             for (const session of upcomingSessions) {
                 let sessionDocRef = doc(db, "Sessions",session)
                 let sessionDocSnap = await getDoc(sessionDocRef)
+                console.log("session: ", session, "session_time:", sessionDocSnap.data().session_time.toDate())
                 let sessionTime = sessionDocSnap.data().session_time.toDate()
                 let timeNow = Timestamp.now().toDate()
 
