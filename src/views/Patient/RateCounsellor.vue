@@ -83,6 +83,9 @@ export default {
 
                     //change session ratingsfrom null to an array of rating,review
                     await updateDoc(doc(db, "Sessions", this.$route.params.id), {rating: [this.rating,this.review,Timestamp.now().toDate().toLocaleDateString()]})
+                    
+                    //route back to MyProfile page
+                    this.$router.push({ name: 'PatientProfile', params: { id: this.fbuser } })
 
                     // console.log(this.rating)
                     // console.log(this.review)
@@ -113,6 +116,8 @@ export default {
   width: 60%;
   height: 250px;
   margin:auto;
+  font-family:'Roboto',sans-serif;
+  font-size: 17px;
 }
 #submit{
     display:inline-block;
