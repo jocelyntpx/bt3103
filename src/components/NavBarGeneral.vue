@@ -5,7 +5,7 @@
               <img id="mhmlogo" src="@/assets/mhmlogo.png" alt="" width="60" height="35">
               <h3 id="mhm">Mental Health Matters</h3>
             <!-- </div> -->
-            <router-link to="/adminLogin">Admin</router-link> | 
+            <router-link to="/counsellorLogin">Admin</router-link> | 
             <router-link to="/">Home</router-link> | 
             <router-link to="/about">About Us</router-link> | 
             <router-link to="/helpResources">Help Resources</router-link> | 
