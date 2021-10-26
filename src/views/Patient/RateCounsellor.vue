@@ -74,10 +74,10 @@ export default {
 
         async sendReviewRating() {
             if (this.rating == '' || this.review == '' ) {
-                alert("You have to complete all fields to proceed.")
+                alert("You have to complete all fields to submit.")
                 // alert("You have to at least select a rating to proceed.")
             } else {
-                if (confirm("Confirm to proceed?")) {
+                if (confirm("Confirm to submit?")) {
                     //add in to counsellors past ratings
                     await updateDoc(doc(db, "Counsellors", this.counsellorEmail), {past_ratings: arrayUnion(this.rating)});
 
