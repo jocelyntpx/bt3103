@@ -12,7 +12,7 @@
         <h3> All Reviews (Total: {{this.numberReviews}} Reviews) </h3>
         <table class="table" id="tableReview">
             <tr class="header"> 
-                <th>Review Date</th> 
+                <th>Review Time</th> 
                 <th>Rating</th>
                 <th>Review</th>
             </tr>
@@ -104,7 +104,7 @@ export default {
                     var table = document.getElementById("tableReview")
                     var row = table.insertRow(ind)
 
-                    var date = sessionID.data().session_time.toDate().toLocaleTimeString()
+                    // var date = sessionID.data().session_time.toDate().toLocaleTimeString()
                     var rateReviewArr = sessionID.data().rating
                     if (rateReviewArr == null) {
                         continue;
@@ -124,8 +124,8 @@ export default {
                     } else {
                         rating = "☆☆☆☆☆" 
                     }
-                    var review = rateReviewArr.pop() //or try without pop()
-
+                    var review = rateReviewArr.shift() //or try without pop()
+                    var date = rateReviewArr.pop()
 
                     var cell1 = row.insertCell(0); 
                     var cell2 = row.insertCell(1); 
