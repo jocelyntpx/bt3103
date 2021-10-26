@@ -47,6 +47,7 @@
                                 <button @click="showModal2 = true">Edit Profile Details</button>
                             </div>
                         </div>
+                        <br>
 
                         <div id = "reviewsTab"> 
                             <router-link :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
@@ -177,7 +178,7 @@ export default {
             
             //  if counsellor is currently available, check if have upcoming session within <= 1hour, if so, toggle OFF.
             if (this.currentlyAvailable) {
-                var upcomingSession = this.checkExistenceUpcomingSession();
+                var upcomingSession = await this.checkExistenceUpcomingSession();
                 console.log("in updateCurrentlyAvailable, upcomingSession: ", upcomingSession)
                 if (upcomingSession) {
                     alert("You have an upcoming session in less than an hour - Setting toggle for 'Currently Available' as Off");
@@ -194,7 +195,7 @@ export default {
 
             if (!this.currentlyAvailable) {
                 // counsellor can only toggle it ON if he does not have an upcoming session < 1 hour from now.
-                var upcomingSession = await this.checkExistenceUpcomingSession(); 
+                let upcomingSession = await this.checkExistenceUpcomingSession(); 
                 console.log("in toggleCurrentlyAvailable, upcomingSession is ", upcomingSession)
                 if (upcomingSession) {
                     alert("Unable to turn on toggle - you have an upcoming session in less than an hour.");

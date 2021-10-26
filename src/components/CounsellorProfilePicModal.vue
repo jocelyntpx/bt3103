@@ -2,7 +2,7 @@
   <div class="modal-overlay" @click="$emit('close-modal')">
     <div class="modal" @click.stop>
       <h6>Edit Profile Picture</h6>
-      <p>Click anywhere outside this pop-up to exit.</p>
+      <p>Note: Click anywhere outside this pop-up to exit.</p>
 
     <div>
         <label for="formFile">Upload Image:</label>
@@ -167,12 +167,9 @@ button {
   color: white;
   font-size: 14px;
   border-radius: 16px;
-  /* margin-top: 50px; */
 }
 .imagePreviewWrapper {
     background-repeat: no-repeat;
-    /* border-radius: 50%; */
-    /* border-color: black; */
     width: 200px;
     height: 200px;
     display: block;

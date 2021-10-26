@@ -17,6 +17,7 @@ import NotFound from '@/views/General/NotFound.vue'
 import ContactUs from '@/views/General/ContactUs.vue'
 import SessionNotes from '@/views/Counsellor/SessionNotes.vue'
 import CounsellorProfilePatient from '@/views/Patient/CounsellorProfilePatient.vue'
+import PatientProfileCounsellor from '@/views/Counsellor/PatientProfileCounsellor.vue'
 
 const routes = [
  {
@@ -59,6 +60,11 @@ const routes = [
     path: '/patientProfile/:id',
     name: 'PatientProfile',
     component: PatientProfile
+},
+{
+    path:'/patientProfileCounsellor/:id',
+    name: 'PatientProfileCounsellor',
+    component: PatientProfileCounsellor
 },
 {
     // path: '/counsellorProfile',
