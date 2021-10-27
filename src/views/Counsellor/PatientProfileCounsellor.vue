@@ -19,8 +19,8 @@
             <div id="col-1">
                 <div id="patientDetails"> 
                     <p> Name: <strong>{{this.patient_name}}</strong><br>
-                    Email: <strong>{{this.patient_ID}}</strong><br>
-                    User ID: <strong>{{this.patient_uid}}</strong></p>
+                    <!-- Email: <strong>{{this.patient_ID}}</strong><br> -->
+                    User ID: <strong>{{this.patient_ID}}</strong></p>
                     <!-- delete user ID and instead put joined_date? -->
                 </div>
             </div> 
@@ -71,13 +71,13 @@ export default {
 
     data(){
         return{
-            patient_ID: this.$route.params.id,
+            patient_ID: this.$route.params.id, // patient UID
             userNotLeftReview: true,
             user:false,
-            counsellorUser:"",
+            // counsellorUser:"",
             count:"",
             patient_name: "",
-            patient_uid:"",
+            // patient_uid:"",
         }
     },
 
@@ -86,7 +86,7 @@ export default {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;
-            this.fbuser = user.email;
+            // this.fbuser = user.email;
             this.getDetails(this.patient_ID);
         });
         // this.counsellorUser = auth.currentUser.email;
@@ -98,7 +98,7 @@ export default {
             let docRef = doc(db, "Patients", String(user));
             let patientDoc = await getDoc(docRef);      
             this.patient_name = patientDoc.data().name;
-            this.patient_uid = patientDoc.data().userID;
+            // this.patient_uid = patientDoc.data().userID;
         },
    
     }

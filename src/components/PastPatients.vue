@@ -27,7 +27,7 @@ export default {
         return{
             user:false,
             AllMyPatients:[],
-            counsellorUser:"",
+            counsellorUser:"", // counsellor's UID
             count:"",
         }
     },
@@ -37,7 +37,7 @@ export default {
         onAuthStateChanged(auth, user => {
             this.user = user;
         })
-        this.counsellorUser = auth.currentUser.email;
+        this.counsellorUser = auth.currentUser.uid;
         this.displayMyPatients(this.counsellorUser);
     },
 
@@ -45,11 +45,11 @@ export default {
         async displayMyPatients(user) {
             let docRef = doc(db, "Counsellors", String(user));
             let counsellorDoc = await getDoc(docRef);
-            let myPatients = counsellorDoc.data().my_patients
+            let myPatients = counsellorDoc.data().my_patients // array of uid
 
            //console.log(counsellorDoc.data());
-            myPatients.forEach(async (patient_email)=> {
-                let patientDocRef = doc(db, "Patients", patient_email);
+            myPatients.forEach(async (patient_ID)=> {
+                let patientDocRef = doc(db, "Patients", patient_ID);
                 let patient = await getDoc(patientDocRef);
                 //console.log(patient);
                 

@@ -44,7 +44,7 @@ export default {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.user = user;
-                this.fbuser = user.email;
+                // this.fbuser = user.email;
             }
         })
 
@@ -55,7 +55,7 @@ export default {
         async findPatientName() {
             let sessionDocRef = doc(db, "Sessions", this.$route.params.id);
             let sessionID = await getDoc(sessionDocRef);
-            let docRef = doc(db, "Patients", sessionID.data().user_email);
+            let docRef = doc(db, "Patients", sessionID.data().user_ID);
             let patientDoc = await getDoc(docRef);
             // this.patientEmail = patientDoc.id;
             this.patientName = patientDoc.data().name;

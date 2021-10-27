@@ -25,7 +25,7 @@ export default {
     data(){
         return{
             //user:false,
-            counsellorUser:"",
+            counsellorUser:"", // uid of counsellor
             count:"",
         }
     },
@@ -36,7 +36,7 @@ export default {
         onAuthStateChanged(auth, user => {
             this.user = user;
         });
-        this.counsellorUser = auth.currentUser.email;
+        this.counsellorUser = auth.currentUser.uid;
         this.displayUpcomingPatients(this.counsellorUser);
     },
 
@@ -56,7 +56,7 @@ export default {
                 //console.log(upcomingSession);
                 let sessionDocRef = doc(db, "Sessions", upcomingSession);
                 let sessionID = await getDoc(sessionDocRef);
-                let patientDocRef = doc(db, "Patients", sessionID.data().user_email);
+                let patientDocRef = doc(db, "Patients", sessionID.data().user_ID);
                 let patient = await getDoc(patientDocRef);
 
                 let sessionTime = sessionID.data().session_time.toDate()
@@ -117,7 +117,7 @@ export default {
                 bu.innerHTML = "X"
                 bu.onclick = ()=>{
                     this.cancelSession(sessionID.id,patient.id,user)
-                    //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
+                    //sessionID = doc name of session, patient.id = doc name of patient 
                 }
                 cell5.appendChild(bu)
                 
@@ -130,7 +130,7 @@ export default {
         },
     
 
-        async cancelSession(session, patient, user) {
+        async cancelSession(session, patient, user) { // all uid
             var confirmDelete = confirm("Press 'OK' to proceed to cancel this appointment with Session ID of " + session);
             //alert("You are going to cancel this appointment with Session ID of " + session)
             if (confirmDelete) { //pressed OK

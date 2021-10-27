@@ -37,9 +37,9 @@ export default {
     data(){
         return{
             user:false,
-            email:"",
+            // email:"",
             user_type:"patient",
-            fbuser:"",
+            // fbuser:"",
             previewImage: null,
             imageData:null,
         }
@@ -53,7 +53,7 @@ export default {
                 if (user.user_type == "counsellor") {
                     this.user_type = "counsellor";
                 }
-                this.fbuser = user.email;
+                // this.fbuser = user.uid;
             }
         })
     },
@@ -87,14 +87,14 @@ export default {
         async uploadImage(user) {
             console.log("upload image")
             const picRef = ref(storage, 'counsellorProfilePic');
-            let storageRef=ref(picRef, `${this.user.email}`);
+            let storageRef=ref(picRef, `${this.user.uid}`);
 
             if (this.imageData!=null) {
                 let snapshot = await uploadBytes(storageRef, this.imageData)
                 this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100
                 
                 let url = await getDownloadURL(storageRef)
-                const docRef = doc(db, "Counsellors", user.email);
+                const docRef = doc(db, "Counsellors", user.uid);
                 updateDoc(docRef, {
                     "profile_pic": url.toString()
                 }).then (

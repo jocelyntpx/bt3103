@@ -40,9 +40,9 @@ export default {
     data() {
         return {
             user:false,
-            fbuser:"",
+            fbuser:"", // user's UID
             counsellorName: "",
-            counsellorEmail:"",
+            counsellorID:"", // counsellor's UID
             review:"",
             rating:""
      
@@ -54,7 +54,7 @@ export default {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.user = user;
-                this.fbuser = user.email;
+                this.fbuser = user.uid;
             }
         })
 
@@ -65,9 +65,9 @@ export default {
         async findCounsellorName() {
             let sessionDocRef = doc(db, "Sessions", this.$route.params.id);
             let sessionID = await getDoc(sessionDocRef);
-            let docRef = doc(db, "Counsellors", sessionID.data().counsellor_email);
+            let docRef = doc(db, "Counsellors", sessionID.data().counsellor_ID);
             let counsellorDoc = await getDoc(docRef);
-            this.counsellorEmail = counsellorDoc.id;
+            this.counsellorID = counsellorDoc.id;
             this.counsellorName = counsellorDoc.data().name;
 
         },
@@ -79,7 +79,7 @@ export default {
             } else {
                 if (confirm("Confirm to submit?")) {
                     //add in to counsellors past ratings
-                    await updateDoc(doc(db, "Counsellors", this.counsellorEmail), {past_ratings: arrayUnion(this.rating)});
+                    await updateDoc(doc(db, "Counsellors", this.counsellorID), {past_ratings: arrayUnion(this.rating)});
 
                     //change session ratingsfrom null to an array of rating,review
                     await updateDoc(doc(db, "Sessions", this.$route.params.id), {rating: [this.rating,this.review,Timestamp.now().toDate().toLocaleDateString()]})

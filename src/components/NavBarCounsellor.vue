@@ -27,7 +27,7 @@ export default {
     data() {
         return {
             user:false,
-            fbuser:"",
+            fbuser:"", // UID
         }     
     },
 
@@ -39,7 +39,7 @@ export default {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.user = user;
-                this.fbuser = user.email;
+                this.fbuser = user.uid;
             }
         });
     },

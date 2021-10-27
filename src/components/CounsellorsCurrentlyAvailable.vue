@@ -4,7 +4,7 @@
     <!-- This temporarily prints as a list -->
       <a v-for="counsellorSlot in available" v-bind:key="counsellorSlot.index"> 
         <div id="available_counsellor_preview_box"> 
-          <h4><router-link :to="{ name: 'CounsellorProfile', params: { id: counsellorSlot[0].data().email }}"> {{counsellorSlot[0].data().name}}</router-link></h4>
+          <h4><router-link :to="{ name: 'CounsellorProfilePatient', params: { id: counsellorSlot[0].id }}"> {{counsellorSlot[0].data().name}}</router-link></h4>
           {{avgRating(counsellorSlot[0].data().past_ratings)}}<br> 
           {{ formattedSpecialisations(counsellorSlot[0].data().counsellor_specialisations) }}<br><br>
           <button id = "consult_now" @click="createImmediateSession(counsellorSlot)"> Consult Now </button> 
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       user: false,
-      fbuser: "",
+      fbuser: "", // user UID
       user_type: "patient",
       available:[],
       componentKey: 0, // for purposes of rerendering component
@@ -48,7 +48,7 @@ export default {
     onAuthStateChanged(auth, (user) => {
     if (user) {
       this.user = user;
-      this.fbuser = auth.currentUser.email;  
+      this.fbuser = auth.currentUser.uid;  
     }
   })
   this.displayAvailableCounsellors();
@@ -59,16 +59,18 @@ export default {
   async newCounsellor() {
     let counsellor_name = "Jackson Tan"
     let counsellor_email = "jacksonTan@gmail.com"
-    setDoc(doc(db, "Counsellors", counsellor_email), {
+    setDoc(doc(db, "Counsellors", "VY4Bg85VeMMbfPFM700sfJX8FMh1"), {
       email: counsellor_email,
       name: counsellor_name,
       available_slots: new Array(),
       counsellor_specialisations: new Array(),
-      gender:"Female",
+      counsellor_credentials: new Array(),
+      gender:"Male",
       currently_available:false,
       past_ratings:new Array(),
       upcoming_counsellor_sessions:new Array(),
-      my_patients:new Array(),
+      past_counsellor_sessions:new Array(),
+      my_patients:new Array(), // array of UID
       user_type:"counsellor",
       alert_counsellor:false,
     });
@@ -76,9 +78,11 @@ export default {
   },
 
   async displayAvailableCounsellors() { // WORKS
+    console.log("in displayAvailableCounsellors");
     let allCounsellors = await getDocs(collection(db,"Counsellors"))
 
     allCounsellors.forEach((counsellor) => {
+      console.log("length : +1")
       console.log(counsellor.data().name)
       // check if counsellor is currently available i.e. available slot <= 10 minutes from current time
 
@@ -102,6 +106,7 @@ export default {
           if (diff <= 10*60*1000 & diff > 0) { // Can only have at max one slot that meets criteria, since each slot is one hour long.
             console.log("Slot is within 10mins")
             this.available.push([counsellor, slot])
+            //break
           }      
         })
       }
@@ -110,7 +115,7 @@ export default {
   },
 
   async removeSlot(counsellor, slotToRemove) { 
-    const counsellorDoc = doc(db,"Counsellors",counsellor.data().email);
+    const counsellorDoc = doc(db,"Counsellors",counsellor.id);
     await updateDoc(counsellorDoc, {
       available_slots: arrayRemove(slotToRemove)
     })
@@ -155,14 +160,14 @@ export default {
     console.log("In createImmediateSesssion()");
     const slot = counsellorSlot[1]
 
-    const counsellorEmail = counsellorSlot[0].data().email;
+    const counsellorID = counsellorSlot[0].id;
 
-    const counsellorDocRef = doc(db, "Counsellors", counsellorEmail)
+    const counsellorDocRef = doc(db, "Counsellors", counsellorID)
     const patientDocRef = doc(db, "Patients", this.fbuser)
 
     const counsellor = await getDoc(counsellorDocRef); // because the backend might have changed - e.g. another user on platform booked an available slot while the focal user was navigating the Find Counsellor page.
 
-    let sessionID = counsellorEmail + String(slot.toDate()) // unique session ID
+    let sessionID = counsellorID + String(slot.toDate()) // unique session ID
     
     var upcomingSessions = counsellor.data().upcoming_counsellor_sessions
     console.log("array for upcoming sessions is ", upcomingSessions)
@@ -171,7 +176,6 @@ export default {
     if (upcomingSessions.length > 0) {
       for (const upcomingSession of upcomingSessions) {
         const upcomingSessionDocRef = doc(db, "Sessions", upcomingSession)
-        console.log("EAFAEF")
         const upcomingSessionDocSnap = await getDoc(upcomingSessionDocRef);
         const upcomingSessionTime = upcomingSessionDocSnap.data().session_time
         console.log("upcomingSessionTime is ", upcomingSessionTime);
@@ -216,23 +220,28 @@ export default {
       console.log("removed avail slot ", slot, " for " , counsellor.data().name);
     }
 
-    // if patient does not exist in counsellor's my_patients field, we also want to add it in too.
-    let counsellorPatients = counsellor.data().my_patients
-    if (!counsellorPatients.includes(this.fbuser)) {
-      await updateDoc(counsellorDocRef, {
-        upcoming_counsellor_sessions: arrayUnion(sessionID),
-        my_patients: arrayUnion(this.fbuser)
-      })
-    } else {
-      await updateDoc(counsellorDocRef, {
-        upcoming_counsellor_sessions: arrayUnion(sessionID)
-      })
-    }
+    // // if patient does not exist in counsellor's my_patients field, we also want to add it in too.
+    // let counsellorPatients = counsellor.data().my_patients
+    // if (!counsellorPatients.includes(this.fbuser)) {
+    //   await updateDoc(counsellorDocRef, {
+    //     upcoming_counsellor_sessions: arrayUnion(sessionID),
+    //     my_patients: arrayUnion(this.fbuser)
+    //   })
+    // } else {
+    //   await updateDoc(counsellorDocRef, {
+    //     upcoming_counsellor_sessions: arrayUnion(sessionID)
+    //   })
+    // }
+
+    // add to counsellor's upcoming sessions 
+    await updateDoc(counsellorDocRef, {
+      upcoming_counsellor_sessions: arrayUnion(sessionID)
+    })
 
     // create new doc in Sessions
     setDoc(doc(db,"Sessions",sessionID), {
-      user_email: this.fbuser,
-      counsellor_email: counsellorEmail,
+      user_ID: this.fbuser,
+      counsellor_ID: counsellorID,
       room_ID: "",
       session_notes: "",
       rating: null,
@@ -245,7 +254,7 @@ export default {
       });
 
     // user is redirected
-    this.$router.push({ name: 'DailyUserView', params: { id: sessionID } }) // https://router.vuejs.org/guide/essentials/navigation.html 
+    this.$router.push({ name: 'DailyUserView', params: { id: sessionID } }) 
   },
 
   forceRerender() {

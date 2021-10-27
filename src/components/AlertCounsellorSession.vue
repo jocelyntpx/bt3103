@@ -12,7 +12,7 @@ const db = getFirestore(firebaseApp);
 export default {
     name: "AlertCounsellorSession",
     props: {
-        counsellorEmail:String
+        counsellorID:String
     },
     data() {
         return {
@@ -20,7 +20,7 @@ export default {
         }
     },
     mounted() {
-        console.log("counsellorEmail is ", this.counsellorEmail)
+        console.log("counsellorID is ", this.counsellorID)
         this.pollData();
     },
     beforeUnmount() {
@@ -29,7 +29,7 @@ export default {
     methods: {
         pollData () {     
             console.log("in pollData()");
-            const counsellorDoc = doc(db, "Counsellors", this.counsellorEmail)
+            const counsellorDoc = doc(db, "Counsellors", this.counsellorID)
             setInterval(async () => {
                 console.log("in setInterval")
                 let counsellorSnap = await getDoc(counsellorDoc)

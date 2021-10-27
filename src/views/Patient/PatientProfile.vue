@@ -18,8 +18,8 @@
             <div id="col-1">
                 <div id="patientDetails"> 
                     <p> Name: <strong>{{user.displayName}}</strong><br>
-                    Email: <strong>{{user.email}}</strong><br>
-                    User ID: <strong>{{user.uid}}</strong></p>
+                    Email: <strong>{{user.email}}</strong><br></p>
+                    <!-- User ID: <strong>{{user.uid}}</strong></p> -->
                     <!-- delete user ID and instead put joined_date? -->
                 </div>
             </div> 
@@ -68,6 +68,7 @@ export default {
             user:false,
             counsellorUser:"",
             count:"",
+            fbuser:"", // user's UID
         }
     },
 
@@ -76,7 +77,7 @@ export default {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;
-            this.fbuser = user.email;
+            this.fbuser = user.uid;
             this.updateFirebase(user);
             this.checkReviews(user)
         });
@@ -87,15 +88,16 @@ export default {
 
     methods: {
         async updateFirebase(user) {
-            const patientDoc = await getDoc(doc(db, "Patients", user.email));
+            const uid = user.uid
+            const patientDoc = await getDoc(doc(db, "Patients", uid));
 
             if (!patientDoc.exists()) {
                 console.log("update patient into firebase")
                 const patientRef = collection(db,"Patients");
-                await setDoc(doc(patientRef,String(user.email)), {
+                await setDoc(doc(patientRef,uid), {
                     name: user.displayName,
                     email: user.email,
-                    userID: user.uid,
+                    // userID: user.uid, // NO LONGER HAVE THIS 
                     upcoming_user_sessions: [],
                     past_user_sessions: [],
                 })
@@ -107,7 +109,7 @@ export default {
         },
 
         async checkReviews(user) {
-            const patientDoc = await getDoc(doc(db, "Patients", user.email));
+            const patientDoc = await getDoc(doc(db, "Patients", user.uid));
             let session = patientDoc.data().past_user_sessions
 
             for ( const pastSession of session) {

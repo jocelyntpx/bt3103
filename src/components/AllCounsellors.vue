@@ -3,7 +3,7 @@
     <ul>
         <a v-for="counsellor in all_counsellors" v-bind:key="counsellor.index">
           <div id="counsellor_preview_box"> 
-            <h4><router-link :to="{ name: 'CounsellorProfilePatient', params: { id: counsellor.data().email }}"> {{counsellor.data().name}}</router-link></h4>
+            <h4><router-link :to="{ name: 'CounsellorProfilePatient', params: { id: counsellor.id }}"> {{counsellor.data().name}}</router-link></h4>
             {{avgRating(counsellor.data().past_ratings)}}<br> 
             {{ formattedSpecialisations(counsellor.data().counsellor_specialisations) }}<br><br>
           </div>

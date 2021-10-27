@@ -1,5 +1,4 @@
 <template>
-  <!-- <h1> the route id is {{ $route.params.id }} </h1> -->
  <main class="wrapper">
    <div class="home" v-if="status === 'home'">
      <!-- <div id ="notice_for_early_enter" v-if="this.userEarly">
@@ -103,7 +102,7 @@ export default {
     
     // ALERT COUNSELLOR OF THIS SESSION
     let sessionSnap = await getDoc(sessionDocRef)
-    let counsellorDocRef = doc(db, "Counsellors", sessionSnap.data().counsellor_email)
+    let counsellorDocRef = doc(db, "Counsellors", sessionSnap.data().counsellor_ID)
     await updateDoc(counsellorDocRef, {alert_counsellor: true});
   },
 
@@ -166,9 +165,9 @@ export default {
     // update backend for PATIENT (backend for counsellor will be updated separately in DailyCounsellorView.vue)
     const sessionDocRef = doc(db, "Sessions", this.sessionID)
     const sessionSnap = await getDoc(sessionDocRef);
-    console.log("user of session : " , sessionSnap.data().user_email);
+    console.log("user of session : " , sessionSnap.data().user_ID);
 
-    const patientDocRef = doc(db, "Patients", sessionSnap.data().user_email)
+    const patientDocRef = doc(db, "Patients", sessionSnap.data().user_ID)
     await updateDoc(patientDocRef, {
       upcoming_user_sessions: arrayRemove(this.sessionID),
       past_user_sessions: arrayUnion(this.sessionID)

@@ -13,7 +13,7 @@
                             </div>
 
                             <p> Name: <strong>{{this.name}}</strong><br>
-                            Email: <strong>{{this.email}}</strong><br>
+                            <!-- Email: <strong>{{this.email}}</strong><br> -->
                             Gender: <strong>{{this.gender}}</strong><br>
                             Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
                             Credentials: <strong>{{this.credentials}}</strong><br>
@@ -53,10 +53,10 @@ export default {
     data(){
         return{
             user:false,
-            email:"",
+            // email:"",
             user_type:"counsellor",
-            counsellor_ID: this.$route.params.id,
-            fbuser:"",
+            counsellor_ID: this.$route.params.id, // counsellor's UID
+            // fbuser:"", // user's UID
             // currentlyAvailable:null,
             name:"",
             gender:"",
@@ -78,7 +78,7 @@ export default {
                 if (user.user_type == "counsellor") {
                     this.user_type = "counsellor";
                 }
-                this.fbuser = user.email;
+                // this.fbuser = user.uid;
                 this.getDetails(this.counsellor_ID);
                 console.log("bottom of mounted()");
             }
@@ -87,15 +87,16 @@ export default {
 
     methods: {
         async getDetails(user) {
-            let docRef = doc(db, "Counsellors", String(user));
-            let counsellorDoc = await getDoc(docRef);      
+            // console.log("user:",user)
+            let docRef = doc(db, "Counsellors", user);
+            let counsellorDoc = await getDoc(docRef);   
             this.name = counsellorDoc.data().name;
             this.gender = counsellorDoc.data().gender;
             this.specialisations = counsellorDoc.data().counsellor_specialisations;
             this.ratings = counsellorDoc.data().past_ratings;  
             this.profile_pic = counsellorDoc.data().profile_pic; 
-            this.email = counsellorDoc.data().email; 
-            this.credentials = counsellorDoc.data().credentials;
+            // this.email = counsellorDoc.data().email; 
+            this.credentials = counsellorDoc.data().counsellor_credentials;
             this.additional_details = counsellorDoc.data().additional_details;            
             // this.currentlyAvailable = counsellorDoc.data().currently_available;
 

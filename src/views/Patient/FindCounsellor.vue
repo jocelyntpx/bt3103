@@ -77,7 +77,7 @@ export default {
         return{
             showCurrentlyAvailable: true,
             user:false, // firebase's "auth" user
-            fbuser:"", // email of user on firebase firestore
+            // fbuser:"", // user's uid
             refreshComponent: 0,
             filteringDays: "any day",
         }
@@ -87,7 +87,7 @@ export default {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user; // for my reference: user is the user in firebase auth, NOT firestore. need to use this email to access patient/counsellor in firestore.
-            this.fbuser = auth.currentUser.email
+            // this.fbuser = auth.currentUser.uid
         })
     },
 
@@ -97,7 +97,7 @@ export default {
         this.filteringDays = event // prop passed to child "NotAvailableCounsellors"
         this.refreshComponent += 1
         console.log("From FindCounsellor, refreshComp: ",this.refreshComponent);
-        console.log("this.fbuser ", this.fbuser);
+        // console.log("this.fbuser ", this.fbuser);
       },
       resetCalendarFilter() {
         this.filteringDays = "any day"
