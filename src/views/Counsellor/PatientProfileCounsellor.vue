@@ -4,11 +4,6 @@
         <!-- if user is patient -->
         <NavBarCounsellor/>
         <h1>Patient's Profile</h1>
-        <!-- <div id = "leaveReview" v-if = "userNotLeftReview">
-            We notice you have not yet left a review for your previous session with Mr John Tan. 
-            Leave a review now!
-            <router-link to="/rateCounsellor">Rate Counsellor!</router-link>
-        </div><br> -->
 
         <!-- else (user is counsellor from MyPatients) -->
         <!-- <NavBarCounsellor/> -->
