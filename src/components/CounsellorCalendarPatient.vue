@@ -26,9 +26,9 @@ export default {
     data() {
         return {
         user:false,
-        fbuser:"",
+        fbuser:"", // user UID
         user_type:"patient",
-        counsellor_ID: this.$route.params.id,
+        counsellor_ID: this.$route.params.id, // counsellor UID
         days: [],
         avail: [],
         booked: [],
@@ -44,7 +44,8 @@ export default {
                 if (user.user_type == "counsellor") {
                     this.user_type = "counsellor";
                 }
-                this.fbuser = user.email;
+                // this.fbuser = user.email;
+                this.fbuser = user.uid;
                 // this.updateCurrentlyAvailable();
                 // this.avgRating(this.fbuser);
                 // this.mountedCheckCurrentlyAvailable();
@@ -136,8 +137,8 @@ export default {
                 upcoming.push(item.session)
                 await setDoc(counsellorRef, {upcoming_counsellor_sessions: upcoming, available_slots: avail}, {merge: true})
             
-                //edit session > set user_email
-                await setDoc(doc(db, "Sessions", item.session), {user_email: this.fbuser}, {merge: true})
+                //edit session > set user_ID
+                await setDoc(doc(db, "Sessions", item.session), {user_ID: this.fbuser}, {merge: true})
                 
                 //edit patient > add to upcoming_user_sessions
                 patient_upcoming.push(item.session)

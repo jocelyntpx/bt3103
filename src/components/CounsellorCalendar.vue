@@ -41,9 +41,9 @@ export default {
     data() {
         return {
         user:false,
-        fbuser:"",
+        // fbuser:"",
         user_type:"patient",
-        counsellor_ID: this.$route.params.id,
+        counsellor_ID: this.$route.params.id, // UID
         days: [],
         upcoming: [],
         avail: [],
@@ -60,7 +60,7 @@ export default {
                 if (user.user_type == "counsellor") {
                     this.user_type = "counsellor";
                 }
-                this.fbuser = user.email;
+                // this.fbuser = user.email;
                 // this.getDetails(this.fbuser);
                 // this.updateCurrentlyAvailable();
                 // this.avgRating(this.fbuser);
@@ -120,7 +120,7 @@ export default {
                 })
 
                 avail.forEach(async (x) => {
-                    const slotRef = doc(db, "Sessions", this.fbuser+x)
+                    const slotRef = doc(db, "Sessions", this.counsellor_ID+x)
                     const slotSnap = await getDoc(slotRef)
                     let slot = slotSnap.data().session_time
                     
@@ -159,12 +159,12 @@ export default {
 
                 //create new session
                 await setDoc(doc(db, "Sessions", this.counsellor_ID+this.date), {
-                    counsellor_email: this.counsellor_ID,
+                    counsellor_ID: this.counsellor_ID,
                     rating: null,
                     room_ID: "",
                     session_notes: "",
                     session_time: this.date,
-                    user_email: ""
+                    user_ID: ""
                 });
                 alert("New session created for " + this.date + " !")
             }

@@ -124,13 +124,23 @@ export default {
     // update backend for COUNSELLOR (backend for patient will be updated separately in DailyUserView.vue)
     const sessionDocRef = doc(db, "Sessions", this.sessionID)
     const sessionSnap = await getDoc(sessionDocRef);
-    console.log("user of session : " , sessionSnap.data().counsellor_email);
+    console.log("user of session : " , sessionSnap.data().counsellor_ID);
 
-    const counsellorDocRef = doc(db, "Counsellors", sessionSnap.data().counsellor_email)
+    const counsellorDocRef = doc(db, "Counsellors", sessionSnap.data().counsellor_ID)
     await updateDoc(counsellorDocRef, {
       upcoming_counsellor_sessions: arrayRemove(this.sessionID),
       past_counsellor_sessions: arrayUnion(this.sessionID)
     })
+
+    // add to my_patients field of counsellor 
+    const userID = sessionSnap.data().user_ID
+    const counsellorSnap = await getDoc(counsellorDocRef)
+    let counsellorPatients = counsellorSnap.data().my_patients
+    if (!counsellorPatients.includes(userID)) {
+      await updateDoc(counsellorDocRef, {
+        my_patients: arrayUnion(userID)
+      })
+    }
     
     // route counsellor to the notes page.
     this.$router.push({ name: 'SessionNotes', params: { id: this.sessionID } } )

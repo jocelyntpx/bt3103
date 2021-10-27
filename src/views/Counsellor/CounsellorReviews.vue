@@ -38,8 +38,8 @@ export default {
         return {
             user:false,
             counsellor: false,
-            user_email:"",
-            fbuser:"",
+            // user_email:"",
+            fbuser:"", // user's uid 
             counsellorName:"",
             numberReviews:0, //increment by one each time successfully get a review OR just get length of past_rating
      
@@ -51,14 +51,14 @@ export default {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.user = user;
-                this.fbuser = user.email;
+                this.fbuser = user.uid;
             }
         })
         
         this.findCounsellorName();
         this.displayReviews();
-        this.user_email = auth.currentUser.email;
-        this.isCounsellor(this.user_email);
+        // this.user_email = auth.currentUser.email;
+        this.isCounsellor(this.fbuser);
     },
     methods: {
             async isCounsellor(user) {

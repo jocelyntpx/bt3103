@@ -60,19 +60,29 @@ export default {
             if (this.email == "" || this.password== ""){
                 alert("Please fill in your email and password!")
             } else {
-                var data = await getDocs(query(collection(db, "Counsellors"), where("email", "==", this.email)));
+                // var data = await getDoc(query(collection(db, "Counsellors"), where("email", "==", this.email)));
+
+                const counsellorsRef = collection(db, "Counsellors")
+                const data = await getDocs(query(counsellorsRef, where("email", "==", this.email)))
+                var counsellorID = ""
+                data.forEach((doc) => {
+                  console.log(doc.id)
+                  counsellorID = doc.id
+                })
+
                 // getDocs(collection(db,String(user))) 
                 // db.collection("Counsellors").where("email","==",this.email).get()
                 if(data.empty) {
                     alert("This is the admin page. Please proceed to the user login page instead!")
                 } else {
-                    await firebase
+                  await firebase
                         .auth()
                         .signInWithEmailAndPassword(this.email, this.password)
                         .then(() => {
-                            alert('Successfully logged in');
+                          alert('Successfully logged in');
                             // this.$router.push({ path: '/counsellorProfile'});
-                            this.$router.push({ name: 'CounsellorProfile', params: { id: this.email } });
+                            // this.$router.push({ name: 'CounsellorProfile', params: { id: this.email } });
+                            this.$router.push({ name: 'CounsellorProfile', params: { id: counsellorID } });
                         })
                         .catch(error => {
                             alert(error.message);

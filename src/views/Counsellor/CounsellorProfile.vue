@@ -1,7 +1,7 @@
 <template>
     <!-- <h1> id is {{this.counsellor_ID}} </h1> -->
     <div v-if="fbuser != ''">
-        <AlertCounsellorSession :counsellorEmail=this.fbuser />
+        <AlertCounsellorSession :counsellorID=this.fbuser />
     </div>
 
     <div v-if="user"> 
@@ -91,7 +91,7 @@ export default {
             email:"",
             user_type:"counsellor",
             counsellor_ID: this.$route.params.id,
-            fbuser:"",
+            fbuser:"", // counsellor's (user) UID
             currentlyAvailable:null,
             name:"",
             gender:"",
@@ -114,7 +114,7 @@ export default {
                 if (user.user_type == "counsellor") {
                     this.user_type = "counsellor";
                 }
-                this.fbuser = user.email;
+                this.fbuser = user.uid;
 
                 this.getDetails(this.fbuser);
                 // this.updateCurrentlyAvailable();
@@ -136,7 +136,7 @@ export default {
             this.ratings = counsellorDoc.data().past_ratings;  
             this.profile_pic = counsellorDoc.data().profile_pic; 
             this.email = counsellorDoc.data().email; 
-            this.credentials = counsellorDoc.data().credentials;
+            this.credentials = counsellorDoc.data().counsellor_credentials;
             this.additional_details = counsellorDoc.data().additional_details; 
             this.currentlyAvailable = counsellorDoc.data().currently_available;
             this.updateCurrentlyAvailable();

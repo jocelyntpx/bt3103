@@ -51,9 +51,9 @@ export default {
     data(){
         return{
             user:false,
-            email:"",
+            // email:"",
             user_type:"patient",
-            fbuser:"",
+            fbuser:"", // user's uid 
             checkedNames: [],
             additional_details:"",
             credentials:"",
@@ -69,7 +69,7 @@ export default {
                 if (user.user_type == "counsellor") {
                     this.user_type = "counsellor";
                 }
-                this.fbuser = user.email;
+                this.fbuser = user.uid;
                 this.getDetails(this.fbuser);
             }
         })
@@ -80,7 +80,7 @@ export default {
         let docRef = doc(db, "Counsellors", String(user));
         let counsellorDoc = await getDoc(docRef);  
         this.specialisations = counsellorDoc.data().counsellor_specialisations;
-        this.credentials = counsellorDoc.data().credentials;
+        this.credentials = counsellorDoc.data().counsellor_credentials;
         this.additional_details = counsellorDoc.data().additional_details; 
         this.checkedNames = this.specialisations;
 
@@ -93,7 +93,7 @@ export default {
         let docRef = doc(db, "Counsellors", String(this.fbuser));
         updateDoc(docRef, {
           counsellor_specialisations: checkedNames,
-          credentials: this.credentials,
+          counsellor_credentials: this.credentials,
           additional_details: this.additional_details,
           }).then(
             alert("Profile details updated. Please wait while we refresh your page."),

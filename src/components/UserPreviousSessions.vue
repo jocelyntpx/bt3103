@@ -31,7 +31,7 @@ export default {
         return{
             user:false,
             counsellor: false,
-            user_email:"",
+            user_ID:"",
             user_type: "patient",
         }
     },
@@ -44,14 +44,14 @@ export default {
             //   this.counsellor = true;
             // }
         })
-        this.user_email = auth.currentUser.email;
-        this.isCounsellor(this.user_email);
-        this.displayPastSessions(this.user_email);
+        this.user_ID = auth.currentUser.uid;
+        this.isCounsellor(this.user_ID);
+        this.displayPastSessions(this.user_ID);
     },
 
     methods: {
         // actually this isCounsellor method not needed already because not using v-if v-else for tables now
-        async isCounsellor(user) { 
+        async isCounsellor(user) { // UID
             // const checkUser = db.collection('Counsellors').doc(user.email);
             // const doc = await checkUser.get();
 
@@ -80,7 +80,7 @@ export default {
                 // console.log(pastSession)
                 let sessionDocRef = doc(db, "Sessions", pastSession);
                 let sessionID = await getDoc(sessionDocRef);
-                let counsellorDocRef = doc(db, "Counsellors", sessionID.data().counsellor_email);
+                let counsellorDocRef = doc(db, "Counsellors", sessionID.data().counsellor_ID);
                 let counsellor = await getDoc(counsellorDocRef);
 
                 let sessionTime = sessionID.data().session_time.toDate()

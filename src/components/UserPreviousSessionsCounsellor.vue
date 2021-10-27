@@ -30,7 +30,7 @@ export default {
     data(){
         return{
             user:false,
-            user_email:"",
+            user_ID:"", // counsellor's uid
             user_type: "counsellor",
             patient_id:this.$route.params.id
         }
@@ -44,7 +44,7 @@ export default {
             //   this.counsellor = true;
             // }
         })
-        this.user_email = auth.currentUser.email;
+        this.user_ID = auth.currentUser.uid;
         this.displayPastSessions(this.patient_id);
     },
 
@@ -61,7 +61,7 @@ export default {
                 console.log(pastSession)
                 let sessionDocRef = doc(db, "Sessions", pastSession);
                 let sessionID = await getDoc(sessionDocRef);
-                let counsellorDocRef = doc(db, "Counsellors", sessionID.data().counsellor_email);
+                let counsellorDocRef = doc(db, "Counsellors", sessionID.data().counsellor_ID);
                 let counsellor = await getDoc(counsellorDocRef);
 
                 let sessionTime = sessionID.data().session_time.toDate()
