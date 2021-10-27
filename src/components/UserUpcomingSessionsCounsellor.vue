@@ -7,8 +7,8 @@
             <th>Date</th> 
             <th>Time</th>
             <th>Counsellor</th>
-            <th>Link</th>
-            <th>X</th> 
+            <!-- <th>Link</th>
+            <th>X</th>  -->
             </tr>
         </table>
       </div>
@@ -17,12 +17,12 @@
 <script>
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { doc, getDoc, arrayRemove, arrayUnion, Timestamp, updateDoc,deleteDoc } from "firebase/firestore";
+import { doc, getDoc, arrayRemove, arrayUnion, Timestamp, updateDoc,} from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
 export default {
-    name: "UserUpcomingSessions",
+    name: "UserUpcomingSessionsCounsellor",
 
     data(){
         return{
@@ -84,27 +84,29 @@ export default {
                 var cell1 = row.insertCell(0); 
                 var cell2 = row.insertCell(1); 
                 var cell3 = row.insertCell(2); 
-                var cell4 = row.insertCell(3); 
-                var cell5 = row.insertCell(4); 
+                // var cell4 = row.insertCell(3); 
+                // var cell5 = row.insertCell(4); 
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
                 cell3.innerHTML = counsellorName; 
                 
-                console.log("diff is ", sessionTime - timeNow)
-                // if (link == "" && !(sessionTime - timeNow <= 10*60*1000)) { // no room link yet. 
-                if (10*60*1000 < sessionTime - timeNow) { // it is OVER 10 mins till the start of the session time 
-                    console.log("No link yet, and DOES NOT meet criteria to create  a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
-                    cell4.innerHTML = "You can enter your session room up to 10 minutes before the slot timing.";
-                } else {
-                    // (1) within 10 minutes from session start, or (2) session slot already begun, or (3) link already exists.
-                    console.log("No link yet, but meets criteria to create a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
-                    var linkSession = document.createElement("button")
-                    linkSession.id = "linkSession"
-                    linkSession.innerHTML = "Enter Session Room Now!"
+                // console.log("diff is ", sessionTime - timeNow)
+                // // if (link == "" && !(sessionTime - timeNow <= 10*60*1000)) { // no room link yet. 
+                // if (10*60*1000 < sessionTime - timeNow) { // it is OVER 10 mins till the start of the session time 
+                //     console.log("No link yet, and DOES NOT meet criteria to create  a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
+                //     cell4.innerHTML = "You can enter your session room up to 10 minutes before the slot timing.";
+                // } else {
+                //     // (1) within 10 minutes from session start, or (2) session slot already begun, or (3) link already exists.
+                //     console.log("No link yet, but meets criteria to create a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
+                //     var linkSession = document.createElement("button")
+                //     linkSession.id = "linkSession"
+                //     linkSession.innerHTML = "Enter Session Room Now!"
                     
-                    linkSession.onclick = () => {
-                        this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
-                    }
+                //     linkSession.onclick = () => {
+                //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
+                //     }
+
+                    //bottom here onwards was originally commented out
                     // if (sessionTime - timeNow <= 10*60*1000) { 
                     //     console.log("sessionTime - timeNow <= 10*60*1000");
                     //     linkSession.onclick = () => {
@@ -115,43 +117,43 @@ export default {
                     //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
                     //     }
                     // }
-                    cell4.appendChild(linkSession)
-                }
+                //     cell4.appendChild(linkSession)
+                // }
                 
-                cell5.innerHTML = "";
+                // cell5.innerHTML = "";
 
-                var bu = document.createElement("button")
-                bu.className = "bwt"
-                bu.id = String(counsellorName)
-                bu.innerHTML = "X"
-                bu.onclick = ()=>{
-                    this.cancelSession(sessionID.id,counsellor.id,user)
-                    //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
-                }
-                cell5.appendChild(bu)                        
+                // var bu = document.createElement("button")
+                // bu.className = "bwt"
+                // bu.id = String(counsellorName)
+                // bu.innerHTML = "X"
+                // bu.onclick = ()=>{
+                //     this.cancelSession(sessionID.id,counsellor.id,user)
+                //     //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
+                // }
+                // cell5.appendChild(bu)                        
             }                   
         },
     
 
-        async cancelSession(session, counsellor, user) {
-            var confirmDelete = confirm("Press 'OK' to proceed to cancel this appointment with Session ID of " + session);
-            //alert("You are going to cancel this appointment with Session ID of " + session)
-            if (confirmDelete) { //pressed OK
-                //remove session from patient's and counsellor's upcoming appointments array
-                await updateDoc(doc(db,"Counsellors",counsellor), {upcoming_counsellor_sessions: arrayRemove(session)});
-                await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(session)});
+        // async cancelSession(session, counsellor, user) {
+        //     var confirmDelete = confirm("Press 'OK' to proceed to cancel this appointment with Session ID of " + session);
+        //     //alert("You are going to cancel this appointment with Session ID of " + session)
+        //     if (confirmDelete) { //pressed OK
+        //         //remove session from patient's and counsellor's upcoming appointments array
+        //         await updateDoc(doc(db,"Counsellors",counsellor), {upcoming_counsellor_sessions: arrayRemove(session)});
+        //         await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(session)});
 
-                //delete session from sessions collection
-                await deleteDoc(doc(db,"Sessions",session))
-                console.log("Session successfully deleted!");
-                let tb = document.getElementById("table")
-                while (tb.rows.length > 1){
-                    tb.deleteRow(1)
-                }
-                this.displayUpcomingSessions(this.user_ID); 
-            }
+        //         //delete session from sessions collection
+        //         await deleteDoc(doc(db,"Sessions",session))
+        //         console.log("Session successfully deleted!");
+        //         let tb = document.getElementById("table")
+        //         while (tb.rows.length > 1){
+        //             tb.deleteRow(1)
+        //         }
+        //         this.displayUpcomingSessions(this.user_ID); 
+        //     }
             
-        }
+        // }
 
     }
 }
