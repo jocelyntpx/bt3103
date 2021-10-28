@@ -13,7 +13,7 @@
         </div>
 
         <div class = "search_bars">
-          <div class = "left">
+          <div class = "left"> 
             <p style="font-weight:bold"> Search for a counsellor: </p>
             <input type="text" class = "search_for_counsellor" v-model="search" placeholder="Type the Counsellor's Name"/>
           </div>
@@ -45,7 +45,7 @@
           <div> 
             <!-- Would need some kind of for loop -->
             <div class = "counsellors_box">
-              <CounsellorsCurrentlyAvailable :key="refreshComponent" :selectedCategory=this.selectedCategory />
+              <CounsellorsCurrentlyAvailable :key="refreshComponent" :selectedCategory=this.selectedCategory :search=this.search  />
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
             <AllCounsellorsCalendarFilter @updateFilteredDays = "showFilteredDays" />
           </div>
           <!-- <AllCounsellors :key="refreshComponent" v-bind="groupedProps" /> -->
-          <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory />
+          <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory :search=this.search />
         </div> 
       </div>
 
@@ -96,7 +96,8 @@ export default {
             // fbuser:"", // user's uid
             refreshComponent: 0,
             filteringDays: "any day",
-            selectedCategory: 'All Categories'
+            selectedCategory: 'All Categories',
+            search: "",
         }
     },
 
@@ -105,8 +106,17 @@ export default {
         groupedProps:{
           filteredDays: this.filteringDays,
           selectedCategory: this.selectedCategory 
+        },
+
+
       }
-    }
+    },
+
+    watch: {
+      search() {
+        this.refreshComponent += 1
+        console.log("this.refreshComp += 1")
+      }
     },
 
     mounted() {

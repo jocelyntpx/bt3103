@@ -28,6 +28,7 @@ export default {
   props: {
     filteredDays:String,
     selectedCategory:String,
+    search:String
   },
 
   data() {
@@ -52,8 +53,8 @@ methods: {
       console.log("In NotAvailableCounsellors, filteredDays: ", this.filteredDays);
       let allCounsellors = await getDocs(collection(db,"Counsellors"));
       console.log("this.selectedCategory: ",this.selectedCategory)
+      console.log("this.search: ",this.search)
       console.log("this.filteredDays: ",this.filteredDays)
-
 
       allCounsellors.forEach((counsellor) => {
 
@@ -76,8 +77,16 @@ methods: {
 
       }
 
-        })
+      })
+      // search functionality 
+      this.all_counsellors = this.all_counsellors.filter(counsellor => {
+        return counsellor.data().name.toLowerCase().includes(this.search.toLowerCase())
+      })
+
     },
+
+    
+
     formattedSpecialisations(specialisations) {
       var stringOutput = ""
       if (specialisations.length > 0) {
