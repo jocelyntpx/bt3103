@@ -35,7 +35,8 @@ export default {
   name: "CounsellorsCurrentlyAvailable",
 
   props: {
-    selectedCategory:String
+    selectedCategory:String,
+    search:String
   },
 
   data() {
@@ -84,6 +85,7 @@ export default {
   async displayAvailableCounsellors() { // WORKS
     console.log("in displayAvailableCounsellors");
     console.log("this.selectedCategory: ",this.selectedCategory)
+    console.log("this.search: ",this.search)
     let allCounsellors = await getDocs(collection(db,"Counsellors"))
 
     allCounsellors.forEach((counsellor) => {
@@ -119,6 +121,10 @@ export default {
       }
 
       }
+      // search functionality
+      this.available = this.available.filter(counsellor => {
+        return counsellor[0].data().name.toLowerCase().includes(this.search.toLowerCase())
+      })
 
     })
     console.log("this.available is ", this.available);
