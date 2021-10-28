@@ -27,8 +27,10 @@
         <div class = "past_patients_list" v-else> 
             <h4>Past patients are patients you have already had an appointment with. </h4>
             <div class = "bgBlock2">
-                <input id=searchPatient type="text"  v-model="search" placeholder="Search for a patient"/>
-                <PastPatients/>
+                <div class = "search_bar"> 
+                    <input type="text" class = "search_for_patient" v-model="search" placeholder="Search for a patient"/>
+                </div>
+                <PastPatients :key="refreshComponent"  :search=this.search  />
                 <br><br><br><br><br><br><br><br>
             </div>
         </div> 
@@ -55,6 +57,8 @@ export default {
         return{
             showUpcoming: true,
             user:false,
+            refreshComponent:0,
+            search: ""
         }
     },
 
@@ -65,6 +69,13 @@ export default {
         onAuthStateChanged(auth, user => {
             this.user = user;
         })
+    },
+
+    watch: {
+      search() {
+        this.refreshComponent += 1
+        console.log("refreshcomponent" , this.refreshComponent)
+      }
     },
 }
 

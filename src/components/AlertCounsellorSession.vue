@@ -32,6 +32,7 @@ export default {
             const counsellorDoc = doc(db, "Counsellors", this.counsellorID)
             setInterval(async () => {
                 console.log("in setInterval")
+                console.log(this.counsellorID)
                 let counsellorSnap = await getDoc(counsellorDoc)
                 let alertCounsellor = counsellorSnap.data().alert_counsellor
                 if (alertCounsellor) {
