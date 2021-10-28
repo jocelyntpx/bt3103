@@ -69,7 +69,7 @@ export default {
       name: counsellor_name,
       available_slots: new Array(),
       counsellor_specialisations: new Array(),
-      counsellor_credentials: new Array(),
+      counsellor_credentials: "",
       gender:"Female",
       currently_available:false,
       past_ratings:new Array(),

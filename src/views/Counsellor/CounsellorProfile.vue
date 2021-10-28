@@ -40,8 +40,8 @@
                             Gender: <strong>{{this.gender}}</strong><br>
                             Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
                             Credentials: <strong>{{this.credentials}}</strong><br>
-                            Additional Details: <strong>{{this.additional_details}}</strong><br>
-                            Rating: <strong>{{this.avgRatings}}</strong><br></p>
+                            Rating: <strong>{{this.avgRatings}}</strong></p>
+                            <p v-if="this.additional_details">Additional Details: <strong>{{this.additional_details}}</strong></p><br>
 
                             <div class="save-btn">
                                 <button @click="showModal2 = true">Edit Profile Details</button>

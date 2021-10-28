@@ -1,6 +1,6 @@
 <template>
     <div class = "my_patients">
-            <a v-for= "patient in AllMyPatients" v-bind:key="patient.index">
+            <a v-for= "patient in allMyPatients" v-bind:key="patient.index">
                 <div id="patient_box">
                     <!-- <h3>{{patient.data().name}}</h3> -->
                     <h3><router-link :to="{ name: 'PatientProfileCounsellor', params: { id: patient.id }}">{{patient.data().name}}</router-link></h3>
@@ -22,11 +22,14 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 export default {
     // components: {NavBarCounsellor},   
     name:"PastPatients",
+    props: {
+        search:String
+    },
 
     data(){
         return{
             user:false,
-            AllMyPatients:[],
+            allMyPatients:[],
             counsellorUser:"", // counsellor's UID
             count:"",
         }
@@ -43,19 +46,34 @@ export default {
 
     methods: {
         async displayMyPatients(user) {
+            console.log("this.search: ",this.search)
             let docRef = doc(db, "Counsellors", String(user));
             let counsellorDoc = await getDoc(docRef);
             let myPatients = counsellorDoc.data().my_patients // array of uid
 
            //console.log(counsellorDoc.data());
-            myPatients.forEach(async (patient_ID)=> {
+
+            for (const patient_ID of myPatients) {
                 let patientDocRef = doc(db, "Patients", patient_ID);
                 let patient = await getDoc(patientDocRef);
                 //console.log(patient);
                 
-                this.AllMyPatients.push(patient)
-            })
+                this.allMyPatients.push(patient)
+            }
 
+            // i rly dk why this code doesnt work when i implement search... replaced it w the above
+            // myPatients.forEach(async (patient_ID)=> {
+            //     let patientDocRef = doc(db, "Patients", patient_ID);
+            //     let patient = await getDoc(patientDocRef);
+            //     //console.log(patient);
+                
+            //     this.allMyPatients.push(patient)
+            // })
+            console.log(this.allMyPatients[0].data().name)
+            // search functionality 
+            this.allMyPatients = this.allMyPatients.filter(patient => {
+                return patient.data().name.toLowerCase().includes(this.search.toLowerCase())
+            })
         }
     }
 }
