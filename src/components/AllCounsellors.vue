@@ -26,7 +26,8 @@ const db = getFirestore(firebaseApp);
 export default {
   name: "NotAvailableCounsellors",
   props: {
-    filteredDays:String
+    filteredDays:String,
+    selectedCategory:String,
   },
 
   data() {
@@ -50,8 +51,14 @@ methods: {
     async displayAllCounsellors() {
       console.log("In NotAvailableCounsellors, filteredDays: ", this.filteredDays);
       let allCounsellors = await getDocs(collection(db,"Counsellors"));
+      console.log("this.selectedCategory: ",this.selectedCategory)
+      console.log("this.filteredDays: ",this.filteredDays)
+
 
       allCounsellors.forEach((counsellor) => {
+
+      if(this.selectedCategory === 'All Categories' || counsellor.data().counsellor_specialisations.includes(this.selectedCategory)) {
+
         if (this.filteredDays != "any day") { // user has filtered on a day - counsellor will be shown if at least one avail slot is on the filtered day
           var slots = counsellor.data().available_slots 
           for (let i  = 0; i < slots.length; i++) {
@@ -66,6 +73,9 @@ methods: {
         } else {
           this.all_counsellors.push(counsellor)
         }
+
+      }
+
         })
     },
     formattedSpecialisations(specialisations) {

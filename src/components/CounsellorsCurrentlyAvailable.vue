@@ -34,6 +34,10 @@ const db = getFirestore(firebaseApp);
 export default {
   name: "CounsellorsCurrentlyAvailable",
 
+  props: {
+    selectedCategory:String
+  },
+
   data() {
     return {
       user: false,
@@ -57,15 +61,15 @@ export default {
   methods: {
   // TEMP METHOD
   async newCounsellor() {
-    let counsellor_name = "Jackson Tan"
-    let counsellor_email = "jacksonTan@gmail.com"
-    setDoc(doc(db, "Counsellors", "VY4Bg85VeMMbfPFM700sfJX8FMh1"), {
+    let counsellor_name = "Jane Goh"
+    let counsellor_email = "jane@gmail.com"
+    setDoc(doc(db, "Counsellors", "KWxxzVGO2XY0jKU9ewdLTVVYKGR2"), {
       email: counsellor_email,
       name: counsellor_name,
       available_slots: new Array(),
       counsellor_specialisations: new Array(),
       counsellor_credentials: new Array(),
-      gender:"Male",
+      gender:"Female",
       currently_available:false,
       past_ratings:new Array(),
       upcoming_counsellor_sessions:new Array(),
@@ -79,13 +83,16 @@ export default {
 
   async displayAvailableCounsellors() { // WORKS
     console.log("in displayAvailableCounsellors");
+    console.log("this.selectedCategory: ",this.selectedCategory)
     let allCounsellors = await getDocs(collection(db,"Counsellors"))
 
     allCounsellors.forEach((counsellor) => {
       console.log("length : +1")
       console.log(counsellor.data().name)
-      // check if counsellor is currently available i.e. available slot <= 10 minutes from current time
 
+      if(this.selectedCategory === 'All Categories' || counsellor.data().counsellor_specialisations.includes(this.selectedCategory)) {
+
+      // check if counsellor is currently available i.e. available slot <= 10 minutes from current time
       // if the currently_available toggle is on, that takes precedence over a specified available_slot. Slot created is for timestamp NOW.
       if (counsellor.data().currently_available) {
         console.log(counsellor.data().name + " has toggle currently_available on");
@@ -110,6 +117,9 @@ export default {
           }      
         })
       }
+
+      }
+
     })
     console.log("this.available is ", this.available);
   },
