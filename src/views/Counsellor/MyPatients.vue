@@ -55,10 +55,11 @@ export default {
 
     data(){
         return{
-            showUpcoming: true,
+            // showUpcoming: true,
+            showUpcoming: this.$route.params.showUpcoming,
             user:false,
             refreshComponent:0,
-            search: ""
+            search: "",
         }
     },
 

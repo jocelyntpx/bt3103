@@ -3,6 +3,9 @@
         <br><br>
         <!-- if user is patient -->
         <NavBarCounsellor/>
+
+        <!-- <button id = "back" @click="goBack()"> Back to Past Patients </button> <br> -->
+
         <h1>Patient's Profile</h1>
 
         <!-- else (user is counsellor from MyPatients) -->
@@ -95,6 +98,10 @@ export default {
             this.patient_name = patientDoc.data().name;
             // this.patient_uid = patientDoc.data().userID;
         },
+
+        // goBack() {
+        //     this.$router.push({ name: 'MyPatients', params: { showUpcoming:false } }) 
+        // }
    
     }
 }
@@ -121,7 +128,10 @@ export default {
     margin:auto;
 } 
 
-
+#back {
+    float:left;
+    margin-left: 10%;
+}
 #col-1 {
   background-color: transparent;
   flex: 1;

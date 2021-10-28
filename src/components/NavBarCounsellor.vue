@@ -5,7 +5,8 @@
             <h3 id="mhm">Mental Health Matters</h3>
             <router-link :to="{ name: 'CounsellorProfile', params: { id: this.fbuser }}">My Profile</router-link> |
             <!-- <router-link to="/counsellorProfile">My Profile</router-link> |  -->
-            <router-link to="/myPatients">My Patients</router-link> | 
+            <!-- <router-link to="/myPatients">My Patients</router-link> |  -->
+            <router-link :to="{ name: 'MyPatients', params: { showUpcoming: true }}">My Patients</router-link> | 
             <!-- <router-link to="/about">About Us</router-link> |  -->
             <router-link to="/helpResourcesAdmin">Help Resources</router-link> | 
             <Logout/>
