@@ -2,23 +2,24 @@
   <div v-if="user">
       <br><br>
       <NavBarPatient/>
+
+      <div class = "main">
       <h1> Find a Counsellor </h1><br><br>
           
-      <div class = "main">
+      <div class = "top">
         <div class = "buttons">
           <div><button @click="showCurrentlyAvailable = true" id = "counsellor_btn_avail">Currently Available</button></div>
           <div><button @click="showCurrentlyAvailable = false" id = "counsellor_btn_all">All Counsellors</button></div>
         </div>
 
         <div class = "search_bars">
-          <div class = "top">
-            <input type="text" class = "search_for_counsellor" v-model="search" placeholder="Search for a counsellor"/>
-          </div><br>
-          <!-- <div class = "bottom">
-            <FilterByCounsellorCategory/>
-          </div>  -->
+          <div class = "left">
+            <p style="font-weight:bold"> Search for a counsellor: </p>
+            <input type="text" class = "search_for_counsellor" v-model="search" placeholder="Type the Counsellor's Name"/>
+          </div>
 
-          <div class="bottom">
+          <div class="right">
+            <p style="font-weight:bold"> Filter by counsellor's specialisations: </p>
             <div class="filters">
               <span class="filter" v-bind:class="{ active: selectedCategory === 'All Categories' }" v-on:click="setCategory('All Categories')">All Categories</span>
               <span class="filter" v-bind:class="{ active: selectedCategory === 'General' }" v-on:click="setCategory('General')">General</span>
@@ -28,11 +29,11 @@
           </div>
 
                 <!-- You have selected: <strong>{{ selectedCategory }}</strong> -->
-
-
         </div>
 
-      </div><br><br>
+      </div><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      <!-- <div class="clearfix"></div> -->
+
 
       <div class = "bgBlock1"> 
         <!-- Currently available counsellors -->
@@ -64,6 +65,8 @@
           <!-- <AllCounsellors :key="refreshComponent" v-bind="groupedProps" /> -->
           <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory />
         </div> 
+      </div>
+
       </div>
   </div>
 
@@ -151,28 +154,62 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+/* .clearfix{
+    clear:both
+} */
+
 .main {
-  width: 80%;
-  margin: auto;
-  height: 150px;
+
 }
+
+.top {
+  /* display: block; */
+  margin-left: auto;
+  margin-right: auto;
+  float: right;
+  display:block;
+  /* width:300px; */
+
+  width: 80%;
+  /* margin: auto; */
+  height: 250px;
+  /* border-radius: 35px; */
+  /* background: #B9D9EB; */
+  padding: 20px;
+}
+
+/* .top::after {
+  content: "";
+  clear: both;
+  display: table;
+} */
+
 .buttons {
   width: 80%; 
-  height: 100%;
-  float: left; 
+  height: 60%;
+  float: center; 
   /* background: green; */
 }
-.search_bars {
+/* .search_bars {
   height: 100px;
   margin-left: 80%;
-  align: left;
+  align: center; */
   /* font-size: 20px; */
   /* margin: 0 auto; */
   /* display: inline-block; */
+/* } */
+.search_bars {
+	/* display:flex; */
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+  width:60%;
+  margin:auto;
 }
+
 #counsellor_btn_avail,#counsellor_btn_all {
   float: left;
-  width: 45%;
+  width: 50%;
   height: 100%;
   padding: 44px 28px;
   font-size: 30px;
@@ -185,17 +222,18 @@ export default {
   background-color: #B9D9EB;
 } */
 
-.top {
-  width: 100%;
+.left {
+  width: 30%;
+  float: left;
   /* align: left; */
   /* align-content: stretch; */
 }
-.counsellors_box {
-  background-color: #B9D9EB;
-  width: 80%;
-  margin: auto;
-  padding: 20px;
+.right {
+  width: 70%;
+  float: left;
 }
+
+/* search bar */
 .search_for_counsellor {
   width: 100%;
 }
@@ -204,17 +242,27 @@ export default {
 .filter {
 	font-family:arial;
 	padding: 6px 6px;
+  margin:2px;
 	cursor:pointer;
 	border-radius: 6px;
 	transition: all 0.35s;
 }
 
 .filter.active {
-	box-shadow:0px 1px 3px 0px #00000026;
+	box-shadow:0px 1px 3px 1px #00000026;
 }
 
 .filter:hover {
 	background:lightgray;
 } 
+
+/*  main box */
+.counsellors_box {
+  background-color: #B9D9EB;
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+}
+
 
 </style>
