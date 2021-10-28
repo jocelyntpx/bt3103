@@ -14,12 +14,14 @@
 
         <div class = "search_bars">
           <div class = "left"> 
-            <p style="font-weight:bold"> Search for a counsellor: </p>
+            <!-- <p style="font-weight:bold"> Search for a counsellor: </p> -->
+            <label for="search_bar">Search for a counsellor:</label>
             <input type="text" class = "search_for_counsellor" v-model="search" placeholder="Type the Counsellor's Name"/>
           </div>
 
           <div class="right">
-            <p style="font-weight:bold"> Filter by counsellor's specialisations: </p>
+            <!-- <p style="font-weight:bold"> Filter by counsellor's specialisations: </p> -->
+            <label for="counsellor_category">Filter by counsellor's specialisations: </label>
             <div class="filters">
               <span class="filter" v-bind:class="{ active: selectedCategory === 'All Categories' }" v-on:click="setCategory('All Categories')">All Categories</span>
               <span class="filter" v-bind:class="{ active: selectedCategory === 'General' }" v-on:click="setCategory('General')">General</span>
@@ -28,10 +30,18 @@
             </div>
           </div>
 
-                <!-- You have selected: <strong>{{ selectedCategory }}</strong> -->
+          <div class="sort">
+            <!-- <p style="font-weight:bold"> Filter by counsellor's specialisations: </p> -->
+            <label for="sort_counsellor">Sort counsellor by: </label>
+            <div class="filters">
+              <span class="filter" v-bind:class="{ active: sortCounsellor === 'Alphabetical' }" v-on:click="setSort('Alphabetical')">Alphabetical</span>
+              <span class="filter" v-bind:class="{ active: sortCounsellor === 'Highest Rating' }" v-on:click="setSort('Highest Rating')">Highest Rating</span>
+            </div>
+          </div>
+
         </div>
 
-      </div><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      </div><br><br><br><br><br><br><br><br><br><br><br><br>
       <!-- <div class="clearfix"></div> -->
 
 
@@ -45,7 +55,7 @@
           <div> 
             <!-- Would need some kind of for loop -->
             <div class = "counsellors_box">
-              <CounsellorsCurrentlyAvailable :key="refreshComponent" :selectedCategory=this.selectedCategory :search=this.search  />
+              <CounsellorsCurrentlyAvailable :key="refreshComponent" :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
             </div>
           </div>
         </div>
@@ -63,7 +73,7 @@
             <AllCounsellorsCalendarFilter @updateFilteredDays = "showFilteredDays" />
           </div>
           <!-- <AllCounsellors :key="refreshComponent" v-bind="groupedProps" /> -->
-          <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory :search=this.search />
+          <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
         </div> 
       </div>
 
@@ -98,19 +108,20 @@ export default {
             filteringDays: "any day",
             selectedCategory: 'All Categories',
             search: "",
+            sortCounsellor: "Alphabetical",
         }
     },
 
-    computed() {
-      return {
-        groupedProps:{
-          filteredDays: this.filteringDays,
-          selectedCategory: this.selectedCategory 
-        },
+    // computed() {
+    //   return {
+    //     groupedProps:{
+    //       filteredDays: this.filteringDays,
+    //       selectedCategory: this.selectedCategory 
+    //     },
 
 
-      }
-    },
+    //   }
+    // },
 
     watch: {
       search() {
@@ -130,6 +141,10 @@ export default {
     methods: {
       setCategory(category) {
         this.selectedCategory = category; // prop 
+        this.refreshComponent += 1
+      },
+      setSort(sort) {
+        this.sortCounsellor = sort; // prop
         this.refreshComponent += 1
       },
       showFilteredDays(event) {
@@ -233,14 +248,28 @@ export default {
 } */
 
 .left {
-  width: 30%;
+  width: 20%;
   float: left;
   /* align: left; */
   /* align-content: stretch; */
 }
 .right {
-  width: 70%;
+  width: 50%;
   float: left;
+}
+.sort {
+  width: 30%;
+  float: left;
+}
+
+label {
+  /* display: flex; */
+  flex-direction: row;
+  /* justify-content: flex-end; */
+  text-align: right;
+  /* width: 400px; */
+  line-height: 26px;
+  margin-bottom: 10px;
 }
 
 /* search bar */
@@ -251,7 +280,7 @@ export default {
 /* category filters */
 .filter {
 	font-family:arial;
-	padding: 6px 6px;
+	padding: 2px 6px;
   margin:2px;
 	cursor:pointer;
 	border-radius: 6px;

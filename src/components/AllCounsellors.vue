@@ -1,11 +1,22 @@
 <template>
+
+  <!-- <div class="sort">
+      <label for="sort_counsellor">Sort counsellor: </label>
+      <select name="basic-dropdown" v-model="sortCounsellor">
+          <option>Alphabetical</option>
+          <option>Highest Rating</option>
+      </select>
+  </div>  -->
+
   <div class="all_counsellors">
     <ul>
         <a v-for="counsellor in all_counsellors" v-bind:key="counsellor.index">
           <div id="counsellor_preview_box"> 
             <h4><router-link :to="{ name: 'CounsellorProfilePatient', params: { id: counsellor.id }}"> {{counsellor.data().name}}</router-link></h4>
             {{avgRating(counsellor.data().past_ratings)}}<br> 
-            {{ formattedSpecialisations(counsellor.data().counsellor_specialisations) }}<br><br>
+            <strong>{{ formattedSpecialisations(counsellor.data().counsellor_specialisations) }}</strong><br><br>
+            <span v-if="getEarliestSlot(counsellor.data().available_slots)">Earliest slot: {{getEarliestSlot(counsellor.data().available_slots)}} </span>
+            <span v-else>No slots at the moment</span><br><br>
           </div>
         </a>
     </ul>
@@ -28,7 +39,8 @@ export default {
   props: {
     filteredDays:String,
     selectedCategory:String,
-    search:String
+    search:String,
+    sortCounsellor:String
   },
 
   data() {
@@ -36,8 +48,16 @@ export default {
       user: false,
       user_type: "patient",
       all_counsellors:[],
+      // sortCounsellor:"Alphabetical",
     }
   },
+
+  // watch: {
+  //   sortCounsellor() {
+  //     this.updateSort();
+  //   }
+  // },
+
   mounted() {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
@@ -83,9 +103,60 @@ methods: {
         return counsellor.data().name.toLowerCase().includes(this.search.toLowerCase())
       })
 
+      // sort functionality 
+      this.updateSort();
     },
 
+    updateSort() {
+
+      this.all_counsellors.forEach(counsellor => { console.log("BEF FIRST SORT ", counsellor.data().name)})
+      // sort functionality
+      let sortBy = this.sortCounsellor
+
+      let updated = this.all_counsellors.sort( // ties are broken by alphabetical order.
+        function(a, b){
+          console.log(a.data().name - b.data().name)
+          if (a.data().name < b.data().name) { return -1 }
+          else if (a.data().name > b.data().name) { return 1 }
+          return 0;
+          // return a.data().name.toLowercase() - b.data().name.toLowercase()
+        }
+      )
+      // console.log(this.all_counsellors[2].data().name)
+      // console.log(updated[2].data().name)
+      this.all_counsellors = updated
+
+      this.all_counsellors.forEach(counsellor => { console.log("AFT FIRST SORT ", counsellor.data().name)})
+      console.log("legnth",this.all_counsellors.length)
+
+      if (sortBy == "Highest Rating") { // Highest Rating to Lowest Rating (Descending)
+        let updated = this.all_counsellors.sort(
+          function(a, b){
+
+            let aRating = 0
+            var sumA = 0
+            if (a.data().past_ratings.length > 0) { 
+              a.data().past_ratings.forEach(item => { sumA += item })
+              aRating = sumA / a.data().past_ratings.length
+            }
+
+            let bRating = 0
+            var sumB = 0
+            if (b.data().past_ratings.length > 0) {
+              b.data().past_ratings.forEach(item => { sumB += item })
+              bRating = sumB / b.data().past_ratings.length
+            }
+            console.log("aRating", aRating, "bRating", bRating)
+            return bRating - aRating
+          })
+        this.all_counsellors = updated
+
+        console.log("legnth",this.all_counsellors.length)
+        this.all_counsellors.forEach(counsellor => { console.log("AFT SECOND SORT ", counsellor.data().name)})
+
     
+      } 
+      },
 
     formattedSpecialisations(specialisations) {
       var stringOutput = ""
@@ -122,16 +193,38 @@ methods: {
       }
       return "☆☆☆☆☆"
     },
-  }
+
+    getEarliestSlot(slots) {
+      if (slots.length == 0) {
+        return;
+      }
+      let updated = slots.sort( function(timestampA, timestampB) {
+        return timestampA.toDate() - timestampB.toDate()
+      } ) 
+      if (this.filteredDays == "any day") {
+        return updated[0].toDate()
+      } else {
+        for (let i = 0; i < slots.length; i++) {
+          let slot = slots[i]
+          let a = slot.toDate()
+          let a_gmtDate = new Date(a.setHours(a.getHours() + 8))
+          if (a_gmtDate.toISOString().substr(0,10) == this.filteredDays) {
+            return (slot.toDate())
+          }
+        }
+      }
+    }
+}
 }
 </script>
 
 <style scoped>
+
 #counsellor_preview_box {
     display: inline-block;
     margin: 20px;
-    height: 80px;
-    width: 15%;
+    height: 150px;
+    width: 25%;
     background-color: rgb(224, 236, 247);
     border-radius: 35px;
     border: 30px solid rgb(224, 236, 247);
