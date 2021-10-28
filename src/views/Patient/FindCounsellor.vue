@@ -14,9 +14,22 @@
           <div class = "top">
             <input type="text" class = "search_for_counsellor" v-model="search" placeholder="Search for a counsellor"/>
           </div><br>
-          <div class = "bottom">
+          <!-- <div class = "bottom">
             <FilterByCounsellorCategory/>
-          </div> 
+          </div>  -->
+
+          <div class="bottom">
+            <div class="filters">
+              <span class="filter" v-bind:class="{ active: selectedCategory === 'All Categories' }" v-on:click="setCategory('All Categories')">All Categories</span>
+              <span class="filter" v-bind:class="{ active: selectedCategory === 'General' }" v-on:click="setCategory('General')">General</span>
+              <span class="filter" v-bind:class="{ active: selectedCategory === 'Career' }" v-on:click="setCategory('Career')">Career</span>
+              <span class="filter" v-bind:class="{ active: selectedCategory === 'Relationships' }" v-on:click="setCategory('Relationships')">Relationships</span>
+            </div>
+          </div>
+
+                <!-- You have selected: <strong>{{ selectedCategory }}</strong> -->
+
+
         </div>
 
       </div><br><br>
@@ -31,7 +44,7 @@
           <div> 
             <!-- Would need some kind of for loop -->
             <div class = "counsellors_box">
-              <CounsellorsCurrentlyAvailable/>
+              <CounsellorsCurrentlyAvailable :key="refreshComponent" :selectedCategory=this.selectedCategory />
             </div>
           </div>
         </div>
@@ -42,13 +55,14 @@
             <h3> Now showing counsellors available on {{filteringDays}}. </h3>
 
             <div v-if="this.filteringDays != 'any day'">
-              <button id = "reset_filter" @click = "resetCalendarFilter"> Show all days </button>
+              <button id = "reset_filter" @click = "resetCalendarFilter"> Show All Days </button>
             </div>
 
             <h4> Use the calendar to show counsellors with slots available on your selected day. </h4>
             <AllCounsellorsCalendarFilter @updateFilteredDays = "showFilteredDays" />
           </div>
-          <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays />
+          <!-- <AllCounsellors :key="refreshComponent" v-bind="groupedProps" /> -->
+          <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory />
         </div> 
       </div>
   </div>
@@ -58,7 +72,6 @@
 
 <script>
 import CounsellorsCurrentlyAvailable from "@/components/CounsellorsCurrentlyAvailable.vue"
-import FilterByCounsellorCategory from "@/components/FilterByCounsellorCategory.vue"
 import AllCounsellors from "@/components/AllCounsellors.vue"
 import NavBarPatient from "@/components/NavBarPatient.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -67,7 +80,7 @@ import AllCounsellorsCalendarFilter from '@/components/AllCounsellorsCalendarFil
 
 export default {
   components: {
-    CounsellorsCurrentlyAvailable, FilterByCounsellorCategory, AllCounsellors, NavBarPatient,
+    CounsellorsCurrentlyAvailable, AllCounsellors, NavBarPatient,
     AllCounsellorsCalendarFilter
    },
 
@@ -80,7 +93,17 @@ export default {
             // fbuser:"", // user's uid
             refreshComponent: 0,
             filteringDays: "any day",
+            selectedCategory: 'All Categories'
         }
+    },
+
+    computed() {
+      return {
+        groupedProps:{
+          filteredDays: this.filteringDays,
+          selectedCategory: this.selectedCategory 
+      }
+    }
     },
 
     mounted() {
@@ -92,6 +115,10 @@ export default {
     },
 
     methods: {
+      setCategory(category) {
+        this.selectedCategory = category; // prop 
+        this.refreshComponent += 1
+      },
       showFilteredDays(event) {
         console.log("From FindCounsellor: ", event);
         this.filteringDays = event // prop passed to child "NotAvailableCounsellors"
@@ -172,5 +199,22 @@ export default {
 .search_for_counsellor {
   width: 100%;
 }
+
+/* category filters */
+.filter {
+	font-family:arial;
+	padding: 6px 6px;
+	cursor:pointer;
+	border-radius: 6px;
+	transition: all 0.35s;
+}
+
+.filter.active {
+	box-shadow:0px 1px 3px 0px #00000026;
+}
+
+.filter:hover {
+	background:lightgray;
+} 
 
 </style>
