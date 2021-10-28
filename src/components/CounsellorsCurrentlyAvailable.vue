@@ -6,7 +6,7 @@
         <div id="available_counsellor_preview_box"> 
           <h4><router-link :to="{ name: 'CounsellorProfilePatient', params: { id: counsellorSlot[0].id }}"> {{counsellorSlot[0].data().name}}</router-link></h4>
           {{avgRating(counsellorSlot[0].data().past_ratings)}}<br> 
-          {{ formattedSpecialisations(counsellorSlot[0].data().counsellor_specialisations) }}<br><br>
+          <strong>{{ formattedSpecialisations(counsellorSlot[0].data().counsellor_specialisations) }}</strong><br><br>
           <button id = "consult_now" @click="createImmediateSession(counsellorSlot)"> Consult Now </button> 
         </div>
       </a>
@@ -36,7 +36,8 @@ export default {
 
   props: {
     selectedCategory:String,
-    search:String
+    search:String,
+    sortCounsellor:String
   },
 
   data() {
@@ -62,15 +63,15 @@ export default {
   methods: {
   // TEMP METHOD
   async newCounsellor() {
-    let counsellor_name = "Jane Goh"
-    let counsellor_email = "jane@gmail.com"
-    setDoc(doc(db, "Counsellors", "KWxxzVGO2XY0jKU9ewdLTVVYKGR2"), {
+    let counsellor_name = "Zack Koh"
+    let counsellor_email = "zack@gmail.com"
+    setDoc(doc(db, "Counsellors", "OfIXmSh7ALYpMiKMNFA72j8L2jw2"), {
       email: counsellor_email,
       name: counsellor_name,
       available_slots: new Array(),
       counsellor_specialisations: new Array(),
       counsellor_credentials: "",
-      gender:"Female",
+      gender:"Male",
       currently_available:false,
       past_ratings:new Array(),
       upcoming_counsellor_sessions:new Array(),
@@ -121,14 +122,68 @@ export default {
       }
 
       }
-      // search functionality
-      this.available = this.available.filter(counsellor => {
-        return counsellor[0].data().name.toLowerCase().includes(this.search.toLowerCase())
-      })
 
     })
+    // search functionality
+    this.available = this.available.filter(counsellor => {
+      return counsellor[0].data().name.toLowerCase().includes(this.search.toLowerCase())
+    })
+    // sort functionality 
+    this.updateSort();
+
     console.log("this.available is ", this.available);
   },
+
+  updateSort() {
+    console.log("this.sortCounsellor", this.sortCounsellor)
+    this.available.forEach(counsellor => { console.log("BEF FIRST SORT ", counsellor[0].data().name)})
+    // sort functionality
+    let sortBy = this.sortCounsellor
+
+    let updated = this.available.sort( // ties are broken by alphabetical order.
+      function(a, b){
+        console.log(a[0].data().name - b[0].data().name)
+        if (a[0].data().name < b[0].data().name) { return -1 }
+        else if (a[0].data().name > b[0].data().name) { return 1 }
+        return 0;
+        // return a.data().name.toLowercase() - b.data().name.toLowercase()
+      }
+    )
+    // console.log(this.all_counsellors[2].data().name)
+    // console.log(updated[2].data().name)
+    this.available = updated
+
+    this.available.forEach(counsellor => { console.log("AFT FIRST SORT ", counsellor[0].data().name)})
+    console.log("legnth",this.available.length)
+
+    if (sortBy == "Highest Rating") { // Highest Rating to Lowest Rating (Descending)
+      let updated = this.available.sort(
+        function(a, b){
+
+          let aRating = 0
+          var sumA = 0
+          if (a[0].data().past_ratings.length > 0) { 
+            a[0].data().past_ratings.forEach(item => { sumA += item })
+            aRating = sumA / a[0].data().past_ratings.length
+          }
+
+          let bRating = 0
+          var sumB = 0
+          if (b[0].data().past_ratings.length > 0) {
+            b[0].data().past_ratings.forEach(item => { sumB += item })
+            bRating = sumB / b[0].data().past_ratings.length
+          }
+          console.log("aRating", aRating, "bRating", bRating)
+          return bRating - aRating
+        })
+      this.available = updated
+
+      console.log("legnth",this.available.length)
+      this.available.forEach(counsellor => { console.log("AFT SECOND SORT ", counsellor[0].data().name)})
+
+  
+    } 
+    },
 
   async removeSlot(counsellor, slotToRemove) { 
     const counsellorDoc = doc(db,"Counsellors",counsellor.id);
