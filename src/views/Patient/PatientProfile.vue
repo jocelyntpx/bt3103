@@ -71,7 +71,6 @@ export default {
             counsellorUser:"",
             count:"",
             fbuser:"", // user's UID
-            check: false,
             past_user_sessions: [],
         }
     },
@@ -85,20 +84,19 @@ export default {
 
             // this.check = this.isPatient(this.fbuser);
             // console.log(this.check)
-            if (this.isPatient(this.fbuser) == true) {
-                console.log("here1")
-                this.updateFirebase(user);
-                this.checkReviews(user)
-            } else {
-                console.log("here2")
-                const user = auth.currentUser;
-                signOut(auth, user)
-                alert("Counsellor, please use the counsellor's login instead.")
-                this.$router.push({ path: '/counsellorLogin' })
+            this.isPatient(auth, this.fbuser);
+            // if (this.counsellor) {
+            //     console.log("here1")
+            //     this.updateFirebase(user);
+            //     this.checkReviews(user)
+            // } else {
+            //     console.log("here2")
+                // const user = auth.currentUser;
+                // signOut(auth, user)
                 // alert("Counsellor, please use the counsellor's login instead.")
-                // this.$router.push({ name: 'CounsellorProfile', params: { id: counsellorID } });
+                // this.$router.push({ path: '/counsellorLogin' })
 
-            }
+            // }
         });
 
         // this.counsellorUser = auth.currentUser.email;
@@ -106,17 +104,21 @@ export default {
     },
 
     methods: {
-        async isPatient(user) {
+        async isPatient(auth, user) {
             let docRef = doc(db, "Counsellors", String(user));
             let counsellorDoc = await getDoc(docRef);
                 
             if (counsellorDoc.exists()) {
                 console.log('Is counsellor!');
-                return false
+                const user = auth.currentUser;
+                signOut(auth, user)
+                alert("Counsellor, please use the counsellor's login instead.")
+                this.$router.push({ path: '/counsellorLogin' })
             } else {
                 console.log('Is patient!');
                 this.counsellor = false;
-                return true
+                this.updateFirebase(user);
+                this.checkReviews(user)
             }
         },
 
