@@ -40,16 +40,18 @@
 </template>
 
 <script>
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import NavBarPatient from "@/components/NavBarPatient.vue"
 import UserUpcomingSessions from "@/components/UserUpcomingSessions.vue"
 import UserPreviousSessions from "@/components/UserPreviousSessions.vue"
 import firebaseApp from '../../firebase.js';
 import { collection, getFirestore } from "firebase/firestore"
-import {  doc, getDoc, setDoc} from "firebase/firestore";
+import { doc, getDoc, setDoc} from "firebase/firestore";
 // import {  doc, deleteDoc, updateDoc, arrayRemove, getDoc  } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 // import PatientCalendar from '@/components/PatientCalendar.vue'
+
+
 
 
 export default {
@@ -69,6 +71,8 @@ export default {
             counsellorUser:"",
             count:"",
             fbuser:"", // user's UID
+            check: false,
+            past_user_sessions: [],
         }
     },
 
@@ -78,8 +82,23 @@ export default {
         onAuthStateChanged(auth, user => {
             this.user = user;
             this.fbuser = user.uid;
-            this.updateFirebase(user);
-            this.checkReviews(user)
+
+            // this.check = this.isPatient(this.fbuser);
+            // console.log(this.check)
+            if (this.isPatient(this.fbuser) == true) {
+                console.log("here1")
+                this.updateFirebase(user);
+                this.checkReviews(user)
+            } else {
+                console.log("here2")
+                const user = auth.currentUser;
+                signOut(auth, user)
+                alert("Counsellor, please use the counsellor's login instead.")
+                this.$router.push({ path: '/counsellorLogin' })
+                // alert("Counsellor, please use the counsellor's login instead.")
+                // this.$router.push({ name: 'CounsellorProfile', params: { id: counsellorID } });
+
+            }
         });
 
         // this.counsellorUser = auth.currentUser.email;
@@ -87,6 +106,20 @@ export default {
     },
 
     methods: {
+        async isPatient(user) {
+            let docRef = doc(db, "Counsellors", String(user));
+            let counsellorDoc = await getDoc(docRef);
+                
+            if (counsellorDoc.exists()) {
+                console.log('Is counsellor!');
+                return false
+            } else {
+                console.log('Is patient!');
+                this.counsellor = false;
+                return true
+            }
+        },
+
         async updateFirebase(user) {
             const uid = user.uid
             const patientDoc = await getDoc(doc(db, "Patients", uid));
@@ -100,6 +133,7 @@ export default {
                     // userID: user.uid, // NO LONGER HAVE THIS 
                     upcoming_user_sessions: [],
                     past_user_sessions: [],
+                    user_type: "patient",
                 })
             } else {
                 console.log("exists")

@@ -32,7 +32,7 @@ export default {
             user:false,
             counsellor: false,
             user_ID:"",
-            user_type: "patient",
+            past_user_sessions: [],
         }
     },
 
@@ -40,9 +40,6 @@ export default {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;
-            // if (user.user_type == "counsellor") {
-            //   this.counsellor = true;
-            // }
         })
         this.user_ID = auth.currentUser.uid;
         this.isCounsellor(this.user_ID);
@@ -58,7 +55,7 @@ export default {
             let docRef = doc(db, "Counsellors", String(user));
             let counsellorDoc = await getDoc(docRef);
                 
-            if (counsellorDoc.data().user_type == "counsellor") {
+            if (counsellorDoc.exists()) {
               console.log('Is counsellor!');
               this.counsellor = true;
             } else {

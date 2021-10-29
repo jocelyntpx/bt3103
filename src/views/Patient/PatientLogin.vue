@@ -5,6 +5,10 @@
         <br><br>
         <h1 id="mainHead">Login/Register Page</h1>
         <p>For first time users, you can register with the sign in form below as well. </p>
+        <p>You can use your alias as when you are prompted to indicate your "First & last name".</p>
+        <p>MHM aims to maintain your anonymity. You do not need to share your personal details<br>
+            with us if you do not wish to. Your counselling session will be kept strictly confidential. </p>
+
         <div id="firebaseui-auth-container"></div>
     </div>
 

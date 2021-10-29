@@ -48,27 +48,26 @@ export default {
 
     mounted() {
         const auth = getAuth();
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                this.user = user;
-                this.fbuser = user.uid;
-            }
+        onAuthStateChanged(auth, user => {
+            this.user = user;
+            this.fbuser = user.uid;
         })
-        
+        console.log(this.fbuser)
+        console.log(this.user)
         this.findCounsellorName();
         this.displayReviews();
         // this.user_email = auth.currentUser.email;
         this.isCounsellor(this.fbuser);
     },
     methods: {
-            async isCounsellor(user) {
+        async isCounsellor(user) {
             // const checkUser = db.collection('Counsellors').doc(user.email);
             // const doc = await checkUser.get();
+            let docRef = doc(db, "Counsellors", user);
             console.log(user)
-            let docRef = doc(db, "Counsellors", String(user));
             let counsellorDoc = await getDoc(docRef);
                 
-            if (counsellorDoc.data().user_type == "counsellor") {
+            if (counsellorDoc.exists()) {
               console.log('Is counsellor!');
               this.counsellor = true;
             } else {
@@ -76,68 +75,68 @@ export default {
               this.counsellor = false;
             }
 
-            },
-            async findCounsellorName() {
-                // let sessionDocRef = doc(db, "Sessions", this.$route.params.id);
-                // let sessionID = await getDoc(sessionDocRef);
-                let docRef = doc(db, "Counsellors", this.$route.params.id);
-                let counsellorDoc = await getDoc(docRef);
-                this.counsellorName = counsellorDoc.data().name;
+        },
+        async findCounsellorName() {
+            // let sessionDocRef = doc(db, "Sessions", this.$route.params.id);
+            // let sessionID = await getDoc(sessionDocRef);
+            let docRef = doc(db, "Counsellors", this.$route.params.id);
+            let counsellorDoc = await getDoc(docRef);
+            this.counsellorName = counsellorDoc.data().name;
 
-            },
+        },
 
-            async displayReviews() {
-                let docRef = doc(db, "Counsellors", this.$route.params.id);
-                let counsellorDoc = await getDoc(docRef);
+        async displayReviews() {
+            let docRef = doc(db, "Counsellors", this.$route.params.id);
+            let counsellorDoc = await getDoc(docRef);
 
-                let ind = 1
+            let ind = 1
 
-                let session = counsellorDoc.data().past_counsellor_sessions
-                //console.log(session)
+            let session = counsellorDoc.data().past_counsellor_sessions
+            //console.log(session)
 
-                for ( const pastSession of session) {
-                    //console.log(upcomingSession);
-                    let sessionDocRef = doc(db, "Sessions", pastSession);
-                    let sessionID = await getDoc(sessionDocRef);
+            for ( const pastSession of session) {
+                //console.log(upcomingSession);
+                let sessionDocRef = doc(db, "Sessions", pastSession);
+                let sessionID = await getDoc(sessionDocRef);
 
 
-                    var table = document.getElementById("tableReview")
-                    var row = table.insertRow(ind)
+                var table = document.getElementById("tableReview")
+                var row = table.insertRow(ind)
 
-                    // var date = sessionID.data().session_time.toDate().toLocaleTimeString()
-                    var rateReviewArr = sessionID.data().rating
-                    if (rateReviewArr == null) {
-                        continue;
-                    }
-                    var stars = rateReviewArr.shift()
-                    let rating = ""
-                    if (stars == 5) {
-                        rating = "★★★★★"
-                    } else if (stars >= 4) {
-                        rating = "★★★★☆"
-                    } else if (stars >=3) {
-                        rating = "★★★☆☆"
-                    } else if (stars >=2) {
-                        rating = "★★☆☆☆"
-                    } else if (stars >=1) {
-                        rating = "★☆☆☆☆"
-                    } else {
-                        rating = "☆☆☆☆☆" 
-                    }
-                    var review = rateReviewArr.shift() //or try without pop()
-                    var date = rateReviewArr.pop()
-
-                    var cell1 = row.insertCell(0); 
-                    var cell2 = row.insertCell(1); 
-                    var cell3 = row.insertCell(2); 
-
-                    cell1.innerHTML = date; 
-                    cell2.innerHTML = rating;
-                    cell3.innerHTML = review; 
-                    this.numberReviews = this.numberReviews + 1
+                // var date = sessionID.data().session_time.toDate().toLocaleTimeString()
+                var rateReviewArr = sessionID.data().rating
+                if (rateReviewArr == null) {
+                    continue;
                 }
+                var stars = rateReviewArr.shift()
+                let rating = ""
+                if (stars == 5) {
+                    rating = "★★★★★"
+                } else if (stars >= 4) {
+                    rating = "★★★★☆"
+                } else if (stars >=3) {
+                    rating = "★★★☆☆"
+                } else if (stars >=2) {
+                    rating = "★★☆☆☆"
+                } else if (stars >=1) {
+                    rating = "★☆☆☆☆"
+                } else {
+                    rating = "☆☆☆☆☆" 
+                }
+                var review = rateReviewArr.shift() //or try without pop()
+                var date = rateReviewArr.pop()
+
+                var cell1 = row.insertCell(0); 
+                var cell2 = row.insertCell(1); 
+                var cell3 = row.insertCell(2); 
+
+                cell1.innerHTML = date; 
+                cell2.innerHTML = rating;
+                cell3.innerHTML = review; 
+                this.numberReviews = this.numberReviews + 1
             }
-    }
+        }
+}
 }
 </script>
 
