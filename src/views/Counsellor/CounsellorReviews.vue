@@ -50,8 +50,9 @@ export default {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;
-            this.fbuser = user.uid;
+            // this.fbuser = user.uid;
         })
+        this.fbuser = auth.currentUser.uid;
         console.log(this.fbuser)
         console.log(this.user)
         this.findCounsellorName();
