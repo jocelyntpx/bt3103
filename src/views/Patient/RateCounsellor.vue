@@ -54,10 +54,11 @@ export default {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.user = user;
-                this.fbuser = user.uid;
+                // this.fbuser = user.uid;
             }
         })
-
+        this.fbuser = auth.currentUser.uid;
+        console.log(this.fbuser)
         this.findCounsellorName();
     },
 
