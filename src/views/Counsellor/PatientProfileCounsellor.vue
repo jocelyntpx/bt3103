@@ -16,7 +16,7 @@
         <div id="bgBlock">
             <div id="col-1">
                 <div id="patientDetails"> 
-                    <p> Name: <strong>{{this.patient_name}}</strong><br>
+                    <p> Alias: <strong>{{this.patient_name}}</strong><br>
                     Email: <strong>{{this.patient_email}}</strong><br></p>
                 </div>
 

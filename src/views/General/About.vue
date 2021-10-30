@@ -10,6 +10,7 @@
                 video call, voice call and chat.</p>
         </div>
     </div>
+    <a href="https://www.freepik.com/vectors/templates">Credit: Our website uses some template vectors created by freepik - www.freepik.com</a>
 </template>
 
 <script>

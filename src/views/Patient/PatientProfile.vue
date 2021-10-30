@@ -17,7 +17,7 @@
         <div id="bgBlock">
             <div id="col-1">
                 <div id="patientDetails"> 
-                    <p> Name: <strong>{{user.displayName}}</strong><br>
+                    <p> Alias: <strong>{{user.displayName}}</strong><br>
                     Email: <strong>{{user.email}}</strong><br></p>
                     <!-- User ID: <strong>{{user.uid}}</strong></p> -->
                     <!-- delete user ID and instead put joined_date? -->
