@@ -30,6 +30,7 @@
                 <div class = "search_bar"> 
                     <input type="text" class = "search_for_patient" v-model="search" placeholder="Search for a patient"/>
                 </div>
+                <br>
                 <PastPatients :key="refreshComponent"  :search=this.search  />
                 <br><br><br><br><br><br><br><br>
             </div>
@@ -125,8 +126,9 @@ h4{
      color:#a4c8dd;
  } 
 
-#searchPatient {
+.search_for_patient {
     float: right;
+    margin-right: 100px;
 }
 
 </style>
