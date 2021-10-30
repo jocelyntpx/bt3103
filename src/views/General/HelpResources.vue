@@ -31,10 +31,10 @@
 </template>
 
 <script>
-import NavBarGeneral from "@/components/NavBarGeneral.vue"
+import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import NavBarPatient from "@/components/NavBarPatient.vue"
-import AllHelpResources from "@/components/AllHelpResources.vue"
+import NavBarPatient from "@/components/Patient/NavBarPatient.vue"
+import AllHelpResources from "@/components/General/AllHelpResources.vue"
 
 export default {
     components: {NavBarGeneral, NavBarPatient, AllHelpResources},

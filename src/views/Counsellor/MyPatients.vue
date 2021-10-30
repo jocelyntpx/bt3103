@@ -41,13 +41,9 @@
 </template>
 
 <script>
-// import firebaseApp from '../firebase.js';
-// import { getFirestore } from "firebase/firestore"
-// import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
-// const db = getFirestore(firebaseApp);
-import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
-import UpcomingPatients from "@/components/UpcomingPatients.vue"
-import PastPatients from "@/components/PastPatients.vue"
+import NavBarCounsellor from "@/components/Counsellor/NavBarCounsellor.vue"
+import UpcomingPatients from "@/components/Counsellor/UpcomingPatients.vue"
+import PastPatients from "@/components/Counsellor/PastPatients.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default {

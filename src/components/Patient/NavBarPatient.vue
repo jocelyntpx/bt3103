@@ -17,7 +17,7 @@
 
 <script>
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import Logout from '@/components/Logout.vue'
+import Logout from '@/components/General/Logout.vue'
 
 export default {
     name:'NavBarPatient',

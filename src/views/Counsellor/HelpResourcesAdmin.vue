@@ -48,9 +48,9 @@
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
-import AddArticle from "@/components/AddArticle.vue"
-import EditArticle from "@/components/EditArticle.vue"
+import NavBarCounsellor from "@/components/Counsellor/NavBarCounsellor.vue"
+import AddArticle from "@/components/Counsellor/AddArticle.vue"
+import EditArticle from "@/components/Counsellor/EditArticle.vue"
 
 export default {
     components: {NavBarCounsellor,AddArticle,EditArticle},

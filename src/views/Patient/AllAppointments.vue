@@ -66,7 +66,7 @@
 // import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 // const db = getFirestore(firebaseApp);
 
-import UserPreviousSessions from "@/components/UserPreviousSessions.vue"
+import UserPreviousSessions from "@/components/Patient/UserPreviousSessions.vue"
  
 export default {
     components: {UserPreviousSessions},

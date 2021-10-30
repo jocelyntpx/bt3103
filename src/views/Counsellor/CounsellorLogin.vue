@@ -39,8 +39,8 @@ import 'firebaseui/dist/firebaseui.css'
 import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { collection, query, where, getDocs } from "firebase/firestore";
-import NavBarGeneral from "@/components/NavBarGeneral.vue"
-import ResetPasswordModal from "@/components/ResetPasswordModal.vue"
+import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
+import ResetPasswordModal from "@/components/General/ResetPasswordModal.vue"
 
 const db = getFirestore(firebaseApp);
 

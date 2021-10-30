@@ -21,7 +21,6 @@
 </template>
 
 <script>
-// import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 import firebaseApp from '@/firebase.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore"
@@ -30,7 +29,6 @@ const db = getFirestore(firebaseApp);
 
 export default {
     name: "SessionNotes",
-    // components: {NavBarCounsellor},
     data() {
         return {
             user:false,
