@@ -139,7 +139,7 @@ export default {
                 var bu = document.createElement("button")
                 bu.className = "bwt"
                 bu.id = String(counsellorName)
-                bu.innerHTML = "X"
+                bu.innerHTML = "Cancel"
                 bu.onclick = ()=>{
                     this.cancelSession(sessionID.id,counsellor.id,user)
                     //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com

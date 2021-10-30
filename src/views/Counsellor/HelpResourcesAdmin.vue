@@ -31,12 +31,12 @@
         <div class = "edit_list" v-else> 
             <h4>Edit your past articles here. </h4>
             <div class = "bgBlock2">
-                BYEBEYBYE
-                <!-- <div class = "search_bar"> 
-                    <input type="text" class = "search_for_patient" v-model="search" placeholder="Search for a patient"/>
+                <!-- <EditArticle/> -->
+                <div class = "search_bar"> 
+                    <input type="text" class = "search_for_article" v-model="search" placeholder="Search for your article"/>
                 </div>
                 <br>
-                <PastPatients :key="refreshComponent"  :search=this.search  /> -->
+                <EditArticle :key="refreshComponent"  :search=this.search  />
                 <br><br><br><br><br><br><br><br>
             </div>
         </div> 
@@ -50,9 +50,10 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 import AddArticle from "@/components/AddArticle.vue"
+import EditArticle from "@/components/EditArticle.vue"
 
 export default {
-    components: {NavBarCounsellor,AddArticle},
+    components: {NavBarCounsellor,AddArticle,EditArticle},
     name:"HelpResourcesAdmin" ,
 
     data(){
@@ -60,6 +61,7 @@ export default {
             user:false,
             showCreate: this.$route.params.showUpcoming,
             refreshComponent:0,
+            search: "",
         }
     },
 
@@ -80,6 +82,11 @@ export default {
 </script>
 
 <style scoped>
+.search_bar {
+    float:right;
+    margin-right:30px;
+}
+
 #bg{
     position: relative;
     width: 100%;
