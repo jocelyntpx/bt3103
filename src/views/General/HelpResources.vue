@@ -13,10 +13,20 @@
             <h1>Help Resources</h1>
             <p>Browse through our articles to find out <br>
                 how you can cope better with mental health.</p>
+                <!-- insert search bar/filter bar here -->
+                <br><br><br>
+            <!-- <label for="search_bar">Search for an Article:</label> -->
+            <input type="text" class = "search_for_article" v-model="search" placeholder="Search for an article"/>
+            
+
         </div>
         <br><br><br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br><br><br><br><br>
+
+        <!-- <AllHelpResources/> -->
+        <AllHelpResources :key="refreshComponent"  :search=this.search  />
+        <br><br><br><br><br><br>
     </div>
 </template>
 
@@ -24,17 +34,27 @@
 import NavBarGeneral from "@/components/NavBarGeneral.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarPatient from "@/components/NavBarPatient.vue"
+import AllHelpResources from "@/components/AllHelpResources.vue"
 
 export default {
-    components: {NavBarGeneral, NavBarPatient},
-    name:"HelpfulResources",
+    components: {NavBarGeneral, NavBarPatient, AllHelpResources},
+    name:"HelpResources",
 
     data(){
         return{
-            userNotLeftReview: true,
             user:false,
+            refreshComponent:0,
+            search: "",
         }
     },
+
+    watch: {
+      search() {
+        this.refreshComponent += 1
+        console.log("refreshcomponent" , this.refreshComponent)
+      }
+    },
+
 
     mounted() {
         const auth = getAuth();

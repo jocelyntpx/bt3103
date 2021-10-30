@@ -18,6 +18,7 @@ import ContactUs from '@/views/General/ContactUs.vue'
 import SessionNotes from '@/views/Counsellor/SessionNotes.vue'
 import CounsellorProfilePatient from '@/views/Patient/CounsellorProfilePatient.vue'
 import PatientProfileCounsellor from '@/views/Counsellor/PatientProfileCounsellor.vue'
+import ArticlePage from '@/views/General/ArticlePage.vue'
 
 const routes = [
  {
@@ -44,6 +45,11 @@ const routes = [
     path: '/helpResourcesAdmin',
     name: 'HelpResourcesAdmin',
     component: HelpResourcesAdmin
+},
+{
+    path: '/articlePage/:id',
+    name: 'ArticlePage',
+    component: ArticlePage
 },
 {
     path: '/counsellorLogin',

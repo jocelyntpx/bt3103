@@ -114,10 +114,14 @@ h4{
     color:lightslategray;
 }
 
+/* #counsellorUpcomingPatient:active, #counsellorPastPatient:active {
+     color:#dda4c7;
+ }  */
+
 #counsellorUpcomingPatient:hover, #counsellorPastPatient:hover  {
-     box-shadow: 3px 3px #B9D9EB;
+     /* box-shadow: 3px 3px #B9D9EB;
      border-radius: 1px; 
-     outline: #B9D9EB;
+     outline: #B9D9EB; */
      color:#a4c8dd;
  } 
 

@@ -8,7 +8,7 @@
             <th>Time</th>
             <th>Counsellor</th>
             <th>Link</th>
-            <th>X</th> 
+            <th></th> 
             </tr>
         </table>
       </div>
