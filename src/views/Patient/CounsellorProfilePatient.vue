@@ -13,7 +13,7 @@
                             </div>
 
                             <p> Name: <strong>{{this.name}}</strong><br>
-                            <!-- Email: <strong>{{this.email}}</strong><br> -->
+                            Email: <strong>{{this.email}}</strong><br>
                             Gender: <strong>{{this.gender}}</strong><br>
                             Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
                             Credentials: <strong>{{this.credentials}}</strong><br>
@@ -24,6 +24,11 @@
                         <div id = "reviewsTab"> 
                             <router-link :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
                         </div>
+
+                        <div class="save-btn">
+                            <button @click="showModal = true">Report</button>
+                        </div>
+
                     </div> 
                     <div id="col-2">
                         <br>
@@ -33,13 +38,14 @@
                 </div>
         </div>
     </div>
+    <ReportCounsellorModal v-show="showModal" @close-modal="showModal = false" v-bind:counsellor_email="this.email"/>
 </template>
 
 <script scoped>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarPatient from '@/components/NavBarPatient.vue'
 import CounsellorCalendarPatient from "@/components/CounsellorCalendarPatient.vue"
-
+import ReportCounsellorModal from "@/components/ReportCounsellorModal.vue"
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { doc, getDoc} from "firebase/firestore";
@@ -47,13 +53,13 @@ import { doc, getDoc} from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 export default {
-    components: {NavBarPatient,CounsellorCalendarPatient},
+    components: {NavBarPatient,CounsellorCalendarPatient,ReportCounsellorModal},
     name:"CounsellorProfile" ,
 
     data(){
         return{
             user:false,
-            // email:"",
+            email:"",
             user_type:"counsellor",
             counsellor_ID: this.$route.params.id, // counsellor's UID
             // fbuser:"", // user's UID
@@ -67,6 +73,7 @@ export default {
             profile_pic: "",
             credentials:"",
             additional_details:"",
+            showModal: false,
         }
     },
 
@@ -91,6 +98,7 @@ export default {
             let docRef = doc(db, "Counsellors", user);
             let counsellorDoc = await getDoc(docRef);   
             this.name = counsellorDoc.data().name;
+            this.email = counsellorDoc.data().email;
             this.gender = counsellorDoc.data().gender;
             this.specialisations = counsellorDoc.data().counsellor_specialisations;
             this.ratings = counsellorDoc.data().past_ratings;  
