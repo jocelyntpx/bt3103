@@ -41,9 +41,11 @@ export default {
                 .then((result) => {
                     console.log('SUCCESS!', result.text);
                     alert("Contact Form Successfully Submitted!");
+                    this.$emit('close-modal')
                 }, (error) => {
                     console.log('FAILED...', error.text);
                     alert("Contact Form Submission Failed!");
+                    this.$emit('close-modal')
                 });
         }
     }

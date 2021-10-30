@@ -2,7 +2,7 @@
     <div v-if="user">
         <br><br>
         <!-- if user is patient -->
-        <NavBarCounsellor/>
+        <NavBarCounsellor/> 
 
         <!-- <button id = "back" @click="goBack()"> Back to Past Patients </button> <br> -->
 
@@ -17,9 +17,11 @@
             <div id="col-1">
                 <div id="patientDetails"> 
                     <p> Name: <strong>{{this.patient_name}}</strong><br>
-                    <!-- Email: <strong>{{this.patient_ID}}</strong><br> -->
-                    User ID: <strong>{{this.patient_ID}}</strong></p>
-                    <!-- delete user ID and instead put joined_date? -->
+                    Email: <strong>{{this.patient_email}}</strong><br></p>
+                </div>
+
+                <div class="save-btn">
+                    <button @click="showModal = true">Report</button>
                 </div>
             </div> 
             <!-- <div id="col-2">
@@ -43,6 +45,7 @@ do v-if v-else to show links and X -->
 
         </div>
     </div>
+    <ReportPatientModal v-show="showModal" @close-modal="showModal = false" v-bind:patient_email="this.patient_email"/>
 </template>
 
 <script>
@@ -50,20 +53,19 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 import UserUpcomingSessionsCounsellor from "@/components/UserUpcomingSessionsCounsellor.vue"
 import UserPreviousSessionsCounsellor from "@/components/UserPreviousSessionsCounsellor.vue"
+import ReportPatientModal from "@/components/ReportPatientModal.vue"
 import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import {  doc, getDoc } from "firebase/firestore";
-// import {  doc, deleteDoc, updateDoc, arrayRemove, getDoc  } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
-// import PatientCalendar from '@/components/PatientCalendar.vue'
 
 
 export default {
     components: {
         NavBarCounsellor,
         UserPreviousSessionsCounsellor,
-        UserUpcomingSessionsCounsellor
-        // PatientCalendar
+        UserUpcomingSessionsCounsellor,
+        ReportPatientModal,
     },
     name:"PatientProfile",
 
@@ -72,10 +74,10 @@ export default {
             patient_ID: this.$route.params.id, // patient UID
             userNotLeftReview: true,
             user:false,
-            // counsellorUser:"",
             count:"",
             patient_name: "",
-            // patient_uid:"",
+            patient_email: "",
+            showModal: false,
         }
     },
 
@@ -96,8 +98,10 @@ export default {
             let docRef = doc(db, "Patients", String(user));
             let patientDoc = await getDoc(docRef);      
             this.patient_name = patientDoc.data().name;
+            this.patient_email = patientDoc.data().email;
             // this.patient_uid = patientDoc.data().userID;
         },
+
 
         // goBack() {
         //     this.$router.push({ name: 'MyPatients', params: { showUpcoming:false } }) 

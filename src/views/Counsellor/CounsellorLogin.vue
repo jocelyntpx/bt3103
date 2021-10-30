@@ -13,7 +13,7 @@
             <h2 class="active"> Sign In </h2>
 
             <!-- <form> -->
-            <input type="text" id="email" class="fadeIn second" required="" placeholder="Enter email">
+            <input type="text" id="email_c" class="fadeIn second" required="" placeholder="Enter email">
             
               <input v-if="showPassword" :type="type" id="password" class="fadeIn third" required="" placeholder="Enter password">
               <input v-else :type="type" id="password" class="fadeIn third" required="" placeholder="Enter password">
@@ -70,7 +70,7 @@ export default {
         },
 
         async login() {
-            this.email=document.getElementById("email").value;
+            this.email=document.getElementById("email_c").value;
             this.password=document.getElementById("password").value;
 
             if (this.email == "" || this.password== ""){
