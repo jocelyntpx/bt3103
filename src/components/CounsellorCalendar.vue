@@ -4,10 +4,10 @@
             <v-date-picker v-model="date" mode="dateTime"/>
             <br><br>
             <button v-on:click="create()">Create Session</button>
-            <button v-on:click="createSession = false">Back to appointments calendar</button>
+            <button v-on:click="back()">Back to appointments calendar</button>
         </div>
         <div v-else>
-            <v-calendar :attributes="attributes" @dayclick="onDayClick"/>
+            <v-date-picker v-model="date" :attributes="attributes" @dayclick="onDayClick"/>
             <div v-if="upcoming.length != 0">
                 <h3>Upcoming Sessions</h3>
                 <div v-for="item in upcoming" :key="item">
@@ -20,7 +20,7 @@
                     {{ item.date }} {{ item.time }} 
                 </div>
             </div>
-            <div v-if="upcoming.length == 0 && avail.length == 0 && days.length!=0">
+            <div v-if="upcoming.length == 0 && avail.length == 0">
                 <h4>No session for selected day(s)</h4>
             </div>
             <br><br>
@@ -44,16 +44,17 @@ export default {
         // fbuser:"",
         user_type:"patient",
         counsellor_ID: this.$route.params.id, // UID
-        days: [],
+        display_avail: [],
+        display_upcoming: [],
         upcoming: [],
         avail: [],
-        booked: [],
-        createSession: false,
-        date: new Date()
+        date: new Date(),
+        attributes: [],
+        createSession: false
         };
     },
     mounted() {
-        const auth = getAuth();
+        const auth = getAuth()
         onAuthStateChanged(auth, user => {
             if (user) {
                 this.user = user;
@@ -69,81 +70,82 @@ export default {
                 // console.log("time is ", Timestamp.valueOf(Timestamp.now()))
             }
         })
-    },
-    computed: {
-        dates() {
-        return this.days.map(day => day.date);
-        },
-        attributes() {
-        return this.dates.map(date => ({
-            highlight: true,
-            dates: date,
-        }));
-        },
+        this.getAttributes()
     },
     methods: {
+        async getAttributes() {
+            const docRef = doc(db, "Counsellors", this.counsellor_ID)
+            const docSnap = await getDoc(docRef)
+            let z = docSnap.data()
+            //counsellor available sessions
+            z.available_slots.forEach(a => {
+                this.display_avail.push(a.toDate())
+            })
+            //counsellor upcoming sessions
+            z.upcoming_counsellor_sessions.forEach(u => {
+                this.display_upcoming.push(new Date(u.substring(28)))
+            })
+            //green bar for avail, red bar for upcoming
+            this.attributes = [
+            {
+                bar: "green",
+                dates: this.display_avail
+            },
+            {
+                bar:"red",
+                dates: this.display_upcoming
+            }
+            ]
+        },
         async onDayClick(day) {
-            const idx = this.days.findIndex(d => d.id === day.id)
             const docRef = doc(db, "Counsellors", this.counsellor_ID)
             const docSnap = await getDoc(docRef);
-
             let z = docSnap.data()
-            var avail = z.available_slots
-            var upcoming = z.upcoming_counsellor_sessions
+            let avail = z.available_slots
+            let upcoming = z.upcoming_counsellor_sessions
 
-            if (idx >= 0) {
-                this.days.splice(idx, 1)
-                this.upcoming.splice(idx, upcoming.length)
-                this.avail.splice(idx, avail.length)
-            } else {
-                this.days.push({
-                id: day.id,
-                date: day.date,
-                })
+            this.avail.splice(0, avail.length)
+            this.upcoming.splice(0, upcoming.length)
 
-                upcoming.forEach(async (s) => {
-                    const sessionRef = doc(db, "Sessions", s)
-                    const sessionSnap = await getDoc(sessionRef)
-                    let session = sessionSnap.data().session_time
+            upcoming.forEach(async (s) => {
+                const sessionRef = doc(db, "Sessions", s)
+                const sessionSnap = await getDoc(sessionRef)
+                let session = sessionSnap.data().session_time
 
-                    let a = session.toDate()
-                    let a_date = a.toDateString()
-                    let a_time = a.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
-                    let a_gmtDate = new Date(a.setHours(a.getHours() + 8))
+                let a = session.toDate()
+                let a_date = a.toDateString()
+                let a_time = a.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+                let a_gmtDate = new Date(a.setHours(a.getHours() + 8))
 
-                    if (a_gmtDate.toISOString().substr(0,10) == day.id) {
-                        this.upcoming.push({
-                            date: a_date,
-                            time: a_time,
-                        })
-                    }
-                })
+                if (a_gmtDate.toISOString().substr(0,10) == day.id) {
+                    this.upcoming.push({
+                        date: a_date,
+                        time: a_time,
+                    })
+                }
+            })
 
-                avail.forEach(async (x) => {
-                    const slotRef = doc(db, "Sessions", this.counsellor_ID+x)
-                    const slotSnap = await getDoc(slotRef)
-                    let slot = slotSnap.data().session_time
-                    
-                    let s = slot.toDate()
-                    let s_date = s.toDateString()
-                    let s_time = s.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
-                    let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
+            avail.forEach(async (x) => {
+                const slotRef = doc(db, "Sessions", this.counsellor_ID+x.toDate())
+                const slotSnap = await getDoc(slotRef)
+                console.log(slotSnap)
+                let slot = slotSnap.data().session_time
+                
+                let s = slot.toDate()
+                let s_date = s.toDateString()
+                let s_time = s.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+                let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
 
-                    if (s_gmtDate.toISOString().substr(0,10) == day.id) {
-                        let s_originalDate = new Date(s_gmtDate.setHours(s_gmtDate.getHours() - 8 ))
-                        this.avail.push({
-                            date: s_date,
-                            time: s_time,
-                            session: this.counsellor_ID+s_originalDate
-                        })
-                    }
-                })
-
-
-            }
+                if (s_gmtDate.toISOString().substr(0,10) == day.id) {
+                    let s_originalDate = new Date(s_gmtDate.setHours(s_gmtDate.getHours() - 8 ))
+                    this.avail.push({
+                        date: s_date,
+                        time: s_time,
+                        session: this.counsellor_ID+s_originalDate
+                    })
+                }
+            })
         },
-        
-
         async create(){
            
             //edit counsellor > add to available_slots
@@ -168,6 +170,10 @@ export default {
                 });
                 alert("New session created for " + this.date + " !")
             }
+        },
+        async back() {
+            this.createSession = false
+            location.reload()
         }
     }
 }
