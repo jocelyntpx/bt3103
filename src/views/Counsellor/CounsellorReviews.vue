@@ -54,7 +54,6 @@ export default {
         })
         this.fbuser = auth.currentUser.uid;
         console.log(this.fbuser)
-        console.log(this.user)
         this.findCounsellorName();
         this.displayReviews();
         // this.user_email = auth.currentUser.email;
@@ -65,7 +64,6 @@ export default {
             // const checkUser = db.collection('Counsellors').doc(user.email);
             // const doc = await checkUser.get();
             let docRef = doc(db, "Counsellors", user);
-            console.log(user)
             let counsellorDoc = await getDoc(docRef);
                 
             if (counsellorDoc.exists()) {

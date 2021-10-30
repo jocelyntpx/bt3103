@@ -78,25 +78,21 @@ export default {
     mounted() {
         // console.log("UpcomingPatients.vue");
         const auth = getAuth();
-        onAuthStateChanged(auth, user => {
+        onAuthStateChanged(auth, async user => {
             this.user = user;
             this.fbuser = user.uid;
 
-            // this.check = this.isPatient(this.fbuser);
-            // console.log(this.check)
-            this.isPatient(auth, this.fbuser);
-            // if (this.counsellor) {
-            //     console.log("here1")
-            //     this.updateFirebase(user);
-            //     this.checkReviews(user)
-            // } else {
-            //     console.log("here2")
-                // const user = auth.currentUser;
-                // signOut(auth, user)
-                // alert("Counsellor, please use the counsellor's login instead.")
-                // this.$router.push({ path: '/counsellorLogin' })
-
-            // }
+            this.check = await this.isPatient(auth, this.fbuser);
+            if (this.counsellor == false) {
+                console.log("here1")
+                this.updateFirebase(user);
+                this.checkReviews(user)
+            } else {
+                console.log("here2")
+                signOut(auth, this.user)
+                alert("Counsellor, please use the counsellor's login instead.")
+                this.$router.push({ path: '/counsellorLogin' })
+            }
         });
 
         // this.counsellorUser = auth.currentUser.email;
@@ -110,15 +106,12 @@ export default {
                 
             if (counsellorDoc.exists()) {
                 console.log('Is counsellor!');
-                const user = auth.currentUser;
-                signOut(auth, user)
-                alert("Counsellor, please use the counsellor's login instead.")
-                this.$router.push({ path: '/counsellorLogin' })
+                this.counsellor = true;
+                return false
             } else {
                 console.log('Is patient!');
                 this.counsellor = false;
-                this.updateFirebase(user);
-                this.checkReviews(user)
+                return true
             }
         },
 

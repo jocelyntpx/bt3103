@@ -12,10 +12,13 @@
         <div id="formContent">
             <h2 class="active"> Sign In </h2>
 
-            <form>
-            <input type="text" id="email" class="fadeIn second" required="" name="login" placeholder="Enter email">
-            <input type="text" id="password" class="fadeIn third" required="" name="login" placeholder="Enter password">
-            </form>
+            <!-- <form> -->
+            <input type="text" id="email" class="fadeIn second" required="" placeholder="Enter email">
+            
+              <input v-if="showPassword" :type="type" id="password" class="fadeIn third" required="" placeholder="Enter password">
+              <input v-else :type="type" id="password" class="fadeIn third" required="" placeholder="Enter password">
+              <button @click="showPassword" class="fadeIn third">{{ btnText}}</button>
+            <!-- </form> -->
   
             <input type="submit" id="savebutton" class="fadeIn fourth" value="LogIn" v-on:click="login()">
 
@@ -50,9 +53,22 @@ export default {
             email: "",
             password: "",
             showModal:false,
+            type: 'password',
+            btnText: "Show Password"
         };
     },
+
     methods: {
+        showPassword() {
+          if(this.type === 'password') {
+            this.type = 'text'
+            this.btnText = 'Hide Password'
+          } else {
+            this.type = 'password'
+            this.btnText = 'Show Password'
+          }
+        },
+
         async login() {
             this.email=document.getElementById("email").value;
             this.password=document.getElementById("password").value;
@@ -223,7 +239,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
   transform: scale(0.95);
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
   background-color: #f6f6f6;
   border: none;
   color: #0d0d0d;
