@@ -5,7 +5,7 @@
         <th>Time</th>
         <th>Patient</th>
         <th>Link</th>
-        <th>X</th> 
+        <th></th> 
         </tr>
     </table>
 </template>
