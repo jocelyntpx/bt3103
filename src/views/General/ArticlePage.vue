@@ -1,10 +1,10 @@
 <template>
     <br><br>
-    <div v-if="user">
-        <NavBarPatient/>
-    </div>
-    <div v-else-if="counsellor">
+    <div v-if=(counsellor)>
         <NavBarCounsellor/>
+    </div>
+    <div v-else-if=(user)>
+        <NavBarPatient/>
     </div>
     <div v-else>
         <NavBarGeneral/>

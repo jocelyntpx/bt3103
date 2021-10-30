@@ -41,7 +41,7 @@
 import firebaseApp from '@/firebase.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore"
-import { doc, getDoc,setDoc,Timestamp, } from "firebase/firestore";
+import { doc, getDoc,setDoc,Timestamp,updateDoc,arrayUnion } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
@@ -109,6 +109,8 @@ export default {
                         finalCategory = this.category[0]
                     }
 
+                    //add to Counsellor's doc
+                    await updateDoc(doc(db, "Counsellors", this.fbuser), {my_articles: arrayUnion(this.title)});
 
                     //create new Article
                     await setDoc(doc(db, "HelpResources", this.title), 
