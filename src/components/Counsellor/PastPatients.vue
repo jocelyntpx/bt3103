@@ -12,15 +12,13 @@
 </template>
 
 <script>
-import firebaseApp from '../firebase.js';
+import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { getDoc, doc} from "firebase/firestore";
 const db = getFirestore(firebaseApp);
-//import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-export default {
-    // components: {NavBarCounsellor},   
+export default {  
     name:"PastPatients",
     props: {
         search:String

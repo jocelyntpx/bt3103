@@ -24,10 +24,10 @@ import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { doc, getDoc} from "firebase/firestore";
 const db = getFirestore(firebaseApp);
-import NavBarGeneral from "@/components/NavBarGeneral.vue"
+import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import NavBarPatient from "@/components/NavBarPatient.vue"
-import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
+import NavBarPatient from "@/components/Patient/NavBarPatient.vue"
+import NavBarCounsellor from "@/components/Counsellor/NavBarCounsellor.vue"
 
 export default {
     components: {NavBarGeneral, NavBarPatient, NavBarCounsellor,},

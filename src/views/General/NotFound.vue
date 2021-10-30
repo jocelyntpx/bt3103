@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import NavBarPatient from '@/components/NavBarPatient.vue'
-import NavBarCounsellor from '@/components/NavBarCounsellor.vue'
-import NavBarGeneral from '@/components/NavBarGeneral.vue'
+import NavBarPatient from '@/components/Patient/NavBarPatient.vue'
+import NavBarCounsellor from '@/components/Counsellor/NavBarCounsellor.vue'
+import NavBarGeneral from '@/components/General/NavBarGeneral.vue'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 

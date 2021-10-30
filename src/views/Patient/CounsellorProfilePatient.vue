@@ -43,9 +43,9 @@
 
 <script scoped>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import NavBarPatient from '@/components/NavBarPatient.vue'
-import CounsellorCalendarPatient from "@/components/CounsellorCalendarPatient.vue"
-import ReportCounsellorModal from "@/components/ReportCounsellorModal.vue"
+import NavBarPatient from '@/components/Patient/NavBarPatient.vue'
+import CounsellorCalendarPatient from "@/components/Patient/CounsellorCalendarPatient.vue"
+import ReportCounsellorModal from "@/components/Patient/ReportCounsellorModal.vue"
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { doc, getDoc} from "firebase/firestore";

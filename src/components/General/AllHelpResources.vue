@@ -15,14 +15,13 @@
 </template>
 
 <script>
-import firebaseApp from '../firebase.js';
+import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { getDocs, collection} from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-export default {
-    // components: {NavBarCounsellor},   
+export default { 
     name:"AllHelpResources",
     props: {
         search:String

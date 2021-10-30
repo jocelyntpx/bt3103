@@ -10,10 +10,11 @@
                 video call, voice call and chat.</p>
         </div>
     </div>
+    <a href="https://www.freepik.com/vectors/templates">Credit: Our website uses some template vectors created by freepik - www.freepik.com</a>
 </template>
 
 <script>
-import NavBarGeneral from "@/components/NavBarGeneral.vue"
+import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
 
 export default {
     components: {NavBarGeneral},

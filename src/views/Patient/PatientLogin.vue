@@ -23,8 +23,8 @@ import firebase from '@/uifire.js'
 import 'firebase/compat/auth';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
-import NavBarGeneral from "@/components/NavBarGeneral.vue"
-import ResetPasswordModal from "@/components/ResetPasswordModal.vue"
+import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
+import ResetPasswordModal from "@/components/General/ResetPasswordModal.vue"
 
 export default {
     components: {NavBarGeneral, ResetPasswordModal},

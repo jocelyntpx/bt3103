@@ -68,12 +68,11 @@
 
 <script scoped>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
-// import NavBarPatient from '@/components/NavBarPatient.vue'
-import CounsellorCalendar from "@/components/CounsellorCalendar.vue"
-import AlertCounsellorSession from '@/components/AlertCounsellorSession.vue'
-import CounsellorProfilePicModal from "@/components/CounsellorProfilePicModal.vue"
-import CounsellorEditProfileModal from "@/components/CounsellorEditProfileModal.vue"
+import NavBarCounsellor from "@/components/Counsellor/NavBarCounsellor.vue"
+import CounsellorCalendar from "@/components/Counsellor/CounsellorCalendar.vue"
+import AlertCounsellorSession from '@/components/Counsellor/AlertCounsellorSession.vue'
+import CounsellorProfilePicModal from "@/components/Counsellor/CounsellorProfilePicModal.vue"
+import CounsellorEditProfileModal from "@/components/Counsellor/CounsellorEditProfileModal.vue"
 
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"

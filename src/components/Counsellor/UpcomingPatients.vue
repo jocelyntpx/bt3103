@@ -11,15 +11,13 @@
 </template>
 
 <script>
-import firebaseApp from '../firebase.js';
+import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import {  doc, deleteDoc, updateDoc, arrayRemove, getDoc, arrayUnion, Timestamp  } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
-// import NavBarCounsellor from "@/components/NavBarCounsellor.vue" since nvr use
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-export default {
-    // components: {NavBarCounsellor},    
+export default { 
     name:"UpcomingPatients",
 
     data(){

@@ -37,7 +37,6 @@
 </template>
 
 <script>
-// import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
 import firebaseApp from '@/firebase.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore"
@@ -48,7 +47,6 @@ const storage = getStorage(firebaseApp);
 
 export default {
     name: "AddArticle",
-    // components: {NavBarCounsellor},
     data() {
         return {
             user:false,

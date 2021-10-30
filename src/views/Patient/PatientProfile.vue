@@ -17,7 +17,7 @@
         <div id="bgBlock">
             <div id="col-1">
                 <div id="patientDetails"> 
-                    <p> Name: <strong>{{user.displayName}}</strong><br>
+                    <p> Alias: <strong>{{user.displayName}}</strong><br>
                     Email: <strong>{{user.email}}</strong><br></p>
                     <!-- User ID: <strong>{{user.uid}}</strong></p> -->
                     <!-- delete user ID and instead put joined_date? -->
@@ -41,9 +41,9 @@
 
 <script>
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import NavBarPatient from "@/components/NavBarPatient.vue"
-import UserUpcomingSessions from "@/components/UserUpcomingSessions.vue"
-import UserPreviousSessions from "@/components/UserPreviousSessions.vue"
+import NavBarPatient from "@/components/Patient/NavBarPatient.vue"
+import UserUpcomingSessions from "@/components/Patient/UserUpcomingSessions.vue"
+import UserPreviousSessions from "@/components/Patient/UserPreviousSessions.vue"
 import firebaseApp from '../../firebase.js';
 import { collection, getFirestore } from "firebase/firestore"
 import { doc, getDoc, setDoc} from "firebase/firestore";
@@ -76,7 +76,6 @@ export default {
     },
 
     mounted() {
-        // console.log("UpcomingPatients.vue");
         const auth = getAuth();
         onAuthStateChanged(auth, async user => {
             this.user = user;

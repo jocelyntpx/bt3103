@@ -28,7 +28,7 @@
 
 
 <script>
-import NavBarGeneral from "@/components/NavBarGeneral.vue"
+import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
 import emailjs from 'emailjs-com';
 
 export default {

@@ -84,11 +84,11 @@
 
 
 <script>
-import CounsellorsCurrentlyAvailable from "@/components/CounsellorsCurrentlyAvailable.vue"
-import AllCounsellors from "@/components/AllCounsellors.vue"
-import NavBarPatient from "@/components/NavBarPatient.vue"
+import CounsellorsCurrentlyAvailable from "@/components/Patient/CounsellorsCurrentlyAvailable.vue"
+import AllCounsellors from "@/components/Patient/AllCounsellors.vue"
+import NavBarPatient from "@/components/Patient/NavBarPatient.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import AllCounsellorsCalendarFilter from '@/components/AllCounsellorsCalendarFilter.vue'
+import AllCounsellorsCalendarFilter from '@/components/Patient/AllCounsellorsCalendarFilter.vue'
 
 
 export default {

@@ -16,7 +16,7 @@
         <div id="bgBlock">
             <div id="col-1">
                 <div id="patientDetails"> 
-                    <p> Name: <strong>{{this.patient_name}}</strong><br>
+                    <p> Alias: <strong>{{this.patient_name}}</strong><br>
                     Email: <strong>{{this.patient_email}}</strong><br></p>
                 </div>
 
@@ -50,10 +50,10 @@ do v-if v-else to show links and X -->
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import NavBarCounsellor from "@/components/NavBarCounsellor.vue"
-import UserUpcomingSessionsCounsellor from "@/components/UserUpcomingSessionsCounsellor.vue"
-import UserPreviousSessionsCounsellor from "@/components/UserPreviousSessionsCounsellor.vue"
-import ReportPatientModal from "@/components/ReportPatientModal.vue"
+import NavBarCounsellor from "@/components/Counsellor/NavBarCounsellor.vue"
+import UserUpcomingSessionsCounsellor from "@/components/Counsellor/UserUpcomingSessionsCounsellor.vue"
+import UserPreviousSessionsCounsellor from "@/components/Counsellor/UserPreviousSessionsCounsellor.vue"
+import ReportPatientModal from "@/components/Counsellor/ReportPatientModal.vue"
 import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import {  doc, getDoc } from "firebase/firestore";
@@ -82,7 +82,6 @@ export default {
     },
 
     mounted() {
-        // console.log("UpcomingPatients.vue");
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;
