@@ -67,9 +67,9 @@ export default {
 <style scoped>
 #article_box{
     display: inline-block;
-    /* margin: 10px;
-    height: 20px;
-    width: 15%; */
+    margin: 10px;
+    height: 10%;
+    width: 15%; 
     background-color: rgb(224, 236, 247);
     border-radius: 35px;
     border: 20px solid rgb(224, 236, 247);
