@@ -291,23 +291,26 @@ export default {
       console.log("removed avail slot ", slot, " for " , counsellor.data().name);
     }
 
-    // // if patient does not exist in counsellor's my_patients field, we also want to add it in too.
-    // let counsellorPatients = counsellor.data().my_patients
-    // if (!counsellorPatients.includes(this.fbuser)) {
-    //   await updateDoc(counsellorDocRef, {
-    //     upcoming_counsellor_sessions: arrayUnion(sessionID),
-    //     my_patients: arrayUnion(this.fbuser)
-    //   })
-    // } else {
-    //   await updateDoc(counsellorDocRef, {
-    //     upcoming_counsellor_sessions: arrayUnion(sessionID)
-    //   })
-    // }
 
-    // add to counsellor's upcoming sessions 
-    await updateDoc(counsellorDocRef, {
-      upcoming_counsellor_sessions: arrayUnion(sessionID)
-    })
+    // if patient does not exist in counsellor's my_patients field, we also want to add it in too. 
+    // so now this is done once the patient CLICKS consult now button. - checks wld be later on i guess
+    let counsellorPatients = counsellor.data().my_patients
+    if (!counsellorPatients.includes(this.fbuser)) {
+      await updateDoc(counsellorDocRef, {
+        upcoming_counsellor_sessions: arrayUnion(sessionID),
+        my_patients: arrayUnion(this.fbuser)
+      })
+    } else {
+      await updateDoc(counsellorDocRef, {
+        upcoming_counsellor_sessions: arrayUnion(sessionID)
+      })
+    }
+    // // add to counsellor's upcoming sessions 
+    // await updateDoc(counsellorDocRef, {
+    //   upcoming_counsellor_sessions: arrayUnion(sessionID)
+    // })
+
+
 
     // create new doc in Sessions
     setDoc(doc(db,"Sessions",sessionID), {
