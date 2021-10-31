@@ -67,7 +67,7 @@ export default {
         UserUpcomingSessionsCounsellor,
         ReportPatientModal,
     },
-    name:"PatientProfile",
+    name:"PatientProfileCounsellor",
 
     data(){
         return{
