@@ -84,12 +84,16 @@ export default {
                 cell3.innerHTML = counsellorName; 
                 cell4.className = "notesCell"
 
-                
-                if (sessionID.data().counsellor_ID == this.user_ID ) {
-                    cell4.innerHTML = notes
+                if (patientDoc.data().share_info == false) {
+                    if (sessionID.data().counsellor_ID == this.user_ID ) {
+                        cell4.innerHTML = notes
+                    } else {
+                        cell4.innerHTML = "Confidential"
+                    }
                 } else {
-                    cell4.innerHTML = "Confidential"
+                    cell4.innerHTML = notes
                 }
+
                 // cell4.innerHTML = notes
 
                 
