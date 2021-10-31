@@ -1,15 +1,15 @@
-<template>
+<template data-theme="emerald">
   <div v-if="user">
       <br><br>
       <NavBarPatient/>
 
       <div class = "main">
       <h1> Find a Counsellor </h1><br><br>
-          
+      
       <div class = "top">
-        <div class = "buttons">
-          <div><button @click="showCurrentlyAvailable = true" id = "counsellor_btn_avail">Currently Available</button></div>
-          <div><button @click="showCurrentlyAvailable = false" id = "counsellor_btn_all">All Counsellors</button></div>
+        <div class = "tabs tabs-boxed">
+          <div><button @click="showCurrentlyAvailable = true" class="tab">Currently Available</button></div>
+          <div><button @click="showCurrentlyAvailable = false" class="tab">All Counsellors</button></div>
         </div>
 
         <div class = "search_bars">
