@@ -4,16 +4,21 @@
         <!-- if user is patient -->
         <NavBarPatient/>
         <h1>My Profile</h1>
+
+        <div class = "toggle">
+            <button id = "toggleButton" @click="toggleSharing">Click to toggle the sharing of your information amongst Counsellors.</button>
+            <br><br>
+            <h3> You have chosen 
+                <strong v-if="this.shareInfo"> to share your information with all Counsellors.</strong> 
+                <strong v-else> NOT to share your information with all Counsellors. </strong> 
+            </h3>
+        </div>
+
         <div id = "leaveReview" v-if = "userNotLeftReview">
             We notice you have not yet left a review for a previous session. 
             Leave a review now!
         </div><br>
 
-        <!-- else (user is counsellor from MyPatients) -->
-        <!-- <NavBarCounsellor/> -->
-        <!-- <div id = "backBtn">
-            <router-link to="/myPatients"> ← Back to My Patients page</router-link>
-        </div> -->
         <div id="bgBlock">
             <div id="col-1">
                 <div id="patientDetails"> 
@@ -46,7 +51,7 @@ import UserUpcomingSessions from "@/components/Patient/UserUpcomingSessions.vue"
 import UserPreviousSessions from "@/components/Patient/UserPreviousSessions.vue"
 import firebaseApp from '../../firebase.js';
 import { collection, getFirestore } from "firebase/firestore"
-import { doc, getDoc, setDoc} from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 // import {  doc, deleteDoc, updateDoc, arrayRemove, getDoc  } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 // import PatientCalendar from '@/components/PatientCalendar.vue'
@@ -72,6 +77,7 @@ export default {
             count:"",
             fbuser:"", // user's UID
             past_user_sessions: [],
+            shareInfo:false  //not sure if should be null or false, in counsellorProfile was null
         }
     },
 
@@ -128,6 +134,7 @@ export default {
                     upcoming_user_sessions: [],
                     past_user_sessions: [],
                     user_type: "patient",
+                    share_info: false //by default set it to false
                 })
             } else {
                 console.log("exists")
@@ -150,6 +157,22 @@ export default {
                     break
                 } 
                 // if all reviews have been left, will not go into if condition and will remain false by default
+            }
+        },
+
+        async toggleSharing() {
+            console.log("in toggleSharing()")
+
+            let patientDocRef = doc(db, "Patients", this.fbuser)
+            console.log("share info: " , this.shareInfo)
+
+            if (this.shareInfo==false) { 
+                this.shareInfo = true;
+                await updateDoc(patientDocRef, {share_info: true})
+
+            } else {
+                this.shareInfo = false;
+                await updateDoc(patientDocRef, {share_info: false})
             }
         }
    
