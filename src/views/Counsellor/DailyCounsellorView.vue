@@ -91,11 +91,13 @@ export default {
      // Create Daily call
      const callFrame = DailyIframe.createFrame(callWrapper, {
        iframeStyle: {
-         height: "auto",
-         width: "100%",
+        width: '100%',
+        position: "fixed",
+        margin: "auto",
+        maxHeight:"100%",
+        maxWidth:"100%",
+        enable_screenshare: false, // disables screenshare 
          aspectRatio: 16 / 9,
-         minWidth: "400px",
-         maxWidth: "920px",
          border: "1px solid var(--grey)",
          borderRadius: "4px",
        },
@@ -133,16 +135,16 @@ export default {
     })
 
 
-    // this logic is no longer here
-    // // add to my_patients field of counsellor 
-    // const userID = sessionSnap.data().user_ID
-    // const counsellorSnap = await getDoc(counsellorDocRef)
-    // let counsellorPatients = counsellorSnap.data().my_patients
-    // if (!counsellorPatients.includes(userID)) {
-    //   await updateDoc(counsellorDocRef, {
-    //     my_patients: arrayUnion(userID)
-    //   })
-    // }
+    // added logic back here 
+    // add to my_patients field of counsellor 
+    const userID = sessionSnap.data().user_ID
+    const counsellorSnap = await getDoc(counsellorDocRef)
+    let counsellorPatients = counsellorSnap.data().my_patients
+    if (!counsellorPatients.includes(userID)) {
+      await updateDoc(counsellorDocRef, {
+        my_patients: arrayUnion(userID)
+      })
+    }
     
     // route counsellor to the notes page.
     this.$router.push({ name: 'SessionNotes', params: { id: this.sessionID } } )

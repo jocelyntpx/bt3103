@@ -8,6 +8,9 @@ async function createRoom() {
       properties: {
         exp,
         enable_chat: true,
+        // MANUALLY INCLUDE
+        max_participants: 2,
+        enable_screenshare: false
       },
     };
     // This endpoint is using the proxy as outlined in netlify.toml
