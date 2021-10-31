@@ -24,7 +24,7 @@
      <!-- The Daily Prebuilt iframe is embedded in the div below using the ref -->
      <div id="call" ref="callRef"></div>
      <!-- Only show the control panel if a call is live -->
-     <!-- <controls
+     <!-- <Controls
        v-if="status === 'call'"
        :roomUrl="roomUrl"
        :callFrame="callFrame"
@@ -35,7 +35,7 @@
 
 <script>
 import DailyIframe from "@daily-co/daily-js";
-// import Controls from "@/components/Controls.vue";
+// import Controls from "@/components/General/Controls.vue";
 import api from "../../api.js";
 
 import firebaseApp from '@/firebase.js';
@@ -129,15 +129,18 @@ export default {
      // Create Daily call
      const callFrame = DailyIframe.createFrame(callWrapper, {
        iframeStyle: {
-         height: "auto",
-         width: "100%",
+        width: '100%',
+        position: "fixed",
+        margin: "auto",
+        maxHeight:"100%",
+        maxWidth:"100%",
+        enable_screenshare: false, // disables screenshare 
          aspectRatio: 16 / 9,
-         minWidth: "400px",
-         maxWidth: "920px",
          border: "1px solid var(--grey)",
          borderRadius: "4px",
        },
        showLeaveButton: true,
+       showFullscreenButton: true,
      });
      this.callFrame = callFrame;
 
