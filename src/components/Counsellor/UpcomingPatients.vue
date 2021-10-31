@@ -87,7 +87,12 @@ export default {
                 var cell5 = row.insertCell(4); 
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
+
+                cell3.className = "nameToProfile"
                 cell3.innerHTML = patientName; 
+                cell3.onclick = () => {
+                    this.$router.push({ name: 'PatientProfileCounsellor', params: { id: patient.id } }) 
+                }
 
                 console.log("room link is ", link);
 
@@ -186,6 +191,11 @@ th{
 .bwt{
     color:rgb(0, 0, 0);
     /* background-color: rgb(255, 94, 0); */
+}
+
+.nameToProfile {
+    color:rgb(25, 69, 104);
+    text-decoration: underline;
 }
 
 </style>

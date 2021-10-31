@@ -25,7 +25,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
 export default {
-    name: "UserPreviousSessions",
+    name: "UserPreviousSessionsCounsellor",
 
     data(){
         return{
@@ -82,8 +82,15 @@ export default {
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
                 cell3.innerHTML = counsellorName; 
+                cell4.className = "notesCell"
 
-                cell4.innerHTML = notes
+                
+                if (sessionID.data().counsellor_ID == this.user_ID ) {
+                    cell4.innerHTML = notes
+                } else {
+                    cell4.innerHTML = "Confidential"
+                }
+                // cell4.innerHTML = notes
 
                 
 
@@ -122,4 +129,5 @@ tr:nth-child(even){
 th{
     color: white;
 }
+
 </style>
