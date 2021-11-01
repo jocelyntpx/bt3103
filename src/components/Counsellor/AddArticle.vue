@@ -16,14 +16,8 @@
             <br><br><br>
             <div id="imageStuff">
                 <label for="formFile">Upload Article Image:</label>              
-                <input class="form-control" ref="fileInput" type="file" @input="preview">
-                
-                <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage">
-                    <!-- <button @click="uploadImage()" id="uploadButton">Upload</button> -->
-                </div>
-                <!-- <div class="uploadImage">
-                    <button @click="uploadImage()">Upload</button>
-                </div> -->
+                <input class="form-control" ref="fileInput" type="file" @input="preview">       
+                <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
             </div>
             <br><br>
             <textarea v-model="text" id="mainText" placeholder="This is where the content of your article goes."></textarea>
@@ -171,24 +165,6 @@ export default {
             console.log("preview done")
             }
         },
-
-        // async uploadImage() {
-        //     console.log("upload image")
-        //     const picRef = ref(storage, 'articlePic');
-        //     let storageRef=ref(picRef, `${this.title}`);
-
-        //     if (this.imageData!=null) {
-        //         let snapshot = await uploadBytes(storageRef, this.imageData)
-        //         this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100
-                
-        //         let url = await getDownloadURL(storageRef)
-        //         this.picture = url.toString()
-
-        //     } else {
-        //         alert("Please select an image.")
-        //     }
-            
-        // },
 
     }
 
