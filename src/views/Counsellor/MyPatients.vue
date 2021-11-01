@@ -33,9 +33,14 @@
         <div class = "past_patients_list" v-else> 
             <h4>Past patients are patients you have already had an appointment with. </h4><br>
             <div class = "bgBlock2">
-                <div class = "search_bar"> 
+                <div class="form-control flex-auto w-1/3 ">
+                  <!-- <label for="search_bar">Search for a Patient </label> -->
+                  <input type="text" class="input input-sm input-primary input-bordered " v-model="search" placeholder="Search for a patient"/>
+                </div> 
+
+                <!-- <div class = "search_bar"> 
                     <input type="text" class = "search_for_patient" v-model="search" placeholder="Search for a patient"/>
-                </div>
+                </div> -->
                 <br>
                 <PastPatients :key="refreshComponent"  :search=this.search  />
                 <br><br><br><br><br><br><br><br>
