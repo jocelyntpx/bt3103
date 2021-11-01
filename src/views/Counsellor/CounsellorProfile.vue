@@ -7,8 +7,9 @@
     <div v-if="user"> 
         <br><br>
         <NavBarCounsellor/>
+        <br>
         <div style="text-align:center;">
-            <h1>Counsellor Profile</h1>
+            <p class="text-4xl flex justify-center">Counsellor Profile</p>
             <div>
                 <!-- Need a toggle button for currently_available -->
                 <div class = "toggle">
@@ -29,11 +30,23 @@
                             <div v-if="this.profile_pic">
                                 <img id="profilepic" :src='this.profile_pic'>
                             </div>
+                            <br>
 
-
-                            <div class="save-btn">
-                                <button @click="showModal1 = true">Edit Profile Picture</button>
+                            <label for="my-modal-1" class="btn btn-primary btn-sm modal-button">Edit Profile Picture</label> 
+                                <input type="checkbox" id="my-modal-1" class="modal-toggle"> 
+                                <div class="modal">
+                                <div class="modal-box">
+                                    <label for="formFile">Upload Image:</label>
+                                    <input class="form-control" ref="fileInput" type="file" @input="preview">
+                                    <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
+                                    <div class="modal-action">
+                                    <label for="my-modal-1" class="btn btn-primary" @click="uploadImage(this.user)">Upload</label> 
+                                    <label for="my-modal-1" class="btn">Close</label>
+                                    </div>
+                                </div>
                             </div>
+
+                            <br>
 
                             <p> Name: <strong>{{this.name}}</strong><br>
                             Email: <strong>{{this.email}}</strong><br>
@@ -43,14 +56,47 @@
                             Rating: <strong>{{this.avgRatings}}</strong></p>
                             <p v-if="this.additional_details">Additional Details: <strong>{{this.additional_details}}</strong></p><br>
 
-                            <div class="save-btn">
-                                <button @click="showModal2 = true">Edit Profile Details</button>
+                            <label for="my-modal-2" class="btn btn-primary btn-sm modal-button">Edit Profile Details</label> 
+                                <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
+                                <div class="modal">
+                                <div class="modal-box">
+                                    <form>
+                                    <div id="v-model-multiple-checkboxes">
+                                        <label for="specialisations"><strong>Specialisations: </strong></label><br>
+                                        <input type="checkbox" id="all_categories" value="All Categories" v-model="this.checkedNames" />
+                                        <label for="all_categories">All Categories</label>
+                                        <input type="checkbox" id="general" value="General" v-model="this.checkedNames" />
+                                        <label for="general">General</label>
+                                        <input type="checkbox" id="career" value="Career" v-model="this.checkedNames" />
+                                        <label for="career">Career</label>
+                                        <input type="checkbox" id="relationships" value="Relationships" v-model="this.checkedNames" />
+                                        <label for="relationships">Relationships</label>
+                                        <br>
+                                        <!-- <span>Specialisations: {{ this.checkedNames }}</span> -->
+                                    </div>
+
+                                    <br>
+                                    <label for="credentials"><strong>Credentials: </strong></label><br>
+                                    <textarea id="credentials" class="textarea h-24 textarea-bordered" cols="60" rows="4" v-model="this.credentials"></textarea>
+                                    <br><br>
+                                    <label for="add_details"><strong>Additional Details: </strong></label><br>
+                                    <textarea id="add_details" class="textarea h-24 textarea-bordered" cols="60" rows="4" v-model="this.additional_details"></textarea>
+                                    </form>
+
+                                    <br>
+
+                                    <div class="modal-action">
+                                    <label for="my-modal-2" class="btn btn-primary" @click="updateDetails(this.checkedNames)">Update Details</label> 
+                                    <label for="my-modal-2" class="btn">Close</label>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                         <br>
 
                         <div id = "reviewsTab"> 
-                            <router-link :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
+                            <router-link class="btn btn-link" :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
                         </div>
                     </div> 
                     <div id="col-2">
@@ -61,8 +107,6 @@
                 </div>
         </div>
     </div>
-    <CounsellorProfilePicModal v-show="showModal1" @close-modal="showModal1 = false" />
-    <CounsellorEditProfileModal v-show="showModal2" @close-modal="showModal2 = false" />
 
 </template>
 
@@ -71,17 +115,18 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarCounsellor from "@/components/Counsellor/NavBarCounsellor.vue"
 import CounsellorCalendar from "@/components/Counsellor/CounsellorCalendar.vue"
 import AlertCounsellorSession from '@/components/Counsellor/AlertCounsellorSession.vue'
-import CounsellorProfilePicModal from "@/components/Counsellor/CounsellorProfilePicModal.vue"
-import CounsellorEditProfileModal from "@/components/Counsellor/CounsellorEditProfileModal.vue"
 
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { doc, updateDoc, getDoc, Timestamp } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
+
 
 export default {
-    components: {NavBarCounsellor,CounsellorCalendar,AlertCounsellorSession,CounsellorProfilePicModal,CounsellorEditProfileModal },
+    components: {NavBarCounsellor,CounsellorCalendar,AlertCounsellorSession},
     name:"CounsellorProfile" ,
 
     data(){
@@ -100,8 +145,10 @@ export default {
             credentials:"",
             additional_details:"",
             profile_pic: "",
-            showModal1: false,
-            showModal2: false,
+            previewImage: null,
+            imageData:null,
+            checkedNames: [],
+            specialisations:[],
         }
     },
 
@@ -138,6 +185,7 @@ export default {
             this.credentials = counsellorDoc.data().counsellor_credentials;
             this.additional_details = counsellorDoc.data().additional_details; 
             this.currentlyAvailable = counsellorDoc.data().currently_available;
+            this.checkedNames = this.specialisations;
             this.updateCurrentlyAvailable();
 
             var avg = 0
@@ -231,6 +279,74 @@ export default {
             return false;
         },
 
+        selectImage() {
+            this.$refs.fileInput.click()
+        },
+
+        preview() {
+            console.log("preview")
+            let input = this.$refs.fileInput
+            let file = input.files
+            this.imageData = event.target.files[0]
+            console.log("preview3")
+            if (file && file[0]) {
+                console.log("preview4")
+                let reader = new FileReader
+                reader.onload = e => {
+                    this.previewImage = e.target.result
+                    console.log("preview5")
+            }
+            console.log("preview6")
+            reader.readAsDataURL(file[0])
+            console.log("preview7")
+            this.$emit('input', file[0])
+            console.log("preview done")
+            }
+        },
+
+        async uploadImage(user) {
+            console.log("upload image")
+            const picRef = ref(storage, 'counsellorProfilePic');
+            let storageRef=ref(picRef, `${this.user.uid}`);
+
+            if (this.imageData!=null) {
+                let snapshot = await uploadBytes(storageRef, this.imageData)
+                this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100
+                
+                let url = await getDownloadURL(storageRef)
+                const docRef = doc(db, "Counsellors", user.uid);
+                updateDoc(docRef, {
+                    "profile_pic": url.toString()
+                }).then (
+                    alert("Profile picture uploaded successfully! Please wait a few seconds for the page to reload."),
+                    await new Promise((resolve) => setTimeout(resolve,800)),
+                    location.reload(),
+                ).catch(e => {
+                    console.log(e)
+                })
+            } else {
+                alert("Please select an image.")
+            }          
+        },
+
+        async updateDetails(checkedNames) {
+            console.log("update details")
+            this.credentials=document.getElementById("credentials").value;
+            this.additional_details=document.getElementById("add_details").value;
+            let docRef = doc(db, "Counsellors", String(this.fbuser));
+            updateDoc(docRef, {
+            counsellor_specialisations: checkedNames,
+            counsellor_credentials: this.credentials,
+            additional_details: this.additional_details,
+            }).then(
+                alert("Profile details updated. Please wait while we refresh your page."),
+                await new Promise((resolve) => setTimeout(resolve,800)),
+                location.reload(),
+            ).catch(e => {
+                console.log(e)
+            })
+        }
+
     }
 }
 </script>
@@ -263,6 +379,17 @@ export default {
 #col-2 {
   background-color:rgb(224, 236, 247);
   flex: 1;
+}
+.imagePreviewWrapper {
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 200px;
+    display: block;
+    cursor: pointer;
+    margin: 0 auto 30px;
+    background-size: contain;
+    background-position: center center;
+    margin-top: 10px;
 }
 
 </style>
