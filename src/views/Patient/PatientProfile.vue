@@ -1,8 +1,8 @@
 <template>
     <div v-if="user">
         <br><br>
-        <!-- if user is patient -->
         <NavBarPatient/>
+        <br>
         <p class="text-4xl">My Profile</p><br>
 
         <!-- <div class = "grid place-items-center">
@@ -71,11 +71,7 @@ import UserPreviousSessions from "@/components/Patient/UserPreviousSessions.vue"
 import firebaseApp from '../../firebase.js';
 import { collection, getFirestore } from "firebase/firestore"
 import { doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
-// import {  doc, deleteDoc, updateDoc, arrayRemove, getDoc  } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
-// import PatientCalendar from '@/components/PatientCalendar.vue'
-
-
 
 
 export default {
@@ -83,7 +79,6 @@ export default {
         NavBarPatient,
         UserPreviousSessions,
         UserUpcomingSessions
-        // PatientCalendar
     },
     name:"PatientProfile",
 
@@ -110,7 +105,8 @@ export default {
             if (this.counsellor == false) {
                 console.log("here1")
                 this.updateFirebase(user);
-                this.checkReviews(user)
+                this.checkSharing(user);
+                this.checkReviews(user);
             } else {
                 console.log("here2")
                 signOut(auth, this.user)
@@ -177,6 +173,11 @@ export default {
                 } 
                 // if all reviews have been left, will not go into if condition and will remain false by default
             }
+        },
+
+        async checkSharing(user) {
+            const patientDoc = await getDoc(doc(db, "Patients", user.uid));
+            this.shareInfo = patientDoc.data().share_info
         },
 
         async toggleSharing() {
