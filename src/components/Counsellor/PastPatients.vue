@@ -1,14 +1,27 @@
 <template>
+<div class="flex space-x-4 space-y-4">
     <div class = "my_patients">
+        <div class="grid grid-flow-row grid-cols-3 gap-4">
             <a v-for= "patient in allMyPatients" v-bind:key="patient.index">
-                <div id="patient_box">
-                    <!-- <h3>{{patient.data().name}}</h3> -->
-                    <h3><router-link :to="{ name: 'PatientProfileCounsellor', params: { id: patient.id }}">{{patient.data().name}}</router-link></h3>
+                <div class="card text-center shadow-2xl lg:card-side bg-accent text-accent-content">
+                <div class="card-body">
+                    <p class="text-xl">{{patient.data().name}}</p> 
+                    <div class="justify-end card-actions">
+                    <button class="btn btn-accent" @click="this.$router.push({name: 'PatientProfileCounsellor', params: { id: patient.id }})">
+                            View Profile                         
+                    </button>
+                    </div>
                 </div>
+                </div> 
+
+                <!-- <div id="patient_box">
+                    <h3><router-link :to="{ name: 'PatientProfileCounsellor', params: { id: patient.id }}">{{patient.data().name}}</router-link></h3>
+                </div> -->
             </a>
+        </div>
     </div>
 
-
+</div>
 </template>
 
 <script>

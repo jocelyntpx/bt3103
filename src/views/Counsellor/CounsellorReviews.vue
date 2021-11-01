@@ -5,8 +5,8 @@
         <router-link :to="{ name: 'CounsellorProfile', params: { id: this.$route.params.id }}" v-if=(counsellor)> ← Back to My Profile page</router-link>
         <router-link :to="{ name: 'CounsellorProfilePatient', params: { id: this.$route.params.id }}" v-else> ← Back to Counsellor's Profile page</router-link>
     </div>
-
-    <h1> Reviews for {{this.counsellorName}}</h1><br><br>
+    <p class="text-4xl">Reviews for {{this.counsellorName}}</p><br>
+    <!-- <h1> Reviews for {{this.counsellorName}}</h1><br><br> -->
 
     <div id = "bgBlock">
         <h3> All Reviews (Total: {{this.numberReviews}} Reviews) </h3>
@@ -17,6 +17,7 @@
                 <th>Review</th>
             </tr>
         </table>
+        <br>
     <!-- </div> -->
 </div>
 
@@ -152,5 +153,6 @@ export default {
   text-align: left;
   margin-left: 250px; 
 }
+
 
 </style>
