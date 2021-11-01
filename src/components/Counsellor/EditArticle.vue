@@ -1,18 +1,30 @@
 <template>
-    <div class = "all_articles">
+<div class="flex space-x-4 space-y-4">
+    <div class = "grid grid-flow-row grid-cols-3 gap-4">
             <a  v-for= "article in HelpResources" v-bind:key="article.index">
-                <div id="article_box">
-                    <!-- <h3> {{article.id}} </h3> -->
-                    <h3><router-link :to="{ name: 'ArticlePage', params: { id: article.id}}"> {{article.id}} </router-link></h3>
+                <!-- <div id="article_box"> -->
+                    <div class="card text-center shadow-2xl lg:card-side bg-secondary text-accent-content">
+                        <div class="card-body">
+                            <p class="text-xl font-semibold">{{article.id}}</p> 
+                            <img :src=article.data().picture alt="Picture cannot be displayed" width="250" height="100">
+                            <h5 id="category"> {{article.data().category}}</h5>
+                            <p class="italic text-sm" id="author"> You posted on {{article.data().post_date}}</p>
+                            <div class="justify-center card-actions">
+                            <button class="btn btn-secondary" @click="edit(article.id)">Edit Article</button>
+                        </div>
+                    </div>
+
+                    <!-- <h3><router-link :to="{ name: 'ArticlePage', params: { id: article.id}}"> {{article.id}} </router-link></h3>
                     <img :src=article.data().picture alt="Picture cannot be displayed" width="200" height="120">
                     <h5 id="category"> {{article.data().category}}</h5>
                     <em><h6 id="author"> You posted on {{article.data().post_date}}</h6></em>
-                    <button type="submit" @click="edit(article.id)">Edit Article</button>
+                    <button type="submit" @click="edit(article.id)">Edit Article</button> -->
 
+                <!-- </div> -->
                 </div>
             </a>
     </div>
-
+</div>
 
 </template>
 
