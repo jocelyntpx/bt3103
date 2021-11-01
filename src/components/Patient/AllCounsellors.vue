@@ -1,14 +1,42 @@
 <template>
 
-  <!-- <div class="sort">
-      <label for="sort_counsellor">Sort counsellor: </label>
-      <select name="basic-dropdown" v-model="sortCounsellor">
-          <option>Alphabetical</option>
-          <option>Highest Rating</option>
-      </select>
-  </div>  -->
 
-  <div class="all_counsellors">
+<div class="flex space-x-4 space-y-4">
+  <!-- <div class="flex flex-row w-full"> -->
+  <ul>
+      <div class="grid grid-flow-row grid-cols-3 gap-4">
+        <a v-for="counsellor in all_counsellors" v-bind:key="counsellor.index">
+          <div class="card text-center shadow-2xl lg:card-side bg-accent text-accent-content">
+            <!-- Note: h-auto makes boxes diff sizes when resize browser.. -->
+            <div class="card-body">
+
+              <h2 class="card-title"> {{counsellor.data().name}} </h2>
+              <p> {{avgRating(counsellor.data().past_ratings)}} <br> 
+              {{ formattedSpecialisations(counsellor.data().counsellor_specialisations) }} </p>
+
+              <div class="justify-center card-actions">
+                <div v-if="checkAvailability(counsellor.data().available_slots)">
+                  <div data-tip="Slots available" class="tooltip tooltip-secondary tooltip-bottom">
+                    <button class="btn btn-accent" @click="this.$router.push({ name: 'CounsellorProfilePatient', params: { id: counsellor.id } })">View Profile</button>
+                  </div>
+                </div>
+                <div v-else>
+                  <div data-tip="No slots available" class="tooltip tooltip-neutral tooltip-bottom">
+                    <button class="btn btn-accent" @click="this.$router.push({ name: 'CounsellorProfilePatient', params: { id: counsellor.id } })">View Profile</button>
+                  </div>
+                </div>
+              </div>
+              <!-- <span class="italic text-sm font-medium" v-if="!getEarliestSlot(counsellor.data().available_slots)"> (No available slots at the moment) </span> -->
+            </div>
+          </div>
+
+        </a>
+      </div>
+  </ul>
+</div>
+
+
+  <!-- <div class="all_counsellors">
     <ul>
         <a v-for="counsellor in all_counsellors" v-bind:key="counsellor.index">
           <div id="counsellor_preview_box"> 
@@ -20,7 +48,7 @@
           </div>
         </a>
     </ul>
-</div>
+</div> -->
 
 </template>
 
@@ -35,7 +63,7 @@ import { getAuth, onAuthStateChanged} from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
 export default {
-  name: "NotAvailableCounsellors",
+  name: "AllCounsellors",
   props: {
     filteredDays:String,
     selectedCategory:String,
@@ -194,26 +222,34 @@ methods: {
       return "☆☆☆☆☆"
     },
 
-    getEarliestSlot(slots) {
+    checkAvailability(slots) {
       if (slots.length == 0) {
-        return;
-      }
-      let updated = slots.sort( function(timestampA, timestampB) {
-        return timestampA.toDate() - timestampB.toDate()
-      } ) 
-      if (this.filteredDays == "any day") {
-        return updated[0].toDate()
+        return false
       } else {
-        for (let i = 0; i < slots.length; i++) {
-          let slot = slots[i]
-          let a = slot.toDate()
-          let a_gmtDate = new Date(a.setHours(a.getHours() + 8))
-          if (a_gmtDate.toISOString().substr(0,10) == this.filteredDays) {
-            return (slot.toDate())
-          }
-        }
+        return true
       }
-    }
+    },
+
+    // getEarliestSlot(slots) {
+    //   if (slots.length == 0) {
+    //     return;
+    //   }
+    //   let updated = slots.sort( function(timestampA, timestampB) {
+    //     return timestampA.toDate() - timestampB.toDate()
+    //   } ) 
+    //   if (this.filteredDays == "any day") {
+    //     return updated[0].toDate()
+    //   } else {
+    //     for (let i = 0; i < slots.length; i++) {
+    //       let slot = slots[i]
+    //       let a = slot.toDate()
+    //       let a_gmtDate = new Date(a.setHours(a.getHours() + 8))
+    //       if (a_gmtDate.toISOString().substr(0,10) == this.filteredDays) {
+    //         return (slot.toDate())
+    //       }
+    //     }
+    //   }
+    // }
 }
 }
 </script>
