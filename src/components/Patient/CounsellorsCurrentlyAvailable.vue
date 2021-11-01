@@ -1,21 +1,37 @@
 <template>
-<div class="available_counsellors" :key="componentKey">
+<div class="flex space-x-4 space-y-4" :key="componentKey">
   <ul>
-    <!-- This temporarily prints as a list -->
-      <a v-for="counsellorSlot in available" v-bind:key="counsellorSlot.index"> 
-        <div id="available_counsellor_preview_box"> 
-          <h4><router-link :to="{ name: 'CounsellorProfilePatient', params: { id: counsellorSlot[0].id }}"> {{counsellorSlot[0].data().name}}</router-link></h4>
-          {{avgRating(counsellorSlot[0].data().past_ratings)}}<br> 
-          <strong>{{ formattedSpecialisations(counsellorSlot[0].data().counsellor_specialisations) }}</strong><br><br>
-          <button id = "consult_now" @click="createImmediateSession(counsellorSlot)"> Consult Now </button> 
-        </div>
-      </a>
+      <div class="grid grid-flow-row grid-cols-3 gap-4">
+        <a v-for="counsellorSlot in available" v-bind:key="counsellorSlot.index"> 
+          <div class="card text-center shadow-2xl lg:card-side bg-accent text-accent-content">
+            <!-- Note: h-auto makes boxes diff sizes when resize browser.. -->
+            <div class="card-body">
+
+              <h2 class="card-title">{{ counsellorSlot[0].data().name }} </h2>
+              <p> {{avgRating(counsellorSlot[0].data().past_ratings)}}<br> 
+              {{ formattedSpecialisations(counsellorSlot[0].data().counsellor_specialisations) }} </p>
+              <!-- <p v-if="counsellorSlot[0].data().counsellor_specialisations">{{ formattedSpecialisations(counsellorSlot[0].data().counsellor_specialisations) }} </p>
+              <p v-else>  </p> -->
+
+              <div class="justify-center card-actions">
+                <button class="btn btn-accent" @click="createImmediateSession(counsellorSlot)">Consult Now</button> 
+                <button class="btn btn-accent" @click="this.$router.push({ name: 'CounsellorProfilePatient', params: { id: counsellorSlot[0].id } })">View Profile</button>
+              </div>
+
+            </div>
+          </div>
+
+        </a>
+      </div>
   </ul>
 </div>
-
+        
+        
+        
+        
 
   <!-- TEMPORARY BUTTON TO PROPAGATE COUNSELLOR INTO FIREBASE -->
-  <button @click="newCounsellor()">Temporary helper button: click to create new counsellor</button>
+  <!-- <button @click="newCounsellor()">Temporary helper button: click to create new counsellor</button> -->
 
 
 
@@ -120,7 +136,7 @@ export default {
           }      
         })
       }
-
+      console.log("this.available", this.available)
       }
 
     })
@@ -131,7 +147,7 @@ export default {
     // sort functionality 
     this.updateSort();
 
-    console.log("this.available is ", this.available);
+    console.log("this.available is ", this.available[0][0].data().name);
   },
 
   updateSort() {
@@ -345,7 +361,7 @@ export default {
 </script>
 
 <style scoped>
-#available_counsellor_preview_box {
+/* #available_counsellor_preview_box {
     display: inline-block;
     margin: 20px;
     height: 80px;
@@ -359,5 +375,5 @@ export default {
 }
 h4{
   margin-top: 5px;
-}
+} */
 </style>
