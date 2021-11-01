@@ -11,16 +11,15 @@
             <input type="checkbox" id="careerCat" value="Career" v-model="category">
             <label for="careerCat">Career</label>
             <input type="checkbox" id="RelationshipCat" value="Relationship" v-model="category">
-            <label for="mike">Relationship</label>   | 
-            <span>You have selected: {{ category }}</span>
+            <label for="mike">Relationship</label>   
+            <!-- <span>You have selected: {{ category }}</span> -->
             <br><br><br>
             <div id="imageStuff">
-                <label for="formFile">Upload Image:</label>
-                
+                <label for="formFile">Upload Article Image:</label>              
                 <input class="form-control" ref="fileInput" type="file" @input="preview">
                 
                 <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage">
-                    <button @click="uploadImage()" id="uploadButton">Upload</button>
+                    <!-- <button @click="uploadImage()" id="uploadButton">Upload</button> -->
                 </div>
                 <!-- <div class="uploadImage">
                     <button @click="uploadImage()">Upload</button>
@@ -56,6 +55,8 @@ export default {
             picture:"",
             counsellor:false,
             category:[],
+            previewImage: null,
+            imageData:null,
         }
     }, 
     mounted() {
@@ -93,7 +94,7 @@ export default {
             //find counsellor name:
             let docRef = doc(db, "Counsellors", this.fbuser);
             let counsellorDoc = await getDoc(docRef);
-            if (this.title == '' || this.text == '' ) {
+            if (this.title == '' || this.text == '' || this.imageData == null) {
                 alert("You have to fill up all fields to post an article.")
             } else {
                 if (confirm("Confirm to post this article?")) {
@@ -118,6 +119,24 @@ export default {
                     picture: this.picture,
                     category: finalCategory
                     })
+
+                    console.log("upload image")
+                    const picRef = ref(storage, 'articlePic');
+                    let storageRef=ref(picRef, `${this.title}`);
+
+                    let snapshot = await uploadBytes(storageRef, this.imageData)
+                    this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100
+                    
+                    let url = await getDownloadURL(storageRef)
+                    const docRef = doc(db, "HelpResources", this.title);
+                    updateDoc(docRef, {
+                        "picture": url.toString()
+                    }).then (
+                        await new Promise((resolve) => setTimeout(resolve,800)),
+                    ).catch(e => {
+                        console.log(e)
+                    })
+
 
                     // // route back to HelpResources page
                     // this.$router.push({ name: 'HelpResourcesAdmin'})
@@ -153,23 +172,23 @@ export default {
             }
         },
 
-        async uploadImage() {
-            console.log("upload image")
-            const picRef = ref(storage, 'articlePic');
-            let storageRef=ref(picRef, `${this.title}`);
+        // async uploadImage() {
+        //     console.log("upload image")
+        //     const picRef = ref(storage, 'articlePic');
+        //     let storageRef=ref(picRef, `${this.title}`);
 
-            if (this.imageData!=null) {
-                let snapshot = await uploadBytes(storageRef, this.imageData)
-                this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100
+        //     if (this.imageData!=null) {
+        //         let snapshot = await uploadBytes(storageRef, this.imageData)
+        //         this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100
                 
-                let url = await getDownloadURL(storageRef)
-                this.picture = url.toString()
+        //         let url = await getDownloadURL(storageRef)
+        //         this.picture = url.toString()
 
-            } else {
-                alert("Please select an image.")
-            }
+        //     } else {
+        //         alert("Please select an image.")
+        //     }
             
-        },
+        // },
 
     }
 
@@ -224,6 +243,16 @@ export default {
 #post:hover{
     background-color:#4095c6;
 }
-
+.imagePreviewWrapper {
+    background-repeat: no-repeat;
+    width: 600px;
+    height: 400px;
+    display: block;
+    cursor: pointer;
+    margin: 0 auto 30px;
+    background-size: contain;
+    background-position: center center;
+    margin-top: 10px;
+}
 
 </style>
