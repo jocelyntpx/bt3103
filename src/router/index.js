@@ -19,6 +19,7 @@ import SessionNotes from '@/views/Counsellor/SessionNotes.vue'
 import CounsellorProfilePatient from '@/views/Patient/CounsellorProfilePatient.vue'
 import PatientProfileCounsellor from '@/views/Counsellor/PatientProfileCounsellor.vue'
 import ArticlePage from '@/views/General/ArticlePage.vue'
+import EditPage from '@/views/Counsellor/EditPage.vue'
 
 const routes = [
  {
@@ -50,6 +51,11 @@ const routes = [
     path: '/articlePage/:id',
     name: 'ArticlePage',
     component: ArticlePage
+},
+{
+    path: '/editPage/:id',
+    name: 'EditPage',
+    component: EditPage
 },
 {
     path: '/counsellorLogin',
