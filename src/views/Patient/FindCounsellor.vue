@@ -1,16 +1,23 @@
 <template data-theme="emerald">
   <div v-if="user">
       <br><br>
-      <NavBarPatient/>
+      <NavBarPatient/> <br>
 
-      <div class = "main">
-      <h1> Find a Counsellor </h1><br><br>
-      
-      <div class = "top">
-        <div class = "tabs tabs-boxed">
-          <div><button @click="showCurrentlyAvailable = true" class="tab">Currently Available</button></div>
-          <div><button @click="showCurrentlyAvailable = false" class="tab">All Counsellors</button></div>
-        </div>
+      <!-- <div class = "main"> -->
+      <p class="text-4xl"> Find a Counsellor </p><br>
+
+
+      <!-- <div class="flex flex-col w-full"> -->
+          <div class="grid place-items-center">
+            <div class = "tabs tabs-boxed">
+              <div><button @click="showCurrentlyAvailable = true" :class="[ showCurrentlyAvailable? 'tab tab-lg tab-active h-16 min-w-full' : 'tab tab-lg h-16 min-w-full' ]" >Currently Available</button></div>
+              <div><button @click="showCurrentlyAvailable = false" :class="[ !showCurrentlyAvailable? 'tab tab-lg tab-active h-16 min-w-full' : 'tab tab-lg h-16 min-w-full' ]">All Counsellors</button></div>
+            </div>
+          </div> <br>
+
+      <!-- </div> -->
+
+
 
         <div class = "search_bars">
           <div class = "left"> 
@@ -41,44 +48,52 @@
 
         </div>
 
-      </div><br><br><br><br><br><br><br><br><br><br><br><br>
+      <!-- </div><br><br><br><br><br><br><br><br><br><br><br><br> -->
       <!-- <div class="clearfix"></div> -->
 
 
-      <div class = "bgBlock1"> 
-        <!-- Currently available counsellors -->
-        <div class = "available_counsellors_list" v-if = "showCurrentlyAvailable">  
-          <h2> Showing Currently Available Counsellors </h2>
-          <h5>These counsellors are available now to take on your choice of call, video call or chat session. <br>
-          You can go to a counsellor's profile to schedule a future session or see more information. </h5> <br>
-          
-          <div> 
-            <!-- Would need some kind of for loop -->
-            <div class = "counsellors_box">
-              <CounsellorsCurrentlyAvailable :key="refreshComponent" :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
-            </div>
+      <div class="flex flex-col w-full">
+        <div class="grid h-auto card bg-base-300 rounded-box place-items-center p-10">
+          <div class = "available_counsellors_list" v-if = "showCurrentlyAvailable">  
+            <h5>These counsellors are available now to take on your choice of call, video call or chat session. <br>
+            You can go to a counsellor's profile to schedule a future session or see more information. </h5> <br>
+            
+            <div> 
+              <!-- <div class = "counsellors_box"> -->
+                <CounsellorsCurrentlyAvailable :key="refreshComponent" :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
+              <!-- </div> -->
+            </div> 
           </div>
-        </div>
+
+
+          <div class = "all_counsellors_list" v-else> 
+            <div id = "filter_by_date"> 
+              <h3> Now showing counsellors available on {{filteringDays}}. </h3>
+
+              <div v-if="this.filteringDays != 'any day'">
+                <button id = "reset_filter" @click = "resetCalendarFilter"> Show All Days </button>
+              </div>
+
+              <h4> Use the calendar to show counsellors with slots available on your selected day. </h4>
+              <AllCounsellorsCalendarFilter @updateFilteredDays = "showFilteredDays" />
+            </div>
+            <!-- <AllCounsellors :key="refreshComponent" v-bind="groupedProps" /> -->
+            <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
+          </div> 
+
+          
+
+      </div>
+
+      <!-- <div class = "bgBlock1">  -->
+        <!-- Currently available counsellors -->
+        <!-- </div> -->
 
         <!-- All counsellors -->
-        <div class = "all_counsellors_list" v-else> 
-          <div id = "filter_by_date"> 
-            <h3> Now showing counsellors available on {{filteringDays}}. </h3>
-
-            <div v-if="this.filteringDays != 'any day'">
-              <button id = "reset_filter" @click = "resetCalendarFilter"> Show All Days </button>
-            </div>
-
-            <h4> Use the calendar to show counsellors with slots available on your selected day. </h4>
-            <AllCounsellorsCalendarFilter @updateFilteredDays = "showFilteredDays" />
-          </div>
-          <!-- <AllCounsellors :key="refreshComponent" v-bind="groupedProps" /> -->
-          <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
-        </div> 
       </div>
 
       </div>
-  </div>
+  <!-- </div> -->
 
 </template>
 

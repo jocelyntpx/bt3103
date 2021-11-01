@@ -20,7 +20,7 @@ module.exports = {
 
   daisyui: {
     // styled: true,
-    themes: ['emerald'],
+    themes: ['cupcake'],
     // base: true,
     // utils: true,
     // logs: true,
