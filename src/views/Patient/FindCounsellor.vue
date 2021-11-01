@@ -17,39 +17,60 @@
 
       <!-- </div> -->
 
-
-
-        <div class = "search_bars">
-          <div class = "left"> 
-            <!-- <p style="font-weight:bold"> Search for a counsellor: </p> -->
-            <label for="search_bar">Search for a counsellor:</label>
-            <input type="text" class = "search_for_counsellor" v-model="search" placeholder="Type the Counsellor's Name"/>
+          <div class="container mx-auto flex flex-row w-2/3 m-4">
+            <div class="flex-auto">
+            <label for="counsellor_category">Filter by Counsellor Specialisation </label>
+            <div class="btn-group">
+              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'All Categories' }" v-on:click="setCategory('All Categories')">All Categories</span>
+              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'General' }" v-on:click="setCategory('General')">General</span>
+              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'Career' }" v-on:click="setCategory('Career')">Career</span>
+              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'Relationships' }" v-on:click="setCategory('Relationships')">Relationships</span>
+            <!-- </div> -->
           </div>
+            </div>
 
-          <div class="right">
-            <!-- <p style="font-weight:bold"> Filter by counsellor's specialisations: </p> -->
-            <label for="counsellor_category">Filter by counsellor's specialisations: </label>
-            <div class="filters">
-              <span class="filter" v-bind:class="{ active: selectedCategory === 'All Categories' }" v-on:click="setCategory('All Categories')">All Categories</span>
-              <span class="filter" v-bind:class="{ active: selectedCategory === 'General' }" v-on:click="setCategory('General')">General</span>
-              <span class="filter" v-bind:class="{ active: selectedCategory === 'Career' }" v-on:click="setCategory('Career')">Career</span>
-              <span class="filter" v-bind:class="{ active: selectedCategory === 'Relationships' }" v-on:click="setCategory('Relationships')">Relationships</span>
+            <!-- <div> -->
+
+          <div class="sort flex-auto">
+            <label for="sort_counsellor">Sort Counsellor by </label>
+            <div class="btn-group">
+              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': sortCounsellor === 'Alphabetical'}" v-on:click="setSort('Alphabetical')">Alphabetical</span>
+              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active':  sortCounsellor === 'Highest Rating' }" v-on:click="setSort('Highest Rating')">Highest Rating</span>
             </div>
           </div>
 
-          <div class="sort">
-            <!-- <p style="font-weight:bold"> Filter by counsellor's specialisations: </p> -->
-            <label for="sort_counsellor">Sort counsellor by: </label>
-            <div class="filters">
-              <span class="filter" v-bind:class="{ active: sortCounsellor === 'Alphabetical' }" v-on:click="setSort('Alphabetical')">Alphabetical</span>
-              <span class="filter" v-bind:class="{ active: sortCounsellor === 'Highest Rating' }" v-on:click="setSort('Highest Rating')">Highest Rating</span>
-            </div>
+            <!-- </div> -->
+
+          <div>
+
+          <div class="form-control flex-auto">
+            <label for="search_bar">Search for a Counsellor </label>
+            <!-- <label class="label">
+              <span class="label-text">Search for a Counsellor</span>
+            </label>  -->
+            <input type="text" class="input input-sm input-primary input-bordered" v-model="search" placeholder="Counsellor's Name"/>
+          </div> 
+
+          </div>
           </div>
 
-        </div>
 
-      <!-- </div><br><br><br><br><br><br><br><br><br><br><br><br> -->
-      <!-- <div class="clearfix"></div> -->
+
+
+
+
+
+          <!-- <div class = "search_bars">
+            <div class = "left"> 
+              <label for="search_bar">Search for a counsellor:</label>
+              <input type="text" class = "search_for_counsellor" v-model="search" placeholder="Type the Counsellor's Name"/>
+            </div>
+
+          </div> -->
+
+
+
+
 
 
       <div class="flex flex-col w-full">
@@ -67,19 +88,54 @@
 
 
           <div class = "all_counsellors_list" v-else> 
-            <div id = "filter_by_date"> 
-              <h3> Now showing counsellors available on {{filteringDays}}. </h3>
 
-              <div v-if="this.filteringDays != 'any day'">
-                <button id = "reset_filter" @click = "resetCalendarFilter"> Show All Days </button>
-              </div>
+              <!-- idk why this keeps shrinking when u put a calendar filter -->
+                <div class="collapse w-full border rounded-box border-base-300 collapse-arrow"> 
+                  <input type="checkbox"> 
+                  <div class="collapse-title text-lg font-normal">
+                    <p class="text-xl font-bold">Filter Counsellors by Day:</p>
+                    <span class="italic"> Currently showing counsellors available on </span> <span class="font-medium italic">{{filteringDays}}</span>                    
+                  </div> 
 
-              <h4> Use the calendar to show counsellors with slots available on your selected day. </h4>
-              <AllCounsellorsCalendarFilter @updateFilteredDays = "showFilteredDays" />
+                  <div class="collapse-content w-full"> 
+                    
+                    <AllCounsellorsCalendarFilter @updateFilteredDays = "showFilteredDays" />
+
+                    <!-- <div v-if="this.filteringDays != 'any day'"> -->
+                      <button v-if="this.filteringDays != 'any day'" class="btn btn-accent btn-active" role="button" aria-pressed="true" @click="resetCalendarFilter">Reset Filter</button> 
+                      <!-- <button id = "reset_filter" @click = "resetCalendarFilter"> Show All Days </button> -->
+                      <button v-else class="btn btn-link" disabled="disabled">Reset Filter</button> 
+                    <!-- </div> -->
+
+                  </div>
+                <!-- </div> -->
+            
             </div>
-            <!-- <AllCounsellors :key="refreshComponent" v-bind="groupedProps" /> -->
-            <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
+
+            <div class="flex flex-row w-full items-center">
+              <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
+            </div>
+
           </div> 
+
+
+
+
+            <!-- <div class="rounded-lg shadow bg-base-200 drawer h-52">
+              <input id="my-drawer" type="checkbox" class="drawer-toggle"> 
+              <div class="flex flex-col items-center justify-center drawer-content">
+                <label for="my-drawer" class="btn btn-primary drawer-button">Filter by day</label>
+              </div> 
+              <div class="drawer-side">
+                <label for="my-drawer" class="drawer-overlay"></label> 
+                <div class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+
+                </div>
+              </div>
+            </div> -->
+
+            <!-- </div> -->
+            <!-- <AllCounsellors :key="refreshComponent" v-bind="groupedProps" /> -->
 
           
 
@@ -142,7 +198,10 @@ export default {
       search() {
         this.refreshComponent += 1
         console.log("this.refreshComp += 1")
-      }
+      },
+      // selectedCategory(){
+      //   this.refreshComponent += 1
+      // }
     },
 
     mounted() {
@@ -155,6 +214,7 @@ export default {
 
     methods: {
       setCategory(category) {
+        console.log("in setCategory()")
         this.selectedCategory = category; // prop 
         this.refreshComponent += 1
       },
