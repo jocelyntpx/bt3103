@@ -32,7 +32,7 @@
 
 
                             <div class="save-btn">
-                                <button @click="showModal1 = true">Edit Profile Picture</button>
+                                <button class="btn btn-sm" @click="showModal1 = true">Edit Profile Picture</button>
                             </div>
 
                             <p> Name: <strong>{{this.name}}</strong><br>
