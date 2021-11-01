@@ -5,7 +5,7 @@
             <a v-for= "patient in allMyPatients" v-bind:key="patient.index">
                 <div class="card text-center shadow-2xl lg:card-side bg-accent text-accent-content">
                 <div class="card-body">
-                    <p class="text-xl">{{patient.data().name}}</p> 
+                    <p class="text-xl font-semibold">{{patient.data().name}}</p> 
                     <div class="justify-end card-actions">
                     <button class="btn btn-accent" @click="this.$router.push({name: 'PatientProfileCounsellor', params: { id: patient.id }})">
                             View Profile                         
