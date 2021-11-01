@@ -3,16 +3,34 @@
         <br><br>
         <!-- if user is patient -->
         <NavBarPatient/>
-        <h1>My Profile</h1>
+        <p class="text-4xl">My Profile</p><br>
 
-        <div class = "toggle">
+        <!-- <div class = "grid place-items-center">
+            <div class = "tabs tabs-boxed">
             <button id = "toggleButton" @click="toggleSharing">Click to toggle the sharing of your information amongst Counsellors.</button>
             <br><br>
             <h3> You have chosen 
                 <strong v-if="this.shareInfo"> to share your information with all Counsellors.</strong> 
                 <strong v-else> NOT to share your information with all Counsellors. </strong> 
             </h3>
-        </div>
+            </div>
+        </div> -->
+            <div class="grid place-items-center">
+            <div class = "tabs tabs-boxed">
+              <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-lg tab-active h-10 min-w-full' : 'tab tab-lg h-10 min-w-full' ]" >Share info with ALL counsellors</button></div>
+              <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-lg tab-active h-10 min-w-full' : 'tab tab-lg h-10 min-w-full' ]">DO NOT share info with ALL counsellors</button></div>
+            </div>
+          </div> <br>
+
+        <!-- <div class="p-6 card bordered">
+            <div class="form-control">
+                <label class="cursor-pointer label">
+                <span class="label-text">Share your session info with all counsellors?</span> 
+                <input type="checkbox" checked="checked" class="toggle toggle-primary">
+                </label>
+            </div>
+        </div> -->
+        
 
         <div id = "leaveReview" v-if = "userNotLeftReview">
             We notice you have not yet left a review for a previous session. 
@@ -20,6 +38,7 @@
         </div><br>
 
         <div id="bgBlock">
+            
             <div id="col-1">
                 <div id="patientDetails"> 
                     <p> Alias: <strong>{{user.displayName}}</strong><br>
@@ -27,7 +46,7 @@
                     <!-- User ID: <strong>{{user.uid}}</strong></p> -->
                     <!-- delete user ID and instead put joined_date? -->
                 </div>
-            </div> 
+            </div><br>
 
             <UserUpcomingSessions/> 
 
@@ -77,7 +96,7 @@ export default {
             count:"",
             fbuser:"", // user's UID
             past_user_sessions: [],
-            shareInfo:false  //not sure if should be null or false, in counsellorProfile was null
+            shareInfo:null  //not sure if should be null or false, in counsellorProfile was null
         }
     },
 

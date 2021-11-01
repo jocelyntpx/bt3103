@@ -5,18 +5,24 @@
       <br><br>
           
       <div class = "main">
-        <div class = "allPatients">
+          <div class="grid place-items-center">
+            <div class = "tabs tabs-boxed">
+              <div><button @click="showUpcoming = true" :class="[ showUpcoming? 'tab tab-lg tab-active h-12 min-w-full' : 'tab tab-lg h-10 min-w-full' ]" >Upcoming Patients</button></div>
+              <div><button @click="showUpcoming = false" :class="[ !showUpcoming? 'tab tab-lg tab-active h-12 min-w-full' : 'tab tab-lg h-10 min-w-full' ]">Past Patients</button></div>
+            </div>
+          </div> 
+        <!-- <div class = "allPatients">
           <div><a @click="showUpcoming = true" id = "counsellorUpcomingPatient">Upcoming Patients</a></div> 
           <div><a @click="showUpcoming = false" id = "counsellorPastPatient">Past Patients</a></div>
-        </div>
+        </div><br> -->
 
       </div>
-
+  
       <div class = "bigContainer">
         <br><br>
         <!-- Upcoming patients -->
         <div class = "upcoming_patients_list" v-if = "showUpcoming">  
-          <h4> Upcoming patients are patients you have an upcoming appointment with. </h4>
+          <h4> Upcoming patients are patients you have an upcoming appointment with. </h4><br>
             <div class = "bgBlock1">
               <UpcomingPatients/>
               <br><br><br><br><br><br><br><br>
@@ -25,7 +31,7 @@
 
         <!-- Past patients -->
         <div class = "past_patients_list" v-else> 
-            <h4>Past patients are patients you have already had an appointment with. </h4>
+            <h4>Past patients are patients you have already had an appointment with. </h4><br>
             <div class = "bgBlock2">
                 <div class = "search_bar"> 
                     <input type="text" class = "search_for_patient" v-model="search" placeholder="Search for a patient"/>
