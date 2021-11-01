@@ -24,8 +24,22 @@
 
 
             <div id="formFooter">
-               <ResetPasswordModal v-show="showModal" @close-modal="showModal = false"/>
-                <a class="underlineHover" @click="showModal = true">Forgot Password?</a>
+              <label for="my-modal-2" class="btn btn-primary modal-button">Forget Password?</label> 
+              <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
+              <div class="modal">
+                <div class="modal-box">
+                    <div class="form-control"> 
+                    <label class="label" for="email"><strong>Email: </strong></label>
+                    <input class="input input-primary input-bordered" type="text" id="email" required="" name="email" v-model="email">
+                    <!-- <input type="text" id="password" required="" name="login" placeholder="Enter password"> -->
+                  </div>
+            
+                  <div class="modal-action">
+                    <label for="my-modal-2" class="btn btn-primary" @click="reset()" >Reset</label> 
+                    <label for="my-modal-2" class="btn">Close</label>
+                  </div>
+                </div>
+              </div>
             </div>
         </div>
     </div>
@@ -40,19 +54,18 @@ import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { collection, query, where, getDocs } from "firebase/firestore";
 import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
-import ResetPasswordModal from "@/components/General/ResetPasswordModal.vue"
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const db = getFirestore(firebaseApp);
 
 export default {
-    components: {NavBarGeneral, ResetPasswordModal},
+    components: {NavBarGeneral,},
     name: "CounsellorLogin",
 
     data() {
         return {
             email: "",
             password: "",
-            showModal:false,
             type: 'password',
             btnText: "Show Password"
         };
@@ -105,6 +118,23 @@ export default {
                         });
                 }
             }
+        },
+
+        reset() {
+          console.log(this.email)
+          const auth = getAuth();
+          if (this.email != "") {
+            sendPasswordResetEmail(auth, this.email)
+              .then(() => {
+                console.log("email sent")
+                alert("Check your email for further instructions to reset your password!")
+              })
+              .catch(function(error) {
+                alert(error);
+              });
+          } else {
+            alert("Please fill in your email.");
+          }
         },
     },
 };
@@ -240,7 +270,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
 }
 
 input[type=text], input[type=password] {
-  background-color: #f6f6f6;
+  background-color: #E8F0FE;
   border: none;
   color: #0d0d0d;
   padding: 15px 32px;

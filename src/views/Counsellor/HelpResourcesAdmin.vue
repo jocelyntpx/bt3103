@@ -10,8 +10,8 @@
                 edit articles you have already posted.</p>
             <br><br><br>
             <div class = "flex justify-center">
-                <div><button @click="showCreate = true" class="btn btn-outline btn-primary" id = "createNewArticle">Create New Article</button></div> 
-                <div><button @click="showCreate = false" class="btn btn-outline btn-primary" id = "editArticle"> Edit My Article</button></div>
+                <div><button @click="showCreate = true" class="btn btn-outline btn-secondary" id = "createNewArticle">Create New Article</button></div> 
+                <div><button @click="showCreate = false" class="btn btn-outline btn-secondary" id = "editArticle"> Edit My Article</button></div>
             </div>
             <br><br><br>
         </div>

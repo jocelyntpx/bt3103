@@ -126,6 +126,7 @@ export default {
                     updateDoc(docRef, {
                         "picture": url.toString()
                     }).then (
+                        alert("Article uploaded successfully! Please wait a few seconds for the page to reload."),
                         await new Promise((resolve) => setTimeout(resolve,800)),
                     ).catch(e => {
                         console.log(e)
