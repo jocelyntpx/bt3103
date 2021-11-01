@@ -11,11 +11,13 @@
     </div>
 
     <br>
-    <div id="main">
-        <h1>{{this.title}}</h1>
+    <div id="main" class="flex-auto justify-center">
+        <p class="text-3xl font-semibold">{{this.title}}</p><br>
+        <p class="italic text-sm" id="author"> Posted on {{this.postDate}} by {{this.author}}</p><br>
+        <div class="flex justify-center">
         <img :src=this.picture alt="Picture cannot be displayed" width="600" height="310">
-        <br>
-        <p>{{this.mainText}}</p>
+        </div><br>
+        <p class="mx-60">{{this.mainText}}</p>
     </div>
 </template>
 
@@ -40,7 +42,9 @@ export default {
             fbuser:"",
             mainText:"",
             picture:"",
-            title:this.$route.params.id
+            title:this.$route.params.id,
+            postDate:"",
+            author:""
         }
     },
 
@@ -48,8 +52,9 @@ export default {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;
+            this.fbuser = user.id;
         })
-        this.fbuser = auth.currentUser.uid;
+        // this.fbuser = auth.currentUser.uid;
         this.isCounsellor(this.fbuser);
         this.displayFullArticle();
     },
@@ -72,10 +77,13 @@ export default {
         },
         
         async displayFullArticle() {
+            console.log("entered display")
             let docRef = doc(db, "HelpResources", this.title);
             let articleDoc = await getDoc(docRef);
             this.mainText = articleDoc.data().text
             this.picture = articleDoc.data().picture
+            this.postDate = articleDoc.data().post_date;
+            this.author = articleDoc.data().counsellor_name;
 
         }
     }
@@ -84,13 +92,13 @@ export default {
 </script>
 
 <style scoped>
-#main{
+/* #main{
     position: relative;
     width: 60%;
     text-align: center;
     margin:auto;
     padding: 0;
-}
+} */
 /* #textPosition{
     position: relative;
     float: right;

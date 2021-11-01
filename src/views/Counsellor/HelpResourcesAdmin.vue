@@ -4,14 +4,14 @@
         <NavBarCounsellor/>
         <br><br>
         <div id="bg">
-        <div id="textPosition">
-            <h1>Help Resources</h1>
-            <p>This is where you can post new articles and <br>
+        <div id="textPosition"><br><br>
+            <p class="text-4xl flex justify-center">Help Resources</p><br>
+            <p class = "flex justify-center">This is where you can post new articles and <br>
                 edit articles you have already posted.</p>
             <br><br><br>
-            <div class = "allArticles">
-                <div><button @click="showCreate = true" id = "createNewArticle">Create New Article</button></div> 
-                <div><button @click="showCreate = false" id = "editArticle"> Edit My Article</button></div>
+            <div class = "flex justify-center">
+                <div><button @click="showCreate = true" class="btn btn-outline btn-primary" id = "createNewArticle">Create New Article</button></div> 
+                <div><button @click="showCreate = false" class="btn btn-outline btn-primary" id = "editArticle"> Edit My Article</button></div>
             </div>
             <br><br><br>
         </div>
@@ -29,12 +29,15 @@
 
         <!-- edit -->
         <div class = "edit_list" v-else> 
-            <h4>Edit your past articles here. </h4>
+            <h4>Edit your past articles here. </h4><br>
             <div class = "bgBlock2">
-                <!-- <EditArticle/> -->
-                <div class = "search_bar"> 
+                <div class="form-control flex-auto w-1/3 ">
+                  <!-- <label for="search_bar">Search for Article</label> -->
+                  <input type="text" class="input input-sm input-primary input-bordered " v-model="search" placeholder="Search for your article"/>
+                </div> 
+                <!-- <div class = "search_bar"> 
                     <input type="text" class = "search_for_article" v-model="search" placeholder="Search for your article"/>
-                </div>
+                </div> -->
                 <br>
                 <EditArticle :key="refreshComponent"  :search=this.search  />
                 <br><br><br><br><br><br><br><br>
@@ -108,9 +111,9 @@ export default {
     text-align: left;
 }
 
-.allArticles {
+/* .allArticles {
     display: inline;
-}
+} */
 
 #createNewArticle{
     float:left;
@@ -131,12 +134,10 @@ export default {
  }
 
 
-#createNewArticle:hover, #editArticle:hover  {
-     /* box-shadow: 3px 3px #B9D9EB;
-     border-radius: 1px; 
-     outline: #B9D9EB; */
+/* #createNewArticle:hover, #editArticle:hover  {
+
      color:#a4c8dd;
- } 
+ }  */
 
 </style>
 
