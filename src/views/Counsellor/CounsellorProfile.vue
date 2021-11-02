@@ -8,106 +8,115 @@
         <br><br>
         <NavBarCounsellor/>
         <br>
-        <div style="text-align:center;">
+        <div style="text-align:center">
             <p class="text-4xl flex justify-center">Counsellor Profile</p>
-            <div>
-                <!-- Need a toggle button for currently_available -->
-                <div class = "toggle">
-                    <button id = "toggleButton" @click="toggleCurrentlyAvailable">Click to toggle current availability on/off</button>
-                    <br><br>
-                    <h3> You are 
-                        <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
-                        <strong v-else> NOT available to take a spontaneous session. </strong> 
-                    </h3>
+            <br>
+            <div class="grid place-items-center">
+                <div class = "tabs tabs-boxed">
+                <div><button @click="toggleCurrentlyAvailable" :class="[ currentlyAvailable? 'tab tab-sm tab-active' : 'tab tab-sm' ]"><strong>Available</strong></button></div>
+                <div><button @click="toggleCurrentlyAvailable" :class="[ !currentlyAvailable? 'tab tab-sm tab-red tab-active' : 'tab tab-sm' ]"><strong>Not Available</strong></button></div>
+                </div>
+                <!--<p class="text-sm my-2">Click to toggle current availability</p>-->
+                <h3> You are 
+                    <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
+                    <strong v-else> NOT available to take a spontaneous session. </strong> 
+                </h3>
+            </div> 
+            <br>
+            <!-- Need a toggle button for currently_available -->
+<!--             <div class = "toggle">
+                <button id = "toggleButton" @click="toggleCurrentlyAvailable">Click to toggle current availability on/off</button>
+                <br><br>
+                <h3> You are 
+                    <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
+                    <strong v-else> NOT available to take a spontaneous session. </strong> 
+                </h3>
+            </div> -->
+            <div id="bgBlock"> 
+                <div id="col-1">
+                    <div id="counsellorDetails"> 
+                        
+                        <div v-if="this.profile_pic">
+                            <img id="profilepic" :src='this.profile_pic'>
+                        </div>
+                        <br>
+
+                        <label for="my-modal-1" class="btn btn-primary btn-sm modal-button">Edit Profile Picture</label> 
+                            <input type="checkbox" id="my-modal-1" class="modal-toggle"> 
+                            <div class="modal">
+                            <div class="modal-box">
+                                <label for="formFile">Upload Image:</label>
+                                <input class="form-control" ref="fileInput" type="file" @input="preview">
+                                <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
+                                <div class="modal-action">
+                                <label for="my-modal-1" class="btn btn-primary" @click="uploadImage(this.user)">Upload</label> 
+                                <label for="my-modal-1" class="btn">Close</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br><br>
+
+                        <p> Name: <strong>{{this.name}}</strong><br>
+                        Email: <strong>{{this.email}}</strong><br>
+                        Gender: <strong>{{this.gender}}</strong><br>
+                        Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
+                        Credentials: <strong>{{this.credentials}}</strong><br>
+                        Rating: <strong>{{this.avgRatings}}</strong></p>
+                        <p v-if="this.additional_details">Additional Details: <strong>{{this.additional_details}}</strong></p><br>
+
+                        <label for="my-modal-2" class="btn btn-primary btn-sm modal-button">Edit Profile Details</label> 
+                            <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
+                            <div class="modal">
+                            <div class="modal-box">
+                                <form>
+                                <div id="v-model-multiple-checkboxes">
+                                    <label for="specialisations"><strong>Specialisations: </strong></label><br>
+                                    <input type="checkbox" id="all_categories" value="All Categories" v-model="this.checkedNames" />
+                                    <label for="all_categories">All Categories</label>
+                                    <input type="checkbox" id="general" value="General" v-model="this.checkedNames" />
+                                    <label for="general">General</label>
+                                    <input type="checkbox" id="career" value="Career" v-model="this.checkedNames" />
+                                    <label for="career">Career</label>
+                                    <input type="checkbox" id="relationships" value="Relationships" v-model="this.checkedNames" />
+                                    <label for="relationships">Relationships</label>
+                                    <br>
+                                    <!-- <span>Specialisations: {{ this.checkedNames }}</span> -->
+                                </div>
+
+                                <br>
+                                <label for="credentials"><strong>Credentials: </strong></label><br>
+                                <textarea id="credentials" class="textarea h-24 textarea-bordered" cols="60" rows="4" v-model="this.credentials"></textarea>
+                                <br><br>
+                                <label for="add_details"><strong>Additional Details: </strong></label><br>
+                                <textarea id="add_details" class="textarea h-24 textarea-bordered" cols="60" rows="4" v-model="this.additional_details"></textarea>
+                                </form>
+
+                                <br>
+
+                                <div class="modal-action">
+                                <label for="my-modal-2" class="btn btn-primary" @click="updateDetails(this.checkedNames)">Update Details</label> 
+                                <label for="my-modal-2" class="btn">Close</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+
+                    <div id = "reviewsTab"> 
+                        <router-link class="btn btn-link" :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
+                    </div>
+                </div> 
+                <div id="col-2">
+                    <br>
+                    <h3>Select date to view upcoming appointments</h3>
+                    <br>
+                    <CounsellorCalendar/>
                 </div>
             </div>
-
-
-                <div id="bgBlock"> 
-                    <div id="col-1">
-                        <div id="counsellorDetails"> 
-
-                            <div v-if="this.profile_pic">
-                                <img id="profilepic" :src='this.profile_pic'>
-                            </div>
-                            <br>
-
-                            <label for="my-modal-1" class="btn btn-primary btn-sm modal-button">Edit Profile Picture</label> 
-                                <input type="checkbox" id="my-modal-1" class="modal-toggle"> 
-                                <div class="modal">
-                                <div class="modal-box">
-                                    <label for="formFile">Upload Image:</label>
-                                    <input class="form-control" ref="fileInput" type="file" @input="preview">
-                                    <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
-                                    <div class="modal-action">
-                                    <label for="my-modal-1" class="btn btn-primary" @click="uploadImage(this.user)">Upload</label> 
-                                    <label for="my-modal-1" class="btn">Close</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <br>
-
-                            <p> Name: <strong>{{this.name}}</strong><br>
-                            Email: <strong>{{this.email}}</strong><br>
-                            Gender: <strong>{{this.gender}}</strong><br>
-                            Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
-                            Credentials: <strong>{{this.credentials}}</strong><br>
-                            Rating: <strong>{{this.avgRatings}}</strong></p>
-                            <p v-if="this.additional_details">Additional Details: <strong>{{this.additional_details}}</strong></p><br>
-
-                            <label for="my-modal-2" class="btn btn-primary btn-sm modal-button">Edit Profile Details</label> 
-                                <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
-                                <div class="modal">
-                                <div class="modal-box">
-                                    <form>
-                                    <div id="v-model-multiple-checkboxes">
-                                        <label for="specialisations"><strong>Specialisations: </strong></label><br>
-                                        <input type="checkbox" id="all_categories" value="All Categories" v-model="this.checkedNames" />
-                                        <label for="all_categories">All Categories</label>
-                                        <input type="checkbox" id="general" value="General" v-model="this.checkedNames" />
-                                        <label for="general">General</label>
-                                        <input type="checkbox" id="career" value="Career" v-model="this.checkedNames" />
-                                        <label for="career">Career</label>
-                                        <input type="checkbox" id="relationships" value="Relationships" v-model="this.checkedNames" />
-                                        <label for="relationships">Relationships</label>
-                                        <br>
-                                        <!-- <span>Specialisations: {{ this.checkedNames }}</span> -->
-                                    </div>
-
-                                    <br>
-                                    <label for="credentials"><strong>Credentials: </strong></label><br>
-                                    <textarea id="credentials" class="textarea h-24 textarea-bordered" cols="60" rows="4" v-model="this.credentials"></textarea>
-                                    <br><br>
-                                    <label for="add_details"><strong>Additional Details: </strong></label><br>
-                                    <textarea id="add_details" class="textarea h-24 textarea-bordered" cols="60" rows="4" v-model="this.additional_details"></textarea>
-                                    </form>
-
-                                    <br>
-
-                                    <div class="modal-action">
-                                    <label for="my-modal-2" class="btn btn-primary" @click="updateDetails(this.checkedNames)">Update Details</label> 
-                                    <label for="my-modal-2" class="btn">Close</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <br>
-
-                        <div id = "reviewsTab"> 
-                            <router-link class="btn btn-link" :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
-                        </div>
-                    </div> 
-                    <div id="col-2">
-                        <br>
-                        <h3>Select date to view upcoming appointments</h3>
-                        <CounsellorCalendar/>
-                    </div>
-                </div>
         </div>
     </div>
-
 </template>
 
 <script scoped>
@@ -391,5 +400,7 @@ export default {
     background-position: center center;
     margin-top: 10px;
 }
-
+.tab-red {
+    background-color:rgb(232, 115, 158);
+}
 </style>

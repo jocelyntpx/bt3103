@@ -8,23 +8,27 @@
         </div>
         <div v-else>
             <v-date-picker v-model="date" :attributes="attributes" @dayclick="onDayClick"/>
+            <br><br>
             <div v-if="upcoming.length != 0">
                 <h3><strong>Upcoming Sessions</strong></h3>
                 <div v-for="item in upcoming" :key="item">
                     {{ item.date }} {{ item.time }}
                 </div>
+                <br>
             </div>
             <div v-if="avail.length != 0">
                 <h3><strong>Available Sessions</strong></h3>
                 <div v-for="item in avail" :key="item">
-                    {{ item.date }} {{ item.time }} 
+                    {{ item.date }} {{ item.time }}
+                    <button id = 'cancelBtn' class="btn btn-xs btn-outline" v-on:click="cancel(this.counsellor_ID, item)">Cancel</button>
                 </div>
+                <br>
             </div>
             <div v-if="upcoming.length == 0 && avail.length == 0">
                 <h4>No session for selected day(s)</h4>
             </div>
-            <br><br>
-            <button class="btn btn-sm" v-on:click="createSession = true">Add New Session</button>
+            <br>
+            <button id = "addSessionBtn" class="btn btn-sm" v-on:click="createSession = true">Add New Session</button>
         </div>
     </div>
 </template>
@@ -33,7 +37,7 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import firebaseApp from '../../firebase.js';
 import { getFirestore } from 'firebase/firestore'
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, arrayRemove, deleteDoc } from 'firebase/firestore';
 const db = getFirestore(firebaseApp);
 
 export default {
@@ -114,7 +118,7 @@ export default {
 
                 let a = session.toDate()
                 let a_date = a.toDateString()
-                let a_time = a.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+                let a_time = a.toTimeString().substr(0,5)
                 let a_gmtDate = new Date(a.setHours(a.getHours() + 8))
 
                 if (a_gmtDate.toISOString().substr(0,10) == day.id) {
@@ -133,7 +137,7 @@ export default {
                 
                 let s = slot.toDate()
                 let s_date = s.toDateString()
-                let s_time = s.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+                let s_time = s.toTimeString().substr(0, 5)
                 let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
 
                 if (s_gmtDate.toISOString().substr(0,10) == day.id) {
@@ -141,7 +145,7 @@ export default {
                     this.avail.push({
                         date: s_date,
                         time: s_time,
-                        session: this.counsellor_ID+s_originalDate
+                        session: s_originalDate
                     })
                 }
             })
@@ -174,16 +178,34 @@ export default {
         async back() {
             this.createSession = false
             location.reload()
-        }
+        },
+        async cancel(counsellor, item) {
+            //remove from counsellor available slots
+            const counsellorRef = doc(db, 'Counsellors', this.counsellor_ID)
+            await updateDoc(counsellorRef, {
+                available_slots: arrayRemove(item.session)
+            })
+
+            //delete from sessions
+            await deleteDoc(doc(db, "Sessions", this.counsellor_ID+item.session))
+
+            alert('Session on ' + item.date + ' ' + item.time + ' has been cancelled')
+            location.reload()
+        },
     }
 }
 </script>
 
 <style scoped>
-.btn{
+#addSessionBtn {
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 20px;
+}
+
+#cancelBtn {
+    margin-bottom: 5px;
+    margin-left: 5px;
 }
 
 </style>
