@@ -3,19 +3,19 @@
         <div v-if="createSession == true">
             <v-date-picker v-model="date" mode="dateTime"/>
             <br><br>
-            <button v-on:click="create()">Create Session</button>
-            <button v-on:click="back()">Back to appointments calendar</button>
+            <button class="btn btn-sm" v-on:click="create()">Create Session</button>
+            <button class="btn btn-outline btn-sm" v-on:click="back()">Back to appointments calendar</button>
         </div>
         <div v-else>
             <v-date-picker v-model="date" :attributes="attributes" @dayclick="onDayClick"/>
             <div v-if="upcoming.length != 0">
-                <h3>Upcoming Sessions</h3>
+                <h3><strong>Upcoming Sessions</strong></h3>
                 <div v-for="item in upcoming" :key="item">
                     {{ item.date }} {{ item.time }}
                 </div>
             </div>
             <div v-if="avail.length != 0">
-                <h3>Available Sessions</h3>
+                <h3><strong>Available Sessions</strong></h3>
                 <div v-for="item in avail" :key="item">
                     {{ item.date }} {{ item.time }} 
                 </div>
@@ -24,7 +24,7 @@
                 <h4>No session for selected day(s)</h4>
             </div>
             <br><br>
-            <button v-on:click="createSession = true">Add New Session</button>
+            <button class="btn btn-sm" v-on:click="createSession = true">Add New Session</button>
         </div>
     </div>
 </template>
@@ -178,3 +178,12 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.btn{
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 20px;
+}
+
+</style>
