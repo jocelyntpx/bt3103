@@ -22,7 +22,6 @@
     "firebaseui": "^0.600.0",
     "moment": "^2.29.1",
     "postcss": "^7.0.39",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "v-calendar": "^3.0.0-alpha.6",
     "vue": "^3.0.0",
     "vue-router": "^4.0.11",
