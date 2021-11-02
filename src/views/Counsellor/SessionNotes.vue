@@ -5,7 +5,7 @@
     <!-- remain as this or change to backBtn? not sure -->
     <br><br>
 
-    <h1>Session Notes</h1>
+    <h1 class="text-xl">Session Notes</h1>
     <p>Leave a session note for future reference.</p>
     <div id="bgBlock">
         <h2>{{this.patientName}}</h2>

@@ -3,11 +3,11 @@
         <br><br>
         <NavBarGeneral/>
         <div id="main">
-            <h1 id="heading">Mental Health Matters</h1>
+            <p class="text-3xl" id="heading">Mental Health Matters</p>
             <p>We provide free, private online counselling <br>
             for everyone. A video call, voice call or just chat - <br>
             choose whichever you are comfortable with!</p> <br>
-            <button id="registerButton" @click="goToLogin()">Register</button>
+            <button class="btn btn-primary btn-active" id="registerButton" @click="goToLogin()">Register</button>
             
         </div>
     </div>
@@ -56,7 +56,7 @@ export default {
     font-family: 'Nunito';
 }
 #registerButton{
-    display:inline-block;
+    /* display:inline-block;
     padding:0.3em 1.2em;
     margin:0 0.3em 0.3em 0;
     border-radius:2em;
@@ -65,9 +65,9 @@ export default {
     font-family:'Roboto',sans-serif;
     font-weight:300;
     color:#FFFFFF;
-    background-color:#4eb5f1;
     text-align:center;
-    transition: all 0.2s;
+    transition: all 0.2s; */
+    background-color:#4eb5f1;
 }
 #registerButton:hover{
     background-color:#4095c6;

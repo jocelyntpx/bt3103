@@ -4,7 +4,8 @@
 <br>
     <div id="bg">
         <div id="textPosition">
-            <h1>About Us</h1>
+            <p class="text-4xl">About Us</p>
+            <br>
             <p>Mental Health Matters is an extension to the Samaritans of Singapore (SOS).<br> 
                 MHM aims to provide you a better environment to seek mental help with more options - <br>
                 video call, voice call and chat.</p>
