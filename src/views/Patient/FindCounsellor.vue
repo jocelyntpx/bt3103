@@ -7,74 +7,51 @@
       <p class="text-4xl"> Find a Counsellor </p><br>
 
 
-      <!-- <div class="flex flex-col w-full"> -->
-          <div class="grid place-items-center">
-            <div class = "tabs tabs-boxed">
-              <div><button @click="showCurrentlyAvailable = true" :class="[ showCurrentlyAvailable? 'tab tab-lg tab-active h-16 min-w-full' : 'tab tab-lg h-16 min-w-full' ]" >Currently Available</button></div>
-              <div><button @click="showCurrentlyAvailable = false" :class="[ !showCurrentlyAvailable? 'tab tab-lg tab-active h-16 min-w-full' : 'tab tab-lg h-16 min-w-full' ]">All Counsellors</button></div>
-            </div>
-          </div> <br>
-
-      <!-- </div> -->
-
-          <div class="container mx-auto flex flex-row w-2/3 m-4 float-center space-x-6">
-
-            <div class="flex-auto">
-            <label for="counsellor_category">Filter by Counsellor Specialisation </label>
-            <div class="btn-group">
-              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'All Categories' }" v-on:click="setCategory('All Categories')">All Categories</span>
-              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'General' }" v-on:click="setCategory('General')">General</span>
-              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'Career' }" v-on:click="setCategory('Career')">Career</span>
-              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'Relationships' }" v-on:click="setCategory('Relationships')">Relationships</span>
-            <!-- </div> -->
+        <div class="grid place-items-center">
+          <div class = "tabs tabs-boxed">
+            <div><button @click="showCurrentlyAvailable = true" :class="[ showCurrentlyAvailable? 'tab tab-lg tab-active h-16 min-w-full' : 'tab tab-lg h-16 min-w-full' ]" >Currently Available</button></div>
+            <div><button @click="showCurrentlyAvailable = false" :class="[ !showCurrentlyAvailable? 'tab tab-lg tab-active h-16 min-w-full' : 'tab tab-lg h-16 min-w-full' ]">All Counsellors</button></div>
           </div>
-            </div>
+        </div> <br>
 
+        <div class="grid place-items-center">
+          <div class="grid grid-flow-col auto-cols-max gap-6 m-2">
+
+            <!-- <div class="flex-auto"> -->
+            <div class="flex-grow">
+              <div class="m-auto">
+                <label for="counsellor_category">Filter by Counsellor Specialisation </label>
+                <div class="btn-group">
+                  <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'All Categories' }" v-on:click="setCategory('All Categories')">All Categories</span>
+                  <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'General' }" v-on:click="setCategory('General')">General</span>
+                  <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'Career' }" v-on:click="setCategory('Career')">Career</span>
+                  <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'Relationships' }" v-on:click="setCategory('Relationships')">Relationships</span>
+            <!-- </div> -->
+                </div>
+              </div>
+            </div>
             <!-- <div> -->
 
-          <div class="sort flex-auto">
-            <label for="sort_counsellor">Sort Counsellor </label>
-            <div class="btn-group">
-              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': sortCounsellor === 'Alphabetical'}" v-on:click="setSort('Alphabetical')">Alphabetical</span>
-              <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active':  sortCounsellor === 'Highest Rating' }" v-on:click="setSort('Highest Rating')">Highest Rating</span>
+          <div class="flex">
+            <div class="m-auto">
+              <label for="sort_counsellor" class="text-center">Sort Counsellor </label>
+
+              <div class="btn-group">
+                <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': sortCounsellor === 'Alphabetical'}" v-on:click="setSort('Alphabetical')">Alphabetical</span>
+                <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active':  sortCounsellor === 'Highest Rating' }" v-on:click="setSort('Highest Rating')">Highest Rating</span>
+              </div>
             </div>
           </div>
 
-            <!-- </div> -->
-
-          <div>
-
-          <div class="form-control flex-auto">
-            <label for="search_bar" class="place-self-center"> Search Counsellor </label>
-            <input type="text" class="input input-sm input-primary input-bordered -mt-2 h-7" v-model="search" placeholder="name"/>
-
-            <!-- <label for="search_bar">Search Counsellor </label>
-            <label class="input-group input-group-xs ">
-              <span>></span> 
-              <input placeholder="name" class="input input-bordered input-sm" type="text" v-model="search" />
-            </label>             -->
-          </div> 
+          <div class="flex">
+            <div class="m-auto">
+              <label for="search_bar" class="place-self-center"> Search Counsellor </label><br>
+              <input type="text" class="input input-sm input-primary input-bordered -mt-2 h-7 w-42" v-model="search" placeholder="Name"/>
+            </div> 
 
           </div>
-          </div>
-
-
-
-
-
-
-
-          <!-- <div class = "search_bars">
-            <div class = "left"> 
-              <label for="search_bar">Search for a counsellor:</label>
-              <input type="text" class = "search_for_counsellor" v-model="search" placeholder="Type the Counsellor's Name"/>
-            </div>
-
-          </div> -->
-
-
-
-
+        </div>
+        </div>
 
 
       <div class="flex flex-col w-full">
@@ -107,14 +84,10 @@
                     
                     <AllCounsellorsCalendarFilter @updateFilteredDays = "showFilteredDays" />
 
-                    <!-- <div v-if="this.filteringDays != 'any day'"> -->
                       <button v-if="this.filteringDays != 'any day'" class="btn btn-accent btn-active" role="button" aria-pressed="true" @click="resetCalendarFilter">Reset Filter</button> 
-                      <!-- <button id = "reset_filter" @click = "resetCalendarFilter"> Show All Days </button> -->
                       <button v-else class="btn btn-link" disabled="disabled">Reset Filter</button> 
-                    <!-- </div> -->
 
                   </div>
-                <!-- </div> -->
             
             </div>
 
@@ -125,37 +98,10 @@
           </div> 
 
 
-
-
-            <!-- <div class="rounded-lg shadow bg-base-200 drawer h-52">
-              <input id="my-drawer" type="checkbox" class="drawer-toggle"> 
-              <div class="flex flex-col items-center justify-center drawer-content">
-                <label for="my-drawer" class="btn btn-primary drawer-button">Filter by day</label>
-              </div> 
-              <div class="drawer-side">
-                <label for="my-drawer" class="drawer-overlay"></label> 
-                <div class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
-
-                </div>
-              </div>
-            </div> -->
-
-            <!-- </div> -->
-            <!-- <AllCounsellors :key="refreshComponent" v-bind="groupedProps" /> -->
-
-          
-
       </div>
-
-      <!-- <div class = "bgBlock1">  -->
-        <!-- Currently available counsellors -->
-        <!-- </div> -->
-
-        <!-- All counsellors -->
       </div>
 
       </div>
-  <!-- </div> -->
 
 </template>
 
