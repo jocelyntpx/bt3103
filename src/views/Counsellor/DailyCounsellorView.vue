@@ -1,13 +1,45 @@
 <template>
  <main class="wrapper">
-   <div class="home" v-if="status === 'home'">
+
+  <div class="home" v-if="status === 'home'">
+
+    <div class="hero min-h-screen py-8">
+      <div class="text-center hero-content">
+        <!-- <div class="max-w-md"> -->
+        <div class="w-2/3">
+          <h1 class="mb-5 text-5xl font-bold">
+                Welcome!
+          </h1> 
+
+          <div class="card shadow-lg">
+            <div class="card-body object-center">
+
+              <h2 class="card-title">Few pointers to take note of...</h2> 
+                <p> 1. Patient can communicate via video call, voice call or via the chat box.</p><br>
+                <p> 2. Please fill in the Session Notes at the end of the session.</p><br>
+            </div>
+          </div> <br><br>
+
+          <div>
+            <!-- <p class="text-lg font-semibold"> When you are ready, click the button below and the counsellor will counsellor will join the room shortly.</p> -->
+            <button class="btn btn-primary w-1/2" @click="submitJoinRoom">Join Session Now</button>
+            <p v-if="roomError" class="error">Session could not be started, please try again later.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+   <!-- <div class="home" v-if="status === 'home'">
      <div class="start-call-container">
         <h4> some intro msg blah </h4>
        <button @click="submitJoinRoom">
          Click to join the session!
        </button>
      </div>
-   </div>
+   </div> -->
 
    <div class="call-container" :class="{ hidden: status === 'home' }">
      <!-- The Daily Prebuilt iframe is embedded in the div below using the ref -->

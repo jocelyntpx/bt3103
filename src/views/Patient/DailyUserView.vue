@@ -1,25 +1,43 @@
 <template>
  <main class="wrapper">
    <div class="home" v-if="status === 'home'">
-     <!-- <div id ="notice_for_early_enter" v-if="this.userEarly">
-       <h4> You have entered before the allocated session slot time. Your counsellor has been notified, 
-         however, please understand if your counsellor is only able to join at the allocated slot time.
-         Thank you! 
-        </h4>
-     </div> -->
 
-     <h2>Before you start...</h2>
-     <p>This is a safe space. All our counsellors are certified by ..... blah blah <br>
-     When you are ready, click the button below and the counsellor will counsellor will join the room shortly.</p>
-     <div class="start-call-container">
-       <button @click="createAndJoinRoom">
-         Start Session
-       </button>
-       <p v-if="roomError" class="error">Session could not be started, please try again later.</p>
-       
-     </div>
+      <div class="hero min-h-screen py-8">
+        <div class="text-center hero-content">
+          <!-- <div class="max-w-md"> -->
+          <div class="w-2/3">
+            <h1 class="mb-5 text-5xl font-bold">
+                  Welcome! Before you start...
+            </h1> 
+            <p class="mb-5 text-lg">
+                  We want to remind you that this is a <strong> safe space, </strong>and all our counsellors are certified.  <br>
+                  When you are ready, click the button below and your counsellor will join the room shortly.
+            </p> 
+
+            <div class="card shadow-lg">
+              <div class="card-body object-center">
+
+                <h2 class="card-title">Few pointers to take note of...</h2> 
+                  <p> 1. You can choose to communicate with your counsellor via video call (require webcam permission), voice call (require microphone permission), or via the chat box.</p><br>
+                  <p> 2. Please do not feel pressured to disclose any information you are not comfortable with.</p><br>
+                  <p> 3. Information shared during the session remains confidential, however they can be shared with your future counsellors
+                  on this platform if you have chosen to share information with all counsellors. (This option can be changed at any 
+                  point of time in your profile). </p>
+              </div>
+            </div> <br><br>
+
+            <div>
+              <!-- <p class="text-lg font-semibold"> When you are ready, click the button below and the counsellor will counsellor will join the room shortly.</p> -->
+              <button class="btn btn-primary w-1/3" @click="createAndJoinRoom">Start Session Now</button>
+              <p v-if="roomError" class="error">Session could not be started, please try again later.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
    </div>
 
+  <!-- <div class="bg-base-200"> -->
    <div class="call-container" :class="{ hidden: status === 'home' }">
      <!-- The Daily Prebuilt iframe is embedded in the div below using the ref -->
      <div id="call" ref="callRef"></div>
@@ -29,7 +47,8 @@
        :roomUrl="roomUrl"
        :callFrame="callFrame"
      /> -->
-   </div>
+   <!-- </div> -->
+  </div>
  </main>
 </template>
 
@@ -169,12 +188,14 @@ export default {
     const sessionDocRef = doc(db, "Sessions", this.sessionID)
     const sessionSnap = await getDoc(sessionDocRef);
     console.log("user of session : " , sessionSnap.data().user_ID);
+    console.log("sessionID: " , this.sessionID);
 
     const patientDocRef = doc(db, "Patients", sessionSnap.data().user_ID)
     await updateDoc(patientDocRef, {
       upcoming_user_sessions: arrayRemove(this.sessionID),
       past_user_sessions: arrayUnion(this.sessionID)
     })
+    console.log("right before router push")
     
     // route user to the review page.
     this.$router.push({ name: 'RateCounsellor', params: { id: this.sessionID } } )

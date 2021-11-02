@@ -17,7 +17,8 @@
 
       <!-- </div> -->
 
-          <div class="container mx-auto flex flex-row w-2/3 m-4">
+          <div class="container mx-auto flex flex-row w-2/3 m-4 float-center space-x-6">
+
             <div class="flex-auto">
             <label for="counsellor_category">Filter by Counsellor Specialisation </label>
             <div class="btn-group">
@@ -32,7 +33,7 @@
             <!-- <div> -->
 
           <div class="sort flex-auto">
-            <label for="sort_counsellor">Sort Counsellor by </label>
+            <label for="sort_counsellor">Sort Counsellor </label>
             <div class="btn-group">
               <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': sortCounsellor === 'Alphabetical'}" v-on:click="setSort('Alphabetical')">Alphabetical</span>
               <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active':  sortCounsellor === 'Highest Rating' }" v-on:click="setSort('Highest Rating')">Highest Rating</span>
@@ -44,11 +45,14 @@
           <div>
 
           <div class="form-control flex-auto">
-            <label for="search_bar">Search for a Counsellor </label>
-            <!-- <label class="label">
-              <span class="label-text">Search for a Counsellor</span>
-            </label>  -->
-            <input type="text" class="input input-sm input-primary input-bordered" v-model="search" placeholder="Counsellor's Name"/>
+            <label for="search_bar" class="place-self-center"> Search Counsellor </label>
+            <input type="text" class="input input-sm input-primary input-bordered -mt-2 h-7" v-model="search" placeholder="name"/>
+
+            <!-- <label for="search_bar">Search Counsellor </label>
+            <label class="input-group input-group-xs ">
+              <span>></span> 
+              <input placeholder="name" class="input input-bordered input-sm" type="text" v-model="search" />
+            </label>             -->
           </div> 
 
           </div>
@@ -88,6 +92,8 @@
 
 
           <div class = "all_counsellors_list" v-else> 
+            <h5>These counsellors are currently not available. You can go to their profile to schedule a future session. <br>
+            You can also use the calendar to show counsellors available on a day of your choice. </h5> <br>
 
               <!-- idk why this keeps shrinking when u put a calendar filter -->
                 <div class="collapse w-full border rounded-box border-base-300 collapse-arrow"> 
