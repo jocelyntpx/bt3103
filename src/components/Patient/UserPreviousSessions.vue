@@ -1,6 +1,6 @@
 <template>
   <!-- This component templates the user's previous sessions (seen in Patients records, User's profile page ) -->
-   <h3>Past Appointments</h3>
+   <p class="text-xl">Past Appointments</p><br>
     
       <div>
         <table id="table3">
@@ -113,7 +113,9 @@ export default {
                 } else {
                     var rateSession = document.createElement("button")
                     rateSession.id = "rateSession"
-                    rateSession.innerHTML = "<p class='underline'> Rate Session Now! </p>"
+
+                    rateSession.innerHTML = "<button class='btn btn-link btn-sm'>Rate Session Now!"
+
                     rateSession.onclick = () => {
                         this.$router.push({ name: 'RateCounsellor', params: { id: pastSession } }) 
                     }
@@ -122,7 +124,14 @@ export default {
 
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
-                cell3.innerHTML = counsellorName; 
+                // cell3.innerHTML = counsellorName; 
+                cell3.className = "nameToProfile"
+                var nameButton = document.createElement("button")
+                nameButton.innerHTML = "<button class='btn btn-sm btn-ghost'>" +counsellorName; 
+                nameButton.onclick = () => {
+                    this.$router.push({ name: 'CounsellorProfilePatient', params: { id: counsellor.id } }) 
+                }
+                cell3.appendChild(nameButton)
 
                 if (rating != null) {
                     // if (this.isCounsellor(user)) { //check the if else condition again

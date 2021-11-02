@@ -15,12 +15,6 @@
             </h3>
             </div>
         </div> -->
-            <div class="grid place-items-center">
-            <div class = "tabs tabs-boxed">
-              <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-lg tab-active h-10 min-w-full' : 'tab tab-lg h-10 min-w-full' ]" >Share info with ALL counsellors</button></div>
-              <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-lg tab-active h-10 min-w-full' : 'tab tab-lg h-10 min-w-full' ]">DO NOT share info with ALL counsellors</button></div>
-            </div>
-          </div> <br>
 
         <!-- <div class="p-6 card bordered">
             <div class="form-control">
@@ -31,14 +25,41 @@
             </div>
         </div> -->
         
-
-        <div id = "leaveReview" v-if = "userNotLeftReview">
-            We notice you have not yet left a review for a previous session. 
-            Leave a review now!
+        <div class="flex">
+        <div class="alert w-1/2 ml-40" v-if = "userNotLeftReview">
+        <div class="flex-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#009688" class="flex-shrink-0 w-6 h-6 mx-2">     
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>                     
+            </svg> 
+            <label>
+            <h4 class="text-left">Hey, {{user.displayName}}</h4> 
+            <p class="text-sm text-base-content text-opacity-60 ">
+            You have not left a review yet for a previous session. Leave a review now!</p>
+            </label>
+        </div>  
+        </div>
+            <div class="grid place-items-center ml-20" v-if = "userNotLeftReview">
+                <p class="text-sm">Allow your information to be shared with all counsellors?</p>
+            <div class = "tabs tabs-boxed">
+              <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-sm tab-active ' : 'tab tab-sm']" data-tip="This would enable counsellors having first-time sessions with you to have a better understanding of your situation." 
+              class="tooltip tooltip-bottom tooltip-primary"><strong>Share</strong></button></div>
+              <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-sm tab-red tab-active' : 'tab tab-sm' ]" data-tip="This would make your session information only available to the particular counsellor you had the session with." 
+              class="tooltip tooltip-bottom tooltip-primary"><strong>Don't Share</strong></button></div>
+            </div>
+          </div>
+            <div class="flex-auto grid justify-items-center" v-else>
+                <p class="text-sm">Allow your information to be shared with all counsellors?</p>
+            <div class = "tabs tabs-boxed">
+              <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-sm tab-active ' : 'tab tab-sm']" data-tip="This would enable counsellors having first-time sessions with you to have a better understanding of your situation." 
+              class="tooltip tooltip-bottom tooltip-primary"><strong>Share</strong></button></div>
+              <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-sm tab-red tab-active' : 'tab tab-sm' ]" data-tip="This would make your session information only available to the particular counsellor you had the session with." 
+              class="tooltip tooltip-bottom tooltip-primary"><strong>Don't Share</strong></button></div>
+            </div>
+          </div>
         </div><br>
 
+        <div class="bg-base-300 text-base-content">
         <div id="bgBlock">
-            
             <div id="col-1">
                 <div id="patientDetails"> 
                     <p> Alias: <strong>{{user.displayName}}</strong><br>
@@ -59,6 +80,7 @@
 
             <br>
 
+        </div>
         </div>
     </div>
 </template>
@@ -181,7 +203,7 @@ export default {
     margin: auto; */
 
     border-radius: 35px;
-    background: #B9D9EB;
+    /* background: #B9D9EB; */
     padding: 20px;
     width: 80%;
     height: 100%;

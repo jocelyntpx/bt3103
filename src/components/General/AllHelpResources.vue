@@ -1,6 +1,6 @@
 <template>
 <div class="flex space-x-4 space-y-4">
-    <div class = "grid grid-flow-row grid-cols-3 gap-4 mx-20">
+    <div class = "grid grid-flow-row grid-cols-3 gap-10 mx-20">
             <a  v-for= "article in HelpResources" v-bind:key="article.index">
                 <div class="card text-center shadow-2xl lg:card-side bg-secondary text-accent-content">
                     <div class="card-body">
