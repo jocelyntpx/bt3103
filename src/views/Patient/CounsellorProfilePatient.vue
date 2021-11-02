@@ -47,6 +47,7 @@
                     <div id="col-2">
                         <br>
                         <h3>Select date to view sessions available for booking</h3>
+                        <br>
                         <CounsellorCalendarPatient/>
                     </div>
                 </div>
