@@ -1,6 +1,12 @@
 <template>
     <br><br>
-    <div v-if=(counsellor)>
+    <div v-if="user">
+        <NavBarPatient/>
+    </div>
+    <div v-else>
+        <NavBarGeneral/>
+    </div>
+    <!-- <div v-if=(counsellor)>
         <NavBarCounsellor/>
     </div>
     <div v-else-if=(user)>
@@ -8,7 +14,7 @@
     </div>
     <div v-else>
         <NavBarGeneral/>
-    </div>
+    </div> -->
 
     <br>
     <div id="main" class="flex-auto justify-center">
@@ -29,10 +35,10 @@ const db = getFirestore(firebaseApp);
 import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarPatient from "@/components/Patient/NavBarPatient.vue"
-import NavBarCounsellor from "@/components/Counsellor/NavBarCounsellor.vue"
+
 
 export default {
-    components: {NavBarGeneral, NavBarPatient, NavBarCounsellor,},
+    components: {NavBarGeneral, NavBarPatient, },
     name:"ArticlePage",
 
     data(){
@@ -55,26 +61,26 @@ export default {
             this.fbuser = user.id;
         })
         // this.fbuser = auth.currentUser.uid;
-        this.isCounsellor(this.fbuser);
+        // this.isCounsellor(this.fbuser);
         this.displayFullArticle();
     },
 
     methods: {
-        async isCounsellor(user) {
+        // async isCounsellor(user) {
 
-            let docRef = doc(db, "Counsellors", user);
-            console.log(user)
-            let counsellorDoc = await getDoc(docRef);
+        //     let docRef = doc(db, "Counsellors", user);
+        //     console.log(user)
+        //     let counsellorDoc = await getDoc(docRef);
                 
-            if (counsellorDoc.exists()) {
-              console.log('Is counsellor!');
-              this.counsellor = true;
-            } else {
-              console.log('No such counsellor!');
-              this.counsellor = false;
-            }
+        //     if (counsellorDoc.exists()) {
+        //       console.log('Is counsellor!');
+        //       this.counsellor = true;
+        //     } else {
+        //       console.log('No such counsellor!');
+        //       this.counsellor = false;
+        //     }
 
-        },
+        // },
         
         async displayFullArticle() {
             console.log("entered display")

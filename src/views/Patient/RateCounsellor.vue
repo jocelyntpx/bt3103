@@ -2,12 +2,14 @@
     <br><br>
     <div v-if="user">
         <div id = "backBtn">
-            <router-link :to="{ name: 'PatientProfile', params: { id: this.fbuser }}"> ← Submit Later</router-link>
+                    <button class="btn btn-link" @click="this.$router.push({name: 'PatientProfile', params: { id: this.fbuser }})">← Submit Later</button>
+            <!-- <router-link :to="{ name: 'PatientProfile', params: { id: this.fbuser }}"> ← Submit Later</router-link> -->
         </div>
-        <h1>Rate Counsellor!</h1>
-        <p> Kindly leave a rating/review for your counsellor. </p>
+        <!-- <button class="btn btn-link" @click="this.$router.push({name: 'PatientProfile', params: { id: this.fbuser }})">← Submit Later</button> -->
+        <p class="text-4xl"> Rate Counsellor!</p>
+        <p> Kindly leave a rating/review for your counsellor. </p><br>
         <div id="bgBlock">
-            <h2>{{this.counsellorName}}</h2>
+            <p class="text-2xl">{{this.counsellorName}}</p>
             <!-- <div id = "stars"> -->
                 <vue3starRatings v-model="rating" starSize=50  />
             <!-- </div> -->
@@ -15,7 +17,7 @@
             <div id="innerBlock">
                 <textarea v-model= "review" id="reviewText" placeholder="Enter your review here"></textarea>
             </div>
-            <button v-on:click = "sendReviewRating()" id="submit">Submit</button>
+            <button v-on:click = "sendReviewRating()" id="submit" class="btn btn-primary">Submit</button>
             <!-- for me to check if the review and rating are working under v-model! -->
             <!-- <h2>{{review}}</h2>
             <h2>{{rating}}</h2> -->
@@ -120,7 +122,7 @@ export default {
   font-family:'Roboto',sans-serif;
   font-size: 17px;
 }
-#submit{
+/* #submit{
     display:inline-block;
     padding:0.3em 1.2em;
     margin:0 0.3em 0.3em 0;
@@ -136,7 +138,7 @@ export default {
 }
 #submit:hover{
     background-color:#4095c6;
-}
+} */
 #backBtn{
   text-align: left;
   margin-left: 250px; 
