@@ -123,7 +123,9 @@ export default {
                     console.log("No link yet, but meets criteria to create a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
                     var linkSession = document.createElement("button")
                     linkSession.id = "linkSession"
+
                     linkSession.innerHTML = "<button class='btn btn-link btn-sm'>Enter Session Room Now!"
+
                     
                     linkSession.onclick = () => {
                         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
