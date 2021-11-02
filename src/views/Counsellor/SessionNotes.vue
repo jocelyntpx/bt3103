@@ -5,15 +5,16 @@
     <!-- remain as this or change to backBtn? not sure -->
     <br><br>
 
-    <h1 class="text-xl">Session Notes</h1>
-    <p>Leave a session note for future reference.</p>
+    <p class="text-4xl">Session Notes</p>
+    <p>Leave a session note for future reference.</p><br>
+
     <div id="bgBlock">
-        <h2>{{this.patientName}}</h2>
+        <p class="text-2xl">{{this.patientName}}</p>
 
         <div id="innerBlock">
             <textarea v-model= "sessionNotes" id="notesText" placeholder="Enter your session notes here"></textarea>
         </div>
-        <button v-on:click = "sendSessionNotes()" id="submit">Submit</button>
+        <button v-on:click = "sendSessionNotes()" id="submit" class="btn btn-primary">Submit</button>
 
     </div>
 <!-- 
