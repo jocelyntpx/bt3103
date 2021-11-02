@@ -5,8 +5,9 @@
         <NavBarCounsellor/> 
 
         <!-- <button id = "back" @click="goBack()"> Back to Past Patients </button> <br> -->
-
-        <h1>Patient's Profile</h1>
+        <br>
+        <h1 class="text-4xl">Patient's Profile</h1>
+        <br>
 
         <!-- else (user is counsellor from MyPatients) -->
         <!-- <NavBarCounsellor/> -->

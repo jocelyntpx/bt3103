@@ -64,13 +64,13 @@
 </template>
 
 <script>
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarPatient from "@/components/Patient/NavBarPatient.vue"
 import UserUpcomingSessions from "@/components/Patient/UserUpcomingSessions.vue"
 import UserPreviousSessions from "@/components/Patient/UserPreviousSessions.vue"
 import firebaseApp from '../../firebase.js';
-import { collection, getFirestore } from "firebase/firestore"
-import { doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore"
+import { doc, getDoc, updateDoc} from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 
@@ -101,18 +101,8 @@ export default {
             this.user = user;
             this.fbuser = user.uid;
 
-            this.check = await this.isPatient(auth, this.fbuser);
-            if (this.counsellor == false) {
-                console.log("here1")
-                this.updateFirebase(user);
-                this.checkSharing(user);
-                this.checkReviews(user);
-            } else {
-                console.log("here2")
-                signOut(auth, this.user)
-                alert("Counsellor, please use the counsellor's login instead.")
-                this.$router.push({ path: '/counsellorLogin' })
-            }
+            this.checkSharing(user);
+            this.checkReviews(user);
         });
 
         // this.counsellorUser = auth.currentUser.email;
@@ -133,29 +123,6 @@ export default {
                 this.counsellor = false;
                 return true
             }
-        },
-
-        async updateFirebase(user) {
-            const uid = user.uid
-            const patientDoc = await getDoc(doc(db, "Patients", uid));
-
-            if (!patientDoc.exists()) {
-                console.log("update patient into firebase")
-                const patientRef = collection(db,"Patients");
-                await setDoc(doc(patientRef,uid), {
-                    name: user.displayName,
-                    email: user.email,
-                    // userID: user.uid, // NO LONGER HAVE THIS 
-                    upcoming_user_sessions: [],
-                    past_user_sessions: [],
-                    user_type: "patient",
-                    share_info: false //by default set it to false
-                })
-            } else {
-                console.log("exists")
-                console.log(this.fbuser)
-            }
-
         },
 
         async checkReviews(user) {
