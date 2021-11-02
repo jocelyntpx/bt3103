@@ -7,6 +7,7 @@
 
     <p class="text-4xl">Session Notes</p>
     <p>Leave a session note for future reference.</p><br>
+
     <div id="bgBlock">
         <p class="text-2xl">{{this.patientName}}</p>
 
