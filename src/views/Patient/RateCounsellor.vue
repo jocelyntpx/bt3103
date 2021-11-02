@@ -13,12 +13,14 @@
         </div>
 
         <div id = "backBtn">
+
                     <button class="btn btn-link" @click="this.$router.push({name: 'PatientProfile', params: { id: this.fbuser }})">← Submit Later</button>
             <!-- <router-link :to="{ name: 'PatientProfile', params: { id: this.fbuser }}"> ← Submit Later</router-link> -->
         </div>
         <!-- <button class="btn btn-link" @click="this.$router.push({name: 'PatientProfile', params: { id: this.fbuser }})">← Submit Later</button> -->
         <p class="text-4xl"> Rate Counsellor!</p>
         <p> Kindly leave a rating/review for your counsellor. </p><br>
+
         <div id="bgBlock">
             <p class="text-2xl">{{this.counsellorName}}</p>
             <!-- <div id = "stars"> -->
