@@ -22,12 +22,26 @@
                         </div>
 
                         <div id = "reviewsTab"> 
-                            <router-link :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
+                            <router-link class="btn btn-link" :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
                         </div>
 
-                        <div class="save-btn">
-                            <button @click="showModal = true">Report</button>
+                        <label for="my-modal-2" class="btn btn-sm btn-error modal-button">Report</label> 
+                        <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
+                        <div class="modal">
+                        <div class="modal-box">
+                          <form ref="form" @submit.prevent="sendEmail">
+                        <input type="hidden" name="reporter" :value="this.patient_email">
+                        <input type="hidden" name="reportee" :value="this.email">
+                        <textarea  name="report_details" v-model="report_details" class="textarea h-24 textarea-bordered textarea-primary" cols="60" rows="40" required=""
+                            placeholder="Report details"></textarea><br><br>
+                    </form> 
+                        <div class="modal-action">
+                        <label for="my-modal-2" class="btn btn-error" @click="sendEmail()">Report</label> 
+                        <label for="my-modal-2" type="submit" class="btn">Close</label>
                         </div>
+                    </div>
+                    </div>
+
 
                     </div> 
                     <div id="col-2">
@@ -38,29 +52,27 @@
                 </div>
         </div>
     </div>
-    <ReportCounsellorModal v-show="showModal" @close-modal="showModal = false" v-bind:counsellor_email="this.email"/>
 </template>
 
 <script scoped>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarPatient from '@/components/Patient/NavBarPatient.vue'
 import CounsellorCalendarPatient from "@/components/Patient/CounsellorCalendarPatient.vue"
-import ReportCounsellorModal from "@/components/Patient/ReportCounsellorModal.vue"
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { doc, getDoc} from "firebase/firestore";
+import emailjs from 'emailjs-com';
 
 const db = getFirestore(firebaseApp);
 
 export default {
-    components: {NavBarPatient,CounsellorCalendarPatient,ReportCounsellorModal},
+    components: {NavBarPatient,CounsellorCalendarPatient},
     name:"CounsellorProfile" ,
 
     data(){
         return{
             user:false,
             email:"",
-            user_type:"counsellor",
             counsellor_ID: this.$route.params.id, // counsellor's UID
             // fbuser:"", // user's UID
             // currentlyAvailable:null,
@@ -73,7 +85,7 @@ export default {
             profile_pic: "",
             credentials:"",
             additional_details:"",
-            showModal: false,
+            report_details: "",
         }
     },
 
@@ -82,18 +94,16 @@ export default {
         onAuthStateChanged(auth, user => {
             if (user) {
                 this.user = user;
-                if (user.user_type == "counsellor") {
-                    this.user_type = "counsellor";
-                }
+                this.patient_email = this.user.email;
                 // this.fbuser = user.uid;
-                this.getDetails(this.counsellor_ID);
+                this.getCounsellorDetails(this.counsellor_ID);
                 console.log("bottom of mounted()");
             }
         })
     },
 
     methods: {
-        async getDetails(user) {
+        async getCounsellorDetails(user) {
             // console.log("user:",user)
             let docRef = doc(db, "Counsellors", user);
             let counsellorDoc = await getDoc(docRef);   
@@ -139,6 +149,24 @@ export default {
             }
             this.specialisations_formatted = stringOutput.slice(2)
         },
+
+        async sendEmail() {
+            if (this.report_details==""){
+                alert("You have to fill in the report details to make a report.")
+            } else {
+                await emailjs.sendForm('service_mhmbt3103', 'report', this.$refs.form, 'user_vWHnt7ugddg9JbFay7C0Z')
+                    .then((result) => {
+                        console.log('SUCCESS!', result.text);
+                        alert("Counsellor Report Successfully Submitted!");
+                        this.$emit('close-modal')
+                    }, (error) => {
+                        console.log('FAILED...', error.text);
+                        alert("Counsellor Report Submission Failed!");
+                        this.$emit('close-modal')
+                    });
+            }
+        }
+
 
     }
 }
