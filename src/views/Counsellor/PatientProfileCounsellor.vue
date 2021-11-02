@@ -15,14 +15,27 @@
         </div> -->
         <div id="bgBlock">
             <div id="col-1">
-                <div id="patientDetails"> 
+                <div id="patientDetails">  
                     <p> Alias: <strong>{{this.patient_name}}</strong><br>
                     Email: <strong>{{this.patient_email}}</strong><br></p>
                 </div>
-
-                <div class="save-btn">
-                    <button @click="showModal = true">Report</button>
-                </div>
+                <br>
+                    <label for="my-modal-2" class="btn btn-sm btn-error modal-button">Report</label> 
+                        <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
+                        <div class="modal">
+                        <div class="modal-box">
+                          <form ref="form" @submit.prevent="sendEmail">
+                        <input type="hidden" name="reporter" :value="this.counsellor_email">
+                        <input type="hidden" name="reportee" :value="this.patient_email">
+                        <textarea name="report_details" v-model="report_details" class="textarea h-24 textarea-bordered textarea-primary" cols="60" rows="40" required=""
+                            placeholder="Report details"></textarea><br><br>
+                    </form> 
+                        <div class="modal-action">
+                        <label for="my-modal-2" class="btn btn-error" @click="sendEmail()">Report</label> 
+                        <label for="my-modal-2" type="submit" class="btn">Close</label>
+                        </div>
+                    </div>
+                    </div>
             </div> 
             <!-- <div id="col-2">
                 <h3>Select date to view upcoming appointments</h3>
@@ -45,7 +58,6 @@ do v-if v-else to show links and X -->
 
         </div>
     </div>
-    <ReportPatientModal v-show="showModal" @close-modal="showModal = false" v-bind:patient_email="this.patient_email"/>
 </template>
 
 <script>
@@ -53,10 +65,10 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarCounsellor from "@/components/Counsellor/NavBarCounsellor.vue"
 import UserUpcomingSessionsCounsellor from "@/components/Counsellor/UserUpcomingSessionsCounsellor.vue"
 import UserPreviousSessionsCounsellor from "@/components/Counsellor/UserPreviousSessionsCounsellor.vue"
-import ReportPatientModal from "@/components/Counsellor/ReportPatientModal.vue"
 import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import {  doc, getDoc } from "firebase/firestore";
+import emailjs from 'emailjs-com';
 const db = getFirestore(firebaseApp);
 
 
@@ -65,7 +77,6 @@ export default {
         NavBarCounsellor,
         UserPreviousSessionsCounsellor,
         UserUpcomingSessionsCounsellor,
-        ReportPatientModal,
     },
     name:"PatientProfileCounsellor",
 
@@ -77,7 +88,8 @@ export default {
             count:"",
             patient_name: "",
             patient_email: "",
-            showModal: false,
+            counsellor_email: "",
+            report_details: "",
         }
     },
 
@@ -85,6 +97,7 @@ export default {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;
+            this.counsellor_email = user.email;
             // this.fbuser = user.email;
             this.getDetails(this.patient_ID);
         });
@@ -100,6 +113,23 @@ export default {
             this.patient_email = patientDoc.data().email;
             // this.patient_uid = patientDoc.data().userID;
         },
+
+        async sendEmail() {
+            if (this.report_details==""){
+                alert("You have to fill in the report details to make a report.")
+            } else {
+                await emailjs.sendForm('service_mhmbt3103', 'report', this.$refs.form, 'user_vWHnt7ugddg9JbFay7C0Z')
+                    .then((result) => {
+                        console.log('SUCCESS!', result.text);
+                        alert("Patient Report Successfully Submitted!");
+                        this.$emit('close-modal')
+                    }, (error) => {
+                        console.log('FAILED...', error.text);
+                        alert("Patient Report Submission Failed!");
+                        this.$emit('close-modal')
+                    });
+            }
+        }
 
 
         // goBack() {
