@@ -7,11 +7,16 @@
             <p class="text-4xl">About Us</p>
             <br>
             <p>Mental Health Matters is an extension to the Samaritans of Singapore (SOS).<br> 
-                MHM aims to provide you a better environment to seek mental help with more options - <br>
-                video call, voice call and chat.</p>
+                We aim to provide you with a safe environment to seek mental help with more options - <br>
+                video call, voice call and chat. <br>
+                </p>
         </div>
     </div>
-    <a href="https://www.freepik.com/vectors/templates">Credit: Our website uses some template vectors created by freepik - www.freepik.com</a>
+    <footer class="p-4 footer bg-base-300 text-base-content footer-center">
+  <div>
+    <p href="https://www.freepik.com/vectors/templates" class="text-base">Credit: Our website uses some template vectors created by freepik - www.freepik.com</p>
+  </div>
+  </footer>
 </template>
 
 <script>
