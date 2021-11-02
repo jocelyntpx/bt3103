@@ -1,11 +1,24 @@
 <template>
     <br><br>
     <div v-if="user">
+
+        <!-- Not styled yet but i think this is a good place to encourage reporting of bad counsellors? -->
+        <div class="alert w-1/2 float-right mr-40">
+            <div class="flex-1 w-1/3">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#2196f3" class="w-6 h-6 mx-2">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>                          
+                </svg> 
+                <label>Do you feel that your counsellor has violated website guidelines? Report counsellor.</label>
+            </div>
+        </div>
+
         <div id = "backBtn">
             <router-link :to="{ name: 'PatientProfile', params: { id: this.fbuser }}"> ← Submit Later</router-link>
-        </div>
-        <h1>Rate Counsellor!</h1>
+        </div><br><br>
+
+        <h1 class="text-xl">Rate Counsellor!</h1>
         <p> Kindly leave a rating/review for your counsellor. </p>
+
         <div id="bgBlock">
             <h2>{{this.counsellorName}}</h2>
             <!-- <div id = "stars"> -->
@@ -20,6 +33,8 @@
             <!-- <h2>{{review}}</h2>
             <h2>{{rating}}</h2> -->
         </div>
+
+
     </div>
 </template>
 
