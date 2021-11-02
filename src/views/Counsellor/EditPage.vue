@@ -21,27 +21,12 @@
             <div class="modal">
             <div class="modal-box">
             <form>
-                <!-- <div id="v-model-multiple-checkboxes">
-                    <label for="specialisations"><strong>Specialisations: </strong></label><br>
-                    <input type="checkbox" id="all_categories" value="All Categories" v-model="this.checkedNames" />
-                    <label for="all_categories">All Categories</label>
-                    <input type="checkbox" id="general" value="General" v-model="this.checkedNames" />
-                    <label for="general">General</label>
-                    <input type="checkbox" id="career" value="Career" v-model="this.checkedNames" />
-                    <label for="career">Career</label>
-                    <input type="checkbox" id="relationships" value="Relationships" v-model="this.checkedNames" />
-                    <label for="relationships">Relationships</label>
-                <br>
-                </div><br> -->
-                <!-- <label for="title"><strong>Title: </strong></label><br>
-                <textarea id="title" class="textarea h-24 textarea-bordered" cols="60" rows="4" v-model="this.title"></textarea>
-                <br><br> -->
                 <label for="mainText"><strong>Main text: </strong></label><br>
-                <textarea id="mainText" class="textarea h-full w-full textarea-bordered" cols="100" rows="15" v-model="this.mainText"></textarea>
+                <textarea id="mainText" class="textarea h-full w-full textarea-bordered" cols="100" rows="15" wrap="hard" v-model="this.mainText"></textarea>
                 </form><br>
 
                 <div class="modal-action">
-                <label for="my-modal-2" class="btn btn-primary" @click="edit()">Edit</label> 
+                <label for="my-modal-2" class="btn btn-primary" @click="edit()">Save</label> 
                 <label for="my-modal-2" class="btn">Close</label>
                 </div>
             </div>
@@ -90,10 +75,10 @@ export default {
         onAuthStateChanged(auth, user => {
             this.user = user;
             // this.fbuser = user.id;
+            this.fbuser = this.user.uid;
+            this.isCounsellor(this.fbuser);
+            this.displayFullArticle();
         })
-        this.fbuser = auth.currentUser.uid;
-        this.isCounsellor(this.fbuser);
-        this.displayFullArticle();
     },
 
     methods: {
@@ -157,19 +142,5 @@ export default {
 </script>
 
 <style scoped>
-/* #main{
-    position: relative;
-    width: 60%;
-    text-align: center;
-    margin:auto;
-    padding: 0;
-} */
-/* #textPosition{
-    position: relative;
-    float: right;
-    margin-right: 300px;
-    margin-top: 50px;
-    text-align: left;
-} */
 
 </style>
