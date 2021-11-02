@@ -3,7 +3,7 @@
         <br>
         <div id="innerBlock">
             <label for="articleTitle">Title: </label> 
-            <input v-model="title" id="articleTitle" placeholder="Input the title of your article">
+            <input v-model="title" id="articleTitle" class="input input-sm input-primary input-bordered " placeholder="Input the title of your article">
             <br><br>
             <label>Category: </label>
             <input type="checkbox" id="generalCat" value="General" v-model="category">
@@ -23,7 +23,7 @@
             <textarea v-model="text" id="mainText" placeholder="This is where the content of your article goes."></textarea>
         </div>
         <br>
-        <button v-on:click = "postArticle()" id="post">Post Article</button>
+        <button v-on:click = "postArticle()" id="post" class="btn btn-primary">Post Article</button>
 
     </div>
 
@@ -203,7 +203,7 @@ export default {
   font-family:'Roboto',sans-serif;
   margin:auto;
 }
-#post{
+/* #post{
     display:inline-block;
     padding:0.3em 1.2em;
     margin:0 0.3em 0.3em 0;
@@ -219,7 +219,7 @@ export default {
 }
 #post:hover{
     background-color:#4095c6;
-}
+} */
 .imagePreviewWrapper {
     background-repeat: no-repeat;
     width: 600px;

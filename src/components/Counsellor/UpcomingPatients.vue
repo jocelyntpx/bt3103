@@ -89,10 +89,12 @@ export default {
                 cell2.innerHTML = time;
 
                 cell3.className = "nameToProfile"
-                cell3.innerHTML = patientName; 
-                cell3.onclick = () => {
+                var nameButton = document.createElement("button")
+                nameButton.innerHTML = patientName; 
+                nameButton.onclick = () => {
                     this.$router.push({ name: 'PatientProfileCounsellor', params: { id: patient.id } }) 
                 }
+                cell3.appendChild(nameButton)
 
                 console.log("room link is ", link);
 
@@ -193,9 +195,9 @@ th{
     /* background-color: rgb(255, 94, 0); */
 }
 
-.nameToProfile {
+/* .nameToProfile {
     color:rgb(25, 69, 104);
     text-decoration: underline;
-}
+} */
 
 </style>
