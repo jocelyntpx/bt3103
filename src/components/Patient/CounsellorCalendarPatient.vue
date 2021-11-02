@@ -1,17 +1,19 @@
 <template>
     <div v-if="user">
         <v-date-picker v-model="date" :attributes="attributes" @dayclick="onDayClick"/>
+        <br><br>
         <div v-if="patient_upcoming.length != 0">
             <h3><strong>Upcoming Appointments</strong></h3>
             <div v-for="u in patient_upcoming" :key="u">
                 <p>{{ u.date }} {{ u.time }} with Counsellor {{ u.name }}</p>
             </div>
+            <br>
         </div>
         <div v-if="avail.length != 0">
             <h3><strong>Available Sessions</strong></h3>
             <div v-for="a in avail" :key="a">
                 {{ a.date }} {{ a.time }}
-                <button v-on:click="book(this.counsellor_ID, a)">Book</button>
+                <button class="btn btn-xs btn-outline" v-on:click="book(this.counsellor_ID, a)">Book</button>
             </div>
             <br>
         </div>
@@ -132,7 +134,7 @@ export default {
                 
                 if (s > curr) {
                     let s_date = s.toDateString()
-                    let s_time = s.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+                    let s_time = s.toTimeString().substr(0,5)
                     let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
                     if (s_gmtDate.toISOString().substr(0,10) == day.id) {
                         //let s_originalDate = new Date(s_gmtDate.setHours(s_gmtDate.getHours() - 8 ))
@@ -156,7 +158,7 @@ export default {
                 
                 if (s > curr) {
                     let s_date = s.toDateString()
-                    let s_time = s.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+                    let s_time = s.toTimeString().substr(0,5)
                     let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
                     if (s_gmtDate.toISOString().substr(0,10) == day.id) {
                         //let s_originalDate = new Date(s_gmtDate.setHours(s_gmtDate.getHours() - 8 ))
