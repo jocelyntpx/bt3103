@@ -2,7 +2,8 @@
     <br><br>
     <NavBarGeneral/>
     <div id="app">
-        <h1>Counsellor's Login</h1>
+        <p class="text-4xl">Counsellor's Login</p>
+        <br>
         <p>This page is only for counsellors. Please use the login button on the navigation bar <br> 
             above to login to/register your account. </p>
         <br/>

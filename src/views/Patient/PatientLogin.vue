@@ -3,11 +3,13 @@
     <NavBarGeneral/>
     <div style="text-align:center;">
         <br><br>
-        <h1 id="mainHead">Login/Register Page</h1>
-        <p>For first time users, you can register with the sign in form below as well. </p>
-        <p>You can use your alias as when you are prompted to indicate your "First & last name".</p>
+        <p class="text-4xl" id="mainHead">Login/Register Page</p>
+        <br>
         <p>MHM aims to maintain your anonymity. You do not need to share your personal details<br>
-            with us if you do not wish to. Your counselling session will be kept strictly confidential. </p>
+            with us if you do not wish to. <br>
+            You can use an alias to be recognised by your counsellor. <br>
+            Your counselling session will be kept strictly confidential unless you give us the <br>
+            permission to share the session notes with all your counsellors.  </p>
 
         <br>
 
@@ -20,53 +22,57 @@
 
 
             <div v-if = "!register">
-            <input type="text" id="email_p" class="fadeIn second" required="" placeholder="Enter email">
-            
-              <input v-if="showPassword" :type="type" id="password_p" class="fadeIn third" required="" placeholder="Enter password">
-              <input v-else :type="type" id="password_p" class="fadeIn third" required="" placeholder="Enter password">
-              <button @click="showPassword" class="fadeIn third">{{ btnText}}</button>
-  
-            <input type="submit" id="savebutton" class="fadeIn fourth" value="LogIn" v-on:click="login()">
-
-
-            <div id="formFooter">
-              <label for="my-modal-2" class="btn btn-primary modal-button">Forget Password?</label> 
-              <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
-              <div class="modal">
-                <div class="modal-box">
-                    <div class="form-control"> 
-                    <label class="label" for="email"><strong>Email: </strong></label>
-                    <input class="input input-primary input-bordered" type="text" id="email" required="" name="email" v-model="email">
-                    <!-- <input type="text" id="password" required="" name="login" placeholder="Enter password"> -->
-                  </div>
-            
-                  <div class="modal-action">
-                    <label for="my-modal-2" class="btn btn-primary" @click="reset()" >Reset</label> 
-                    <label for="my-modal-2" class="btn">Close</label>
-                  </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-
-            <div v-if="register">
-                <input type="text" id="alias_p" required="" placeholder="Enter alias">
             <input type="text" id="email_p" required="" placeholder="Enter email">
             
               <input v-if="showPassword" :type="type" id="password_p" required="" placeholder="Enter password">
               <input v-else :type="type" id="password_p" required="" placeholder="Enter password">
               <button @click="showPassword" >{{ btnText}}</button>
-            </div>
+  
+            <input type="submit" id="savebutton" value="LogIn" v-on:click="login()">
+
 
             <div id="formFooter">
-                <input type="submit" id="registerbutton" value="Register" v-on:click="register()">
+              <div v-if="!register">
+                <label for="my-modal-2" class="btn btn-link modal-button">Forget Password?</label> 
+                <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
+                <div class="modal">
+                  <div class="modal-box">
+                    <div class="form-control"> 
+                      <label class="label" for="email"><strong>Email: </strong></label>
+                      <input class="input input-primary input-bordered" type="text" id="email" required="" name="email" v-model="email">
+                      <!-- <input type="text" id="password" required="" name="login" placeholder="Enter password"> -->
+                    </div>
+                    <div class="modal-action">
+                      <label for="my-modal-2" class="btn btn-primary" @click="reset()" >Reset</label> 
+                      <label for="my-modal-2" class="btn">Close</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            </div>
+        
+
+            <div v-if="register">
+              <input type="text" id="alias_p" required="" placeholder="Enter alias">
+              <input type="text" id="email_p" required="" placeholder="Enter email">
+            
+              <input v-if="showPassword" :type="type" id="password_p" required="" placeholder="Enter password">
+              <input v-else :type="type" id="password_p" required="" placeholder="Enter password">
+              <button @click="showPassword" >{{ btnText}}</button>
+
+              <div id="formFooter" >
+                <input class="btn btn-accent" id="registerbutton" value="Register" v-on:click="register()">
+              </div>
+            </div>
+
         </div>
+    </div>
     </div>
 
 
         <div id="firebaseui-auth-container"></div>
-    </div>
 
     <div>
 
@@ -370,38 +376,6 @@ input[type=text]:placeholder {
 @-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
-.fadeIn {
-  opacity:0;
-  -webkit-animation:fadeIn ease-in 1;
-  -moz-animation:fadeIn ease-in 1;
-  animation:fadeIn ease-in 1;
-
-  -webkit-animation-fill-mode:forwards;
-  -moz-animation-fill-mode:forwards;
-  animation-fill-mode:forwards;
-
-  -webkit-animation-duration:1s;
-  -moz-animation-duration:1s;
-  animation-duration:1s;
-}
-
-.fadeIn.second {
-  -webkit-animation-delay: 0.6s;
-  -moz-animation-delay: 0.6s;
-  animation-delay: 0.6s;
-}
-
-.fadeIn.third {
-  -webkit-animation-delay: 0.8s;
-  -moz-animation-delay: 0.8s;
-  animation-delay: 0.8s;
-}
-
-.fadeIn.fourth {
-  -webkit-animation-delay: 1s;
-  -moz-animation-delay: 1s;
-  animation-delay: 1s;
-}
 
 /* Simple CSS3 Fade-in Animation */
 .underlineHover:after {
@@ -412,7 +386,6 @@ input[type=text]:placeholder {
   height: 2px;
   background-color: #56baed;
   content: "";
-  transition: width 0.2s;
 }
 
 .underlineHover:hover {

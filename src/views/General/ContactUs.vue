@@ -4,10 +4,12 @@
 <br>
     <div id="bg">
         <div id="textPosition">
-            <h1>Contact Us</h1>
+            <p class="text-4xl">Contact Us</p>
+            <br>
             <p>Do let us know of any queries/concerns/feedback you might have.<br>
                 We value your opinions and will get back to you as soon as possible!
             </p>
+            <br>
             <div id="wrapper">
                 <div id="contact-form">
                     <form ref="form" @submit.prevent="sendEmail">
