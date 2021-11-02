@@ -20,7 +20,7 @@
         <!-- <button class="btn btn-link" @click="this.$router.push({name: 'PatientProfile', params: { id: this.fbuser }})">← Submit Later</button> -->
         <p class="text-4xl"> Rate Counsellor!</p>
         <p> Kindly leave a rating/review for your counsellor. </p><br>
-
+        <div class="bg-base-300 text-base-content">
         <div id="bgBlock">
             <p class="text-2xl">{{this.counsellorName}}</p>
             <!-- <div id = "stars"> -->
@@ -28,12 +28,13 @@
             <!-- </div> -->
    
             <div id="innerBlock">
-                <textarea v-model= "review" id="reviewText" placeholder="Enter your review here"></textarea>
-            </div>
+                <textarea class="textarea h-24 textarea-bordered textarea-primary" v-model= "review" id="reviewText" placeholder="Enter your review here"></textarea>
+            </div><br>
             <button v-on:click = "sendReviewRating()" id="submit" class="btn btn-primary">Submit</button>
             <!-- for me to check if the review and rating are working under v-model! -->
             <!-- <h2>{{review}}</h2>
             <h2>{{rating}}</h2> -->
+        </div>
         </div>
 
 
@@ -121,7 +122,7 @@ export default {
 <style scoped>
 #bgBlock {
   border-radius: 35px;
-  background: #B9D9EB;
+  /* background: #B9D9EB; */
   padding: 20px;
   width: 80%;
   height: auto;
@@ -129,7 +130,7 @@ export default {
 }
 #reviewText {
   border-radius: 35px;
-  background: azure;;
+  /* background: azure;; */
   padding: 20px;
   width: 60%;
   height: 250px;

@@ -23,7 +23,7 @@
         <div class="flex justify-center">
         <img :src=this.picture alt="Picture cannot be displayed" width="600" height="310">
         </div><br>
-        <p class="mx-60">{{this.mainText}}</p><br><br>
+        <p class="mx-60 text-justify">{{this.mainText}}</p><br><br>
     </div>
     <footer class="p-4 footer bg-base-300 text-base-content footer-center">
   <div>
