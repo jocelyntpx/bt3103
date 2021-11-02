@@ -3,7 +3,9 @@
         <br><br>
         <NavBarPatient/>
         <div style="text-align:center;">
-            <h1>Counsellor Profile</h1>
+            <br>
+            <h1 class="text-4xl">Counsellor Profile</h1>
+            <br>
                 <div id="bgBlock"> 
                     <div id="col-1">
                         <div id="counsellorDetails"> 

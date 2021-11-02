@@ -55,15 +55,16 @@
         
 
             <div v-if="register">
-              <input type="text" id="alias_p" required="" placeholder="Enter alias">
-              <input type="text" id="email_p" required="" placeholder="Enter email">
+              
+              <input type="text" id="alias_p" v-model="alias_p" required="" placeholder="Enter alias">
+              <input type="email" id="email_p" v-model="email_p" required="" placeholder="Enter email">
             
-              <input v-if="showPassword" :type="type" id="password_p" required="" placeholder="Enter password">
-              <input v-else :type="type" id="password_p" required="" placeholder="Enter password">
+              <input v-if="showPassword" :type="type" id="password_p" v-model="password_p" required="" placeholder="Enter password">
+              <input v-else :type="type" id="password_p" required="" v-model="password_p" placeholder="Enter password">
               <button @click="showPassword" >{{ btnText}}</button>
 
               <div id="formFooter" >
-                <input class="btn btn-accent" id="registerbutton" value="Register" v-on:click="register()">
+                <button class="btn btn-accent" id="registerbutton" v-on:click="registerPatient()">Register</button>
               </div>
             </div>
 
@@ -87,8 +88,9 @@ import 'firebaseui/dist/firebaseui.css'
 import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
 import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { collection, query, where, getDocs, doc, setDoc,  } from "firebase/firestore";
+import { getAuth, sendPasswordResetEmail, updateProfile } from "firebase/auth";
+
 
 const db = getFirestore(firebaseApp);
 
@@ -103,6 +105,9 @@ export default {
             type: 'password',
             btnText: "Show Password",
             register: false,
+            alias_p: "",
+            email_p: "",
+            password_p: "",
         };
     },
 
@@ -172,6 +177,47 @@ export default {
                         });
                 }
             }
+        },
+
+        async registerPatient() {
+          if (this.alias_p=="" || this.email_p=="" || this.password_p=="" ) {
+            alert("Please fill up all the fields.")
+          } else {
+            await firebase
+            .auth()
+            .createUserWithEmailAndPassword(this.email_p, this.password_p)
+              .then(() => {
+                const user = firebase.auth().currentUser;
+                updateProfile(user, {
+                  displayName: this.alias_p,
+                })
+                .then(() => {
+                  console.log("update patient into firebase")
+                  const patientRef = collection(db,"Patients");
+                  const uid = user.uid;
+                  setDoc(doc(patientRef, uid), {
+                      name: user.displayName,
+                      email: user.email,
+                      upcoming_user_sessions: [],
+                      past_user_sessions: [],
+                      user_type: "patient",
+                      share_info: false //by default set it to false
+
+                });
+              })
+              .then(() => {
+                alert("Account created! Please login using the login function.")
+                this.$router.push({name:"PatientLogin"})
+              })
+              .catch((error) => {
+                alert(error)
+              });
+          })
+          .catch((error) => {
+            alert(error)
+          });
+          }
+          
         },
 
         reset() {
@@ -339,7 +385,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
   transform: scale(0.95);
 }
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=email] {
   background-color: #E8F0FE;
   border: none;
   color: #0d0d0d;
