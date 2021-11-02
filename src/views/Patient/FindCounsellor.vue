@@ -6,8 +6,8 @@
       <!-- <div class = "main"> -->
       <p class="text-4xl"> Find a Counsellor </p><br>
 
-
-        <div class="grid place-items-center">
+        <!-- note to self: USE THIS TO CENTER ANYTHING! -->
+        <div class="grid place-items-center"> 
           <div class = "tabs tabs-boxed">
             <div><button @click="showCurrentlyAvailable = true" :class="[ showCurrentlyAvailable? 'tab tab-lg tab-active h-16 min-w-full' : 'tab tab-lg h-16 min-w-full' ]" >Currently Available</button></div>
             <div><button @click="showCurrentlyAvailable = false" :class="[ !showCurrentlyAvailable? 'tab tab-lg tab-active h-16 min-w-full' : 'tab tab-lg h-16 min-w-full' ]">All Counsellors</button></div>
@@ -15,22 +15,20 @@
         </div> <br>
 
         <div class="grid place-items-center">
-          <div class="grid grid-flow-col auto-cols-max gap-6 m-2">
+          <div class="grid grid-flow-col auto-cols-max gap-6 m-4">
 
-            <!-- <div class="flex-auto"> -->
             <div class="flex-grow">
               <div class="m-auto">
                 <label for="counsellor_category">Filter by Counsellor Specialisation </label>
                 <div class="btn-group">
                   <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'All Categories' }" v-on:click="setCategory('All Categories')">All Categories</span>
-                  <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'General' }" v-on:click="setCategory('General')">General</span>
+                  <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'Stress' }" v-on:click="setCategory('Stress')">Stress</span>
                   <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'Career' }" v-on:click="setCategory('Career')">Career</span>
                   <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'Relationships' }" v-on:click="setCategory('Relationships')">Relationships</span>
-            <!-- </div> -->
+                  <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'Others' }" v-on:click="setCategory('Others')">Others</span>
                 </div>
               </div>
             </div>
-            <!-- <div> -->
 
           <div class="flex">
             <div class="m-auto">

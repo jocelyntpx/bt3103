@@ -68,7 +68,6 @@ const routes = [
     component: PatientLogin
 },
 {
-    // path: '/patientProfile',
     path: '/patientProfile/:id',
     name: 'PatientProfile',
     component: PatientProfile
@@ -79,13 +78,11 @@ const routes = [
     component: PatientProfileCounsellor
 },
 {
-    // path: '/counsellorProfile',
     path: '/counsellorProfile/:id',
     name: 'CounsellorProfile',
     component: CounsellorProfile
 },
 {
-    // path: '/counsellorProfilePatient',
     path: '/counsellorProfilePatient/:id',
     name: 'CounsellorProfilePatient',
     component: CounsellorProfilePatient
@@ -111,13 +108,11 @@ const routes = [
     component: SessionNotes
 },
 {
-    // path: '/counsellorReviews',
     path: '/counsellorReviews/:id',
     name: 'CounsellorReviews',
     component: CounsellorReviews
 },
 {
-    // path: '/rateCounsellor/',
     path: '/rateCounsellor/:id',
     name: 'RateCounsellor',
     component: RateCounsellor
