@@ -9,11 +9,8 @@
         <h1 class="text-4xl">Patient's Profile</h1>
         <br>
 
-        <!-- else (user is counsellor from MyPatients) -->
-        <!-- <NavBarCounsellor/> -->
-        <!-- <div id = "backBtn">
-            <router-link to="/myPatients"> ← Back to My Patients page</router-link>
-        </div> -->
+
+        <div class="bg-base-300 text-base-content">
         <div id="bgBlock">
             <div id="col-1">
                 <div id="patientDetails">  
@@ -38,25 +35,20 @@
                     </div>
                     </div>
             </div> 
-            <!-- <div id="col-2">
-                <h3>Select date to view upcoming appointments</h3>
-                <PatientCalendar/>
-            </div> -->
 
-<!-- this entire chunk for upcoming appointment to be replaced to UserUpcomingSessions component. 
-do v-if v-else to show links and X -->
             <UserUpcomingSessionsCounsellor/> 
 
             <br><br>
 
             <div style="text-align:center;" v-if="user">
             <UserPreviousSessionsCounsellor/> 
-            <!-- ^ not copying over the correct information from the v-if=user from UserPreviousSessions, brings else info here instead -->
-            <!-- <div><h3><strong>This is the appointment page</strong></h3></div> -->
+            <br><br><br><br>
+  
             </div>
 
             <br>
 
+        </div>
         </div>
     </div>
 </template>
@@ -155,7 +147,7 @@ export default {
     margin: auto; */
 
     border-radius: 35px;
-    background: #B9D9EB;
+    /* background: #B9D9EB; */
     padding: 20px;
     width: 80%;
     height: 100%;

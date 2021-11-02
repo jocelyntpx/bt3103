@@ -1,7 +1,7 @@
 <template>
   <!-- This component templates the user's upcoming sessions (seen in Patients records, User's profile page ) -->    
       <div>
-        <h3>Upcoming Appointments</h3>
+        <p class="text-xl">Upcoming Appointments</p><br>
         <table id="table2">
             <tr id="header">
             <th>Date</th> 

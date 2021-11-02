@@ -1,7 +1,7 @@
 <template>
   <!-- This component templates the user's upcoming sessions (seen in Patients records, User's profile page ) -->    
       <div>
-        <h3>Upcoming Appointments</h3>
+        <p class="text-xl">Upcoming Appointments</p><br>
         <table id="table2">
             <tr id="header">
             <th>Date</th> 
@@ -104,7 +104,14 @@ export default {
                 var cell5 = row.insertCell(4); 
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
-                cell3.innerHTML = counsellorName; 
+                // cell3.innerHTML = counsellorName; 
+                cell3.className = "nameToProfile"
+                var nameButton = document.createElement("button")
+                nameButton.innerHTML = "<button class='btn btn-ghost btn-sm'>" +counsellorName; 
+                nameButton.onclick = () => {
+                    this.$router.push({ name: 'CounsellorProfilePatient', params: { id: counsellor.id } }) 
+                }
+                cell3.appendChild(nameButton)
                 
                 console.log("diff is ", sessionTime - timeNow)
                 // if (link == "" && !(sessionTime - timeNow <= 10*60*1000)) { // no room link yet. 
@@ -116,7 +123,7 @@ export default {
                     console.log("No link yet, but meets criteria to create a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
                     var linkSession = document.createElement("button")
                     linkSession.id = "linkSession"
-                    linkSession.innerHTML = "Enter Session Room Now!"
+                    linkSession.innerHTML = "<button class='btn btn-link btn-sm'>Enter Session Room Now!"
                     
                     linkSession.onclick = () => {
                         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
@@ -139,7 +146,7 @@ export default {
                 var bu = document.createElement("button")
                 bu.className = "bwt"
                 bu.id = String(counsellorName)
-                bu.innerHTML = "Cancel"
+                bu.innerHTML = "<button class='btn btn-xs btn-error'>Cancel<button>"
                 bu.onclick = ()=>{
                     this.cancelSession(sessionID.id,counsellor.id,user)
                     //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
@@ -156,6 +163,8 @@ export default {
                 //remove session from patient's and counsellor's upcoming appointments array
                 await updateDoc(doc(db,"Counsellors",counsellor), {upcoming_counsellor_sessions: arrayRemove(session)});
                 await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(session)});
+                //add session back to available slot
+                await updateDoc(doc(db,"Counsellors",counsellor), {available_slots: arrayUnion(session)});
 
                 //delete session from sessions collection
                 await deleteDoc(doc(db,"Sessions",session))

@@ -90,7 +90,7 @@ export default {
 
                 cell3.className = "nameToProfile"
                 var nameButton = document.createElement("button")
-                nameButton.innerHTML = patientName; 
+                nameButton.innerHTML = "<button class='btn btn-sm btn-ghost'>" +patientName; 
                 nameButton.onclick = () => {
                     this.$router.push({ name: 'PatientProfileCounsellor', params: { id: patient.id } }) 
                 }
@@ -105,7 +105,7 @@ export default {
                     console.log("has a room link, upcomingSession is " , upcomingSession);
                     var linkSession = document.createElement("button")
                     linkSession.id = "linkSession"
-                    linkSession.innerHTML = "Join Session Now!"
+                    linkSession.innerHTML = "<button class='btn btn-link btn-sm'>Join Session Now!"
                     linkSession.onclick = () => {
                         this.$router.push({ name: 'DailyCounsellorView', params: { id: upcomingSession } }) 
                         // NOTE: This router link works, commented out bc DailyCounsellorView.vue not working properly yet
@@ -119,7 +119,7 @@ export default {
                 var bu = document.createElement("button")
                 bu.className = "bwt"
                 bu.id = String(patientName)
-                bu.innerHTML = "Cancel"
+                bu.innerHTML = "<button class='btn btn-xs btn-error'>Cancel<button>"
                 bu.onclick = ()=>{
                     this.cancelSession(sessionID.id,patient.id,user)
                     //sessionID = doc name of session, patient.id = doc name of patient 
@@ -142,6 +142,8 @@ export default {
                 //remove session from patient's and counsellor's upcoming appointments array
                 await updateDoc(doc(db,"Counsellors",user), {upcoming_counsellor_sessions: arrayRemove(session)});
                 await updateDoc(doc(db,"Patients",patient), {upcoming_user_sessions: arrayRemove(session)});
+                // NO NEED TO add session back to available slot because if counsellor cancel it, prolly not free!
+                // await updateDoc(doc(db,"Counsellors",user), {available_slots: arrayUnion(session)});
 
                 //delete session from sessions collection
                 await deleteDoc(doc(db,"Sessions",session))

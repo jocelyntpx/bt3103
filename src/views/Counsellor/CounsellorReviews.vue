@@ -2,12 +2,14 @@
 <!-- <div v-if="user">  -->
     <br><br>
     <div id = "backBtn">
-        <router-link :to="{ name: 'CounsellorProfile', params: { id: this.$route.params.id }}" v-if=(counsellor)> ← Back to My Profile page</router-link>
-        <router-link :to="{ name: 'CounsellorProfilePatient', params: { id: this.$route.params.id }}" v-else> ← Back to Counsellor's Profile page</router-link>
+        <button v-if=(counsellor) class="btn btn-link" @click="this.$router.push({name: 'CounsellorProfile', params: { id: this.$route.params.id }})">← Back to My Profile</button>
+        <button v-else class="btn btn-link" @click="this.$router.push({name: 'CounsellorProfilePatient', params: { id: this.$route.params.id }})">← Back to Counsellor's Profile</button>
+        <!-- <router-link :to="{ name: 'CounsellorProfile', params: { id: this.$route.params.id }}" v-if=(counsellor)> ← Back to My Profile page</router-link> -->
+        <!-- <router-link :to="{ name: 'CounsellorProfilePatient', params: { id: this.$route.params.id }}" v-else> ← Back to Counsellor's Profile page</router-link> -->
     </div>
     <p class="text-4xl">Reviews for {{this.counsellorName}}</p><br>
     <!-- <h1> Reviews for {{this.counsellorName}}</h1><br><br> -->
-
+    <div class="bg-base-300 text-base-content">
     <div id = "bgBlock">
         <h3> All Reviews (Total: {{this.numberReviews}} Reviews) </h3>
         <table class="table" id="tableReview">
@@ -19,7 +21,8 @@
         </table>
         <br>
     <!-- </div> -->
-</div>
+    </div>
+    </div>
 
 </template>
 
@@ -143,7 +146,7 @@ export default {
 <style scoped>
 #bgBlock {
     border-radius: 35px;
-    background: #B9D9EB;
+    /* background: #B9D9EB; */
     padding: 20px;
     width: 80%;
     height: 100%;
