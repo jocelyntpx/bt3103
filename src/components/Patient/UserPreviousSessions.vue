@@ -113,7 +113,7 @@ export default {
                 } else {
                     var rateSession = document.createElement("button")
                     rateSession.id = "rateSession"
-                    rateSession.innerHTML = "Rate Session Now!"
+                    rateSession.innerHTML = "<p class='underline'> Rate Session Now! </p>"
                     rateSession.onclick = () => {
                         this.$router.push({ name: 'RateCounsellor', params: { id: pastSession } }) 
                     }
