@@ -83,7 +83,6 @@
 <script>
 import firebase from '@/uifire.js'
 import 'firebase/compat/auth';
-import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
 import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
 import firebaseApp from '../../firebase.js';
@@ -109,25 +108,6 @@ export default {
             email_p: "",
             password_p: "",
         };
-    },
-
-    mounted(){
-        var ui = firebaseui.auth.AuthUI.getInstance();
-        if (!ui){
-            ui = new firebaseui.auth.AuthUI(firebase.auth());
-        }
-        //tried to add this but the login wont really appear?
-        // var user = firebaseui.auth.AuthUI.getInstance().getCurrentUser();
-        // console.log(user)
-        var uiConfig = {
-            
-            // signInSuccessUrl:this.$router.push({ name: 'PatientProfile', params: { id: this.id } }),
-            signInSuccessUrl: "/patientProfile/:id", //this part abit weird but not sure how to change it to the top
-            signInOptions: [
-                firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            ]
-        };
-        ui.start("#firebaseui-auth-container", uiConfig)
     },
 
     methods: {
