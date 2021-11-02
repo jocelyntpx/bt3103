@@ -4,7 +4,7 @@
         <div v-if="patient_upcoming.length != 0">
             <h3>Upcoming Appointments</h3>
             <div v-for="u in patient_upcoming" :key="u">
-                <p>{{ u.date }} {{ u.time }}</p>
+                <p>{{ u.date }} {{ u.time }} with Counsellor {{ u.name }}</p>
             </div>
         </div>
         <div v-if="avail.length != 0">
@@ -112,12 +112,20 @@ export default {
             const docSnap2 = await getDoc(docRef2)
             let y = docSnap2.data()
             var patient_upcoming = y.upcoming_user_sessions
-            this.patient_upcoming.splice(0, avail.length)
+            this.patient_upcoming.splice(0, patient_upcoming.length)
 
             patient_upcoming.forEach(async (u) => {
                 
                 const slotRef = doc(db, "Sessions", u)
                 const slotSnap = await getDoc(slotRef)
+
+                //handle session counsellor
+                let counsellorID = slotSnap.data().counsellor_ID
+                const counsellorRef = doc(db, "Counsellors", counsellorID)
+                const counsellorSnap = await getDoc(counsellorRef)
+                let counsellor_name = counsellorSnap.data().name
+
+                //handle session date and time
                 let slot = slotSnap.data().session_time
                 let curr = new Date()
                 let s = slot.toDate()
@@ -131,6 +139,7 @@ export default {
                         this.patient_upcoming.push({
                             date: s_date,
                             time: s_time,
+                            name: counsellor_name,
                             session: s
                         })
                     }
