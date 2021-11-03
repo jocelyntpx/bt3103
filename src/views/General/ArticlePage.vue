@@ -23,7 +23,7 @@
         <div class="flex justify-center">
         <img :src=this.picture alt="Picture cannot be displayed" width="600" height="310">
         </div><br>
-        <p class="mx-60 text-justify">{{this.mainText}}</p><br><br>
+        <div class="mx-60 text-justify" v-html="this.mainText"></div><br><br>
     </div>
     <footer class="p-4 footer bg-base-300 text-base-content footer-center">
   <div>
@@ -57,7 +57,7 @@ export default {
             picture:"",
             title:this.$route.params.id,
             postDate:"",
-            author:""
+            author:"",
         }
     },
 
@@ -93,11 +93,10 @@ export default {
             console.log("entered display")
             let docRef = doc(db, "HelpResources", this.title);
             let articleDoc = await getDoc(docRef);
-            this.mainText = articleDoc.data().text
+            this.mainText = articleDoc.data().text;
             this.picture = articleDoc.data().picture
             this.postDate = articleDoc.data().post_date;
             this.author = articleDoc.data().counsellor_name;
-
         }
     }
 
