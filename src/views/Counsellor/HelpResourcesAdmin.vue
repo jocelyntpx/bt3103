@@ -2,7 +2,7 @@
     <div v-if="user"> 
         <br><br>
         <NavBarCounsellor/>
-        <br><br>
+        <br>
         <div id="bg">
         <div id="textPosition"><br><br>
             <p class="text-4xl flex justify-center">Help Resources</p><br>
