@@ -4,10 +4,12 @@
     <div id="app">
         <p class="text-4xl">Counsellor's Login</p>
         <br>
-        <p>This page is only for counsellors. Please use the login button on the navigation bar <br> 
-            above to login to/register your account. </p>
-        <br/>
-    </div> 
+        <div class="flex justify-center flex-col">
+          <div class="grid h-auto card bg-base-300 rounded-box place-items-center">
+            <br>
+              <p>This page is only for counsellors. Please use the login button on the navigation bar <br> 
+                  above to login to/register your account. </p>
+              <br/>
 
     <div class="wrapper">
         <div id="formContent">
@@ -43,6 +45,10 @@
               </div>
             </div>
         </div>
+         <br><br><br><br>
+    </div>
+        </div>
+    </div>
     </div>
 
 </template>

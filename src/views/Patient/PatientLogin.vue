@@ -6,16 +6,16 @@
         <p class="text-4xl" id="mainHead">Login/Register Page</p>
         <br>
 
-        <div class="flex justify-center flex-col w-1/2">
+        <div class="flex justify-center flex-col">
           <div class="grid h-auto card bg-base-300 rounded-box place-items-center">
-            <p>MHM aims to maintain your anonymity. You do not need to share your personal details<br>
-            with us if you do not wish to. <br>
-            You can use an alias to be recognised by your counsellor. <br>
+            <br>
+            <p>MHM aims to maintain your anonymity. <br>
+            Feel free to use an alias to be recognised by your counsellor! <br>
             Your counselling session will be kept strictly confidential unless you give us the <br>
-            permission to share the session notes with all your counsellors.  </p>
-          </div> 
-        </div>
+            permission to share the session notes with all your counsellors. ☺ </p>
 
+            <br>
+      
             <div class="wrapper">
             <div id="formContent">
 
@@ -74,13 +74,13 @@
                 <button class="btn btn-accent" id="registerbutton" v-on:click="registerPatient()">Register</button>
               </div>
             </div>
-
         </div>
     </div>
+    <br><br><br>
     </div>
-
+        </div>
     <div>
-
+    </div>
     </div>
 </template>
 

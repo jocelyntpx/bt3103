@@ -9,7 +9,7 @@
                         <h5 id="category"> {{article.data().category}}</h5>
                         <p class="italic text-sm" id="author"> You posted on {{article.data().post_date}}</p>
                         <div class="justify-center card-actions">
-                        <button class="btn btn-secondary" @click="this.$router.push({name: 'ArticlePage', params: { id: article.id }})">Read</button>
+                        <button class="btn btn-sm" @click="this.$router.push({name: 'ArticlePage', params: { id: article.id }})">Read</button>
                     </div>
                 </div>
                 <!-- <div id="article_box">
