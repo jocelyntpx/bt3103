@@ -12,7 +12,7 @@
             <label for="careerCat">Career </label>
             <input type="checkbox" id="RelationshipCat" value="Relationship" v-model="category">
             <label for="relationshipCat">Relationship </label>
-            <input type="checkbox" id="OthersCat" value="Relationship" v-model="category">
+            <input type="checkbox" id="OthersCat" value="Others" v-model="category">
             <label for="othersCat">Others </label>  
             <!-- <span>You have selected: {{ category }}</span> -->
             <br><br><br>
@@ -22,7 +22,8 @@
                 <div v-if="this.previewImage!=null" class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
             </div>
             <br><br>
-            <textarea v-model="text" id="mainText" placeholder="This is where the content of your article goes."></textarea>
+             <QuillEditor v-model:content="quillContent" contentType="html" theme="snow" />
+            <!-- <textarea v-model="text" id="mainText" placeholder="This is where the content of your article goes."></textarea> -->
         </div>
         <br>
         <button v-on:click = "postArticle()" id="post" class="btn btn-primary">Post Article</button>
@@ -37,15 +38,18 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore"
 import { doc, getDoc,setDoc,Timestamp,updateDoc,arrayUnion } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
 
 export default {
     name: "AddArticle",
+    components: {QuillEditor},
     data() {
         return {
             user:false,
-            text: "",
+            quillContent: '<p>Enter your article here..</p>',
             title:"",
             fbuser:"",
             picture:"",
@@ -91,9 +95,9 @@ export default {
             let docRef = doc(db, "Counsellors", this.fbuser);
             let counsellorDoc = await getDoc(docRef);
             console.log(this.title)
-            console.log(this.text)
+            console.log(this.quillContent)
             console.log(this.imageData)
-            if (this.title == '' || this.text == '' || this.imageData == null) {
+            if (this.title == '' || this.quillContent == '' || this.imageData == null) {
                 alert("You have to fill up all fields to post an article.")
             } else {
                 if (confirm("Confirm to post this article?")) {
@@ -112,7 +116,7 @@ export default {
 
                     //create new Article
                     await setDoc(doc(db, "HelpResources", this.title), 
-                    {text: this.text, 
+                    {text: this.quillContent, 
                     post_date: Timestamp.now().toDate().toLocaleDateString(),
                     counsellor_name: counsellorDoc.data().name,
                     picture: this.picture,
