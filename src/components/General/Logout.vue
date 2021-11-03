@@ -38,10 +38,8 @@ export default {
 #btn{
     text-aligned: center;
     margin: auto;
+    font-weight: bold;
+    color: lightslategray;
 }
-#btn:hover{
-    color:pink;
-    background-colour: blue;
-    box-shadow: 3px 3px grey;
-}
+
 </style>

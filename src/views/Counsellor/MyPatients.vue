@@ -2,8 +2,9 @@
   <div v-if="user">
       <br><br>
       <NavBarCounsellor/>
-      <br><br>
-          
+      <br>
+           
+      <p class="text-4xl"> My Patients </p><br>
       <div class = "main">
           <div class="grid place-items-center">
             <div class = "tabs tabs-boxed">

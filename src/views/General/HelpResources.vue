@@ -10,11 +10,11 @@
     <div id="bg">
         <br><br>
         <div id="textPosition"><br><br>
-            <p class="text-4xl flex justify-center">Help Resources</p><br>
+            <p class="text-4xl flex">Help Resources</p><br>
             <p class = "flex justify-center">Browse through our articles to find out <br>
                 how you can cope better with mental health.</p>
                 <!-- insert search bar/filter bar here -->
-                <br><br><br>
+                <br>
             <!-- <label for="search_bar">Search for an Article:</label> -->
             <!-- <input type="text" class = "search_for_article" v-model="search" placeholder="Search for an article"/> -->
             <div class="form-control flex-auto ">
@@ -28,7 +28,7 @@
         <br><br><br><br><br><br><br><br><br><br><br>
         <!-- <br><br><br><br><br><br><br><br><br><br><br> -->
 
-        <!-- <AllHelpResources/> -->
+        <br>
         <AllHelpResources :key="refreshComponent"  :search=this.search  />
         <br><br><br><br><br><br>
     </div>

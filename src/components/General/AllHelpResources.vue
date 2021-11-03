@@ -5,7 +5,7 @@
                 <div class="card text-center shadow-2xl lg:card-side bg-secondary text-accent-content">
                     <div class="card-body">
                         <p class="text-xl font-semibold">{{article.id}}</p> 
-                        <img :src=article.data().picture alt="Picture cannot be displayed" width="250" height="100">
+                        <img :src=article.data().picture alt="Picture cannot be displayed" id="articlePic">
                         <h5 id="category"> {{article.data().category}}</h5>
                         <p class="italic text-sm" id="author"> You posted on {{article.data().post_date}}</p>
                         <div class="justify-center card-actions">
@@ -87,7 +87,11 @@ export default {
 #author{
     color: gray;
 }
-
-
+#articlePic {
+    /* border-radius: 50%;
+    margin-top: 10px; */
+    width: 320px;
+    height: 200px;
+}
 
 </style>
