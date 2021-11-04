@@ -25,6 +25,7 @@ export default {
             //user:false,
             counsellorUser:"", // uid of counsellor
             count:"",
+            upcomingArr: []
         }
     },
 
@@ -75,7 +76,19 @@ export default {
                     }      
 
                     continue
+                } else {
+                    this.upcomingArr.push(sessionID)
                 }
+            }
+
+            this.upcomingArr.sort((x,y)=> y.data().session_time - x.data().session_time)
+
+
+            for ( const s of this.upcomingArr) {
+                let patientDocRef = doc(db, "Patients", s.data().user_ID);
+                let patient = await getDoc(patientDocRef);
+
+                let sessionTime = s.data().session_time.toDate()
 
                 var table = document.getElementById("table")
                 var row = table.insertRow(ind)
@@ -83,9 +96,9 @@ export default {
                 //console.log(sessionID.data())
 
                 var date = sessionTime.toDateString() 
-                var time = sessionID.data().session_time.toDate().toLocaleTimeString()
+                var time = s.data().session_time.toDate().toLocaleTimeString()
                 var patientName = patient.data().name;
-                var link =  sessionID.data().room_ID 
+                var link =  s.data().room_ID 
 
                 var cell1 = row.insertCell(0); 
                 var cell2 = row.insertCell(1); 
@@ -109,12 +122,12 @@ export default {
                     console.log("NO LINK FOR session with patient name: ", patientName);
                     cell4.innerHTML = "Link will be displayed when user starts the session.";
                 } else {
-                    console.log("has a room link, upcomingSession is " , upcomingSession);
+                    console.log("has a room link, upcomingSession is " , s.id);
                     var linkSession = document.createElement("button")
                     linkSession.id = "linkSession"
                     linkSession.innerHTML = "<button class='btn btn-link btn-sm'>Join Session Now!"
                     linkSession.onclick = () => {
-                        this.$router.push({ name: 'DailyCounsellorView', params: { id: upcomingSession } }) 
+                        this.$router.push({ name: 'DailyCounsellorView', params: { id: s.id } }) //prev id: upcomingSession
                         // NOTE: This router link works, commented out bc DailyCounsellorView.vue not working properly yet
                     }
                     cell4.appendChild(linkSession)
@@ -128,7 +141,7 @@ export default {
                 bu.id = String(patientName)
                 bu.innerHTML = "<button class='btn btn-sm btn-link text-error'>Cancel<button>"
                 bu.onclick = ()=>{
-                    this.cancelSession(sessionID.id,patient.id,user)
+                    this.cancelSession(s.id,patient.id,user)
                     //sessionID = doc name of session, patient.id = doc name of patient 
                 }
                 cell5.appendChild(bu)
