@@ -66,7 +66,7 @@ export default {
             if (this.sessionNotes == '') {
                 alert("You have to fill up session notes to submit.")
             } else {
-                if (confirm("Confirm to submit?")) {
+                if (confirm("Submit your session notes?")) {
 
                     //update session notes
                     await updateDoc(doc(db, "Sessions", this.$route.params.id), {session_notes: this.sessionNotes})

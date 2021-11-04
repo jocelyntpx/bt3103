@@ -102,7 +102,7 @@ export default {
                 alert("You have to complete all fields to submit.")
                 // alert("You have to at least select a rating to proceed.")
             } else {
-                if (confirm("Confirm to submit?")) {
+                if (confirm("Submit your review?")) {
                     //add in to counsellors past ratings
                     await updateDoc(doc(db, "Counsellors", this.counsellorID), {past_ratings: arrayUnion(this.rating)});
 
