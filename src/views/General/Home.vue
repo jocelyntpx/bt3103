@@ -5,9 +5,25 @@
         <div id="main">
             <p class="text-3xl" id="heading">Mental Health Matters</p>
             <p>We provide free, private online counselling <br>
-            for everyone. A video call, voice call or just chat - <br>
-            choose whichever you are comfortable with!</p> <br>
-            <button class="btn btn-primary btn-active" id="registerButton" @click="goToLogin()">Register</button>
+            for everyone. A video call, voice call or just chat. <br>
+            Choose whichever you are comfortable with!</p> <br>
+            <button class="btn btn-primary btn-active mb-24" id="registerButton" @click="goToLogin()">Register</button>
+
+        <div class="grid grid-flow-row " id="logos">
+            <div class="mt-8 font-semibold mb-2">In Partnership With:</div>
+
+            <div class="grid place-items-center">
+                <div class="grid grid-flow-col auto-cols-max gap-x-4">
+                    <img id="SOSlogo" src="@/assets/SOS.png" alt="" width="100" height="85">
+                    <img id="SAClogo" src="@/assets/SAC.png" alt="" width="170" height="78">
+                </div>
+            </div>
+
+            <div class="grid place-items-center">
+            <div class="mt-8 font-semibold"> Fully funded by: </div>
+            <img id="MOHlogo" src="@/assets/MOH.png" alt="" width="190" height="90">
+            </div>
+        </div>
         </div>
     </div>
 </template>
