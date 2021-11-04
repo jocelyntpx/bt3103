@@ -4,7 +4,7 @@
         <NavBarPatient/>
         <div style="text-align:center;">
             <br>
-            <h1 class="text-4xl">Counsellor Profile</h1>
+            <p class="text-4xl">Counsellor Profile</p>
             <br>
         <div class="flex-auto">
         <div class="alert alert-info ml-40 w-3/4">
@@ -14,8 +14,8 @@
             </svg> 
             <label>
 
-            <h4 class="text-left font-bold">MHM has carefully vetted through all our counsellors before selecting them.</h4> 
-            <p class="text-sm text-base-content text-opacity-60 ">
+            <h4 class="text-left font-bold">At MHM, we have carefully vetted through all our counsellors before selecting them.</h4> 
+            <p class="text-sm text-base-content text-opacity-60 text-left">
             {{this.name}} is a volunteer that has been trained by SOS to conduct professional counselling sessions, and will abide by a strict anonymity
 and confidentiality policy.</p>
 
