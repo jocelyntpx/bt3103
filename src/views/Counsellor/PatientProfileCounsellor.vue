@@ -6,7 +6,7 @@
 
         <!-- <button id = "back" @click="goBack()"> Back to Past Patients </button> <br> -->
         <br>
-        <h1 class="text-4xl">Patient's Profile</h1>
+        <h1 class="text-4xl">Patient Profile</h1>
         <br>
 
 
