@@ -41,8 +41,8 @@
             <div class="relative">
               <input v-if="showPassword" :type="type" id="password_p" required="" placeholder="Enter password">
               <input v-else :type="type" id="password_p" required="" placeholder="Enter password">
-              <Icon v-if="show" @click="showPassword" :type="type" class="absolute top-4 right-12" icon="mdi:eye-off" width="30" height="30" />
-              <Icon v-else :type="type" @click="showPassword" class="absolute top-4 right-12" icon="mdi:eye" width="30" height="30" />
+              <Icon v-if="show" @click="showPassword" :type="type" class="absolute top-4 right-12" icon="mdi:eye-off" width="28" height="28" />
+              <Icon v-else :type="type" @click="showPassword" class="absolute top-4 right-12" icon="mdi:eye" width="28" height="28" />
             </div>
   
             <input type="submit" id="savebutton" value="LogIn" v-on:click="login()">
@@ -80,8 +80,8 @@
             <div class="relative">
               <input v-if="showPassword" :type="type" id="password_p" v-model="password_p" required="" placeholder="Enter password">
               <input v-else :type="type" id="password_p" required="" v-model="password_p" placeholder="Enter password">
-              <Icon v-if="show" @click="showPassword" :type="type" class="absolute top-4 right-12" icon="mdi:eye-off" width="30" height="30" />
-              <Icon v-else :type="type" @click="showPassword" class="absolute top-4 right-12" icon="mdi:eye" width="30" height="30" />
+              <Icon v-if="show" @click="showPassword" :type="type" class="absolute top-4 right-12" icon="mdi:eye-off" width="28" height="28" />
+              <Icon v-else :type="type" @click="showPassword" class="absolute top-4 right-12" icon="mdi:eye" width="28" height="28" />
             </div>
               <button @click="showPassword" >{{ btnText}}</button>
 
