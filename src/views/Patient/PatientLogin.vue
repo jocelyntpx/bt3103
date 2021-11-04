@@ -5,14 +5,27 @@
         <br><br>
         <p class="text-4xl" id="mainHead">Login/Register Page</p>
         <br>
+            <!-- <div class="flex justify-center items-center gap-4" >
+            <img id="review1" src="@/assets/review1.png" alt="" width="500" height="258">
+            <img class="flex ml-20" id="review2" src="@/assets/review2.png" alt="" width="500" height="258">
+        </div><br> -->
 
         <div class="flex justify-center flex-col">
           <div class="grid h-auto card bg-base-300 rounded-box place-items-center">
+
+        <div class="flex justify-center items-center gap-4" >
+            <img id="review1" src="@/assets/review1.png" alt="" width="300" height="58">
+            <img class="flex mt-20" id="review2" src="@/assets/review2.png" alt="" width="300" height="58">
+        </div>
+        <!-- <br><div class="flex justify-center items-center gap-4" >
+            <img id="review1" src="@/assets/review1.png" alt="" width="500" height="258">
+            <img class="flex ml-20" id="review2" src="@/assets/review2.png" alt="" width="500" height="258">
+        </div> -->
             <br>
             <p>MHM aims to maintain your anonymity. <br>
             Feel free to use an alias to be recognised by your counsellor! <br>
-            Your counselling session will be kept strictly confidential unless you give us the <br>
-            permission to share the session notes with all your counsellors. ☺ </p>
+            Your counselling session will be kept strictly confidential unless you give<br>
+            us the permission to share the session notes with all your counsellors. ☺ </p>
 
             <br>
       
@@ -55,6 +68,8 @@
               </div>
             </div>
 
+            
+
             </div>
         
 
@@ -74,7 +89,12 @@
                 <button class="btn btn-accent" id="registerbutton" v-on:click="registerPatient()">Register</button>
               </div>
             </div>
+
         </div>
+                               <!-- <br> <div class="flex justify-center items-center gap-4" >
+            <img id="review1" src="@/assets/review1.png" alt="" width="500" height="258">
+            <img class="flex ml-20" id="review2" src="@/assets/review2.png" alt="" width="500" height="258">
+        </div><br> -->
     </div>
     <br><br><br>
     </div>
