@@ -163,13 +163,19 @@ export default {
                 // cell3.innerHTML = review;
                 console.log("awd")
                 this.toShow.push([date,rating,review])
+
+                this.toShow.sort((x,y)=> { // "04/11/2021" format 
+                    var xParts = x[0].split('/')
+                    var yParts = y[0].split('/')
+                    var xDate = new Date(xParts[2], xParts[1]-1, xParts[0])
+                    var yDate = new Date(yParts[2], yParts[1]-1, yParts[0])
+                    return yDate - xDate
+                })
+
+
                 console.log("this.toShow, " , this.toShow)
-                // this.date = date
-                // this.rating = rating
-                // this.review = review 
+
                 this.numberReviews = this.numberReviews + 1
-
-
             }
         }
 }
