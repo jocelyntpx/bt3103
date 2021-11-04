@@ -114,7 +114,7 @@ export default {
                     var rateSession = document.createElement("button")
                     rateSession.id = "rateSession"
 
-                    rateSession.innerHTML = "<button class='btn btn-link btn-sm'>Rate Session Now!"
+                    rateSession.innerHTML = "<button class='btn btn-link btn-sm text-info'>Rate Session Now!"
 
                     rateSession.onclick = () => {
                         this.$router.push({ name: 'RateCounsellor', params: { id: pastSession } }) 
@@ -127,7 +127,7 @@ export default {
                 // cell3.innerHTML = counsellorName; 
                 cell3.className = "nameToProfile"
                 var nameButton = document.createElement("button")
-                nameButton.innerHTML = "<button class='btn btn-sm btn-ghost'>" +counsellorName; 
+                nameButton.innerHTML = "<button class='btn btn-link btn-sm text-black'>" +counsellorName; 
                 nameButton.onclick = () => {
                     this.$router.push({ name: 'CounsellorProfilePatient', params: { id: counsellor.id } }) 
                 }

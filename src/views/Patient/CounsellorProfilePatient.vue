@@ -73,7 +73,7 @@
                         </div> -->
 
 
-                        <label for="my-modal-2" class="btn btn-sm btn-error modal-button">Report</label> 
+                        <label for="my-modal-2" class="btn btn-sm btn-error modal-button">Report Counsellor</label> 
                         <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
                         <div class="modal">
                         <div class="modal-box">

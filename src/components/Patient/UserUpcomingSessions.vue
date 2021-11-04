@@ -104,17 +104,15 @@ export default {
                 var cell5 = row.insertCell(4); 
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
-                // cell3.innerHTML = counsellorName; 
                 cell3.className = "nameToProfile"
                 var nameButton = document.createElement("button")
-                nameButton.innerHTML = "<button class='btn btn-ghost btn-sm'>" +counsellorName; 
+                nameButton.innerHTML = "<button class='btn btn-link btn-sm text-black'>" +counsellorName; 
                 nameButton.onclick = () => {
                     this.$router.push({ name: 'CounsellorProfilePatient', params: { id: counsellor.id } }) 
                 }
                 cell3.appendChild(nameButton)
                 
                 console.log("diff is ", sessionTime - timeNow)
-                // if (link == "" && !(sessionTime - timeNow <= 10*60*1000)) { // no room link yet. 
                 if (10*60*1000 < sessionTime - timeNow) { // it is OVER 10 mins till the start of the session time 
                     console.log("No link yet, and DOES NOT meet criteria to create  a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
                     cell4.innerHTML = "You can enter your session room up to 10 minutes before the slot timing.";
@@ -124,22 +122,12 @@ export default {
                     var linkSession = document.createElement("button")
                     linkSession.id = "linkSession"
 
-                    linkSession.innerHTML = "<button class='btn btn-link btn-sm'>Enter Session Room Now!"
+                    linkSession.innerHTML = "<button class='btn btn-link btn-sm text-info'>Enter Session Room Now!"
 
                     
                     linkSession.onclick = () => {
                         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
                     }
-                    // if (sessionTime - timeNow <= 10*60*1000) { 
-                    //     console.log("sessionTime - timeNow <= 10*60*1000");
-                    //     linkSession.onclick = () => {
-                    //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
-                    //     }
-                    // } else {
-                    //     linkSession.onclick = () => {
-                    //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
-                    //     }
-                    // }
                     cell4.appendChild(linkSession)
                 }
                 
@@ -148,7 +136,7 @@ export default {
                 var bu = document.createElement("button")
                 bu.className = "bwt"
                 bu.id = String(counsellorName)
-                bu.innerHTML = "<button class='btn btn-xs btn-error'>Cancel<button>"
+                bu.innerHTML = "<button class='btn btn-link btn-sm text-error'>Cancel<button>"
                 bu.onclick = ()=>{
                     this.cancelSession(sessionID.id,counsellor.id,user)
                     //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
