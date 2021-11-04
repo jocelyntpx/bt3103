@@ -5,17 +5,19 @@
         <br><br>
         <p class="text-4xl" id="mainHead">Login/Register Page</p>
         <br>
-        <p>MHM aims to maintain your anonymity. You do not need to share your personal details<br>
-            with us if you do not wish to. <br>
-            You can use an alias to be recognised by your counsellor. <br>
+
+        <div class="flex justify-center flex-col">
+          <div class="grid h-auto card bg-base-300 rounded-box place-items-center">
+            <br>
+            <p>MHM aims to maintain your anonymity. <br>
+            Feel free to use an alias to be recognised by your counsellor! <br>
             Your counselling session will be kept strictly confidential unless you give us the <br>
-            permission to share the session notes with all your counsellors.  </p>
+            permission to share the session notes with all your counsellors. ☺ </p>
 
-        <br>
-
-
+            <br>
+      
             <div class="wrapper">
-        <div id="formContent">
+            <div id="formContent">
 
             <h2 :class="[ !register? 'active' : '' ]" @click="register=false" > Sign In </h2>
             <h2 :class="[ register? 'active' : '' ]" @click="register=true"> Sign Up </h2>
@@ -23,10 +25,12 @@
 
             <div v-if = "!register">
             <input type="text" id="email_p" required="" placeholder="Enter email">
-            
+            <div class="relative">
               <input v-if="showPassword" :type="type" id="password_p" required="" placeholder="Enter password">
               <input v-else :type="type" id="password_p" required="" placeholder="Enter password">
-              <button @click="showPassword" >{{ btnText}}</button>
+              <Icon v-if="show" @click="showPassword" :type="type" class="absolute top-4 right-12" icon="mdi:eye-off" width="30" height="30" />
+              <Icon v-else :type="type" @click="showPassword" class="absolute top-4 right-12" icon="mdi:eye" width="30" height="30" />
+            </div>
   
             <input type="submit" id="savebutton" value="LogIn" v-on:click="login()">
 
@@ -58,25 +62,25 @@
               
               <input type="text" id="alias_p" v-model="alias_p" required="" placeholder="Enter alias">
               <input type="email" id="email_p" v-model="email_p" required="" placeholder="Enter email">
-            
+            <div class="relative">
               <input v-if="showPassword" :type="type" id="password_p" v-model="password_p" required="" placeholder="Enter password">
               <input v-else :type="type" id="password_p" required="" v-model="password_p" placeholder="Enter password">
+              <Icon v-if="show" @click="showPassword" :type="type" class="absolute top-4 right-12" icon="mdi:eye-off" width="30" height="30" />
+              <Icon v-else :type="type" @click="showPassword" class="absolute top-4 right-12" icon="mdi:eye" width="30" height="30" />
+            </div>
               <button @click="showPassword" >{{ btnText}}</button>
 
               <div id="formFooter" >
                 <button class="btn btn-accent" id="registerbutton" v-on:click="registerPatient()">Register</button>
               </div>
             </div>
-
         </div>
     </div>
+    <br><br><br>
     </div>
-
-
-        <div id="firebaseui-auth-container"></div>
-
+        </div>
     <div>
-
+    </div>
     </div>
 </template>
 
@@ -89,12 +93,12 @@ import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { collection, query, where, getDocs, doc, setDoc,  } from "firebase/firestore";
 import { getAuth, sendPasswordResetEmail, updateProfile } from "firebase/auth";
-
+import { Icon } from '@iconify/vue';
 
 const db = getFirestore(firebaseApp);
 
 export default {
-    components: {NavBarGeneral,},
+    components: {NavBarGeneral,Icon},
     name: "Login",
 
     data() {
@@ -102,11 +106,11 @@ export default {
             email: "",
             password: "",
             type: 'password',
-            btnText: "Show Password",
             register: false,
             alias_p: "",
             email_p: "",
             password_p: "",
+            show: false,
         };
     },
 
@@ -114,10 +118,10 @@ export default {
         showPassword() {
           if(this.type === 'password') {
             this.type = 'text'
-            this.btnText = 'Hide Password'
+            this.show = false
           } else {
             this.type = 'password'
-            this.btnText = 'Show Password'
+            this.show = true
           }
         },
 

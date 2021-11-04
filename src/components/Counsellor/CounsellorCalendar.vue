@@ -1,10 +1,14 @@
 <template>
     <div v-if="user">
         <div v-if="createSession == true">
+            <div id = "backBtn">
+                    <button class="btn btn-link text-info" v-on:click="back()">← Back to Appointments Calendar</button>
+            </div>            
+
             <v-date-picker v-model="date" mode="dateTime"/>
             <br><br>
-            <button class="btn btn-sm" v-on:click="create()">Add New Slot</button>
-            <button class="btn btn-outline btn-sm" v-on:click="back()">Back to appointments calendar</button>
+            <button class="btn btn-primary btn-sm mb-4" v-on:click="create()">Open Up Slot</button>
+            <!-- <button class="btn btn-outline btn-sm" v-on:click="back()">Back to Appointments Calendar</button> -->
         </div>
         <div v-else>
             <v-date-picker v-model="date" :attributes="attributes" @dayclick="onDayClick"/>
@@ -25,10 +29,10 @@
                 <br>
             </div>
             <div v-if="upcoming.length == 0 && avail.length == 0">
-                <h4>No session for selected day(s)</h4>
+                <h4>No session for selected day</h4>
             </div>
             <br>
-            <button id = "addSessionBtn" class="btn btn-sm" v-on:click="createSession = true">Add New Slot</button>
+            <button id = "addSessionBtn" class="btn btn-sm btn-primary" v-on:click="createSession = true">Add New Session</button>
         </div>
     </div>
 </template>

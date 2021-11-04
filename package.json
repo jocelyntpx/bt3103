@@ -12,6 +12,7 @@
     "@popperjs/core": "^2.10.2",
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "@tailwindcss/typography": "^0.4.1",
+    "@vueup/vue-quill": "^1.0.0-beta.7",
     "autoprefixer": "^9.8.8",
     "awesome-vue-star-rating": "^1.0.9",
     "components": "^0.1.0",
@@ -28,6 +29,7 @@
     "vue3-star-ratings": "^1.0.7"
   },
   "devDependencies": {
+    "@iconify/vue": "^3.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",

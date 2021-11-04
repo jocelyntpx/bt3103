@@ -4,28 +4,30 @@
     <div id="app">
         <p class="text-4xl">Counsellor's Login</p>
         <br>
-        <p>This page is only for counsellors. Please use the login button on the navigation bar <br> 
-            above to login to/register your account. </p>
-        <br/>
-    </div> 
+        <div class="flex justify-center flex-col">
+          <div class="grid h-auto card bg-base-300 rounded-box place-items-center">
+            <br>
+              <p>This page is only for counsellors. Please use the login button on the navigation bar <br> 
+                  above to login to/register your account. </p>
+              <br/>
 
     <div class="wrapper">
         <div id="formContent">
             <h2 class="active"> Sign In </h2>
 
-            <!-- <form> -->
-            <input type="text" id="email_c" class="fadeIn second" required="" placeholder="Enter email">
-            
-              <input v-if="showPassword" :type="type" id="password" class="fadeIn third" required="" placeholder="Enter password">
-              <input v-else :type="type" id="password" class="fadeIn third" required="" placeholder="Enter password">
-              <button @click="showPassword" class="fadeIn third">{{ btnText}}</button>
-            <!-- </form> -->
+            <input type="text" id="email_c" required="" placeholder="Enter email">
+            <div class="relative">
+              <input v-if="showPassword" :type="type" id="password" required="" placeholder="Enter password">
+              <input v-else :type="type" id="password" required="" placeholder="Enter password">
+              <Icon v-if="show" @click="showPassword" :type="type" class="absolute top-4 right-12" icon="mdi:eye-off" width="30" height="30" />
+              <Icon v-else :type="type" @click="showPassword" class="absolute top-4 right-12" icon="mdi:eye" width="30" height="30" />
+            </div>
   
-            <input type="submit" id="savebutton" class="fadeIn fourth" value="LogIn" v-on:click="login()">
+            <input type="submit" id="savebutton" value="LogIn" v-on:click="login()">
 
 
             <div id="formFooter">
-              <label for="my-modal-2" class="btn btn-primary modal-button">Forget Password?</label> 
+              <label for="my-modal-2" class="btn btn-link modal-button">Forget Password?</label> 
               <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
               <div class="modal">
                 <div class="modal-box">
@@ -43,6 +45,10 @@
               </div>
             </div>
         </div>
+         <br><br><br><br>
+    </div>
+        </div>
+    </div>
     </div>
 
 </template>
@@ -56,11 +62,12 @@ import { getFirestore } from "firebase/firestore"
 import { collection, query, where, getDocs } from "firebase/firestore";
 import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { Icon } from '@iconify/vue';
 
 const db = getFirestore(firebaseApp);
 
 export default {
-    components: {NavBarGeneral,},
+    components: {NavBarGeneral,Icon},
     name: "CounsellorLogin",
 
     data() {
@@ -68,7 +75,7 @@ export default {
             email: "",
             password: "",
             type: 'password',
-            btnText: "Show Password"
+            show: false,
         };
     },
 
@@ -76,10 +83,10 @@ export default {
         showPassword() {
           if(this.type === 'password') {
             this.type = 'text'
-            this.btnText = 'Hide Password'
+            this.show = false
           } else {
             this.type = 'password'
-            this.btnText = 'Show Password'
+            this.show = true
           }
         },
 
@@ -307,38 +314,6 @@ input[type=text]:placeholder {
 @-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
-.fadeIn {
-  opacity:0;
-  -webkit-animation:fadeIn ease-in 1;
-  -moz-animation:fadeIn ease-in 1;
-  animation:fadeIn ease-in 1;
-
-  -webkit-animation-fill-mode:forwards;
-  -moz-animation-fill-mode:forwards;
-  animation-fill-mode:forwards;
-
-  -webkit-animation-duration:1s;
-  -moz-animation-duration:1s;
-  animation-duration:1s;
-}
-
-.fadeIn.second {
-  -webkit-animation-delay: 0.6s;
-  -moz-animation-delay: 0.6s;
-  animation-delay: 0.6s;
-}
-
-.fadeIn.third {
-  -webkit-animation-delay: 0.8s;
-  -moz-animation-delay: 0.8s;
-  animation-delay: 0.8s;
-}
-
-.fadeIn.fourth {
-  -webkit-animation-delay: 1s;
-  -moz-animation-delay: 1s;
-  animation-delay: 1s;
-}
 
 /* Simple CSS3 Fade-in Animation */
 .underlineHover:after {

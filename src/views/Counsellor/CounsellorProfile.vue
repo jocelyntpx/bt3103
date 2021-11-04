@@ -9,39 +9,82 @@
         <NavBarCounsellor/>
         <br>
         <div style="text-align:center">
-            <p class="text-4xl flex justify-center">Counsellor Profile</p>
+            <p class="text-4xl flex justify-center">My Profile</p>
             <br>
             <div class="grid place-items-center">
                 <div class = "tabs tabs-boxed">
-                <div><button @click="toggleCurrentlyAvailable" :class="[ currentlyAvailable? 'tab tab-sm tab-active' : 'tab tab-sm' ]"><strong>Available</strong></button></div>
-                <div><button @click="toggleCurrentlyAvailable" :class="[ !currentlyAvailable? 'tab tab-sm tab-red tab-active' : 'tab tab-sm' ]"><strong>Not Available</strong></button></div>
-                </div>
-                <!--<p class="text-sm my-2">Click to toggle current availability</p>-->
-                <h3> You are 
-                    <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
-                    <strong v-else> NOT available to take a spontaneous session. </strong> 
-                </h3>
+                    <div data-tip="You are AVAILABLE to take a spontaneous session." class="tooltip tooltip-secondary tooltip-bottom">
+                        <button @click="toggleCurrentlyAvailable" :class="[ currentlyAvailable? 'tab tab-md tab-active' : 'tab tab-md' ]"><strong>Available</strong></button>                  
+                    </div>
+
+                    <div data-tip="You are NOT AVAILABLE to take a spontaneous session." class="tooltip tooltip-secondary tooltip-bottom">
+                        <button @click="toggleCurrentlyAvailable" :class="[ !currentlyAvailable? 'tab tab-md tab-red tab-active' : 'tab tab-md' ]"><strong>Not Available</strong></button>
+                    </div>
+
             </div> 
+            </div>
             <br>
-            <!-- Need a toggle button for currently_available -->
-<!--             <div class = "toggle">
-                <button id = "toggleButton" @click="toggleCurrentlyAvailable">Click to toggle current availability on/off</button>
-                <br><br>
-                <h3> You are 
-                    <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
-                    <strong v-else> NOT available to take a spontaneous session. </strong> 
-                </h3>
-            </div> -->
+
             <div id="bgBlock"> 
                 <div id="col-1">
                     <div id="counsellorDetails"> 
-                        
-                        <div v-if="this.profile_pic">
-                            <img id="profilepic" :src='this.profile_pic'>
-                        </div>
-                        <br>
 
-                        <label for="my-modal-1" class="btn btn-primary btn-sm modal-button">Edit Profile Picture</label> 
+
+                        <div class="card lg:card-side">
+                            <div class="grid place-items-center">
+                            <div class="grid grid-flow-col">
+
+                                <div v-if="this.profile_pic" class="avatar">
+                                    <div class="mb-8 rounded-box w-56 h-56 ring ring-primary ring-offset-base-100 ring-offset-2 mx-2 my-2">
+                                        <img :src="this.profile_pic">
+                                    </div>
+                                </div>
+
+                                <div v-else class="avatar placeholder">
+                                    <div class="mb-8 bg-neutral-focus text-neutral-content rounded-box w-56 h-56 ring ring-primary ring-offset-base-100 ring-offset-2 mx-2 my-2">
+                                        <span class="text-md">No Profile Photo</span>
+                                    </div>
+                                </div> 
+
+                            </div>
+                            </div>
+
+                            <div class="grid grid-flow-col">
+                            <div class="card-body">
+                                <h2 class="card-title text-2xl">{{this.name}}</h2> 
+                                <p>
+                                    Email: <strong>{{this.email}}</strong><br>
+                                    Gender: <strong>{{this.gender}}</strong><br>
+                                    Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
+                                    Credentials: <strong>{{this.credentials}}</strong><br>
+                                    Rating: <strong>{{this.avgRatings}}</strong>
+                                </p>
+                                <p v-if="this.additional_details">Additional Details: <strong>{{this.additional_details}}</strong></p>  
+
+                                <div class='-mx-4'> 
+                                    <router-link class="btn btn-link" :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
+                                </div>
+
+                            </div>
+                            </div>
+                        </div> 
+
+
+
+
+
+
+
+
+
+
+                        
+                        <!-- <div v-if="this.profile_pic">
+                            <img id="profilepic" :src='this.profile_pic'>
+                        </div>                         
+                        <br> -->
+
+                        <label for="my-modal-1" class="btn btn-link text-info modal-button ">Edit Profile Picture </label> 
                             <input type="checkbox" id="my-modal-1" class="modal-toggle"> 
                             <div class="modal">
                             <div class="modal-box">
@@ -49,13 +92,13 @@
                                 <input class="form-control" ref="fileInput" type="file" @input="preview">
                                 <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
                                 <div class="modal-action">
-                                <label for="my-modal-1" class="btn btn-primary" @click="uploadImage(this.user)">Upload</label> 
+                                <label for="my-modal-1" class="btn btn-secondary" @click="uploadImage(this.user)">Upload</label> 
                                 <label for="my-modal-1" class="btn">Close</label>
                                 </div>
                             </div>
                         </div>
 
-                        <br><br>
+                        <!-- <br><br>
 
                         <p> Name: <strong>{{this.name}}</strong><br>
                         Email: <strong>{{this.email}}</strong><br>
@@ -63,9 +106,9 @@
                         Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
                         Credentials: <strong>{{this.credentials}}</strong><br>
                         Rating: <strong>{{this.avgRatings}}</strong></p>
-                        <p v-if="this.additional_details">Additional Details: <strong>{{this.additional_details}}</strong></p><br>
+                        <p v-if="this.additional_details">Additional Details: <strong>{{this.additional_details}}</strong></p><br> -->
 
-                        <label for="my-modal-2" class="btn btn-primary btn-sm modal-button">Edit Profile Details</label> 
+                        <label for="my-modal-2" class="btn btn-link text-info">Edit Profile Details</label> 
                             <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
                             <div class="modal">
                             <div class="modal-box">
@@ -95,7 +138,7 @@
                                 <br>
 
                                 <div class="modal-action">
-                                <label for="my-modal-2" class="btn btn-primary" @click="updateDetails(this.checkedNames)">Update Details</label> 
+                                <label for="my-modal-2" class="btn btn-secondary" @click="updateDetails(this.checkedNames)">Update Details</label> 
                                 <label for="my-modal-2" class="btn">Close</label>
                                 </div>
                             </div>
@@ -104,13 +147,13 @@
                     </div>
                     <br>
 
-                    <div id = "reviewsTab"> 
+                    <!-- <div id = "reviewsTab"> 
                         <router-link class="btn btn-link" :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
-                    </div>
+                    </div> -->
                 </div> 
-                <div id="col-2">
+                <div id="col-2" class="bg-base-300 text-base-content">
                     <br>
-                    <h3>Select date to view upcoming appointments</h3>
+                    <p class='text-lg'>Select Date to View Upcoming Appointments</p>
                     <br>
                     <CounsellorCalendar/>
                 </div>
@@ -370,7 +413,8 @@ export default {
 #bgBlock {
     display:flex;
     border-style:solid;
-    border-color:#B9D9EB;
+    border-color:#aaa593;
+    /* border-color:#B9D9EB; */
     border-width: 2px;
     background: transparent;
     border-radius: 20px;
@@ -386,7 +430,6 @@ export default {
   text-align: left;
 }
 #col-2 {
-  background-color:rgb(224, 236, 247);
   flex: 1;
 }
 .imagePreviewWrapper {

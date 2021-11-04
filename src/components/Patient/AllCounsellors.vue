@@ -10,7 +10,17 @@
             <!-- Note: h-auto makes boxes diff sizes when resize browser.. -->
             <div class="card-body">
 
-              <h2 class="card-title"> {{counsellor.data().name}} </h2>
+              <div class="grid grid-flow-row place-items-center">
+              
+                <div v-if="counsellor.data().profile_pic" class="avatar grid place-items-center">
+                  <div class="mb-8 rounded-full w-16 h-16 ring ring-primary ring-offset-base-100 ring-offset-2 -mt-2">
+                    <img :src="counsellor.data().profile_pic">
+                  </div>
+                </div> 
+
+                <div><h2 class="card-title -mt-4"> {{counsellor.data().name}} </h2></div>
+              </div>
+
               <p> {{avgRating(counsellor.data().past_ratings)}} <br> 
               {{ formattedSpecialisations(counsellor.data().counsellor_specialisations) }} </p>
 
@@ -26,7 +36,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <span class="italic text-sm font-medium" v-if="!getEarliestSlot(counsellor.data().available_slots)"> (No available slots at the moment) </span> -->
             </div>
           </div>
 
@@ -186,15 +195,24 @@ methods: {
       } 
       },
 
-    formattedSpecialisations(specialisations) {
-      var stringOutput = ""
-      if (specialisations.length > 0) {
-        specialisations.forEach(item => {
-          stringOutput = stringOutput + ", " + item
-        })
-      }
-      return stringOutput.slice(2)
-    },
+  formattedSpecialisations(specialisations) { 
+  var stringOutput = ""
+  if (specialisations.length > 0) {
+    
+    let updated = specialisations.sort( // arrange in alphabetical order.
+    function(a, b){
+      if (a < b) { return -1 }
+      else if (a > b) { return 1 }
+      return 0;
+    }
+    )
+
+    updated.forEach(item => {
+      stringOutput = stringOutput + ", " + item
+    })
+  }
+  return stringOutput.slice(2)
+  },
 
     avgRating(ratings) {
       // Create a reference for a new rating, for use inside the transaction

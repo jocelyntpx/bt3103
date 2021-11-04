@@ -1,16 +1,16 @@
 <template>
 <div class="flex space-x-4 space-y-4">
-    <div class = "grid grid-flow-row grid-cols-3 gap-4">
+    <div class = "grid grid-flow-row grid-cols-3 gap-10">
             <a  v-for= "article in HelpResources" v-bind:key="article.index">
                 <!-- <div id="article_box"> -->
                     <div class="card text-center shadow-2xl lg:card-side bg-secondary text-accent-content">
                         <div class="card-body">
                             <p class="text-xl font-semibold">{{article.id}}</p> 
-                            <img :src=article.data().picture alt="Picture cannot be displayed" width="250" height="100">
+                            <img :src=article.data().picture alt="Picture cannot be displayed" id="articlePic">
                             <h5 id="category"> {{article.data().category}}</h5>
                             <p class="italic text-sm" id="author"> You posted on {{article.data().post_date}}</p>
                             <div class="justify-center card-actions">
-                            <button class="btn btn-secondary" @click="this.$router.push({name: 'EditPage', params: { id: article.id }})">Edit Article</button>
+                            <button class="btn btn-sm" @click="this.$router.push({name: 'EditPage', params: { id: article.id }})">Edit Article</button>
                         </div>
                     </div>
 
@@ -105,8 +105,8 @@ export default {
 #article_box{
     display: inline-block;
     margin: 10px;
-    height: 10%;
-    width: 15%; 
+    height: 300px;
+    width: 350px; 
     background-color: rgb(224, 236, 247);
     border-radius: 35px;
     border: 20px solid rgb(224, 236, 247);
@@ -114,7 +114,10 @@ export default {
 #author{
     color: gray;
 }
-
-
-
+#articlePic {
+    /* border-radius: 50%;
+    margin-top: 10px; */
+    width: 320px;
+    height: 200px;
+}
 </style>

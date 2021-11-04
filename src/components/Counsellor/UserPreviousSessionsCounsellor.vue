@@ -1,6 +1,6 @@
 <template>
   <!-- This component templates the user's previous sessions (seen in Patients records, User's profile page ) -->
-   <h3>Past Appointments</h3>
+   <p class="text-xl">Past Appointments</p><br>
     
       <div>
         <table id="table3">
