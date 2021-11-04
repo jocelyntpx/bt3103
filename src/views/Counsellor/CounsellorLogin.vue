@@ -157,14 +157,18 @@ export default {
 <style scoped>
 #box {
     border-radius: 20px;
+    background-color: rgb(252, 232, 208);
 }
 #bg{
     position: relative;
     height: 100vh;
     background-size: cover;
     background-image: url("~@/assets/login.png");
-    background-position: center;
-    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center center;
+    text-align: center;
+    margin:auto;
+    padding: 0;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
