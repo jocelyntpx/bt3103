@@ -17,7 +17,7 @@
 <script>
 import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { doc, getDoc, arrayRemove, arrayUnion, Timestamp, updateDoc,deleteDoc } from "firebase/firestore";
+import { doc, getDoc, arrayRemove, arrayUnion, Timestamp, updateDoc, deleteDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
@@ -161,7 +161,8 @@ export default {
                 await deleteDoc(doc(db,"Sessions",session))
                 console.log("Session successfully deleted!");
                 let tb = document.getElementById("table")
-                while (tb.rows.length > 1){
+                while (tb.rows.length > 1){te
+
                     tb.deleteRow(1)
                 }
                 this.displayUpcomingSessions(this.user_ID); 
