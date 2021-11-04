@@ -24,9 +24,17 @@
                 </label>
             </div>
         </div> -->
-        
-        <div class="flex">
-        <div class="alert alert-info w-1/2 ml-40" v-if = "userNotLeftReview">
+                    <div class="flex-auto grid justify-items-center">
+                <p class="text-md">Allow your information to be shared with all counsellors?</p>
+            <div class = "tabs tabs-boxed">
+              <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-md tab-active ' : 'tab tab-md']" data-tip="This would enable counsellors having first-time sessions with you to have a better understanding of your situation." 
+              class="tooltip tooltip-bottom tooltip-primary"><strong>Share</strong></button></div>
+              <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-md tab-red tab-active' : 'tab tab-md' ]" data-tip="This would make your session information only available to the particular counsellor you had the session with." 
+              class="tooltip tooltip-bottom tooltip-primary"><strong>Don't Share</strong></button></div>
+            </div>
+          </div><br>
+        <div class="flex-auto">
+        <div class="alert alert-info mx-40" v-if = "userNotLeftReview">
         <div class="flex-1">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#2196f3" class="flex-shrink-0 w-6 h-6 mx-2">     
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>                     
@@ -38,7 +46,7 @@
             </label>
         </div>  
         </div>
-            <div class="grid place-items-center ml-20" v-if = "userNotLeftReview">
+            <!-- <div class="grid place-items-center ml-20" v-if = "userNotLeftReview">
                 <p class="text-md">Allow your information to be shared with all counsellors?</p>
             <div class = "tabs tabs-boxed">
               <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-sm tab-active ' : 'tab tab-sm']" data-tip="This would enable counsellors having first-time sessions with you to have a better understanding of your situation." 
@@ -46,8 +54,8 @@
               <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-sm tab-red tab-active' : 'tab tab-sm' ]" data-tip="This would make your session information only available to the particular counsellor you had the session with." 
               class="tooltip tooltip-bottom tooltip-primary"><strong>Don't Share</strong></button></div>
             </div>
-          </div>
-            <div class="flex-auto grid justify-items-center" v-else>
+          </div> -->
+            <!-- <div class="flex-auto grid justify-items-center">
                 <p class="text-md">Allow your information to be shared with all counsellors?</p>
             <div class = "tabs tabs-boxed">
               <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-md tab-active ' : 'tab tab-md']" data-tip="This would enable counsellors having first-time sessions with you to have a better understanding of your situation." 
@@ -55,7 +63,7 @@
               <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-md tab-red tab-active' : 'tab tab-md' ]" data-tip="This would make your session information only available to the particular counsellor you had the session with." 
               class="tooltip tooltip-bottom tooltip-primary"><strong>Don't Share</strong></button></div>
             </div>
-          </div>
+          </div> -->
         </div><br>
 
         <div class="bg-base-300 text-base-content">
