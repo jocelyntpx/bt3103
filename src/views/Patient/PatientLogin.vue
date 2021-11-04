@@ -1,26 +1,14 @@
 <template>
     <br><br>
-    <NavBarGeneral/>
+    <NavBarGeneral/><br>
+    <div id="bg"><br>
     <div style="text-align:center;">
+      <div class="bg-base-300 w-1/2 mx-96 items-center" id="box">
         <br><br>
         <p class="text-4xl" id="mainHead">Login/Register Page</p>
         <br>
-            <!-- <div class="flex justify-center items-center gap-4" >
-            <img id="review1" src="@/assets/review1.png" alt="" width="500" height="258">
-            <img class="flex ml-20" id="review2" src="@/assets/review2.png" alt="" width="500" height="258">
-        </div><br> -->
-
         <div class="flex justify-center flex-col">
-          <div class="grid h-auto card bg-base-300 rounded-box place-items-center">
-
-        <div class="flex justify-center items-center gap-4" >
-            <img id="review1" src="@/assets/review1.png" alt="" width="300" height="58">
-            <img class="flex mt-20" id="review2" src="@/assets/review2.png" alt="" width="300" height="58">
-        </div>
-        <!-- <br><div class="flex justify-center items-center gap-4" >
-            <img id="review1" src="@/assets/review1.png" alt="" width="500" height="258">
-            <img class="flex ml-20" id="review2" src="@/assets/review2.png" alt="" width="500" height="258">
-        </div> -->
+          <div class="grid h-auto rounded-box place-items-center">
             <br>
             <p>MHM aims to maintain your anonymity. <br>
             Feel free to use an alias to be recognised by your counsellor! <br>
@@ -89,17 +77,19 @@
                 <button class="btn btn-accent" id="registerbutton" v-on:click="registerPatient()">Register</button>
               </div>
             </div>
-
+            </div>
         </div>
                                <!-- <br> <div class="flex justify-center items-center gap-4" >
             <img id="review1" src="@/assets/review1.png" alt="" width="500" height="258">
             <img class="flex ml-20" id="review2" src="@/assets/review2.png" alt="" width="500" height="258">
         </div><br> -->
     </div>
-    <br><br><br>
+    <br>
     </div>
         </div>
     <div>
+    
+    </div>
     </div>
     </div>
 </template>
@@ -245,6 +235,17 @@ export default {
 </script>
 
 <style scoped>
+#box {
+    border-radius: 20px;
+}
+#bg{
+    position: relative;
+    height: 100vh;
+    background-size: cover;
+    background-image: url("~@/assets/login.png");
+    background-position: center;
+    background-attachment: fixed;
+}
 #firebaseui-auth-container {
     margin-top: 50px;;
     margin-bottom: 50px;;
@@ -259,12 +260,12 @@ export default {
     text-align: center;
     /* text-shadow: 2px 2px grey; */
 }
-#bg{
+/* #bg{
     display: block;
     margin-left: auto;
     margin-right: auto;
     width:60%
-}
+} */
 h5{
     text-align: center;
     background-color: rgb(194,202,188);

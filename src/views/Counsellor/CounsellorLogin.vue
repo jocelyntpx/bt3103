@@ -1,11 +1,13 @@
 <template>
     <br><br>
-    <NavBarGeneral/>
-    <div id="app">
+    <NavBarGeneral/><br>
+    <!-- <div id="app"> -->
+      <div id="bg"><br>
+        <div class="bg-base-300 w-1/2 mx-96 items-center" id="box"><br><br>
         <p class="text-4xl">Counsellor's Login</p>
         <br>
         <div class="flex justify-center flex-col">
-          <div class="grid h-auto card bg-base-300 rounded-box place-items-center">
+          <div class="grid h-auto card rounded-box place-items-center">
             <br>
               <p>This page is only for counsellors. Please use the login button on the navigation bar <br> 
                   above to login to/register your account. </p>
@@ -45,11 +47,13 @@
               </div>
             </div>
         </div>
-         <br><br><br><br>
+         <br><br><br>
     </div>
+          </div>
+        </div>
         </div>
     </div>
-    </div>
+    <!-- </div> -->
 
 </template>
 
@@ -149,6 +153,17 @@ export default {
 </script>
 
 <style scoped>
+#box {
+    border-radius: 20px;
+}
+#bg{
+    position: relative;
+    height: 100vh;
+    background-size: cover;
+    background-image: url("~@/assets/login.png");
+    background-position: center;
+    background-attachment: fixed;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

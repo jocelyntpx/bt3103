@@ -9,14 +9,14 @@
     <p>Leave a session note for future reference.</p><br>
     <div class="bg-base-300 text-base-content">
     <div id="bgBlock">
-        <p class="text-2xl">{{this.patientName}}</p>
+        <p class="text-2xl">{{this.patientName}}</p><br>
 
         <div id="innerBlock">
             <textarea class="textarea h-24 textarea-bordered textarea-primary" v-model= "sessionNotes" id="notesText" placeholder="Enter your session notes here"></textarea>
         </div><br>
         <button v-on:click = "sendSessionNotes()" id="submit" class="btn btn-primary">Submit</button>
 
-    </div>
+    </div><br><br><br><br><br>
     </div>
 <!-- 
   This is session notes page. Session id is {{this.sessionID}} -->

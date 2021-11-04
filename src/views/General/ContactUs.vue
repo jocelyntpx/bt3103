@@ -7,14 +7,15 @@
         <NavBarGeneral/>
     </div>
 <br>
-    <div>
-        <div>
+<div id="bg"><br>
+    <div class="rounded-box bg-base-300 w-1/2 mx-96 items-center" id="box">
+        <div><br>
             <p class="text-4xl">Contact Us</p>
             <br>
             <div class="flex justify-center flex-col">
-            <div class="grid h-auto card bg-base-300 rounded-box place-items-center">
-                <br>
-                <p>Do let us know of any queries/concerns/feedback you might have.<br>
+            <div class="grid h-auto card rounded-box place-items-center">
+                
+                <p id="letUsKnow">Do let us know of any queries/concerns/feedback you might have.<br>
                     We value your opinions and will get back to you as soon as possible!
                 </p>
             <br>
@@ -32,11 +33,12 @@
                     </form> 
                 </div>
             </div>
-            <br><br>
+            <br>
         </div>
     </div>
         </div>
     </div>
+</div>
 </template>
 
 
@@ -81,19 +83,22 @@ export default {
 </script>
 
 <style scoped>
-/* #bg{
+#box {
+    border-radius: 20px;
+}
+#bg{
     position: relative;
     width: 100%;
     height: 720px;
     background-size: cover;
-    background-image: url("~@/assets/aboutUs.png");
+    background-image: url("~@/assets/contact.png");
     background-repeat: no-repeat;
     background-position: center center;
     text-align: center;
     margin:auto;
     padding: 0;
 }
-#textPosition{
+/* #textPosition{
     text-align: center;
     padding: 30px;
 } */
