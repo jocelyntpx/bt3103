@@ -97,7 +97,7 @@ export default {
 
                 cell3.className = "nameToProfile"
                 var nameButton = document.createElement("button")
-                nameButton.innerHTML = "<button class='btn btn-sm btn-ghost'>" +patientName; 
+                nameButton.innerHTML = "<button class='btn btn-sm btn-link text-black'>" +patientName; 
                 nameButton.onclick = () => {
                     this.$router.push({ name: 'PatientProfileCounsellor', params: { id: patient.id } }) 
                 }
@@ -126,7 +126,7 @@ export default {
                 var bu = document.createElement("button")
                 bu.className = "bwt"
                 bu.id = String(patientName)
-                bu.innerHTML = "<button class='btn btn-xs btn-error'>Cancel<button>"
+                bu.innerHTML = "<button class='btn btn-sm btn-link text-error'>Cancel<button>"
                 bu.onclick = ()=>{
                     this.cancelSession(sessionID.id,patient.id,user)
                     //sessionID = doc name of session, patient.id = doc name of patient 

@@ -13,10 +13,12 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>                     
             </svg> 
             <label>
+
             <h4 class="text-left">Please be assured that MHM has carefully vetted through all our counsellors before selecting them.</h4> 
             <p class="text-sm text-base-content text-opacity-60 ">
             {{this.name}} is a volunteer that has been trained by SOS to conduct professional counselling sessions, and will abide by a strict anonymity
 and confidentiality policy.</p>
+
             </label>
         </div>  
         </div>
@@ -64,30 +66,6 @@ and confidentiality policy.</p>
                                 </div>
                                 </div>
                             </div> 
-
-                            <!-- <div v-if="this.profile_pic">
-                                <img id="profilepic" :src='this.profile_pic'>
-                            </div> -->
-
-                        <!-- <div v-if="this.profile_pic" class="avatar">
-                            <div class="mb-8 rounded-box w-24 h-24 ring ring-primary ring-offset-base-100 ring-offset-2">
-                                <img :src="this.profile_pic">
-                            </div>
-                        </div>  -->
-
-                            <!-- <p> Name: <strong>{{this.name}}</strong><br>
-                            Email: <strong>{{this.email}}</strong><br>
-                            Gender: <strong>{{this.gender}}</strong><br>
-                            Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
-                            Credentials: <strong>{{this.credentials}}</strong><br>
-                            Rating: <strong>{{this.avgRatings}}</strong></p>
-                            <p v-if="this.additional_details">Additional Details: <strong>{{this.additional_details}}</strong></p><br>
-                        </div> -->
-
-                        <!-- <div id = "reviewsTab"> 
-                            <router-link class="btn btn-link" :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
-                        </div> -->
-
 
                         <label for="my-modal-2" class="btn btn-sm btn-error modal-button">Report Counsellor</label> 
                         <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
