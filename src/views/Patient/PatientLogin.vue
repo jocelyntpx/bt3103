@@ -237,19 +237,17 @@ export default {
 <style scoped>
 #box {
     border-radius: 20px;
-    background-color: rgb(252, 232, 208);
+    background-color: #e1d9ec;
 }
 
 #bg{
     position: relative;
-    height: 100vh;
+    height: 88vh;
     background-size: cover;
     background-image: url("~@/assets/login.png");
     background-repeat: no-repeat;
-    background-position: center center;
-    text-align: center;
-    margin:auto;
-    padding: 0;
+    background-position: center;
+    background-attachment: fixed;
 }
 #firebaseui-auth-container {
     margin-top: 50px;;

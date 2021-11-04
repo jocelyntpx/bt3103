@@ -20,14 +20,14 @@
             <v-date-picker v-model="date" :attributes="attributes" @dayclick="onDayClick"/>
             <br><br>
             <div v-if="upcoming.length != 0">
-                <h3><strong>Upcoming Sessions</strong></h3>
+                <p><strong>Upcoming Sessions</strong></p>
                 <div v-for="item in upcoming" :key="item">
                     {{ item.date }} {{ item.time }}
                 </div>
                 <br>
             </div>
             <div v-if="avail.length != 0">
-                <h3><strong>Available Sessions</strong></h3>
+                <p><strong>Available Sessions</strong></p>
                 <div v-for="item in avail" :key="item">
                     {{ item.date }} {{ item.time }}
                     <button id = 'cancelBtn' class="btn btn-xs btn-outline" v-on:click="cancel(this.counsellor_ID, item)">Cancel</button>
