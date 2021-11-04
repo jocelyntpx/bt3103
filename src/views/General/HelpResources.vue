@@ -8,21 +8,19 @@
     </div>
     <br>
     <div>
-        <div id="header">
-            <div id="header_image">
-                <div id="textPosition"><br><br>
-                    <p class="text-4xl flex">Help Resources</p><br>
-                    <p class = "flex justify-center">Browse through our articles to find out <br>
-                        how you can cope better with mental health.</p>
-                        <!-- insert search bar/filter bar here -->
-                        <br>
-                    <!-- <label for="search_bar">Search for an Article:</label> -->
-                    <!-- <input type="text" class = "search_for_article" v-model="search" placeholder="Search for an article"/> -->
-                    <div class="form-control flex-auto ">
-                        <!-- <label for="search_bar">Search for Article</label> -->
-                        <input type="text" class="input input-sm input-primary input-bordered " v-model="search" placeholder="Search for an article"/>
-                    </div> 
-                </div>
+        <div id="bg">
+            <div id="textPosition"><br><br>
+                <p class="text-4xl flex">Help Resources</p><br>
+                <p class = "flex justify-center">Browse through our articles to find out <br>
+                    how you can cope better with mental health.</p>
+                    <!-- insert search bar/filter bar here -->
+                    <br>
+                <!-- <label for="search_bar">Search for an Article:</label> -->
+                <!-- <input type="text" class = "search_for_article" v-model="search" placeholder="Search for an article"/> -->
+                <div class="form-control flex-auto ">
+                    <!-- <label for="search_bar">Search for Article</label> -->
+                    <input type="text" class="input input-sm input-primary input-bordered " v-model="search" placeholder="Search for an article"/>
+                </div> 
             </div>
         </div>
         <div class="pt-20 pb-20">
@@ -68,13 +66,10 @@ export default {
 </script>
 
 <style scoped>
-#header{
-    background-color:rgb(211, 231,245)
-}
-#header_image{
+#bg{
     position: relative;
-    width: 80%;
-    height: 300px;
+    width: 100%;
+    height: 540px;
     background-size: cover;
     background-image: url("~@/assets/helpResources.png");
     background-repeat: no-repeat;
@@ -86,8 +81,8 @@ export default {
 #textPosition{
     position: relative;
     float: right;
-    margin-right: 190px;
-    margin-top: 30px;
+    margin-right: 300px;
+    margin-top: 100px;
     text-align: left;
 }
 

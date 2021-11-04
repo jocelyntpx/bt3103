@@ -28,7 +28,8 @@ export default {
         return{
             user_ID:"", // counsellor UID
             user_type: "counsellor",
-            patient_id:this.$route.params.id
+            patient_id:this.$route.params.id,
+            upcomingArr: []
         }
     },
 
@@ -67,17 +68,33 @@ export default {
                 // if (sessionTime - timeNow <= 60*60*1000) {
                     await updateDoc(doc(db,"Counsellors",counsellor.id), {upcoming_counsellor_sessions: arrayRemove(sessionID.id)});
                     await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(sessionID.id)});
+
+                    if (sessionID.data().room_ID != "") { 
+                        console.log("patient has clicked start session, we assume session was held. moving session to past")
                     await updateDoc(doc(db,"Counsellors",counsellor.id), {past_counsellor_sessions: arrayUnion(sessionID.id)});
                     await updateDoc(doc(db,"Patients",user), {past_user_sessions: arrayUnion(sessionID.id)});
+                    }      
+
                     // console.log("moved from upcoming to past")
                     continue
+                } else {
+                    this.upcomingArr.push(sessionID)
                 }
+            }
 
+            this.upcomingArr.sort((x,y)=> y.data().session_time - x.data().session_time)
+
+            for (const s of this.upcomingArr) {
                 var table = document.getElementById("table2")
                 var row = table.insertRow(ind)
 
+                let counsellorDocRef = doc(db, "Counsellors", s.data().counsellor_ID);
+                let counsellor = await getDoc(counsellorDocRef);
+
+                let sessionTime = s.data().session_time.toDate()
+
                 var date = sessionTime.toDateString() 
-                var time = sessionID.data().session_time.toDate().toLocaleTimeString()
+                var time = s.data().session_time.toDate().toLocaleTimeString()
                 var counsellorName = counsellor.data().name;
                 // var link =  sessionID.data().room_ID 
 
@@ -89,71 +106,10 @@ export default {
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
                 cell3.innerHTML = counsellorName; 
-                
-                // console.log("diff is ", sessionTime - timeNow)
-                // // if (link == "" && !(sessionTime - timeNow <= 10*60*1000)) { // no room link yet. 
-                // if (10*60*1000 < sessionTime - timeNow) { // it is OVER 10 mins till the start of the session time 
-                //     console.log("No link yet, and DOES NOT meet criteria to create  a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
-                //     cell4.innerHTML = "You can enter your session room up to 10 minutes before the slot timing.";
-                // } else {
-                //     // (1) within 10 minutes from session start, or (2) session slot already begun, or (3) link already exists.
-                //     console.log("No link yet, but meets criteria to create a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
-                //     var linkSession = document.createElement("button")
-                //     linkSession.id = "linkSession"
-                //     linkSession.innerHTML = "Enter Session Room Now!"
                     
-                //     linkSession.onclick = () => {
-                //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
-                //     }
-
-                    //bottom here onwards was originally commented out
-                    // if (sessionTime - timeNow <= 10*60*1000) { 
-                    //     console.log("sessionTime - timeNow <= 10*60*1000");
-                    //     linkSession.onclick = () => {
-                    //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
-                    //     }
-                    // } else {
-                    //     linkSession.onclick = () => {
-                    //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
-                    //     }
-                    // }
-                //     cell4.appendChild(linkSession)
-                // }
-                
-                // cell5.innerHTML = "";
-
-                // var bu = document.createElement("button")
-                // bu.className = "bwt"
-                // bu.id = String(counsellorName)
-                // bu.innerHTML = "X"
-                // bu.onclick = ()=>{
-                //     this.cancelSession(sessionID.id,counsellor.id,user)
-                //     //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
-                // }
-                // cell5.appendChild(bu)                        
             }                   
         },
     
-
-        // async cancelSession(session, counsellor, user) {
-        //     var confirmDelete = confirm("Press 'OK' to proceed to cancel this appointment with Session ID of " + session);
-        //     //alert("You are going to cancel this appointment with Session ID of " + session)
-        //     if (confirmDelete) { //pressed OK
-        //         //remove session from patient's and counsellor's upcoming appointments array
-        //         await updateDoc(doc(db,"Counsellors",counsellor), {upcoming_counsellor_sessions: arrayRemove(session)});
-        //         await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(session)});
-
-        //         //delete session from sessions collection
-        //         await deleteDoc(doc(db,"Sessions",session))
-        //         console.log("Session successfully deleted!");
-        //         let tb = document.getElementById("table")
-        //         while (tb.rows.length > 1){
-        //             tb.deleteRow(1)
-        //         }
-        //         this.displayUpcomingSessions(this.user_ID); 
-        //     }
-            
-        // }
 
     }
 }
