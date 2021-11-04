@@ -7,7 +7,7 @@
                         <p class="text-xl font-semibold">{{article.id}}</p> 
                         <img :src=article.data().picture alt="Picture cannot be displayed" id="articlePic">
                         <h5 id="category"> {{article.data().category}}</h5>
-                        <p class="italic text-sm" id="author"> You posted on {{article.data().post_date}}</p>
+                        <!-- <p class="italic text-sm" id="author"> You posted on {{article.data().post_date}}</p> -->
                         <div class="justify-center card-actions">
                         <button class="btn btn-sm" @click="this.$router.push({name: 'ArticlePage', params: { id: article.id }})">Read</button>
                     </div>
