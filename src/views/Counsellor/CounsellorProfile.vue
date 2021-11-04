@@ -153,7 +153,7 @@
                 </div> 
                 <div id="col-2" class="bg-base-300 text-base-content">
                     <br>
-                    <h3>Select date to view upcoming appointments</h3>
+                    <p class='text-lg'>Select Date to View Upcoming Appointments</p>
                     <br>
                     <CounsellorCalendar/>
                 </div>

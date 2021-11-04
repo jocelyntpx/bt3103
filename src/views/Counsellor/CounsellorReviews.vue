@@ -11,7 +11,7 @@
     <!-- <h1> Reviews for {{this.counsellorName}}</h1><br><br> -->
     <div class="bg-base-300 text-base-content">
     <div id = "bgBlock">
-        <h3> All Reviews (Total: {{this.numberReviews}} Reviews) </h3>
+        <p class="text-lg"> All Reviews (Total: {{this.numberReviews}} Reviews) </p>
         <table class="table" id="tableReview">
             <tr class="header"> 
                 <th>Review Date</th> 

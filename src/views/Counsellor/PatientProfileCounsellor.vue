@@ -6,19 +6,26 @@
 
         <!-- <button id = "back" @click="goBack()"> Back to Past Patients </button> <br> -->
         <br>
-        <h1 class="text-4xl">Patient Profile</h1>
+        <h1 class="text-4xl">Patient: {{this.patient_name}}</h1>
         <br>
 
 
         <div class="bg-base-300 text-base-content">
         <div id="bgBlock">
-            <div id="col-1">
-                <div id="patientDetails">  
-                    <p> Alias: <strong>{{this.patient_name}}</strong><br>
-                    Email: <strong>{{this.patient_email}}</strong><br></p>
-                </div>
+
+            <UserUpcomingSessionsCounsellor/> 
+
+            <br><br>
+
+            <div style="text-align:center;" v-if="user">
+            <UserPreviousSessionsCounsellor/> 
+            <br>
+  
+            </div>
+
+            <div class="align-center">
                 <br>
-                    <label for="my-modal-2" class="btn btn-sm btn-error modal-button">Report</label> 
+                    <label for="my-modal-2" class="btn btn-sm btn-error modal-button">Report Patient</label> 
                         <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
                         <div class="modal">
                         <div class="modal-box">
@@ -35,17 +42,6 @@
                     </div>
                     </div>
             </div> 
-
-            <UserUpcomingSessionsCounsellor/> 
-
-            <br><br>
-
-            <div style="text-align:center;" v-if="user">
-            <UserPreviousSessionsCounsellor/> 
-            <br><br><br><br>
-  
-            </div>
-
             <br>
 
         </div>
