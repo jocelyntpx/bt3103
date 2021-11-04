@@ -8,7 +8,7 @@
       <!-- would ultimately have some kind of for loop to pull the appropriate fields from Firebase Sessions collection -->
             <tr class=header> 
             <th>Date</th> 
-            <th>Time</th> 
+            <!-- <th>Time</th>  -->
             <th>Counsellor</th>
             <th>Notes</th> 
 
@@ -70,17 +70,17 @@ export default {
                 var row = table.insertRow(ind)
 
                 var date = sessionTime.toDateString() 
-                var time = sessionID.data().session_time.toDate().toLocaleTimeString()
+                // var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var counsellorName = counsellor.data().name;
 
                 var cell1 = row.insertCell(0); 
-                var cell2 = row.insertCell(1); 
-                var cell3 = row.insertCell(2); 
-                var cell4 = row.insertCell(3); 
+                // var cell2 = row.insertCell(1); 
+                var cell3 = row.insertCell(1); 
+                var cell4 = row.insertCell(2); 
                 var notes = sessionID.data().session_notes
 
                 cell1.innerHTML = date; 
-                cell2.innerHTML = time;
+                // cell2.innerHTML = time;
                 cell3.innerHTML = counsellorName; 
                 cell4.className = "notesCell"
 
