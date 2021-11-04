@@ -15,24 +15,24 @@
             <p class="font-semibold text-left color"> We aim to provide you with a convenient and safe environment to seek help <i>anytime, anywhere.</i></p>
         </div>
         <div class="grid px-20 pt-20 pb-8">
-            <h1 class="font-semibold text-3xl text-left color">Our mission, vision and values</h1>
+            <h1 class="font-semibold text-3xl text-left color">Our Mission, Vision and Values</h1>
         </div>
         <br>
         <div class="grid grid-cols-3 px-20 pb-20">
             <div>
                 <img class="icon" src="@/assets/mission.png">
-                <p class="font-bold text-lg title">Mission</p>
+                <p class="font-bold text-lg title mt-2">Our Mission</p>
                 <p> MHM aims to contribute to and enrich the 
                     <br>mental well-being of Singaporeans</p>
             </div>
             <div>
                 <img class="icon" src="@/assets/vision.png">
-                <p class="font-bold text-lg title">Vision</p>
+                <p class="font-bold text-lg title mt-2">Our Vision</p>
                 <p>To be available to anyone who needs help</p>
             </div>
             <div>
                 <img class="icon" src="@/assets/values.png">
-                <p class="font-bold text-lg title">Our Values</p>
+                <p class="font-bold text-lg title mt-2">Our Values</p>
                 <p>Respect, Accountability, Confidentiality</p>
             </div>
         </div>
