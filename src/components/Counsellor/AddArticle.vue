@@ -6,8 +6,8 @@
             <input v-model="title" id="articleTitle" maxlength="24" class="input input-sm input-primary input-bordered " placeholder="Input the title of your article (Max characters: 24)">
             <br><br>
             <label>Category: </label>
-            <input type="checkbox" id="generalCat" value="General" v-model="category">
-            <label for="generalCat">Stress </label>
+            <input type="checkbox" id="stressCat" value="Stress" v-model="category">
+            <label for="stressCat">Stress </label>
             <input type="checkbox" id="careerCat" value="Career" v-model="category">
             <label for="careerCat">Career </label>
             <input type="checkbox" id="RelationshipCat" value="Relationship" v-model="category">
