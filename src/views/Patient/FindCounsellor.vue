@@ -6,7 +6,7 @@
       <!-- <div class = "main"> -->
       <div class="grid place-items-center my-2">
       <div class="flex flex-row gap-0">
-      <p class="text-4xl"> Find a Counsellor </p>
+      <p class="text-4xl"> Find A Counsellor </p>
 
       <!-- <label for="my-modal-2" class="btn btn-link text-info btn-small modal-button underline">Click to learn more</label> 
       <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
