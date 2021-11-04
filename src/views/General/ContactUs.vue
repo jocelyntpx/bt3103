@@ -87,9 +87,9 @@ export default {
 <style scoped>
 #box {
     border-radius: 20px;
-    background-color: rgb(252, 232, 208);
+    background-color: #e1d9ec;
 }
-#bg{
+/* #bg{
     position: relative;
     height: 100vh;
     background-size: cover;
@@ -99,6 +99,16 @@ export default {
     text-align: center;
     margin:auto;
     padding: 0;
+} */
+
+#bg{
+    position: relative;
+    height: 88vh;
+    background-size: cover;
+    background-image: url("~@/assets/contact.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
 }
 /* #textPosition{
     text-align: center;
