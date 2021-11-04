@@ -5,10 +5,10 @@
         <br>
         <div id="bg">
         <div id="textPosition"><br><br>
-            <p class="text-4xl flex justify-center">Help Resources</p><br>
+            <p class="text-4xl flex">Help Resources</p><br>
             <p class = "flex justify-center">This is where you can post new articles and <br>
                 edit articles you have already posted.</p>
-            <br><br><br>
+            <br><br>
             <div class="grid place-items-center">
             <div class = "tabs tabs-boxed">
               <div><button @click="showCreate = true" :class="[ showCreate? 'tab tab-md tab-active' : 'tab tab-md'  ]" >Create New Article</button></div>
