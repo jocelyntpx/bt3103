@@ -4,7 +4,26 @@
       <NavBarPatient/> <br>
 
       <!-- <div class = "main"> -->
-      <p class="text-4xl"> Find a Counsellor </p><br>
+      <div class="grid place-items-center my-2">
+      <div class="flex flex-row gap-0">
+      <p class="text-4xl"> Find a Counsellor </p>
+
+      <!-- <label for="my-modal-2" class="btn btn-link text-info btn-small modal-button underline">Click to learn more</label> 
+      <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
+      <div class="modal">
+        <div class="modal-box">
+            <label> All our counsellors are certified to provide counselling sessions, and you can find more information
+              about your counsellors on their profile.<br><br> Information shared during a session are bounded by patient-counsellor confidentiality (Session 
+              notes can be shared with other counsellors on the platform <span class="underline font-bold">only</span> if you enabled this on your profile). 
+            </label>
+            <div class="modal-action">
+              <label for="my-modal-2" class="btn">Close</label>
+            </div>
+        </div>
+      </div> -->
+
+      </div>
+      </div>
 
         <!-- note to self: USE THIS TO CENTER ANYTHING! -->
         <div class="grid place-items-center"> 
@@ -19,7 +38,11 @@
 
             <div class="flex-grow">
               <div class="m-auto">
-                <label for="counsellor_category">Filter by Counsellor Specialisation </label>
+
+                <div data-tip="Select category that best meets your needs!" class="tooltip tooltip-info">
+                  <label for="counsellor_category">Filter by Counsellor Specialisation </label>
+                </div>
+
                 <div class="btn-group">
                   <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'All Categories' }" v-on:click="setCategory('All Categories')">All Categories</span>
                   <span class="btn btn-sm btn-outline" v-bind:class="{ 'btn-active': selectedCategory === 'Stress' }" v-on:click="setCategory('Stress')">Stress</span>
@@ -54,10 +77,33 @@
 
       <div class="flex flex-col w-full">
         <div class="grid h-auto card bg-base-300 rounded-box place-items-center p-10">
+
+          <div class="alert w-2/3 mb-4 bg-base-100">
+            <div class="flex flex-col gap-0 grid place-items-center">
+              <div class="flex flex-row gap-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#2196f3" class="w-6 h-6 mx-2">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>                          
+                </svg> 
+                <p class="text-lg font-bold">Your privacy is important to us.</p>
+              </div>
+
+              <label>
+                <p class="text-center"> All our counsellors are certified to provide counselling sessions, and you can find more information
+                   about your counsellors on their profile.
+                   Information shared during a session are bounded by patient-counsellor confidentiality (Session notes can be
+                  shared with other counsellors on the platform <span class="underline font-bold">only</span> if you enabled this on your profile). 
+                </p>
+
+              </label>
+            </div>
+          </div>
+
           <div class = "available_counsellors_list" v-if = "showCurrentlyAvailable">  
+
             <h5>These counsellors are available now to take on your choice of call, video call or chat session. <br>
             You can go to a counsellor's profile to schedule a future session or see more information. </h5> <br>
             
+          
             <div> 
               <!-- <div class = "counsellors_box"> -->
                 <CounsellorsCurrentlyAvailable :key="refreshComponent" :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
