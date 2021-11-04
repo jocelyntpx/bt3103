@@ -3,14 +3,14 @@
         <v-date-picker v-model="date" :attributes="attributes" @dayclick="onDayClick"/>
         <br><br>
         <div v-if="patient_upcoming.length != 0">
-            <h3><strong>Upcoming Appointments</strong></h3>
+            <p><strong>Upcoming Appointments</strong></p>
             <div v-for="u in patient_upcoming" :key="u">
                 <p>{{ u.date }} {{ u.time }} with Counsellor {{ u.name }}</p>
             </div>
             <br>
         </div>
         <div v-if="avail.length != 0">
-            <h3><strong>Available Sessions</strong></h3>
+            <p><strong>Available Sessions</strong></p>
             <div v-for="a in avail" :key="a">
                 {{ a.date }} {{ a.time }}
                 <button class="btn btn-xs btn-outline" v-on:click="book(this.counsellor_ID, a)">Book</button>
