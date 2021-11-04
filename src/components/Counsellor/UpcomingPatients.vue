@@ -59,14 +59,21 @@ export default {
 
                 let sessionTime = sessionID.data().session_time.toDate()
                 let timeNow = Timestamp.now().toDate()
-                // if (sessionTime - timeNow <= 60*60*1000) {
+                
                 if (timeNow - sessionTime > 60*60*1000) {
+                // if (timeNow - sessionTime > 3*60*1000) {
                     console.log(patient.data().name);
-                    console.log("moved from upcoming to past", timeNow, sessionTime)
+                    // console.log("moved from upcoming to past", timeNow, sessionTime)
                     await updateDoc(doc(db,"Counsellors",user), {upcoming_counsellor_sessions: arrayRemove(sessionID.id)});
                     await updateDoc(doc(db,"Patients",patient.id), {upcoming_user_sessions: arrayRemove(sessionID.id)});
-                    await updateDoc(doc(db,"Counsellors",user), {past_counsellor_sessions: arrayUnion(sessionID.id)});
-                    await updateDoc(doc(db,"Patients",patient.id), {past_user_sessions: arrayUnion(sessionID.id)});
+                    console.log("removed session from upcoming.")
+
+                    if (sessionID.data().room_ID != "") { 
+                        console.log("patient has clicked start session, we assume session was held. moving session to past")
+                        await updateDoc(doc(db,"Counsellors",user), {past_counsellor_sessions: arrayUnion(sessionID.id)});
+                        await updateDoc(doc(db,"Patients",patient.id), {past_user_sessions: arrayUnion(sessionID.id)});
+                    }      
+
                     continue
                 }
 
