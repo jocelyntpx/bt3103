@@ -14,7 +14,7 @@
             </svg> 
             <label>
 
-            <h4 class="text-left">Please be assured that MHM has carefully vetted through all our counsellors before selecting them.</h4> 
+            <h4 class="text-left font-bold">MHM has carefully vetted through all our counsellors before selecting them.</h4> 
             <p class="text-sm text-base-content text-opacity-60 ">
             {{this.name}} is a volunteer that has been trained by SOS to conduct professional counselling sessions, and will abide by a strict anonymity
 and confidentiality policy.</p>
