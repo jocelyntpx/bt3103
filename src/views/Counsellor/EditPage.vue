@@ -15,34 +15,61 @@
         </button> -->
 
         <p class="italic text-sm" id="author"> Posted on {{this.postDate}} by {{this.author}}</p><br>
-        <div class="flex justify-center gap-4">
-        <label for="my-modal-2" class="btn btn-secondary btn-sm modal-button">Edit</label> 
-        <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
-            <div class="modal">
-            <div class="modal-box">
-            <form>
-                <QuillEditor :key="refreshComponent" v-model:content="this.mainText" contentType="html" theme="snow"/>
-                <!-- <label for="mainText"><strong>Main text: </strong></label><br> -->
-                <!-- <textarea id="mainText" class="textarea h-full w-full textarea-bordered" cols="100" rows="15" wrap="hard" v-html="this.mainText"></textarea> -->
-                </form><br>
 
-                <div class="modal-action">
-                <label for="my-modal-2" class="btn btn-primary" @click="edit()">Save</label> 
-                <label for="my-modal-2" class="btn">Close</label>
-                </div>
+        <div v-if="!showEdit">
+            <div class="flex justify-center gap-4">
+                <button @click="showEditor()" class="btn btn-secondary btn-sm">Edit</button> 
+                <button @click="deleteArticle()" class="btn btn-outline btn-secondary btn-sm" id = "deleteArticle">Delete</button>
+            </div><br>
+
+            <div class="flex justify-center">
+                <img :src=this.picture alt="Picture cannot be displayed" width="600" height="310">
+            </div><br>
+            <div class="mx-60 text-justify" v-html="this.mainText"></div><br><br>    
+        </div>
+
+        <div v-else>
+            <div class="flex justify-center">
+                <img :src=this.picture alt="Picture cannot be displayed" width="600" height="310">
+            </div><br>
+            <div class="mx-60">
+                <QuillEditor :key="refreshComponent" v-model:content="this.mainText" contentType="html" theme="snow"/>
             </div>
+            <br>
+            <div class="flex justify-center gap-4">
+                <button class="btn btn-outline btn-secondary" @click="showEditor()">Back</button> 
+                <button class="btn btn-secondary" @click="edit()">Save</button> 
+            </div>
+            <br><br>
+        </div>
+    </div>
+
+    
+        
+        <!-- <div class="flex justify-center gap-4">
+            <label for="my-modal-2" class="btn btn-secondary btn-sm modal-button">Edit</label> 
+            <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
+            <div class="modal">
+                <div class="modal-box">
+                    <QuillEditor :key="refreshComponent" v-model:content="this.mainText" contentType="html" theme="snow"/>
+              <label for="mainText"><strong>Main text: </strong></label><br> 
+                <textarea id="mainText" class="textarea h-full w-full textarea-bordered" cols="100" rows="15" wrap="hard" v-html="this.mainText"></textarea> 
+                    <br>
+
+                    <div class="modal-action">
+                    <label for="my-modal-2" class="btn btn-primary" @click="edit()">Save</label> 
+                    <label for="my-modal-2" class="btn">Close</label>
+                    </div>
+                </div>
             </div><br><br>
             <button @click="deleteArticle()" class="btn btn-outline btn-secondary btn-sm" id = "deleteArticle">Delete</button>
         </div>
 
         <div class="flex justify-center">
-        <img :src=this.picture alt="Picture cannot be displayed" width="600" height="310">
+            <img :src=this.picture alt="Picture cannot be displayed" width="600" height="310">
         </div><br>
         <div class="mx-60 text-justify" v-html="this.mainText"></div><br><br>
-
-
-
-    </div>
+    </div> -->
 </template>
 
 <script>
@@ -69,6 +96,7 @@ export default {
             postDate:"",
             author:"",
             refreshComponent: 0,
+            showEdit: false,
 
         }
     },
@@ -85,6 +113,13 @@ export default {
 
 
     methods: {
+        showEditor() {
+            if (this.showEdit) {
+                this.showEdit = false
+            } else {
+                this.showEdit = true
+            }
+        },
         
         async displayFullArticle() {
             console.log("entered display")
