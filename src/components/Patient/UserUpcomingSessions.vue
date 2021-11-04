@@ -161,8 +161,7 @@ export default {
                 await deleteDoc(doc(db,"Sessions",session))
                 console.log("Session successfully deleted!");
                 let tb = document.getElementById("table")
-                while (tb.rows.length > 1){te
-
+                while (tb.rows.length > 1){
                     tb.deleteRow(1)
                 }
                 this.displayUpcomingSessions(this.user_ID); 
