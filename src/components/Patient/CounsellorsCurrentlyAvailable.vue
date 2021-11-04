@@ -42,7 +42,7 @@
         
 
   <!-- TEMPORARY BUTTON TO PROPAGATE COUNSELLOR INTO FIREBASE -->
-  <!-- <button @click="newCounsellor()">Temporary helper button: click to create new counsellor</button> -->
+  <!-- <br><br><br><button @click="newCounsellor()">Temporary helper button: click to create new counsellor</button> -->
 
 
 
@@ -90,15 +90,16 @@ export default {
   methods: {
   // TEMP METHOD
   async newCounsellor() {
-    let counsellor_name = "Zack Koh"
-    let counsellor_email = "zack@gmail.com"
-    setDoc(doc(db, "Counsellors", "OfIXmSh7ALYpMiKMNFA72j8L2jw2"), {
+    let counsellor_name = "Karen Seah"
+    let counsellor_email = "karen@gmail.com"
+    await setDoc(doc(db, "Counsellors", "D6dARSYVXpMlqTwF9RPEXhVeIWg1"), {
       email: counsellor_email,
+      additional_details: "",
       name: counsellor_name,
       available_slots: new Array(),
       counsellor_specialisations: new Array(),
       counsellor_credentials: "",
-      gender:"Male",
+      gender:"Female",
       currently_available:false,
       past_ratings:new Array(),
       upcoming_counsellor_sessions:new Array(),
