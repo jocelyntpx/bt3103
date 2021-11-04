@@ -59,7 +59,7 @@
                 <br><br>
                 <p class="font-semibold color">Hope to have you onboard.</p>
                 <br><br><br>
-                <button class="btn">Find out more</button>
+                <button class="btn" @click="goToContactUs()">Contact us</button>
             </div>
         </div>
         <div id="patient">
@@ -97,6 +97,9 @@ export default {
     methods:{
         goToLogin(){
             this.$router.push('/patientLogin')
+        },
+        goToContactUs(){
+            this.$router.push('/contactUs')
         }
     }
 }
