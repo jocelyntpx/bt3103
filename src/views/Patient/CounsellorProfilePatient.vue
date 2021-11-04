@@ -88,7 +88,7 @@ and confidentiality policy.</p>
                     </div> 
                     <div id="col-2"  class="bg-base-300 text-base-content">
                         <br>
-                        <h3>Select date to view sessions available for booking</h3>
+                        <p>Select date to view sessions available for booking</p>
                         <br>
                         <CounsellorCalendarPatient/>
                     </div>

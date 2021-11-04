@@ -5,7 +5,7 @@
         <div id="header">
             <div id="textPosition">
                 <br><br>
-                <p class="text-4xl"><strong>About Us</strong></p>
+                <p class="text-4xl">About Us</p>
             </div>
         </div>
         <div class="grid px-20 pt-20">
@@ -71,7 +71,8 @@
                 <br>
                 <p class="text-left">Our professionally-trained counsellors provide a safe and non-judgemental space for you to talk about what you are feeling and develop ways to improve your well-being.</p>
                 <br>
-                <p class="text-left">Speak with us whichever way you find best - via <strong>video call, voice call or chat.</strong></p>
+                <p class="text-left">Speak with us whichever way you find best - via <strong>video call, voice call or chat.</strong>
+                    Our counsellors will happily accommodate to your needs.</p>
                 <br><br>
                 <p class="font-semibold color">Let's work together.</p>
                 <br><br><br>
