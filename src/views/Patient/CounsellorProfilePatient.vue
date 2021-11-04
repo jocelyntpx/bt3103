@@ -16,13 +16,13 @@
                                 <div class="grid grid-flow-col">
 
                                     <div v-if="this.profile_pic" class="avatar">
-                                        <div class="mb-8 rounded-box w-48 h-48 ring ring-primary ring-offset-base-100 ring-offset-2 mx-2">
+                                        <div class="mb-8 rounded-box w-56 h-56 ring ring-primary ring-offset-base-100 ring-offset-2 mx-2 my-2">
                                             <img :src="this.profile_pic">
                                         </div>
                                     </div>
 
                                     <div v-else class="avatar placeholder">
-                                        <div class="mb-8 bg-neutral-focus text-neutral-content rounded-box w-48 h-48 ring ring-primary ring-offset-base-100 ring-offset-2 mx-2">
+                                        <div class="mb-8 bg-neutral-focus text-neutral-content rounded-box w-56 h-56 ring ring-primary ring-offset-base-100 ring-offset-2 mx-2 my-2" >
                                             <span class="text-md">No Profile Photo</span>
                                         </div>
                                     </div> 
