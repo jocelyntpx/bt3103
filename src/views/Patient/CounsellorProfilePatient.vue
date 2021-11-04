@@ -6,6 +6,21 @@
             <br>
             <h1 class="text-4xl">Counsellor Profile</h1>
             <br>
+        <div class="flex-auto">
+        <div class="alert alert-info ml-40 w-2/3">
+        <div class="flex-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#2196f3" class="flex-shrink-0 w-6 h-6 mx-2">     
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>                     
+            </svg> 
+            <label>
+            <h4 class="text-left">Please be assured that MHM has carefully vetted through all our counsellors before selecting them.</h4> 
+            <p class="text-sm text-base-content text-opacity-60 ">
+            We assure you that {{this.name}} has been trained to conduct professional counselling sessions, and will uphold patient confidentiality as a counsellor.</p>
+            </label>
+        </div>  
+        </div>
+        </div><br>
+
                 <div id="bgBlock"> 
                     <div id="col-1">
                         <div id="counsellorDetails"> 

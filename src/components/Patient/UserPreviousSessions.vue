@@ -4,11 +4,9 @@
     
       <div>
         <table id="table3">
-          <!-- <div v-if = "user"> -->
-      <!-- would ultimately have some kind of for loop to pull the appropriate fields from Firebase Sessions collection -->
             <tr class=header> 
             <th>Date</th> 
-            <th>Time</th> 
+            <!-- <th>Time</th>  -->
             <th>Counsellor</th>
             <th>Rating</th>
             </tr>
@@ -86,14 +84,14 @@ export default {
                 var row = table.insertRow(ind)
 
                 var date = sessionTime.toDateString() 
-                var time = sessionID.data().session_time.toDate().toLocaleTimeString()
+                // var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var counsellorName = counsellor.data().name;
                 var rating =  sessionID.data().rating
 
                 var cell1 = row.insertCell(0); 
-                var cell2 = row.insertCell(1); 
-                var cell3 = row.insertCell(2); 
-                var cell4 = row.insertCell(3); 
+                // var cell2 = row.insertCell(1); 
+                var cell3 = row.insertCell(1); 
+                var cell4 = row.insertCell(2); 
                 if (rating != null) {
                     var stars = rating.shift()
                     if (stars == 5) {
@@ -123,7 +121,7 @@ export default {
                 }
 
                 cell1.innerHTML = date; 
-                cell2.innerHTML = time;
+                // cell2.innerHTML = time;
                 // cell3.innerHTML = counsellorName; 
                 cell3.className = "nameToProfile"
                 var nameButton = document.createElement("button")

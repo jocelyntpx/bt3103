@@ -28,7 +28,7 @@
             <!-- </div> -->
    
             <div id="innerBlock">
-                <textarea class="textarea h-24 textarea-bordered textarea-primary" v-model= "review" id="reviewText" placeholder="Enter your review here"></textarea>
+                <textarea class="textarea h-24 textarea-bordered textarea-primary" v-model= "review" id="reviewText" placeholder="You can review about the counsellor's friendlliness, whether or not you enjoyed this session, whether it helped resolved an issue, or even areas you would like your counsellor to work on. It's up to you!"></textarea>
             </div><br>
             <button v-on:click = "sendReviewRating()" id="submit" class="btn btn-primary">Submit</button>
             <!-- for me to check if the review and rating are working under v-model! -->

@@ -87,11 +87,15 @@ export default {
             let z = docSnap.data()
             //counsellor available sessions
             z.available_slots.forEach(a => {
-                this.display_avail.push(a.toDate())
+                if (a.toDate() > new Date()) {
+                    this.display_avail.push(a.toDate())
+                }
             })
             //counsellor upcoming sessions
             z.upcoming_counsellor_sessions.forEach(u => {
-                this.display_upcoming.push(new Date(u.substring(28)))
+                if (new Date(u.substring(28)) > new Date()) {
+                    this.display_upcoming.push(new Date(u.substring(28)))
+                }
             })
             //green bar for avail, red bar for upcoming
             this.attributes = [
@@ -121,15 +125,17 @@ export default {
                 let session = sessionSnap.data().session_time
 
                 let a = session.toDate()
-                let a_date = a.toDateString()
-                let a_time = a.toTimeString().substr(0,5)
-                let a_gmtDate = new Date(a.setHours(a.getHours() + 8))
+                if (a > new Date()) {
+                    let a_date = a.toDateString()
+                    let a_time = a.toTimeString().substr(0,5)
+                    let a_gmtDate = new Date(a.setHours(a.getHours() + 8))
 
-                if (a_gmtDate.toISOString().substr(0,10) == day.id) {
-                    this.upcoming.push({
-                        date: a_date,
-                        time: a_time,
-                    })
+                    if (a_gmtDate.toISOString().substr(0,10) == day.id) {
+                        this.upcoming.push({
+                            date: a_date,
+                            time: a_time,
+                        })
+                    }
                 }
             })
 
@@ -140,17 +146,19 @@ export default {
                 let slot = slotSnap.data().session_time
                 
                 let s = slot.toDate()
-                let s_date = s.toDateString()
-                let s_time = s.toTimeString().substr(0, 5)
-                let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
+                if (s > new Date()) {
+                    let s_date = s.toDateString()
+                    let s_time = s.toTimeString().substr(0, 5)
+                    let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
 
-                if (s_gmtDate.toISOString().substr(0,10) == day.id) {
-                    let s_originalDate = new Date(s_gmtDate.setHours(s_gmtDate.getHours() - 8 ))
-                    this.avail.push({
-                        date: s_date,
-                        time: s_time,
-                        session: s_originalDate
-                    })
+                    if (s_gmtDate.toISOString().substr(0,10) == day.id) {
+                        let s_originalDate = new Date(s_gmtDate.setHours(s_gmtDate.getHours() - 8 ))
+                        this.avail.push({
+                            date: s_date,
+                            time: s_time,
+                            session: s_originalDate
+                        })
+                    }
                 }
             })
         },
@@ -160,9 +168,27 @@ export default {
             const docRef = doc(db, "Counsellors", this.counsellor_ID)
             const docSnap = await getDoc(docRef)
             let z = docSnap.data()
-            var avail = z.available_slots
-            if (this.date < new Date()) {
+            let avail = z.available_slots
+            let upcoming = z.upcoming_counsellor_sessions
+
+            //check for time clash
+            let one_hour = 60 * 60 * 1000
+            let same_time_session = null
+            upcoming.forEach( u => {
+                if (Math.abs(new Date(u.substring(28)) - this.date) < one_hour) {
+                    same_time_session = u.substring(28, 49)
+                }
+            })
+            avail.forEach (a => {
+                if (Math.abs(a.toDate() - this.date) < one_hour) {
+                    same_time_session = a.toDate().toString().substring(0, 21)
+                }
+            })
+ 
+            if (this.date < new Date()) { // past date
                 alert("Session cannot be created in the past")
+            } else if (same_time_session) { // time clash
+                alert("There is a clash with an existing session on " + same_time_session + ". Please do not add a new slot within an hour of an existing available slot or upcoming appointment.")
             } else {
                 avail.push(this.date)
                 await setDoc(docRef, {available_slots: avail}, {merge: true})
@@ -184,17 +210,22 @@ export default {
             location.reload()
         },
         async cancel(counsellor, item) {
-            //remove from counsellor available slots
-            const counsellorRef = doc(db, 'Counsellors', this.counsellor_ID)
-            await updateDoc(counsellorRef, {
-                available_slots: arrayRemove(item.session)
-            })
 
-            //delete from sessions
-            await deleteDoc(doc(db, "Sessions", this.counsellor_ID+item.session))
+            var confirmCancel = confirm("Press 'OK' to proceed to cancel this appointment on " + item.date + " " + item.time);
 
-            alert('Session on ' + item.date + ' ' + item.time + ' has been cancelled')
-            location.reload()
+            if (confirmCancel) { //pressed OK
+                //remove from counsellor available slots
+                const counsellorRef = doc(db, 'Counsellors', this.counsellor_ID)
+                await updateDoc(counsellorRef, {
+                    available_slots: arrayRemove(item.session)
+                })
+
+                //delete from sessions
+                await deleteDoc(doc(db, "Sessions", this.counsellor_ID+item.session))
+
+                alert('Session on ' + item.date + ' ' + item.time + ' has been cancelled')
+                location.reload()
+            }
         },
     }
 }
