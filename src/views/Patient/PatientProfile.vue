@@ -34,7 +34,7 @@
             <label>
             <h4 class="text-left">Hey, {{user.displayName}}</h4> 
             <p class="text-sm text-base-content text-opacity-60 ">
-            You have not left a review yet for a previous session. Leave a review now!</p>
+            We noticed you have not left a review yet for a previous session. Leave a review now!</p>
             </label>
         </div>  
         </div>
@@ -48,11 +48,11 @@
             </div>
           </div>
             <div class="flex-auto grid justify-items-center" v-else>
-                <p class="text-sm">Allow your information to be shared with all counsellors?</p>
+                <p class="text-md">Allow your information to be shared with all counsellors?</p>
             <div class = "tabs tabs-boxed">
-              <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-sm tab-active ' : 'tab tab-sm']" data-tip="This would enable counsellors having first-time sessions with you to have a better understanding of your situation." 
+              <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-md tab-active ' : 'tab tab-md']" data-tip="This would enable counsellors having first-time sessions with you to have a better understanding of your situation." 
               class="tooltip tooltip-bottom tooltip-primary"><strong>Share</strong></button></div>
-              <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-sm tab-red tab-active' : 'tab tab-sm' ]" data-tip="This would make your session information only available to the particular counsellor you had the session with." 
+              <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-md tab-red tab-active' : 'tab tab-md' ]" data-tip="This would make your session information only available to the particular counsellor you had the session with." 
               class="tooltip tooltip-bottom tooltip-primary"><strong>Don't Share</strong></button></div>
             </div>
           </div>
