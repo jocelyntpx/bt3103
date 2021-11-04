@@ -142,13 +142,15 @@ export default {
                             time: a_time,
                         })
                     }
+                    this.upcoming.sort((x, y)=> {
+                        return x.session - y.session
+                    })
                 }
             })
 
             avail.forEach(async (x) => {
                 const slotRef = doc(db, "Sessions", this.counsellor_ID+x.toDate())
                 const slotSnap = await getDoc(slotRef)
-                console.log(slotSnap)
                 let slot = slotSnap.data().session_time
                 
                 let s = slot.toDate()
@@ -165,6 +167,9 @@ export default {
                             session: s_originalDate
                         })
                     }
+                    this.avail.sort((x, y)=> {
+                        return x.session - y.session
+                    })
                 }
             })
         },

@@ -5,7 +5,7 @@
         <div id="header">
             <div id="textPosition">
                 <br><br>
-                <p class="text-4xl"><strong>About Us</strong></p>
+                <p class="text-4xl">About Us</p>
             </div>
         </div>
         <div class="grid px-20 pt-20">
@@ -19,18 +19,19 @@
         </div>
         <br>
         <div class="grid grid-cols-3 px-20 pb-20">
-            <div class="w-4/5">
-                <img class="icon" src="https://cdn-icons-png.flaticon.com/512/3064/3064830.png">
+            <div>
+                <img class="icon" src="@/assets/mission.png">
                 <p class="font-bold text-lg title">Mission</p>
-                <p> MHM aims to contribute to and enrich the mental well-being of Singaporeans</p>
+                <p> MHM aims to contribute to and enrich the 
+                    <br>mental well-being of Singaporeans</p>
             </div>
             <div>
-                <img class="icon" src="https://cdn-icons-png.flaticon.com/512/2313/2313906.png">
+                <img class="icon" src="@/assets/vision.png">
                 <p class="font-bold text-lg title">Vision</p>
                 <p>To be available to anyone who needs help</p>
             </div>
             <div>
-                <img class="icon" src="https://cdn-icons-png.flaticon.com/512/4207/4207262.png">
+                <img class="icon" src="@/assets/values.png">
                 <p class="font-bold text-lg title">Our Values</p>
                 <p>Respect, Accountability, Confidentiality</p>
             </div>
@@ -47,10 +48,10 @@
         <div id="counsellor">
             <div class="px-20">
                 <br><br><br>
-                <h2 class="font-bold text-md color">GET INVOLVED</h2>
+                <p class="font-bold text-md color">GET INVOLVED</p>
                 <h1 class="font-bold text-3xl color">Be a Volunteer</h1>
                 <br>
-                <img class="icon2" src="https://cdn-icons.flaticon.com/png/512/3038/premium/3038159.png?token=exp=1636032858~hmac=e5d830e9ac2221ac61684f63eed12a6a">
+                <img class="icon2" src="@/assets/volunteer.png">
                 <br>
                 <p class="text-left">MHM offers various volunteering opportunities to fit your availability and area of expertise.</p>
                 <br>
@@ -64,10 +65,10 @@
         <div id="patient">
             <div class="px-20">
                 <br><br><br>
-                <h2 class="font-bold text-md color">GET HELP</h2>
+                <p class="font-bold text-md color">GET HELP</p>
                 <h1 class="font-bold text-3xl color">Need a listening ear?</h1>
                 <br>
-                <img class="icon2" src="https://cdn-icons.flaticon.com/png/512/3038/premium/3038144.png?token=exp=1636033058~hmac=e9c07984e55a2257c9ab202d55bfe07c">
+                <img class="icon2" src="@/assets/help.png">
                 <br>
                 <p class="text-left">Our professionally-trained counsellors provide a safe and non-judgemental space for you to talk about what you are feeling and develop ways to improve your well-being.</p>
                 <br>
