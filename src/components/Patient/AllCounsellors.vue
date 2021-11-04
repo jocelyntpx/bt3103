@@ -1,7 +1,6 @@
 <template>
 
-
-<div class="flex space-x-4 space-y-4">
+<div class="flex space-x-4 space-y-4 ">
   <!-- <div class="flex flex-row w-full"> -->
   <ul>
       <div class="grid grid-flow-row grid-cols-3 gap-4">

@@ -3,24 +3,9 @@
       <br><br>
       <NavBarPatient/> <br>
 
-      <!-- <div class = "main"> -->
       <div class="grid place-items-center my-2">
       <div class="flex flex-row gap-0">
       <p class="text-4xl"> Find A Counsellor </p>
-
-      <!-- <label for="my-modal-2" class="btn btn-link text-info btn-small modal-button underline">Click to learn more</label> 
-      <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
-      <div class="modal">
-        <div class="modal-box">
-            <label> All our counsellors are certified to provide counselling sessions, and you can find more information
-              about your counsellors on their profile.<br><br> Information shared during a session are bounded by patient-counsellor confidentiality (Session 
-              notes can be shared with other counsellors on the platform <span class="underline font-bold">only</span> if you enabled this on your profile). 
-            </label>
-            <div class="modal-action">
-              <label for="my-modal-2" class="btn">Close</label>
-            </div>
-        </div>
-      </div> -->
 
       </div>
       </div>
@@ -98,26 +83,23 @@
             </div>
           </div>
 
-          <div class = "available_counsellors_list" v-if = "showCurrentlyAvailable">  
+          <div v-if = "showCurrentlyAvailable">  
 
             <h5>These counsellors are available now to take on your choice of call, video call or chat session. <br>
             You can go to a counsellor's profile to schedule a future session or see more information. </h5> <br>
             
           
             <div> 
-              <!-- <div class = "counsellors_box"> -->
                 <CounsellorsCurrentlyAvailable :key="refreshComponent" :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
-              <!-- </div> -->
             </div> 
           </div>
 
 
-          <div class = "all_counsellors_list" v-else> 
+          <div v-else> 
             <h5>These counsellors are currently not available. You can go to their profile to schedule a future session. <br>
             You can also use the calendar to show counsellors available on a day of your choice. </h5> <br>
 
-              <!-- idk why this keeps shrinking when u put a calendar filter -->
-                <div class="collapse w-full border rounded-box border-base-300 collapse-arrow"> 
+                <div class="collapse w-full border rounded-box border-base-300 collapse-arrow mx-4"> 
                   <input type="checkbox"> 
                   <div class="collapse-title text-lg font-normal">
                     <p class="text-xl font-bold">Filter Counsellors by Day:</p>
@@ -133,13 +115,12 @@
 
                   </div>
             
-            </div>
+                </div> 
+                <div>
+                  <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
+                </div>
 
-            <div class="flex flex-row w-full items-center">
-              <AllCounsellors :key="refreshComponent" :filteredDays=this.filteringDays :selectedCategory=this.selectedCategory :search=this.search :sortCounsellor=this.sortCounsellor  />
-            </div>
-
-          </div> 
+              </div> 
 
 
       </div>
