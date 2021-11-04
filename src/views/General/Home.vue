@@ -24,7 +24,6 @@
             <img id="MOHlogo" src="@/assets/MOH.png" alt="" width="190" height="90">
             </div>
         </div>
-
         </div>
     </div>
 
