@@ -6,7 +6,7 @@
 
         <!-- <button id = "back" @click="goBack()"> Back to Past Patients </button> <br> -->
         <br>
-        <h1 class="text-4xl">Patient: {{this.patient_name}}</h1>
+        <p class="text-4xl">Patient: {{this.patient_name}}</p>
         <br>
 
 

@@ -1,6 +1,9 @@
 <template>
     <div v-if="user">
         <div v-if="createSession == true">
+            <br>
+                <p class='text-lg'>Select Date to Open Up New Slot</p>
+            <br>
             <div id = "backBtn">
                     <button class="btn btn-link text-info" v-on:click="back()">← Back to Appointments Calendar</button>
             </div>            
@@ -11,6 +14,9 @@
             <!-- <button class="btn btn-outline btn-sm" v-on:click="back()">Back to Appointments Calendar</button> -->
         </div>
         <div v-else>
+            <br>
+                <p class='text-lg'>Select Date to View Upcoming Appointments</p>
+            <br>
             <v-date-picker v-model="date" :attributes="attributes" @dayclick="onDayClick"/>
             <br><br>
             <div v-if="upcoming.length != 0">
@@ -136,13 +142,15 @@ export default {
                             time: a_time,
                         })
                     }
+                    this.upcoming.sort((x, y)=> {
+                        return x.session - y.session
+                    })
                 }
             })
 
             avail.forEach(async (x) => {
                 const slotRef = doc(db, "Sessions", this.counsellor_ID+x.toDate())
                 const slotSnap = await getDoc(slotRef)
-                console.log(slotSnap)
                 let slot = slotSnap.data().session_time
                 
                 let s = slot.toDate()
@@ -159,6 +167,9 @@ export default {
                             session: s_originalDate
                         })
                     }
+                    this.avail.sort((x, y)=> {
+                        return x.session - y.session
+                    })
                 }
             })
         },

@@ -70,20 +70,6 @@
                         </div> 
 
 
-
-
-
-
-
-
-
-
-                        
-                        <!-- <div v-if="this.profile_pic">
-                            <img id="profilepic" :src='this.profile_pic'>
-                        </div>                         
-                        <br> -->
-
                         <label for="my-modal-1" class="btn btn-link text-info modal-button ">Edit Profile Picture </label> 
                             <input type="checkbox" id="my-modal-1" class="modal-toggle"> 
                             <div class="modal">
@@ -97,16 +83,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <br><br>
-
-                        <p> Name: <strong>{{this.name}}</strong><br>
-                        Email: <strong>{{this.email}}</strong><br>
-                        Gender: <strong>{{this.gender}}</strong><br>
-                        Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
-                        Credentials: <strong>{{this.credentials}}</strong><br>
-                        Rating: <strong>{{this.avgRatings}}</strong></p>
-                        <p v-if="this.additional_details">Additional Details: <strong>{{this.additional_details}}</strong></p><br> -->
 
                         <label for="my-modal-2" class="btn btn-link text-info">Edit Profile Details</label> 
                             <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
@@ -152,9 +128,6 @@
                     </div> -->
                 </div> 
                 <div id="col-2" class="bg-base-300 text-base-content">
-                    <br>
-                    <p class='text-lg'>Select Date to View Upcoming Appointments</p>
-                    <br>
                     <CounsellorCalendar/>
                 </div>
             </div>

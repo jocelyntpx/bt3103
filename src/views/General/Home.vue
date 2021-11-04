@@ -3,21 +3,31 @@
         <br><br>
         <NavBarGeneral/>
         <div id="main">
-            <p class="text-3xl" id="heading">Mental Health Matters</p>
+            <p class="text-3xl -mt-24" id="heading">Mental Health Matters</p>
             <p>We provide free, private online counselling <br>
             for everyone. A video call, voice call or just chat. <br>
             Choose whichever you are comfortable with!</p> <br>
-            <button class="btn btn-primary btn-active" id="registerButton" @click="goToLogin()">Register</button>
+            <button class="btn btn-primary btn-active mb-24" id="registerButton" @click="goToLogin()">Register</button>
+
+        <div class="grid grid-flow-row " id="logos">
+            <div class="mt-8 font-semibold mb-2">In Partnership With:</div>
+
+            <div class="grid place-items-center">
+                <div class="grid grid-flow-col auto-cols-max gap-x-4">
+                    <img id="SOSlogo" src="@/assets/SOS.png" alt="" width="100" height="85">
+                    <img id="SAClogo" src="@/assets/SAC.png" alt="" width="170" height="78">
+                </div>
+            </div>
+
+            <div class="grid place-items-center">
+            <div class="mt-8 font-semibold"> Fully funded by: </div>
+            <img id="MOHlogo" src="@/assets/MOH.png" alt="" width="190" height="90">
+            </div>
+        </div>
         </div>
     </div>
-    <br>
-        <div class="flex justify-center items-center gap-10" id="logos">
-            In partnership with:
-            <img id="SOSlogo" src="@/assets/SOS.png" alt="" width="82" height="70">
-            <img class="flex mr-20" id="SAClogo" src="@/assets/SAC.png" alt="" width="150" height="69">
-            Fully funded by:
-            <img id="MOHlogo" src="@/assets/MOH.png" alt="" width="150" height="71">
-        </div><br>
+
+
 </template>
 
 <script>
