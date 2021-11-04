@@ -32,6 +32,7 @@ export default {
             counsellor: false,
             user_ID:"", // patient's UID
             upcoming_user_sessions: [],
+            upcomingArr: []
 
         }
     },
@@ -93,13 +94,26 @@ export default {
                         await updateDoc(doc(db,"Patients",user), {past_user_sessions: arrayUnion(sessionID.id)});
                     }                    
                     continue
+                } else {
+                    this.upcomingArr.push(sessionID)
                 }
+            }
+
+            this.upcomingArr.sort((x,y)=> y.data().session_time - x.data().session_time)
+
+            for (const s of this.upcomingArr) {
 
                 var table = document.getElementById("table2")
                 var row = table.insertRow(ind)
 
+                let counsellorDocRef = doc(db, "Counsellors", s.data().counsellor_ID);
+                let counsellor = await getDoc(counsellorDocRef);
+
+                let sessionTime = s.data().session_time.toDate()
+                let timeNow = Timestamp.now().toDate()
+
                 var date = sessionTime.toDateString() 
-                var time = sessionID.data().session_time.toDate().toLocaleTimeString()
+                var time = s.data().session_time.toDate().toLocaleTimeString()
                 var counsellorName = counsellor.data().name;
                 // var link =  sessionID.data().room_ID 
 
@@ -132,7 +146,7 @@ export default {
 
                     
                     linkSession.onclick = () => {
-                        this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
+                        this.$router.push({ name: 'DailyUserView', params: { id: s.id } }) 
                     }
                     cell4.appendChild(linkSession)
                 }
@@ -144,7 +158,7 @@ export default {
                 bu.id = String(counsellorName)
                 bu.innerHTML = "<button class='btn btn-link btn-sm text-error'>Cancel<button>"
                 bu.onclick = ()=>{
-                    this.cancelSession(sessionID.id,counsellor.id,user)
+                    this.cancelSession(s.id,counsellor.id,user)
                     //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
                 }
                 cell5.appendChild(bu)                        
