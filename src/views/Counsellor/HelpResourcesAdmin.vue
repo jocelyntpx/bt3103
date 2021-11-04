@@ -19,7 +19,7 @@
               <div class = "bigContainer">
         <br><br>
         <!-- create -->
-        <div class = "create_list" v-if = "showCreate">  
+        <div class = "create_list" v-if = "showCreate"><br> 
           <h4> You are about to create a new article to be added onto Help Resources. </h4>
           <div class="bg-base-300 text-base-content">
             <div class = "bgBlock1">

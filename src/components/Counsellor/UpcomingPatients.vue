@@ -180,9 +180,9 @@ th,td {
     text-align: center;
 }
 
-tr:nth-child(even){
+/* tr:nth-child(even){
     background-color: #e3edee;
-}
+} */
 
 .header {
     background-color: black;
