@@ -22,7 +22,7 @@
                 <div v-if="this.previewImage!=null" class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
             </div>
             <br><br>
-             <QuillEditor v-model:content="quillContent" contentType="html" theme="snow" />
+             <QuillEditor v-model:content="quillContent" contentType="html" theme="snow" :style="{'background-color':'#faf7f5'}"/>
             <!-- <textarea v-model="text" id="mainText" placeholder="This is where the content of your article goes."></textarea> -->
         </div>
         <br>
@@ -53,7 +53,6 @@ export default {
             title:"",
             fbuser:"",
             picture:"",
-            counsellor:false,
             category:[],
             previewImage: null,
             imageData:null,
@@ -68,35 +67,15 @@ export default {
             }
         })
         this.fbuser = auth.currentUser.uid;
-        this.isCounsellor(this.fbuser);
         // this.findPatientName();
     },
 
     methods: {
-        async isCounsellor(user) {
-            // const checkUser = db.collection('Counsellors').doc(user.email);
-            // const doc = await checkUser.get();
-            let docRef = doc(db, "Counsellors", user);
-            console.log(user)
-            let counsellorDoc = await getDoc(docRef);
-                
-            if (counsellorDoc.exists()) {
-              console.log('Is counsellor!');
-              this.counsellor = true;
-            } else {
-              console.log('No such counsellor!');
-              this.counsellor = false;
-            }
-
-        },
 
         async postArticle() {
             //find counsellor name:
             let docRef = doc(db, "Counsellors", this.fbuser);
             let counsellorDoc = await getDoc(docRef);
-            console.log(this.title)
-            console.log(this.quillContent)
-            console.log(this.imageData)
             if (this.title == '' || this.quillContent == '' || this.imageData == null) {
                 alert("You have to fill up all fields to post an article.")
             } else {
@@ -189,7 +168,6 @@ export default {
     margin-right: 300px;
 
 }
-
 /* #bgBlock {
   border-radius: 35px;
   background: #B9D9EB;
