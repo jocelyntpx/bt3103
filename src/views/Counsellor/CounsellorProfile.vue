@@ -9,7 +9,7 @@
         <NavBarCounsellor/>
         <br>
         <div style="text-align:center">
-            <p class="text-4xl flex justify-center">Counsellor Profile</p>
+            <p class="text-4xl flex justify-center">My Profile</p>
             <br>
             <div class="grid place-items-center">
                 <div class = "tabs tabs-boxed">
@@ -110,7 +110,7 @@
                         <router-link class="btn btn-link" :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
                     </div>
                 </div> 
-                <div id="col-2">
+                <div id="col-2" class="bg-base-300 text-base-content">
                     <br>
                     <h3>Select date to view upcoming appointments</h3>
                     <br>
@@ -372,7 +372,8 @@ export default {
 #bgBlock {
     display:flex;
     border-style:solid;
-    border-color:#B9D9EB;
+    border-color:#aaa593;
+    /* border-color:#B9D9EB; */
     border-width: 2px;
     background: transparent;
     border-radius: 20px;
@@ -388,7 +389,7 @@ export default {
   text-align: left;
 }
 #col-2 {
-  background-color:rgb(224, 236, 247);
+  /* background-color:rgb(224, 236, 247); */
   flex: 1;
 }
 .imagePreviewWrapper {

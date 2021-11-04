@@ -92,7 +92,7 @@
                     </div>
 
                     </div> 
-                    <div id="col-2">
+                    <div id="col-2"  class="bg-base-300 text-base-content">
                         <br>
                         <h3>Select date to view sessions available for booking</h3>
                         <br>
@@ -231,7 +231,8 @@ export default {
 #bgBlock {
     display:flex;
     border-style:solid;
-    border-color:#B9D9EB;
+    border-color:#aaa593;
+    /* border-color:#B9D9EB; */
     border-width: 2px;
     background: transparent;
     border-radius: 20px;
@@ -247,7 +248,7 @@ export default {
   text-align: left;
 }
 #col-2 {
-  background-color:rgb(224, 236, 247);
+  /* background-color:rgb(224, 236, 247); */
   flex: 1;
 }
 
