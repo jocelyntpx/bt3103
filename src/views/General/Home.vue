@@ -3,7 +3,7 @@
         <br><br>
         <NavBarGeneral/>
         <div id="main">
-            <p class="text-3xl -mt-24" id="heading">Mental Health Matters</p>
+            <p class="text-3xl -mt-16" id="heading">Mental Health Matters</p>
             <p>We provide free, private online counselling <br>
             for everyone. A video call, voice call or just chat. <br>
             Choose whichever you are comfortable with!</p> <br>
@@ -20,7 +20,7 @@
             </div>
 
             <div class="grid place-items-center">
-            <div class="mt-8 font-semibold"> Fully funded by: </div>
+            <div class="mt-8 font-semibold"> Fully Funded By: </div>
             <img id="MOHlogo" src="@/assets/MOH.png" alt="" width="190" height="90">
             </div>
         </div>

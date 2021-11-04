@@ -16,8 +16,7 @@
       <div class="grid grid-flow-row gap-y-4">
 
         <a v-for="arr in toShow" v-bind:key="arr.index"> 
-            <!-- <div class="card shadow"> -->
-<div class="card text-center shadow-2xl lg:card-side bg-blue-50 text-black-content">
+            <div class="card text-center shadow-2xl lg:card-side bg-blue-50 text-black-content">
 
                 <div class="card-body">
                 <div class="grid grid-flow-row place-items-center -mt-4 -mb-4">
