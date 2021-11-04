@@ -85,8 +85,9 @@ export default {
             const docSnap2 = await getDoc(docRef2)
             let y = docSnap2.data()
             y.upcoming_user_sessions.forEach(u => {
-                this.display_patient_upcoming.push(new Date(u.substring(28)))
-
+                if (new Date(u.substring(28)) > new Date()) {
+                    this.display_patient_upcoming.push(new Date(u.substring(28)))
+                }
             })
             console.log(docRef2)
 
@@ -129,10 +130,9 @@ export default {
 
                 //handle session date and time
                 let slot = slotSnap.data().session_time
-                let curr = new Date()
                 let s = slot.toDate()
                 
-                if (s > curr) {
+                if (s > new Date()) {
                     let s_date = s.toDateString()
                     let s_time = s.toTimeString().substr(0,5)
                     let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
@@ -153,10 +153,9 @@ export default {
                 const slotRef2 = doc(db, "Sessions", this.counsellor_ID+a.toDate())
                 const slotSnap2 = await getDoc(slotRef2)
                 let slot = slotSnap2.data().session_time
-                let curr = new Date()
                 let s = slot.toDate()
                 
-                if (s > curr) {
+                if (s > new Date()) {
                     let s_date = s.toDateString()
                     let s_time = s.toTimeString().substr(0,5)
                     let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
@@ -172,6 +171,10 @@ export default {
             })
         }, 
         async book(counsellor, item){
+        
+            var confirmBook = confirm("Press 'OK' to proceed to book this appointment on " + item.date + " " + item.time);
+
+            if (confirmBook) { //pressed OK
 
             const patientRef = doc(db, "Patients", this.fbuser)
             const patientSnap = await getDoc(patientRef)
@@ -209,7 +212,6 @@ export default {
                 let idx = avail_string.indexOf(item.session.toISOString())
                 avail.splice(idx, 1)
                 let upcoming = z.upcoming_counsellor_sessions
-
                 upcoming.push(this.counsellor_ID+item.session)
                 await setDoc(counsellorRef, {upcoming_counsellor_sessions: upcoming, available_slots: avail}, {merge: true})
             
@@ -223,6 +225,7 @@ export default {
             }
             
             location.reload()
+            }
         },
     }
 }
