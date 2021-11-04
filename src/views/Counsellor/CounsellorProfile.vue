@@ -152,9 +152,6 @@
                     </div> -->
                 </div> 
                 <div id="col-2" class="bg-base-300 text-base-content">
-                    <br>
-                    <p class='text-lg'>Select Date to View Upcoming Appointments</p>
-                    <br>
                     <CounsellorCalendar/>
                 </div>
             </div>
