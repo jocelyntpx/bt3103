@@ -76,11 +76,13 @@
 import firebaseApp from '@/firebase.js';
 import { getFirestore } from "firebase/firestore"
 import { doc, getDoc, updateDoc,deleteDoc,arrayRemove} from "firebase/firestore";
-const db = getFirestore(firebaseApp);
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarCounsellor from "@/components/Counsellor/NavBarCounsellor.vue"
 import { QuillEditor } from '@vueup/vue-quill'
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 export default {
     components: {NavBarCounsellor,QuillEditor},
@@ -154,9 +156,12 @@ export default {
                 await updateDoc(doc(db,"Counsellors",String(this.fbuser)), {my_articles: arrayRemove(this.title)});
                 //delete from document from session collection
                 await deleteDoc(doc(db, "HelpResources", this.title));
+                const picRef = ref(storage, 'articlePic');
+                const deleteRef = ref(picRef, this.title);
+                await deleteObject(deleteRef);
 
                 //route back to HelpResourcesAdmin page
-                this.$router.push({ name: 'HelpResourcesAdmin' })
+                this.$router.push({ name: 'HelpResourcesAdmin' }) 
             }
 
         }
