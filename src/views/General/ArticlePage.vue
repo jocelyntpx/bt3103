@@ -6,15 +6,6 @@
     <div v-else>
         <NavBarGeneral/>
     </div>
-    <!-- <div v-if=(counsellor)>
-        <NavBarCounsellor/>
-    </div>
-    <div v-else-if=(user)>
-        <NavBarPatient/>
-    </div>
-    <div v-else>
-        <NavBarGeneral/>
-    </div> -->
 
     <br>
     <div id="main" class="flex-auto justify-center">
@@ -67,27 +58,10 @@ export default {
             this.user = user;
             this.fbuser = user.id;
         })
-        // this.fbuser = auth.currentUser.uid;
-        // this.isCounsellor(this.fbuser);
         this.displayFullArticle();
     },
 
     methods: {
-        // async isCounsellor(user) {
-
-        //     let docRef = doc(db, "Counsellors", user);
-        //     console.log(user)
-        //     let counsellorDoc = await getDoc(docRef);
-                
-        //     if (counsellorDoc.exists()) {
-        //       console.log('Is counsellor!');
-        //       this.counsellor = true;
-        //     } else {
-        //       console.log('No such counsellor!');
-        //       this.counsellor = false;
-        //     }
-
-        // },
         
         async displayFullArticle() {
             console.log("entered display")

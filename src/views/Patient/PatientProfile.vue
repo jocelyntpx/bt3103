@@ -25,12 +25,12 @@
             </div>
         </div> -->
                     <div class="flex-auto grid justify-items-center">
-                <p class="text-md">Allow your information to be shared with all counsellors?</p>
-            <div class = "tabs tabs-boxed">
-              <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-md tab-active ' : 'tab tab-md']" data-tip="This would enable counsellors having first-time sessions with you to have a better understanding of your situation." 
-              class="tooltip tooltip-bottom tooltip-primary"><strong>Share</strong></button></div>
-              <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-md tab-red tab-active' : 'tab tab-md' ]" data-tip="This would make your session information only available to the particular counsellor you had the session with." 
-              class="tooltip tooltip-bottom tooltip-primary"><strong>Don't Share</strong></button></div>
+                <p class="text-md">Allow your session notes left by counsellors to be shared with all counsellors?</p><br>
+            <div class = "tabs tabs-boxed mb-2 mt-1">
+              <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-md tab-active ' : 'tab tab-md']" data-tip="We encourage this option as it will smoothen the transition with new counsellors that you have sessions with, allowing you to reap greater benefits from the session." 
+              class="tooltip tooltip-left tooltip-success"><strong>Share</strong></button></div>
+              <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-md tab-red tab-active' : 'tab tab-md' ]" data-tip="We discourage this option as it may affect the efficiency and break the continuity of sessions when you switch counsellors." 
+              class="tooltip tooltip-right tooltip-error"><strong>Don't Share</strong></button></div>
             </div>
           </div><br>
         <div class="flex-auto">

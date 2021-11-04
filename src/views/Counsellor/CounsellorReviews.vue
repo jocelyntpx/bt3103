@@ -11,17 +11,42 @@
     <!-- <h1> Reviews for {{this.counsellorName}}</h1><br><br> -->
     <div class="bg-base-300 text-base-content">
     <div id = "bgBlock">
-        <p class="text-lg"> All Reviews (Total: {{this.numberReviews}} Reviews) </p>
-        <table class="table" id="tableReview">
+        <p class="text-lg"> All Reviews (Total: {{this.numberReviews}} Reviews) </p><br>
+
+      <div class="grid grid-flow-row gap-y-4">
+
+        <a v-for="arr in toShow" v-bind:key="arr.index"> 
+            <!-- <div class="card shadow"> -->
+<div class="card text-center shadow-2xl lg:card-side bg-blue-50 text-black-content">
+
+                <div class="card-body">
+                <div class="grid grid-flow-row place-items-center -mt-4 -mb-4">
+                    <p>{{arr[1]}} </p>
+                    <p class="font-semibold"> Session on {{arr[0]}}</p>
+                    <p> "{{arr[2]}}" </p>
+                </div>
+                </div>
+            </div>
+
+
+        </a>
+    </div>
+              <!-- <div class="grid grid-flow-row place-items-center"> -->
+
+
+
+
+
+        <!-- <table class="table" id="tableReview">
             <tr class="header"> 
                 <th>Review Date</th> 
                 <th>Rating</th>
                 <th>Review</th>
             </tr>
         </table>
-        <br>
+        <br> -->
     <!-- </div> -->
-    </div>
+    </div><br><br><br><br><br><br>
     </div>
 
 </template>
@@ -45,7 +70,8 @@ export default {
             // user_email:"",
             fbuser:"", // user's uid 
             counsellorName:"",
-            numberReviews:0, //increment by one each time successfully get a review OR just get length of past_rating
+            numberReviews:0, //increment by one each time successfully get a review OR just get length of past_rating,
+            toShow: []
      
         }     
     },
@@ -92,7 +118,7 @@ export default {
             let docRef = doc(db, "Counsellors", this.$route.params.id);
             let counsellorDoc = await getDoc(docRef);
 
-            let ind = 1
+            // let ind = 1
 
             let session = counsellorDoc.data().past_counsellor_sessions
             //console.log(session)
@@ -103,8 +129,8 @@ export default {
                 let sessionID = await getDoc(sessionDocRef);
 
 
-                var table = document.getElementById("tableReview")
-                var row = table.insertRow(ind)
+                // var table = document.getElementById("tableReview")
+                // var row = table.insertRow(ind)
 
                 // var date = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var rateReviewArr = sessionID.data().rating
@@ -129,14 +155,22 @@ export default {
                 var review = rateReviewArr.shift() //or try without pop()
                 var date = rateReviewArr.pop()
 
-                var cell1 = row.insertCell(0); 
-                var cell2 = row.insertCell(1); 
-                var cell3 = row.insertCell(2); 
+                // var cell1 = row.insertCell(0); 
+                // var cell2 = row.insertCell(1); 
+                // var cell3 = row.insertCell(2); 
 
-                cell1.innerHTML = date; 
-                cell2.innerHTML = rating;
-                cell3.innerHTML = review; 
+                // cell1.innerHTML = date; 
+                // cell2.innerHTML = rating;
+                // cell3.innerHTML = review;
+                console.log("awd")
+                this.toShow.push([date,rating,review])
+                console.log("this.toShow, " , this.toShow)
+                // this.date = date
+                // this.rating = rating
+                // this.review = review 
                 this.numberReviews = this.numberReviews + 1
+
+
             }
         }
 }

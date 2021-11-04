@@ -3,7 +3,7 @@
         <br><br>
         <NavBarGeneral/>
         <div id="main">
-            <p class="text-3xl" id="heading">Mental Health Matters</p>
+            <p class="text-3xl -mt-24" id="heading">Mental Health Matters</p>
             <p>We provide free, private online counselling <br>
             for everyone. A video call, voice call or just chat. <br>
             Choose whichever you are comfortable with!</p> <br>
@@ -26,6 +26,8 @@
         </div>
         </div>
     </div>
+
+
 </template>
 
 <script>
@@ -66,6 +68,7 @@ export default {
   margin-right: 140px;
   margin-top: 180px;
 }
+
 #heading{
     color:#417CC7;
     font-family: 'Nunito';

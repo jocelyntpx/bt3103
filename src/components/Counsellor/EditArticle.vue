@@ -57,25 +57,10 @@ export default {
         })
         this.fbuser = auth.currentUser.uid;
         this.displayArticles(this.fbuser);
-        this.isCounsellor(this.fbuser);
     },
 
     methods: {
-        async isCounsellor(user) {
 
-            let docRef = doc(db, "Counsellors", user);
-            console.log(user)
-            let counsellorDoc = await getDoc(docRef);
-                
-            if (counsellorDoc.exists()) {
-              console.log('Is counsellor!');
-              this.counsellor = true;
-            } else {
-              console.log('No such counsellor!');
-              this.counsellor = false;
-            }
-
-        },
         async displayArticles(user) {
             let docRef = doc(db, "Counsellors", String(user));
             let counsellorDoc = await getDoc(docRef);

@@ -15,33 +15,61 @@
         </button> -->
 
         <p class="italic text-sm" id="author"> Posted on {{this.postDate}} by {{this.author}}</p><br>
-        <div class="flex justify-center gap-4">
-        <label for="my-modal-2" class="btn btn-secondary btn-sm modal-button">Edit</label> 
-        <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
-            <div class="modal">
-            <div class="modal-box">
-            <form>
-                <label for="mainText"><strong>Main text: </strong></label><br>
-                <textarea id="mainText" class="textarea h-full w-full textarea-bordered" cols="100" rows="15" wrap="hard" v-model="this.mainText"></textarea>
-                </form><br>
 
-                <div class="modal-action">
-                <label for="my-modal-2" class="btn btn-primary" @click="edit()">Save</label> 
-                <label for="my-modal-2" class="btn">Close</label>
-                </div>
+        <div v-if="!showEdit">
+            <div class="flex justify-center gap-4">
+                <button @click="showEditor()" class="btn btn-secondary btn-sm">Edit</button> 
+                <button @click="deleteArticle()" class="btn btn-outline btn-secondary btn-sm" id = "deleteArticle">Delete</button>
+            </div><br>
+
+            <div class="flex justify-center">
+                <img :src=this.picture alt="Picture cannot be displayed" width="600" height="310">
+            </div><br>
+            <div class="mx-60 text-justify" v-html="this.mainText"></div><br><br>    
+        </div>
+
+        <div v-else>
+            <div class="flex justify-center">
+                <img :src=this.picture alt="Picture cannot be displayed" width="600" height="310">
+            </div><br>
+            <div class="mx-60">
+                <QuillEditor :key="refreshComponent" v-model:content="this.mainText" contentType="html" theme="snow"/>
             </div>
+            <br>
+            <div class="flex justify-center gap-4">
+                <button class="btn btn-outline btn-secondary" @click="showEditor()">Back</button> 
+                <button class="btn btn-secondary" @click="edit()">Save</button> 
+            </div>
+            <br><br>
+        </div>
+    </div>
+
+    
+        
+        <!-- <div class="flex justify-center gap-4">
+            <label for="my-modal-2" class="btn btn-secondary btn-sm modal-button">Edit</label> 
+            <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
+            <div class="modal">
+                <div class="modal-box">
+                    <QuillEditor :key="refreshComponent" v-model:content="this.mainText" contentType="html" theme="snow"/>
+              <label for="mainText"><strong>Main text: </strong></label><br> 
+                <textarea id="mainText" class="textarea h-full w-full textarea-bordered" cols="100" rows="15" wrap="hard" v-html="this.mainText"></textarea> 
+                    <br>
+
+                    <div class="modal-action">
+                    <label for="my-modal-2" class="btn btn-primary" @click="edit()">Save</label> 
+                    <label for="my-modal-2" class="btn">Close</label>
+                    </div>
+                </div>
             </div><br><br>
             <button @click="deleteArticle()" class="btn btn-outline btn-secondary btn-sm" id = "deleteArticle">Delete</button>
         </div>
 
         <div class="flex justify-center">
-        <img :src=this.picture alt="Picture cannot be displayed" width="600" height="310">
+            <img :src=this.picture alt="Picture cannot be displayed" width="600" height="310">
         </div><br>
-        <p class="mx-60 text-justify" v-html="this.mainText"></p><br><br>
-
-
-
-    </div>
+        <div class="mx-60 text-justify" v-html="this.mainText"></div><br><br>
+    </div> -->
 </template>
 
 <script>
@@ -51,66 +79,62 @@ import { doc, getDoc, updateDoc,deleteDoc,arrayRemove} from "firebase/firestore"
 const db = getFirestore(firebaseApp);
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import NavBarCounsellor from "@/components/Counsellor/NavBarCounsellor.vue"
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 export default {
-    components: {NavBarCounsellor,},
+    components: {NavBarCounsellor,QuillEditor},
     name:"EditPage",
 
     data(){
         return{
             user:false,
-            counsellor:false,
             fbuser:"",
-            mainText:"",
+            mainText:"<p>Edit article here..</p",
             picture:"",
             title:this.$route.params.id,
             postDate:"",
             author:"",
+            refreshComponent: 0,
+            showEdit: false,
 
         }
     },
-
     mounted() {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;
-            // this.fbuser = user.id;
             this.fbuser = this.user.uid;
-            this.isCounsellor(this.fbuser);
             this.displayFullArticle();
+            this.$forceUpdate();
         })
+
     },
 
+
     methods: {
-        async isCounsellor(user) {
-
-            let docRef = doc(db, "Counsellors", user);
-            console.log(user)
-            let counsellorDoc = await getDoc(docRef);
-                
-            if (counsellorDoc.exists()) {
-              console.log('Is counsellor!');
-              this.counsellor = true;
+        showEditor() {
+            if (this.showEdit) {
+                this.showEdit = false
             } else {
-              console.log('No such counsellor!');
-              this.counsellor = false;
+                this.showEdit = true
             }
-
         },
         
         async displayFullArticle() {
             console.log("entered display")
             let docRef = doc(db, "HelpResources", this.title);
             let articleDoc = await getDoc(docRef);
-            this.mainText = articleDoc.data().text
-            this.picture = articleDoc.data().picture
+            this.mainText = articleDoc.data().text;
+            this.picture = articleDoc.data().picture;
             this.postDate = articleDoc.data().post_date;
             this.author = articleDoc.data().counsellor_name;
+            console.log(this.mainText)
+            this.refreshComponent += 1
 
         },
 
         async edit() {
-            this.mainText = document.getElementById("mainText").value;
             //update articleDoc
             let docRef = doc(db, "HelpResources", this.title);
             updateDoc(docRef, {
@@ -141,6 +165,38 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+h1 {
+    font-size: 30px;
+    font-weight: bold;
+}
+h2 {
+    font-size: 26px;
+    font-weight: bold;
+}
+h3 {
+    font-size: 22px;
+    font-weight: bold;
+}
+li {
+  display: list-item;
+}
+ol {
+  display: block;
+  list-style-type: decimal;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 40px;
+}
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-top: 1em;
+  margin-bottom: 1 em;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 40px;
+}
 </style>
