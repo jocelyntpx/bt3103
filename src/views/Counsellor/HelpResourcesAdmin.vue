@@ -2,7 +2,7 @@
     <div v-if="user"> 
         <br><br>
         <NavBarCounsellor/>
-        <br><br>
+        <br>
         <div id="bg">
         <div id="textPosition"><br><br>
             <p class="text-4xl flex justify-center">Help Resources</p><br>
@@ -19,17 +19,20 @@
               <div class = "bigContainer">
         <br><br>
         <!-- create -->
-        <div class = "create_list" v-if = "showCreate">  
+        <div class = "create_list" v-if = "showCreate"><br> 
           <h4> You are about to create a new article to be added onto Help Resources. </h4>
+          <div class="bg-base-300 text-base-content">
             <div class = "bgBlock1">
               <AddArticle/> 
               <br><br><br><br><br><br><br><br>
             </div>
+          </div>
         </div>
 
         <!-- edit -->
         <div class = "edit_list" v-else> 
             <h4>Edit your past articles here. </h4><br>
+            <div class="bg-base-300 text-base-content">
             <div class = "bgBlock2">
                 <div class="form-control flex-auto w-1/3 ">
                   <!-- <label for="search_bar">Search for Article</label> -->
@@ -41,6 +44,7 @@
                 <br>
                 <EditArticle :key="refreshComponent"  :search=this.search  />
                 <br><br><br><br><br><br><br><br>
+            </div>
             </div>
         </div> 
     </div>

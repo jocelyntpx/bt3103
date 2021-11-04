@@ -1,15 +1,15 @@
 <template>
 <div class="flex space-x-4 space-y-4">
-    <div class = "grid grid-flow-row grid-cols-3 gap-4 mx-20">
+    <div class = "grid grid-flow-row grid-cols-3 gap-10 mx-40">
             <a  v-for= "article in HelpResources" v-bind:key="article.index">
                 <div class="card text-center shadow-2xl lg:card-side bg-secondary text-accent-content">
                     <div class="card-body">
                         <p class="text-xl font-semibold">{{article.id}}</p> 
-                        <img :src=article.data().picture alt="Picture cannot be displayed" width="250" height="100">
+                        <img :src=article.data().picture alt="Picture cannot be displayed" id="articlePic">
                         <h5 id="category"> {{article.data().category}}</h5>
                         <p class="italic text-sm" id="author"> You posted on {{article.data().post_date}}</p>
                         <div class="justify-center card-actions">
-                        <button class="btn btn-secondary" @click="this.$router.push({name: 'ArticlePage', params: { id: article.id }})">Read</button>
+                        <button class="btn btn-sm" @click="this.$router.push({name: 'ArticlePage', params: { id: article.id }})">Read</button>
                     </div>
                 </div>
                 <!-- <div id="article_box">
@@ -87,7 +87,11 @@ export default {
 #author{
     color: gray;
 }
-
-
+#articlePic {
+    /* border-radius: 50%;
+    margin-top: 10px; */
+    width: 320px;
+    height: 200px;
+}
 
 </style>

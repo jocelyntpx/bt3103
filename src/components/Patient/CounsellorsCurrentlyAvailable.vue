@@ -7,7 +7,18 @@
             <!-- Note: h-auto makes boxes diff sizes when resize browser.. -->
             <div class="card-body">
 
-              <h2 class="card-title">{{ counsellorSlot[0].data().name }} </h2>
+              <div class="grid grid-flow-row place-items-center">
+              
+                <div v-if="counsellorSlot[0].data().profile_pic" class="avatar grid place-items-center">
+                  <div class="mb-8 rounded-full w-16 h-16 ring ring-primary ring-offset-base-100 ring-offset-2 -mt-2">
+                    <img :src="counsellorSlot[0].data().profile_pic">
+                  </div>
+                </div> 
+
+                <div><h2 class="card-title -mt-4"> {{counsellorSlot[0].data().name}} </h2></div>
+              </div>
+
+              <!-- <h2 class="card-title">{{ counsellorSlot[0].data().name }} </h2> -->
               <p> {{avgRating(counsellorSlot[0].data().past_ratings)}}<br> 
               {{ formattedSpecialisations(counsellorSlot[0].data().counsellor_specialisations) }} </p>
               <!-- <p v-if="counsellorSlot[0].data().counsellor_specialisations">{{ formattedSpecialisations(counsellorSlot[0].data().counsellor_specialisations) }} </p>
@@ -208,10 +219,19 @@ export default {
     })
     console.log("Successfully removed slot from Firebase.");
   },
-  formattedSpecialisations(specialisations) { // WORKS.
+  formattedSpecialisations(specialisations) { 
   var stringOutput = ""
   if (specialisations.length > 0) {
-    specialisations.forEach(item => {
+    
+    let updated = specialisations.sort( // arrange in alphabetical order.
+    function(a, b){
+      if (a < b) { return -1 }
+      else if (a > b) { return 1 }
+      return 0;
+    }
+    )
+
+    updated.forEach(item => {
       stringOutput = stringOutput + ", " + item
     })
   }

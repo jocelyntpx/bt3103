@@ -2,13 +2,16 @@
 <br><br>
 <NavBarGeneral/>
 <br>
-    <div id="bg">
-        <div id="textPosition">
+    <div>
+        <div>
             <p class="text-4xl">Contact Us</p>
             <br>
-            <p>Do let us know of any queries/concerns/feedback you might have.<br>
-                We value your opinions and will get back to you as soon as possible!
-            </p>
+            <div class="flex justify-center flex-col">
+            <div class="grid h-auto card bg-base-300 rounded-box place-items-center">
+                <br>
+                <p>Do let us know of any queries/concerns/feedback you might have.<br>
+                    We value your opinions and will get back to you as soon as possible!
+                </p>
             <br>
             <div id="wrapper">
                 <div id="contact-form">
@@ -24,6 +27,9 @@
                     </form> 
                 </div>
             </div>
+            <br><br>
+        </div>
+    </div>
         </div>
     </div>
 </template>
@@ -55,12 +61,12 @@ export default {
 </script>
 
 <style scoped>
-#bg{
+/* #bg{
     position: relative;
     width: 100%;
     height: 720px;
     background-size: cover;
-    /* background-image: url("~@/assets/aboutUs.png"); */
+    background-image: url("~@/assets/aboutUs.png");
     background-repeat: no-repeat;
     background-position: center center;
     text-align: center;
@@ -70,7 +76,7 @@ export default {
 #textPosition{
     text-align: center;
     padding: 30px;
-}
+} */
 form{
     margin: 20px;
 }

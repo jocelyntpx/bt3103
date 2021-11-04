@@ -7,15 +7,16 @@
 
     <p class="text-4xl">Session Notes</p>
     <p>Leave a session note for future reference.</p><br>
-
+    <div class="bg-base-300 text-base-content">
     <div id="bgBlock">
         <p class="text-2xl">{{this.patientName}}</p>
 
         <div id="innerBlock">
-            <textarea v-model= "sessionNotes" id="notesText" placeholder="Enter your session notes here"></textarea>
-        </div>
+            <textarea class="textarea h-24 textarea-bordered textarea-primary" v-model= "sessionNotes" id="notesText" placeholder="Enter your session notes here"></textarea>
+        </div><br>
         <button v-on:click = "sendSessionNotes()" id="submit" class="btn btn-primary">Submit</button>
 
+    </div>
     </div>
 <!-- 
   This is session notes page. Session id is {{this.sessionID}} -->
@@ -86,7 +87,7 @@ export default {
 <style scoped>
 #bgBlock {
   border-radius: 35px;
-  background: #B9D9EB;
+  /* background: #B9D9EB; */
   padding: 20px;
   width: 80%;
   height: auto;
@@ -94,14 +95,14 @@ export default {
 }
 #notesText {
   border-radius: 35px;
-  background: azure;;
+  /* background: azure; */
   padding: 20px;
   width: 60%;
   height: 250px;
   font-family:'Roboto',sans-serif;
   margin:auto;
 }
-#submit{
+/* #submit{
     display:inline-block;
     padding:0.3em 1.2em;
     margin:0 0.3em 0.3em 0;
@@ -117,7 +118,7 @@ export default {
 }
 #submit:hover{
     background-color:#4095c6;
-}
+} */
 
 
 </style>

@@ -1,7 +1,7 @@
 <template>
   <!-- This component templates the user's upcoming sessions (seen in Patients records, User's profile page ) -->    
       <div>
-        <h3>Upcoming Appointments</h3>
+        <p class="text-xl">Upcoming Appointments</p><br>
         <table id="table2">
             <tr id="header">
             <th>Date</th> 
@@ -79,13 +79,16 @@ export default {
                 let sessionTime = sessionID.data().session_time.toDate()
                 let timeNow = Timestamp.now().toDate()
                 if (timeNow - sessionTime > 60*60*1000) {
-                    console.log("moved from upcoming to past", timeNow, sessionTime)
-                // if (sessionTime - timeNow <= 60*60*1000) {
+                // if (timeNow - sessionTime > 3*60*1000) {
                     await updateDoc(doc(db,"Counsellors",counsellor.id), {upcoming_counsellor_sessions: arrayRemove(sessionID.id)});
                     await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(sessionID.id)});
-                    await updateDoc(doc(db,"Counsellors",counsellor.id), {past_counsellor_sessions: arrayUnion(sessionID.id)});
-                    await updateDoc(doc(db,"Patients",user), {past_user_sessions: arrayUnion(sessionID.id)});
-                    // console.log("moved from upcoming to past")
+                    console.log("removed session from upcoming.")
+
+                    if (sessionID.data().room_ID != "") { 
+                        console.log("patient has clicked start session, we assume session was held. moving session to past")
+                        await updateDoc(doc(db,"Counsellors",counsellor.id), {past_counsellor_sessions: arrayUnion(sessionID.id)});
+                        await updateDoc(doc(db,"Patients",user), {past_user_sessions: arrayUnion(sessionID.id)});
+                    }                    
                     continue
                 }
 
@@ -104,10 +107,15 @@ export default {
                 var cell5 = row.insertCell(4); 
                 cell1.innerHTML = date; 
                 cell2.innerHTML = time;
-                cell3.innerHTML = counsellorName; 
+                cell3.className = "nameToProfile"
+                var nameButton = document.createElement("button")
+                nameButton.innerHTML = "<button class='btn btn-link btn-sm text-black'>" +counsellorName; 
+                nameButton.onclick = () => {
+                    this.$router.push({ name: 'CounsellorProfilePatient', params: { id: counsellor.id } }) 
+                }
+                cell3.appendChild(nameButton)
                 
                 console.log("diff is ", sessionTime - timeNow)
-                // if (link == "" && !(sessionTime - timeNow <= 10*60*1000)) { // no room link yet. 
                 if (10*60*1000 < sessionTime - timeNow) { // it is OVER 10 mins till the start of the session time 
                     console.log("No link yet, and DOES NOT meet criteria to create  a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
                     cell4.innerHTML = "You can enter your session room up to 10 minutes before the slot timing.";
@@ -116,21 +124,13 @@ export default {
                     console.log("No link yet, but meets criteria to create a room now. Session: ", sessionTime, ", timeNow: " , timeNow);
                     var linkSession = document.createElement("button")
                     linkSession.id = "linkSession"
-                    linkSession.innerHTML = "Enter Session Room Now!"
+
+                    linkSession.innerHTML = "<button class='btn btn-link btn-sm text-info'>Enter Session Room Now!"
+
                     
                     linkSession.onclick = () => {
                         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
                     }
-                    // if (sessionTime - timeNow <= 10*60*1000) { 
-                    //     console.log("sessionTime - timeNow <= 10*60*1000");
-                    //     linkSession.onclick = () => {
-                    //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
-                    //     }
-                    // } else {
-                    //     linkSession.onclick = () => {
-                    //         this.$router.push({ name: 'DailyUserView', params: { id: upcomingSession } }) 
-                    //     }
-                    // }
                     cell4.appendChild(linkSession)
                 }
                 
@@ -139,7 +139,7 @@ export default {
                 var bu = document.createElement("button")
                 bu.className = "bwt"
                 bu.id = String(counsellorName)
-                bu.innerHTML = "Cancel"
+                bu.innerHTML = "<button class='btn btn-link btn-sm text-error'>Cancel<button>"
                 bu.onclick = ()=>{
                     this.cancelSession(sessionID.id,counsellor.id,user)
                     //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
@@ -156,6 +156,8 @@ export default {
                 //remove session from patient's and counsellor's upcoming appointments array
                 await updateDoc(doc(db,"Counsellors",counsellor), {upcoming_counsellor_sessions: arrayRemove(session)});
                 await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(session)});
+                //add session back to available slot
+                await updateDoc(doc(db,"Counsellors",counsellor), {available_slots: arrayUnion(session)});
 
                 //delete session from sessions collection
                 await deleteDoc(doc(db,"Sessions",session))

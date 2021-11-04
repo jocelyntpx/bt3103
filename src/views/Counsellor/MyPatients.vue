@@ -2,8 +2,9 @@
   <div v-if="user">
       <br><br>
       <NavBarCounsellor/>
-      <br><br>
-          
+      <br>
+           
+      <p class="text-4xl"> My Patients </p><br>
       <div class = "main">
           <div class="grid place-items-center">
             <div class = "tabs tabs-boxed">
@@ -23,15 +24,18 @@
         <!-- Upcoming patients -->
         <div class = "upcoming_patients_list" v-if = "showUpcoming">  
           <h4> Upcoming patients are patients you have an upcoming appointment with. </h4><br>
+          <div class="bg-base-300 text-base-content">
             <div class = "bgBlock1">
               <UpcomingPatients/>
-              <br><br><br><br><br><br><br><br>
+              <br><br><br><br><br><br><br><br><br><br><br><br>
             </div>
+          </div>
         </div>
 
         <!-- Past patients -->
         <div class = "past_patients_list" v-else> 
             <h4>Past patients are patients you have already had an appointment with. </h4><br>
+            <div class="bg-base-300 text-base-content">
             <div class = "bgBlock2">
                 <div class="form-control flex-auto w-1/3 ">
                   <!-- <label for="search_bar">Search for a Patient </label> -->
@@ -44,6 +48,7 @@
                 <br>
                 <PastPatients :key="refreshComponent"  :search=this.search  />
                 <br><br><br><br><br><br><br><br>
+            </div>
             </div>
         </div> 
       </div>
@@ -94,7 +99,7 @@ export default {
 /* FYI: i'm using this .bgBlock, and table styling for other FindCounsellor.vue, CounsellorReviews.vue as well */
  .bgBlock1, .bgBlock2 {
   border-radius: 35px;
-  background: #B9D9EB;
+  /* background: #B9D9EB; */
   padding: 20px;
   width: 80%;
   height: auto;

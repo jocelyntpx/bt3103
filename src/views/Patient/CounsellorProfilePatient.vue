@@ -10,24 +10,70 @@
                     <div id="col-1">
                         <div id="counsellorDetails"> 
 
-                            <div v-if="this.profile_pic">
-                                <img id="profilepic" :src='this.profile_pic'>
-                            </div>
 
-                            <p> Name: <strong>{{this.name}}</strong><br>
+                            <div class="card lg:card-side">
+                                <div class="grid place-items-center">
+                                <div class="grid grid-flow-col">
+
+                                    <div v-if="this.profile_pic" class="avatar">
+                                        <div class="mb-8 rounded-box w-56 h-56 ring ring-primary ring-offset-base-100 ring-offset-2 mx-2 my-2">
+                                            <img :src="this.profile_pic">
+                                        </div>
+                                    </div>
+
+                                    <div v-else class="avatar placeholder">
+                                        <div class="mb-8 bg-neutral-focus text-neutral-content rounded-box w-56 h-56 ring ring-primary ring-offset-base-100 ring-offset-2 mx-2 my-2" >
+                                            <span class="text-md">No Profile Photo</span>
+                                        </div>
+                                    </div> 
+    
+                                </div>
+                                </div>
+
+                                <div class="grid grid-flow-col">
+                                <div class="card-body">
+                                    <h2 class="card-title text-2xl">{{this.name}}</h2> 
+                                    <p>
+                                        Gender: <strong>{{this.gender}}</strong><br>
+                                        Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
+                                        Credentials: <strong>{{this.credentials}}</strong><br>
+                                        Rating: <strong>{{this.avgRatings}}</strong>
+                                    </p>
+                                    <p v-if="this.additional_details">Additional Details: <strong>{{this.additional_details}}</strong></p>  
+
+                                    <div class='-mx-4'> 
+                                        <router-link class="btn btn-link" :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
+                                    </div>
+
+                                </div>
+                                </div>
+                            </div> 
+
+                            <!-- <div v-if="this.profile_pic">
+                                <img id="profilepic" :src='this.profile_pic'>
+                            </div> -->
+
+                        <!-- <div v-if="this.profile_pic" class="avatar">
+                            <div class="mb-8 rounded-box w-24 h-24 ring ring-primary ring-offset-base-100 ring-offset-2">
+                                <img :src="this.profile_pic">
+                            </div>
+                        </div>  -->
+
+                            <!-- <p> Name: <strong>{{this.name}}</strong><br>
                             Email: <strong>{{this.email}}</strong><br>
                             Gender: <strong>{{this.gender}}</strong><br>
                             Specialisations: <strong>{{this.specialisations_formatted}}</strong><br>
                             Credentials: <strong>{{this.credentials}}</strong><br>
                             Rating: <strong>{{this.avgRatings}}</strong></p>
                             <p v-if="this.additional_details">Additional Details: <strong>{{this.additional_details}}</strong></p><br>
-                        </div>
+                        </div> -->
 
-                        <div id = "reviewsTab"> 
+                        <!-- <div id = "reviewsTab"> 
                             <router-link class="btn btn-link" :to="{ name: 'CounsellorReviews', params: { id: this.counsellor_ID }}">View Patients' Reviews</router-link>
-                        </div>
+                        </div> -->
 
-                        <label for="my-modal-2" class="btn btn-sm btn-error modal-button">Report</label> 
+
+                        <label for="my-modal-2" class="btn btn-sm btn-error modal-button">Report Counsellor</label> 
                         <input type="checkbox" id="my-modal-2" class="modal-toggle"> 
                         <div class="modal">
                         <div class="modal-box">
@@ -43,10 +89,10 @@
                         </div>
                     </div>
                     </div>
-
+                    </div>
 
                     </div> 
-                    <div id="col-2">
+                    <div id="col-2"  class="bg-base-300 text-base-content">
                         <br>
                         <h3>Select date to view sessions available for booking</h3>
                         <br>
@@ -176,16 +222,17 @@ export default {
 </script>
 
 <style scoped>
-#profilepic {
+/* #profilepic {
     border-radius: 50%;
     margin-top: 10px;
     width: 230px;
     height: 230px;
-}
+} */
 #bgBlock {
     display:flex;
     border-style:solid;
-    border-color:#B9D9EB;
+    border-color:#aaa593;
+    /* border-color:#B9D9EB; */
     border-width: 2px;
     background: transparent;
     border-radius: 20px;
@@ -201,7 +248,7 @@ export default {
   text-align: left;
 }
 #col-2 {
-  background-color:rgb(224, 236, 247);
+  /* background-color:rgb(224, 236, 247); */
   flex: 1;
 }
 
