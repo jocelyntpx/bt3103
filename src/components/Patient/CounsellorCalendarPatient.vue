@@ -89,7 +89,6 @@ export default {
                     this.display_patient_upcoming.push(new Date(u.substring(28)))
                 }
             })
-            console.log(docRef2)
 
             //green bar for counsellor avail
             this.attributes = [
@@ -167,8 +166,12 @@ export default {
                             session: a.toDate()
                         })
                     }
+                    this.avail.sort((x, y)=> {
+                        return x.session - y.session
+                    })
                 }
             })
+
         }, 
         async book(counsellor, item){
         
