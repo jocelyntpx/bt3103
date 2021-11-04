@@ -1,6 +1,11 @@
 <template>
 <br><br>
-<NavBarGeneral/>
+    <div v-if="user">
+        <NavBarPatient/>
+    </div>
+    <div v-else>
+        <NavBarGeneral/>
+    </div>
 <br>
     <div>
         <div>
@@ -16,10 +21,10 @@
             <div id="wrapper">
                 <div id="contact-form">
                     <form ref="form" @submit.prevent="sendEmail">
-                        <label>Name</label>
-                        <input type="text" name="user_name" placeholder="Your Name">
+                        <label>Name/Alias</label>
+                        <input type="text" name="user_name" placeholder="Optional">
                         <label>Email</label>
-                        <input type="email" name="user_email" placeholder="Your Email">
+                        <input type="email" name="user_email" placeholder="Optional: Leave an email if you like us to get back to you. ☺">
                         <label>Message</label>
                         <textarea name="message" cols="30" rows="4" required=""
                             placeholder="Your Message"></textarea>
@@ -37,11 +42,26 @@
 
 <script>
 import NavBarGeneral from "@/components/General/NavBarGeneral.vue"
+import NavBarPatient from "@/components/Patient/NavBarPatient.vue"
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import emailjs from 'emailjs-com';
 
 export default {
-    components: {NavBarGeneral},
+    components: {NavBarGeneral,NavBarPatient},
     name:"ContactUs",
+
+    data(){
+        return{
+            user:false,
+        }
+    },
+
+    mounted() {
+        const auth = getAuth();
+        onAuthStateChanged(auth, user => {
+            this.user = user;
+        })
+    },
 
     methods: {
         async sendEmail() {

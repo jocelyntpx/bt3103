@@ -8,8 +8,8 @@
       <div class = "main">
           <div class="grid place-items-center">
             <div class = "tabs tabs-boxed">
-              <div><button @click="showUpcoming = true" :class="[ showUpcoming? 'tab tab-lg tab-active h-12 min-w-full' : 'tab tab-lg h-10 min-w-full' ]" >Upcoming Patients</button></div>
-              <div><button @click="showUpcoming = false" :class="[ !showUpcoming? 'tab tab-lg tab-active h-12 min-w-full' : 'tab tab-lg h-10 min-w-full' ]">Past Patients</button></div>
+              <div><button @click="showUpcoming = true" :class="[ showUpcoming? 'tab tab-lg tab-active h-12 min-w-full' : 'tab tab-lg h-12 min-w-full' ]" >Upcoming Patients</button></div>
+              <div><button @click="showUpcoming = false" :class="[ !showUpcoming? 'tab tab-lg tab-active h-12 min-w-full' : 'tab tab-lg h-12 min-w-full' ]">Past Patients</button></div>
             </div>
           </div> 
         <!-- <div class = "allPatients">
