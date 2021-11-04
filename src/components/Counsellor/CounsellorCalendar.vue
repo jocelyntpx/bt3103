@@ -187,7 +187,7 @@ export default {
  
             if (this.date < new Date()) { // past date
                 alert("Session cannot be created in the past")
-            } else if (same_time_session) { // 
+            } else if (same_time_session) { // time clash
                 alert("There is a clash with an existing session on " + same_time_session + ". Please do not add a new slot within an hour of an existing available slot or upcoming appointment.")
             } else {
                 avail.push(this.date)
