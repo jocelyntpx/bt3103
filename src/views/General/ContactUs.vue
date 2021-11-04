@@ -87,11 +87,11 @@ export default {
 <style scoped>
 #box {
     border-radius: 20px;
+    background-color: rgb(252, 232, 208);
 }
 #bg{
     position: relative;
-    width: 100%;
-    height: 720px;
+    height: 100vh;
     background-size: cover;
     background-image: url("~@/assets/contact.png");
     background-repeat: no-repeat;
