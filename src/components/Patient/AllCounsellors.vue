@@ -14,7 +14,7 @@
               
                 <div v-if="counsellor.data().profile_pic" class="avatar grid place-items-center">
                   <div class="mb-8 rounded-full w-16 h-16 ring ring-primary ring-offset-base-100 ring-offset-2 -mt-2">
-                    <img id="profilepic" :src="counsellor.data().profile_pic">
+                    <img :src="counsellor.data().profile_pic">
                   </div>
                 </div> 
 

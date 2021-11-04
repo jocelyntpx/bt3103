@@ -13,15 +13,17 @@
             <br>
             <div class="grid place-items-center">
                 <div class = "tabs tabs-boxed">
-                <div><button @click="toggleCurrentlyAvailable" :class="[ currentlyAvailable? 'tab tab-sm tab-active' : 'tab tab-sm' ]"><strong>Available</strong></button></div>
-                <div><button @click="toggleCurrentlyAvailable" :class="[ !currentlyAvailable? 'tab tab-sm tab-red tab-active' : 'tab tab-sm' ]"><strong>Not Available</strong></button></div>
-                </div>
-                <!--<p class="text-sm my-2">Click to toggle current availability</p>-->
-                <h3> You are 
-                    <strong v-if="this.currentlyAvailable"> available to take a session immediately.</strong> 
-                    <strong v-else> NOT available to take a spontaneous session. </strong> 
-                </h3>
+                    <div data-tip="You are AVAILABLE to take a spontaneous session." class="tooltip tooltip-secondary tooltip-bottom">
+                        <button @click="toggleCurrentlyAvailable" :class="[ currentlyAvailable? 'tab tab-md tab-active' : 'tab tab-md' ]"><strong>Available</strong></button>                  
+                    </div>
+
+                    <div data-tip="You are NOT AVAILABLE to take a spontaneous session." class="tooltip tooltip-secondary tooltip-bottom">
+                        <button @click="toggleCurrentlyAvailable" :class="[ !currentlyAvailable? 'tab tab-md tab-red tab-active' : 'tab tab-md' ]"><strong>Not Available</strong></button>
+                    </div>
+
+
             </div> 
+            </div>
             <br>
             <!-- Need a toggle button for currently_available -->
 <!--             <div class = "toggle">
@@ -38,7 +40,7 @@
                         
                         <div v-if="this.profile_pic">
                             <img id="profilepic" :src='this.profile_pic'>
-                        </div>
+                        </div>                         
                         <br>
 
                         <label for="my-modal-1" class="btn btn-primary btn-sm modal-button">Edit Profile Picture</label> 
