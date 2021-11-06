@@ -48,7 +48,7 @@ export default {
     methods: {
 
         async displayUpcomingSessions(user) {
-            this.$forceUpdate();
+            this.refreshTable += 1;
             // this.upcomingArr = []
             let docRef = doc(db, "Patients", String(user));
             let patientDoc = await getDoc(docRef);
