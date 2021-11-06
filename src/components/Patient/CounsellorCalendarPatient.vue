@@ -3,7 +3,7 @@
         <v-date-picker v-model="date" :attributes="attributes" @dayclick="onDayClick"/>
         <br><br>
         <div v-if="patient_upcoming.length != 0">
-            <p><strong>Upcoming Appointments</strong></p>
+            <p><strong>Your Upcoming Appointments</strong></p>
             <div v-for="u in patient_upcoming" :key="u">
                 <p>{{ u.date }} {{ u.time }} with Counsellor {{ u.name }}</p>
             </div>

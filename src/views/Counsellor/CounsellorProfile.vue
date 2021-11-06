@@ -13,11 +13,11 @@
             <br>
             <div class="grid place-items-center">
                 <div class = "tabs tabs-boxed">
-                    <div data-tip="You are AVAILABLE to take a spontaneous session." class="tooltip tooltip-secondary tooltip-bottom">
+                    <div data-tip="You are AVAILABLE to take a spontaneous session." class="tooltip tooltip-accent tooltip-bottom">
                         <button @click="toggleCurrentlyAvailable" :class="[ currentlyAvailable? 'tab tab-md tab-active' : 'tab tab-md' ]"><strong>Available</strong></button>                  
                     </div>
 
-                    <div data-tip="You are NOT AVAILABLE to take a spontaneous session." class="tooltip tooltip-secondary tooltip-bottom">
+                    <div data-tip="You are NOT AVAILABLE to take a spontaneous session." class="tooltip tooltip-accent tooltip-bottom">
                         <button @click="toggleCurrentlyAvailable" :class="[ !currentlyAvailable? 'tab tab-md tab-red tab-active' : 'tab tab-md' ]"><strong>Not Available</strong></button>
                     </div>
 

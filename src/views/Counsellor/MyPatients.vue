@@ -12,11 +12,6 @@
               <div><button @click="showUpcoming = false" :class="[ !showUpcoming? 'tab tab-lg tab-active h-12 min-w-full' : 'tab tab-lg h-12 min-w-full' ]">Past Patients</button></div>
             </div>
           </div> 
-        <!-- <div class = "allPatients">
-          <div><a @click="showUpcoming = true" id = "counsellorUpcomingPatient">Upcoming Patients</a></div> 
-          <div><a @click="showUpcoming = false" id = "counsellorPastPatient">Past Patients</a></div>
-        </div><br> -->
-
       </div>
   
       <div class = "bigContainer">
@@ -68,8 +63,8 @@ export default {
 
     data(){
         return{
-            // showUpcoming: true,
-            showUpcoming: this.$route.params.showUpcoming,
+            showUpcoming: true,
+            // showUpcoming: this.$route.params.showUpcoming,
             user:false,
             refreshComponent:0,
             search: "",
