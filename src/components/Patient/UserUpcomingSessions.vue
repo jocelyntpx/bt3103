@@ -20,7 +20,7 @@
 <script>
 import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { doc, getDoc, arrayRemove, arrayUnion, Timestamp, updateDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, arrayRemove, arrayUnion, Timestamp, updateDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
@@ -161,10 +161,12 @@ export default {
                 const slotSnap = await getDoc(slotRef)
                 let slot = slotSnap.data().session_time
                 await updateDoc(doc(db,"Counsellors",counsellor), {available_slots: arrayUnion(slot)});
+                await updateDoc(doc(db,"Sessions",session), {user_id: ""});
 
                 //delete session from sessions collection
-                await deleteDoc(doc(db,"Sessions",session))
-                console.log("Session successfully deleted!");
+                // await deleteDoc(doc(db,"Sessions",session))
+                // console.log("Session successfully deleted!");
+
                 let tb = document.getElementById("table2")
                 while (tb.rows.length > 1){
                     tb.deleteRow(1)
