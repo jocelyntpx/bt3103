@@ -29,7 +29,6 @@ export default {
 
     data(){
         return{
-            counsellor: false,
             user_ID:"", // patient's UID
             upcoming_user_sessions: [],
             upcomingArr: []
@@ -43,29 +42,13 @@ export default {
             this.user = user;
         })
         this.user_ID = auth.currentUser.uid;
-        this.isCounsellor(this.user_ID);
         this.displayUpcomingSessions(this.user_ID)
     },
 
     methods: {
-        async isCounsellor(user) {
-            // const checkUser = db.collection('Counsellors').doc(user.email);
-            // const doc = await checkUser.get();
-
-            let docRef = doc(db, "Counsellors", String(user));
-            let counsellorDoc = await getDoc(docRef);
-                
-            if (counsellorDoc.exists()) {
-              console.log('Is counsellor!');
-              this.counsellor = true;
-            } else {
-              console.log('No such counsellor!');
-              this.counsellor = false;
-            }
-
-        },
 
         async displayUpcomingSessions(user) {
+            // this.upcomingArr = []
             let docRef = doc(db, "Patients", String(user));
             let patientDoc = await getDoc(docRef);
             let ind = 1
