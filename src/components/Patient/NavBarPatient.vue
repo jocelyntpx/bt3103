@@ -4,7 +4,7 @@
             <img id="mhmlogo" src="@/assets/mhmlogo.png" alt="" width="60" height="35">
             <h3 id="mhm">Mental Health Matters</h3>
             <!-- <router-link to="/patientProfile/:id">My Profile</router-link> |  -->
-            <router-link :key="key" @click="forceUpdate" :to="{ name: 'PatientProfile', params: { id: this.fbuser }}">My Profile</router-link> |
+            <router-link :to="{ name: 'PatientProfile', params: { id: this.fbuser }}">My Profile</router-link> |
             <!-- <router-link to="/findcounsellor">Find A Counsellor</router-link> |  -->
              <router-link :to="{name: 'FindCounsellor', params: { showCurrentlyAvailable:true }}">Find A Counsellor</router-link> | 
             <!-- <router-link to="/about">About Us</router-link> | -->
@@ -30,7 +30,6 @@ export default {
         return {
             user:false,
             fbuser:"", // uid
-            key: 0,
         }     
     },
 
@@ -43,13 +42,6 @@ export default {
             }
         })
     },
-
-    methods: {
-      forceUpdate() {
-        this.key += 1;
-        console.log("key: " + this.key)
-      }
-    }
 }
 </script>
 
