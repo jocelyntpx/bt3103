@@ -42,14 +42,12 @@ export default {
             this.user = user;
         })
         this.user_ID = auth.currentUser.uid;
-        this.displayUpcomingSessions(this.user_ID)
+        this.displayUpcomingSessions(this.user_ID);
     },
 
     methods: {
 
         async displayUpcomingSessions(user) {
-            this.$forceUpdate();
-            // this.upcomingArr = []
             let docRef = doc(db, "Patients", String(user));
             let patientDoc = await getDoc(docRef);
             let ind = 1
@@ -146,7 +144,8 @@ export default {
                     //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
                 }
                 cell5.appendChild(bu)                        
-            }                   
+            }  
+
         },
     
 

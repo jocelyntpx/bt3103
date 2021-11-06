@@ -42,7 +42,7 @@ export default {
                 this.fbuser = user.uid;
             }
         })
-    }
+    },
 }
 </script>
 

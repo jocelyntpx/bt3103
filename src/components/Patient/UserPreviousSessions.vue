@@ -45,7 +45,6 @@ export default {
     methods: {
 
         async displayPastSessions(user) {
-            this.$forceUpdate();
             let docRef = doc(db, "Patients", String(user));
             let patientDoc = await getDoc(docRef);
             let ind = 1
