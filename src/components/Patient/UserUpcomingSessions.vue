@@ -42,13 +42,16 @@ export default {
             this.user = user;
         })
         this.user_ID = auth.currentUser.uid;
-        this.displayUpcomingSessions(this.user_ID)
+        this.displayUpcomingSessions(this.user_ID);
+        this.$forceUpdate();
     },
 
     methods: {
 
         async displayUpcomingSessions(user) {
-            this.refreshTable += 1;
+            console.log(this.upcomingArr) 
+            console.log("length:")
+            console.log(this.upcomingArr.length)
             // this.upcomingArr = []
             let docRef = doc(db, "Patients", String(user));
             let patientDoc = await getDoc(docRef);
@@ -147,7 +150,6 @@ export default {
                 }
                 cell5.appendChild(bu)                        
             }  
-            this.refreshTable += 1;
 
         },
     
