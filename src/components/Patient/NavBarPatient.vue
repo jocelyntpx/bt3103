@@ -6,7 +6,8 @@
             <!-- <router-link to="/patientProfile/:id">My Profile</router-link> |  -->
             <router-link :to="{ name: 'PatientProfile', params: { id: this.fbuser }}">My Profile</router-link> |
             <!-- <router-link to="/findcounsellor">Find A Counsellor</router-link> |  -->
-             <router-link :to="{name: 'FindCounsellor', params: { showCurrentlyAvailable:true }}">Find A Counsellor</router-link> | 
+             <!-- <router-link :to="{name: 'FindCounsellor', params: { showCurrentlyAvailable:true }}">Find A Counsellor</router-link> |  -->
+             <router-link :to="{name: 'FindCounsellor'}">Find A Counsellor</router-link> | 
             <!-- <router-link to="/about">About Us</router-link> | -->
             <router-link to="/helpresources">Help Resources</router-link> |  
             <router-link to="/contactUs">Contact Us</router-link> |  
