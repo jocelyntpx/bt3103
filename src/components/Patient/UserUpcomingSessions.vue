@@ -157,16 +157,20 @@ export default {
                 await updateDoc(doc(db,"Counsellors",counsellor), {upcoming_counsellor_sessions: arrayRemove(session)});
                 await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(session)});
                 //add session back to available slot
-                await updateDoc(doc(db,"Counsellors",counsellor), {available_slots: arrayUnion(session)});
+                const slotRef = doc(db, "Sessions", session)
+                const slotSnap = await getDoc(slotRef)
+                let slot = slotSnap.data().session_time
+                await updateDoc(doc(db,"Counsellors",counsellor), {available_slots: arrayUnion(slot)});
 
                 //delete session from sessions collection
                 await deleteDoc(doc(db,"Sessions",session))
                 console.log("Session successfully deleted!");
-                let tb = document.getElementById("table")
+                let tb = document.getElementById("table2")
                 while (tb.rows.length > 1){
                     tb.deleteRow(1)
                 }
-                this.displayUpcomingSessions(this.user_ID); 
+                location.reload()
+                // this.displayUpcomingSessions(this.user_ID); 
             }
             
         }
