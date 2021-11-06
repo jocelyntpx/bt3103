@@ -144,14 +144,8 @@ export default {
                     this.cancelSession(s.id,patient.id,user)
                     //sessionID = doc name of session, patient.id = doc name of patient 
                 }
-                cell5.appendChild(bu)
-                
-                                
+                cell5.appendChild(bu)                              
             }
-                        //})
-                    
-                                
-
         },
     
 
