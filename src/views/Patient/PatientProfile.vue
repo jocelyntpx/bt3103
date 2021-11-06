@@ -77,12 +77,12 @@
                 </div>
             </div><br>
 
-            <UserUpcomingSessions :key="refreshTable"/> 
+            <UserUpcomingSessions/> 
 
             <br><br>
 
             <div style="text-align:center;" v-if="user">
-            <UserPreviousSessions :key="refreshTable"/> 
+            <UserPreviousSessions/> 
 
             </div>
 
@@ -122,7 +122,6 @@ export default {
             fbuser:"", // user's UID
             past_user_sessions: [],
             refreshComponent:0,
-            refreshTable: 0,
             shareInfo:null  //not sure if should be null or false, in counsellorProfile was null
         }
     },
@@ -135,8 +134,6 @@ export default {
 
             this.checkSharing(user);
             this.checkReviews(user);
-            this.refreshTable += 1;
-            console.log(this.refreshTable)
         });
 
         // this.counsellorUser = auth.currentUser.email;

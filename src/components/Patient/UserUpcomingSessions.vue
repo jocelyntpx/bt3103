@@ -43,16 +43,11 @@ export default {
         })
         this.user_ID = auth.currentUser.uid;
         this.displayUpcomingSessions(this.user_ID);
-        this.$forceUpdate();
     },
 
     methods: {
 
         async displayUpcomingSessions(user) {
-            console.log(this.upcomingArr) 
-            console.log("length:")
-            console.log(this.upcomingArr.length)
-            // this.upcomingArr = []
             let docRef = doc(db, "Patients", String(user));
             let patientDoc = await getDoc(docRef);
             let ind = 1

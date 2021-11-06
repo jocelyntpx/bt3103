@@ -40,7 +40,6 @@ export default {
         })
         this.user_ID = auth.currentUser.uid;
         this.displayPastSessions(this.user_ID);
-        this.$forceUpdate();
     },
 
     methods: {
