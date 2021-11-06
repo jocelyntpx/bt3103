@@ -146,7 +146,9 @@ export default {
                     //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
                 }
                 cell5.appendChild(bu)                        
-            }                   
+            }  
+            this.refreshTable += 1;
+
         },
     
 
