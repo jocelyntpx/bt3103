@@ -31,7 +31,7 @@ export default {
         return{
             user_ID:"", // patient's UID
             upcoming_user_sessions: [],
-            upcomingArr: []
+            upcomingArr: [],
 
         }
     },
@@ -48,6 +48,7 @@ export default {
     methods: {
 
         async displayUpcomingSessions(user) {
+            this.$forceUpdate();
             // this.upcomingArr = []
             let docRef = doc(db, "Patients", String(user));
             let patientDoc = await getDoc(docRef);

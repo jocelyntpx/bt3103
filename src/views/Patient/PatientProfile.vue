@@ -14,7 +14,7 @@
                 <strong v-else> NOT to share your information with all Counsellors. </strong> 
             </h3>
             </div>
-        </div> -->
+        </div> --> 
 
         <!-- <div class="p-6 card bordered">
             <div class="form-control">
@@ -27,9 +27,9 @@
                     <div class="flex-auto grid justify-items-center">
                 <p class="text-md">Allow your session notes left by counsellors to be shared with all counsellors?</p><br>
             <div class = "tabs tabs-boxed mb-2 mt-1">
-              <div><button @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-md tab-active ' : 'tab tab-md']" data-tip="We encourage this option as it will smoothen the transition with new counsellors that you have sessions with, allowing you to reap greater benefits from the session." 
+              <div><button :key="refreshComponent" @click="toggleSharing" :class="[ this.shareInfo? 'tab tab-md tab-active ' : 'tab tab-md']" data-tip="We encourage this option as it will smoothen the transition with new counsellors that you have sessions with, allowing you to reap greater benefits from the session." 
               class="tooltip tooltip-left tooltip-success"><strong>Share</strong></button></div>
-              <div><button @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-md tab-red tab-active' : 'tab tab-md' ]" data-tip="We discourage this option as it may affect the efficiency and break the continuity of sessions when you switch counsellors." 
+              <div><button :key="refreshComponent" @click="toggleSharing" :class="[ !this.shareInfo? 'tab tab-md tab-red tab-active' : 'tab tab-md' ]" data-tip="We discourage this option as it may affect the efficiency and break the continuity of sessions when you switch counsellors." 
               class="tooltip tooltip-right tooltip-error"><strong>Don't Share</strong></button></div>
             </div>
           </div><br>
@@ -121,13 +121,14 @@ export default {
             count:"",
             fbuser:"", // user's UID
             past_user_sessions: [],
+            refreshComponent:0,
             shareInfo:null  //not sure if should be null or false, in counsellorProfile was null
         }
     },
 
     mounted() {
         const auth = getAuth();
-        onAuthStateChanged(auth, async user => {
+        onAuthStateChanged(auth, user => {
             this.user = user;
             this.fbuser = user.uid;
 
@@ -140,20 +141,6 @@ export default {
     },
 
     methods: {
-        async isPatient(auth, user) {
-            let docRef = doc(db, "Counsellors", String(user));
-            let counsellorDoc = await getDoc(docRef);
-                
-            if (counsellorDoc.exists()) {
-                console.log('Is counsellor!');
-                this.counsellor = true;
-                return false
-            } else {
-                console.log('Is patient!');
-                this.counsellor = false;
-                return true
-            }
-        },
 
         async checkReviews(user) {
             const patientDoc = await getDoc(doc(db, "Patients", user.uid));
@@ -186,10 +173,12 @@ export default {
             if (this.shareInfo==false) { 
                 this.shareInfo = true;
                 await updateDoc(patientDocRef, {share_info: true})
+                this.refreshComponent += 1
 
             } else {
                 this.shareInfo = false;
                 await updateDoc(patientDocRef, {share_info: false})
+                this.refreshComponent += 1
             }
         }
    
