@@ -38,7 +38,7 @@
                 <h4>No session for selected day</h4>
             </div>
             <br>
-            <button id = "addSessionBtn" class="btn btn-sm btn-primary" v-on:click="createSession = true">Add New Session</button>
+            <button id = "addSessionBtn" class="btn btn-sm btn-primary" v-on:click="createSession = true">Add New Slot</button>
         </div>
     </div>
 </template>
