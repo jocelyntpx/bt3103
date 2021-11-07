@@ -96,7 +96,7 @@
 
 
           <div v-else> 
-            <h5>These counsellors are currently not available. You can go to their profile to schedule a future session. <br>
+            <h5>These are all counsellors registered with MHM. You can go to their profile to schedule a future session. <br>
             You can also use the calendar to show counsellors available on a day of your choice. </h5> <br>
 
                 <div class="collapse w-full border rounded-box border-base-300 collapse-arrow mx-4"> 

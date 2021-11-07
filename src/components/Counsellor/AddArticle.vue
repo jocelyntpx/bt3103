@@ -22,7 +22,7 @@
                 <div v-if="this.previewImage!=null" class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }" @click="selectImage"></div>
             </div>
             <br><br>
-             <QuillEditor v-model:content="quillContent" contentType="html" theme="snow" :style="{'background-color':'#faf7f5'}"/>
+             <QuillEditor v-model:content="quillContent" contentType="html" placeholder="Enter article here" theme="snow" :style="{'background-color':'#faf7f5'}"/>
             <!-- <textarea v-model="text" id="mainText" placeholder="This is where the content of your article goes."></textarea> -->
         </div>
         <br>
@@ -49,7 +49,7 @@ export default {
     data() {
         return {
             user:false,
-            quillContent: '<p>Enter your article here..</p>',
+            quillContent: "",
             title:"",
             fbuser:"",
             picture:"",

@@ -4,7 +4,7 @@
         <p class="text-xl">Upcoming Appointments</p><br>
         <p> Do note that you are only allowed to book one session for each day and you are only
             allowed to have up to 5 upcoming appointments.<br>
-            We are sorry for the inconvenience, however, this is to let everyone have more chances in getting a slot. ☺</p><br>
+            This is to better facilitate equal opportunities in booking. ☺</p><br>
         <table id="table2">
             <tr id="header">
             <th>Date</th> 
