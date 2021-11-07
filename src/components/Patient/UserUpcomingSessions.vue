@@ -20,7 +20,7 @@
 <script>
 import firebaseApp from '../../firebase.js';
 import { getFirestore } from "firebase/firestore"
-import { doc, getDoc, arrayRemove, arrayUnion, Timestamp, updateDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, arrayRemove, arrayUnion, Timestamp, updateDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
@@ -29,10 +29,9 @@ export default {
 
     data(){
         return{
-            counsellor: false,
             user_ID:"", // patient's UID
             upcoming_user_sessions: [],
-            upcomingArr: []
+            upcomingArr: [],
 
         }
     },
@@ -43,27 +42,10 @@ export default {
             this.user = user;
         })
         this.user_ID = auth.currentUser.uid;
-        this.isCounsellor(this.user_ID);
-        this.displayUpcomingSessions(this.user_ID)
+        this.displayUpcomingSessions(this.user_ID);
     },
 
     methods: {
-        async isCounsellor(user) {
-            // const checkUser = db.collection('Counsellors').doc(user.email);
-            // const doc = await checkUser.get();
-
-            let docRef = doc(db, "Counsellors", String(user));
-            let counsellorDoc = await getDoc(docRef);
-                
-            if (counsellorDoc.exists()) {
-              console.log('Is counsellor!');
-              this.counsellor = true;
-            } else {
-              console.log('No such counsellor!');
-              this.counsellor = false;
-            }
-
-        },
 
         async displayUpcomingSessions(user) {
             let docRef = doc(db, "Patients", String(user));
@@ -162,7 +144,8 @@ export default {
                     //sessionID = doc name of session eg SESSION123, patient.id = doc name of patient eg rose@gmail.com
                 }
                 cell5.appendChild(bu)                        
-            }                   
+            }  
+
         },
     
 
@@ -174,16 +157,22 @@ export default {
                 await updateDoc(doc(db,"Counsellors",counsellor), {upcoming_counsellor_sessions: arrayRemove(session)});
                 await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(session)});
                 //add session back to available slot
-                await updateDoc(doc(db,"Counsellors",counsellor), {available_slots: arrayUnion(session)});
+                const slotRef = doc(db, "Sessions", session)
+                const slotSnap = await getDoc(slotRef)
+                let slot = slotSnap.data().session_time
+                await updateDoc(doc(db,"Counsellors",counsellor), {available_slots: arrayUnion(slot)});
+                await updateDoc(doc(db,"Sessions",session), {user_id: ""});
 
                 //delete session from sessions collection
-                await deleteDoc(doc(db,"Sessions",session))
-                console.log("Session successfully deleted!");
-                let tb = document.getElementById("table")
+                // await deleteDoc(doc(db,"Sessions",session))
+                // console.log("Session successfully deleted!");
+
+                let tb = document.getElementById("table2")
                 while (tb.rows.length > 1){
                     tb.deleteRow(1)
                 }
-                this.displayUpcomingSessions(this.user_ID); 
+                location.reload()
+                // this.displayUpcomingSessions(this.user_ID); 
             }
             
         }

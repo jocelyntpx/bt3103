@@ -149,7 +149,8 @@ export default {
 
     data(){
         return{
-            showCurrentlyAvailable: this.$route.params.showCurrentlyAvailable,
+            // showCurrentlyAvailable: this.$route.params.showCurrentlyAvailable,
+            showCurrentlyAvailable: true,
             user:false, // firebase's "auth" user
             // fbuser:"", // user's uid
             refreshComponent: 0,

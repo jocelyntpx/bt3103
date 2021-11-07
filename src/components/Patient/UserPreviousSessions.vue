@@ -28,7 +28,6 @@ export default {
     data(){
         return{
             user:false,
-            counsellor: false,
             user_ID:"",
             past_user_sessions: [],
         }
@@ -40,28 +39,10 @@ export default {
             this.user = user;
         })
         this.user_ID = auth.currentUser.uid;
-        this.isCounsellor(this.user_ID);
         this.displayPastSessions(this.user_ID);
     },
 
     methods: {
-        // actually this isCounsellor method not needed already because not using v-if v-else for tables now
-        async isCounsellor(user) { // UID
-            // const checkUser = db.collection('Counsellors').doc(user.email);
-            // const doc = await checkUser.get();
-
-            let docRef = doc(db, "Counsellors", String(user));
-            let counsellorDoc = await getDoc(docRef);
-                
-            if (counsellorDoc.exists()) {
-              console.log('Is counsellor!');
-              this.counsellor = true;
-            } else {
-              console.log('No such counsellor!');
-              this.counsellor = false;
-            }
-
-        },
 
         async displayPastSessions(user) {
             let docRef = doc(db, "Patients", String(user));
