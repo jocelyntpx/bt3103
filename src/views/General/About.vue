@@ -49,13 +49,13 @@
             <div class="px-20">
                 <br><br><br>
                 <p class="font-bold text-md color">GET INVOLVED</p>
-                <h1 class="font-bold text-3xl color">Be a Volunteer</h1>
+                <h1 class="font-bold text-3xl color">Join our team of counsellors</h1>
                 <br>
                 <img class="icon2" src="@/assets/volunteer.png">
                 <br>
-                <p class="text-left">MHM offers various volunteering opportunities to fit your availability and area of expertise.</p>
+                <p class="text-left">MHM offers various opportunities to fit your availability and area of expertise.</p>
                 <br>
-                <p class="text-left"> You can look forward to opportunities for growth and learning, meet like-minded friends and offer your support to someone in need.</p>
+                <p class="text-left"> You can look forward to opportunities for growth and learning, meet like-minded people and offer your support to someone in need.</p>
                 <br><br>
                 <p class="font-semibold color">Hope to have you onboard.</p>
                 <br><br><br>
