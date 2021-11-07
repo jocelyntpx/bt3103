@@ -16,7 +16,7 @@
 
             <h4 class="text-left font-bold">At MHM, we have carefully vetted through all our counsellors before selecting them.</h4> 
             <p class="text-sm text-base-content text-opacity-60 text-left">
-            {{this.name}} is a volunteer that has been trained by SOS to conduct professional counselling sessions, and will abide by a strict anonymity
+            {{this.name}} is qualified to conduct professional counselling sessions, and will abide by a strict anonymity
 and confidentiality policy.</p>
 
             </label>
