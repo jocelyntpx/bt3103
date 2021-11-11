@@ -146,32 +146,32 @@
                     ><br />
                     <input
                       type="checkbox"
-                      id="all_categories"
-                      value="All Categories"
+                      id="stress"
+                      value="Stress "
                       v-model="this.checkedNames"
                     />
-                    <label for="all_categories">All Categories</label>
-                    <input
-                      type="checkbox"
-                      id="general"
-                      value="General"
-                      v-model="this.checkedNames"
-                    />
-                    <label for="general">General</label>
+                    <label for="stress">Stress</label>
                     <input
                       type="checkbox"
                       id="career"
-                      value="Career"
+                      value="Career "
                       v-model="this.checkedNames"
                     />
                     <label for="career">Career</label>
                     <input
                       type="checkbox"
                       id="relationships"
-                      value="Relationships"
+                      value="Relationships "
                       v-model="this.checkedNames"
                     />
                     <label for="relationships">Relationships</label>
+                    <input
+                      type="checkbox"
+                      id="others"
+                      value="Others "
+                      v-model="this.checkedNames"
+                    />
+                    <label for="others">Others</label>
                     <br />
                   </div>
 
