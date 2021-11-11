@@ -149,9 +149,13 @@ export default {
             })
 
             avail.forEach(async (x) => {
+                // console.log("x is ", x)
+                // console.log("x.toDate() is ", x.toDate())
                 const slotRef = doc(db, "Sessions", this.counsellor_ID+x.toDate())
                 const slotSnap = await getDoc(slotRef)
+
                 let slot = slotSnap.data().session_time
+                // console.log("SLOT:",slot)
                 
                 let s = slot.toDate()
                 if (s > new Date()) {

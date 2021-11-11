@@ -14,7 +14,6 @@
             <label for="relationshipCat">Relationship </label>
             <input type="checkbox" id="OthersCat" value="Others" v-model="category">
             <label for="othersCat">Others </label>  
-            <!-- <span>You have selected: {{ category }}</span> -->
             <br><br><br>
             <div id="imagePosition">
                 <label id="sameLine" for="formFile">Choose Article Image:</label>              
@@ -23,13 +22,10 @@
             </div>
             <br><br>
              <QuillEditor v-model:content="quillContent" contentType="html" placeholder="Enter article here" theme="snow" :style="{'background-color':'#faf7f5'}"/>
-            <!-- <textarea v-model="text" id="mainText" placeholder="This is where the content of your article goes."></textarea> -->
         </div>
         <br>
         <button v-on:click = "postArticle()" id="post" class="btn btn-primary">Post Article</button>
-
     </div>
-
 </template>
 
 <script>
@@ -63,11 +59,9 @@ export default {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.user = user;
-                // this.fbuser = user.email;
             }
         })
         this.fbuser = auth.currentUser.uid;
-        // this.findPatientName();
     },
 
     methods: {
@@ -120,10 +114,6 @@ export default {
                         console.log(e)
                     })
 
-
-                    // // route back to HelpResources page
-                    // this.$router.push({ name: 'HelpResourcesAdmin'})
-                    // document.getElementById("abc").reload();
                     window.location.reload()
                 }
 
@@ -168,14 +158,7 @@ export default {
     margin-right: 300px;
 
 }
-/* #bgBlock {
-  border-radius: 35px;
-  background: #B9D9EB;
-  padding: 20px;
-  width: 80%;
-  height: auto;
-  margin:auto;
-} */
+
 #articleTitle {
     width: 55%;
     height:30px;
@@ -198,23 +181,7 @@ export default {
     margin-right:15px;
     margin-left: 300px;
 }
-/* #post{
-    display:inline-block;
-    padding:0.3em 1.2em;
-    margin:0 0.3em 0.3em 0;
-    border-radius:2em;
-    box-sizing: border-box;
-    text-decoration:none;
-    font-family:'Roboto',sans-serif;
-    font-weight:300;
-    color:#FFFFFF;
-    background-color:#4eb5f1;
-    text-align:center;
-    transition: all 0.2s;
-}
-#post:hover{
-    background-color:#4095c6;
-} */
+
 .imagePreviewWrapper {
     background-repeat: no-repeat;
     width: 600px;
