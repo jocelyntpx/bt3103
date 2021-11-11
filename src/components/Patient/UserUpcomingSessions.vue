@@ -206,7 +206,7 @@ export default {
         await updateDoc(doc(db, "Counsellors", counsellor), {
           available_slots: arrayUnion(slot),
         });
-        await updateDoc(doc(db, "Sessions", session), { user_id: "" });
+        await updateDoc(doc(db, "Sessions", session), { user_ID: "" });
 
         let tb = document.getElementById("table2");
         while (tb.rows.length > 1) {

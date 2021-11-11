@@ -133,8 +133,13 @@ export default {
             var slots = counsellor.data().available_slots;
 
             slots.forEach((slot) => {
-              console.log("slot.toDate is ", slot.toDate());
-              console.log("utc time is ");
+              console.log(
+                "slot.toDate().toUTCString() is ",
+                String(slot.toDate().toUTCString())
+              );
+              console.log("utc time is ", String(slot.toDate().toUTCString()));
+              console.log("time NOW is ", Timestamp.now().toDate());
+
               const diff = slot.toDate() - Timestamp.now().toDate();
 
               // remove an available slot from the backend if the slot time has passed.
@@ -169,16 +174,12 @@ export default {
     },
 
     updateSort() {
-      this.available.forEach((counsellor) => {
-        console.log("BEF FIRST SORT ", counsellor[0].data().name);
-      });
       // sort functionality
       let sortBy = this.sortCounsellor;
 
       let updated = this.available.sort(
         // ties are broken by alphabetical order.
         function(a, b) {
-          console.log(a[0].data().name - b[0].data().name);
           if (a[0].data().name < b[0].data().name) {
             return -1;
           } else if (a[0].data().name > b[0].data().name) {
@@ -279,7 +280,8 @@ export default {
 
       const counsellor = await getDoc(counsellorDocRef); // because the backend might have changed - e.g. another user on platform booked an available slot while the focal user was navigating the Find Counsellor page.
 
-      let sessionID = counsellorID + String(slot.toDate()); // unique session ID
+      // let sessionID = counsellorID + String(slot.toDate()); // unique session ID
+      let sessionID = counsellorID + String(slot.toDate().toUTCString()); // slot is to be in UTC String format as different time zone/browser
 
       var upcomingSessions = counsellor.data().upcoming_counsellor_sessions;
 
@@ -351,7 +353,7 @@ export default {
         room_ID: "",
         session_notes: "",
         rating: null,
-        session_time: slot, // a timestamp
+        session_time: slot, // a timestamp. Not UTC String.
       });
 
       // add to upcoming session of patient
