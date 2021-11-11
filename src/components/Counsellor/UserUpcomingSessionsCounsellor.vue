@@ -1,144 +1,156 @@
 <template>
-  <!-- This component templates the user's upcoming sessions (seen in Patients records, User's profile page ) -->    
-      <div>
-        <p class="text-xl">Upcoming Appointments</p><br>
-        <table id="table2">
-            <tr id="header">
-            <th>Date</th> 
-            <th>Time</th>
-            <th>Counsellor</th>
-            <!-- <th>Link</th>
-            <th>X</th>  -->
-            </tr>
-        </table>
-      </div>
+  <div>
+    <p class="text-xl">Upcoming Appointments</p>
+    <br />
+    <table id="table2">
+      <tr id="header">
+        <th>Date</th>
+        <th>Time</th>
+        <th>Counsellor</th>
+      </tr>
+    </table>
+  </div>
 </template>
 
 <script>
-import firebaseApp from '../../firebase.js';
-import { getFirestore } from "firebase/firestore"
-import { doc, getDoc, arrayRemove, arrayUnion, Timestamp, updateDoc,} from "firebase/firestore";
+import firebaseApp from "../../firebase.js";
+import { getFirestore } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  arrayRemove,
+  arrayUnion,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
 export default {
-    name: "UserUpcomingSessionsCounsellor",
+  name: "UserUpcomingSessionsCounsellor",
 
-    data(){
-        return{
-            user_ID:"", // counsellor UID
-            user_type: "counsellor",
-            patient_id:this.$route.params.id,
-            upcomingArr: []
+  data() {
+    return {
+      user_ID: "", // counsellor UID
+      user_type: "counsellor",
+      patient_id: this.$route.params.id,
+      upcomingArr: [],
+    };
+  },
+
+  mounted() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      this.user = user;
+    });
+    this.user_ID = auth.currentUser.uid;
+    this.displayUpcomingSessions(this.patient_id);
+  },
+
+  methods: {
+    async displayUpcomingSessions(user) {
+      let docRef = doc(db, "Patients", String(user));
+      let patientDoc = await getDoc(docRef);
+      let ind = 1;
+
+      let session = patientDoc.data().upcoming_user_sessions;
+      console.log(session);
+
+      for (const upcomingSession of session) {
+        console.log(upcomingSession);
+        let sessionDocRef = doc(db, "Sessions", upcomingSession);
+        let sessionID = await getDoc(sessionDocRef);
+        let counsellorDocRef = doc(
+          db,
+          "Counsellors",
+          sessionID.data().counsellor_ID
+        );
+        let counsellor = await getDoc(counsellorDocRef);
+
+        let sessionTime = sessionID.data().session_time.toDate();
+        let timeNow = Timestamp.now().toDate();
+        if (timeNow - sessionTime > 60 * 60 * 1000) {
+          console.log("moved from upcoming to past", timeNow, sessionTime);
+          await updateDoc(doc(db, "Counsellors", counsellor.id), {
+            upcoming_counsellor_sessions: arrayRemove(sessionID.id),
+          });
+          await updateDoc(doc(db, "Patients", user), {
+            upcoming_user_sessions: arrayRemove(sessionID.id),
+          });
+
+          if (sessionID.data().room_ID != "") {
+            console.log(
+              "patient has clicked start session, we assume session was held. moving session to past"
+            );
+            await updateDoc(doc(db, "Counsellors", counsellor.id), {
+              past_counsellor_sessions: arrayUnion(sessionID.id),
+            });
+            await updateDoc(doc(db, "Patients", user), {
+              past_user_sessions: arrayUnion(sessionID.id),
+            });
+          }
+          continue;
+        } else {
+          this.upcomingArr.push(sessionID);
         }
+      }
+
+      this.upcomingArr.sort(
+        (x, y) => y.data().session_time - x.data().session_time
+      );
+
+      for (const s of this.upcomingArr) {
+        var table = document.getElementById("table2");
+        var row = table.insertRow(ind);
+
+        let counsellorDocRef = doc(db, "Counsellors", s.data().counsellor_ID);
+        let counsellor = await getDoc(counsellorDocRef);
+
+        let sessionTime = s.data().session_time.toDate();
+
+        var date = sessionTime.toDateString();
+        var time = s
+          .data()
+          .session_time.toDate()
+          .toLocaleTimeString();
+        var counsellorName = counsellor.data().name;
+
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+
+        cell1.innerHTML = date;
+        cell2.innerHTML = time;
+        cell3.innerHTML = counsellorName;
+      }
     },
-
-    mounted() {
-        const auth = getAuth();
-        onAuthStateChanged(auth, user => {
-            this.user = user;
-            // if (user.user_type == "counsellor") {
-            //   this.counsellor = true;
-            // }
-        })
-        this.user_ID = auth.currentUser.uid;
-        this.displayUpcomingSessions(this.patient_id)
-    },
-
-    methods: {
-        async displayUpcomingSessions(user) {
-            let docRef = doc(db, "Patients", String(user));
-            let patientDoc = await getDoc(docRef);
-            let ind = 1
-
-            let session = patientDoc.data().upcoming_user_sessions
-            console.log(session)
-
-            for ( const upcomingSession of session) {
-                console.log(upcomingSession);
-                let sessionDocRef = doc(db, "Sessions", upcomingSession);
-                let sessionID = await getDoc(sessionDocRef);
-                let counsellorDocRef = doc(db, "Counsellors", sessionID.data().counsellor_ID);
-                let counsellor = await getDoc(counsellorDocRef);
-
-                let sessionTime = sessionID.data().session_time.toDate()
-                let timeNow = Timestamp.now().toDate()
-                if (timeNow - sessionTime > 60*60*1000) {
-                    console.log("moved from upcoming to past", timeNow, sessionTime)
-                // if (sessionTime - timeNow <= 60*60*1000) {
-                    await updateDoc(doc(db,"Counsellors",counsellor.id), {upcoming_counsellor_sessions: arrayRemove(sessionID.id)});
-                    await updateDoc(doc(db,"Patients",user), {upcoming_user_sessions: arrayRemove(sessionID.id)});
-
-                    if (sessionID.data().room_ID != "") { 
-                        console.log("patient has clicked start session, we assume session was held. moving session to past")
-                    await updateDoc(doc(db,"Counsellors",counsellor.id), {past_counsellor_sessions: arrayUnion(sessionID.id)});
-                    await updateDoc(doc(db,"Patients",user), {past_user_sessions: arrayUnion(sessionID.id)});
-                    }      
-
-                    // console.log("moved from upcoming to past")
-                    continue
-                } else {
-                    this.upcomingArr.push(sessionID)
-                }
-            }
-
-            this.upcomingArr.sort((x,y)=> y.data().session_time - x.data().session_time)
-
-            for (const s of this.upcomingArr) {
-                var table = document.getElementById("table2")
-                var row = table.insertRow(ind)
-
-                let counsellorDocRef = doc(db, "Counsellors", s.data().counsellor_ID);
-                let counsellor = await getDoc(counsellorDocRef);
-
-                let sessionTime = s.data().session_time.toDate()
-
-                var date = sessionTime.toDateString() 
-                var time = s.data().session_time.toDate().toLocaleTimeString()
-                var counsellorName = counsellor.data().name;
-                // var link =  sessionID.data().room_ID 
-
-                var cell1 = row.insertCell(0); 
-                var cell2 = row.insertCell(1); 
-                var cell3 = row.insertCell(2); 
-                // var cell4 = row.insertCell(3); 
-                // var cell5 = row.insertCell(4); 
-                cell1.innerHTML = date; 
-                cell2.innerHTML = time;
-                cell3.innerHTML = counsellorName; 
-                    
-            }                   
-        },
-    
-
-    }
-}
+  },
+};
 </script>
 
 <style scoped>
-#table2{
-    /* width: 630px; */
-    font-family: Arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    background-color:rgb(242, 242, 243);
+#table2 {
+  font-family: Arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  background-color: rgb(242, 242, 243);
 }
-th,td { 
-    /* background-color: whitesmoke;  */
-    border: 1px solid #dddddd;
-    padding: 8px;
-    text-align: center;
+th,
+td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: center;
 }
 
-tr:nth-child(even){
-    background-color: #e3edee;
+tr:nth-child(even) {
+  background-color: #e3edee;
 }
 
 #header {
-    background-color: black;
+  background-color: black;
 }
 
-th{
-    color: white;
+th {
+  color: white;
 }
 </style>

@@ -1,13 +1,13 @@
 <template>
-  <router-view/>
+  <router-view />
 </template>
 
 <script>
-import './assets/tailwind.css'
+import "./assets/tailwind.css";
 
 export default {
-  name: 'App'
-}
+  name: "App",
+};
 </script>
 
 <style>
@@ -17,31 +17,24 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  /* margin-top: 60px; */
 }
-/* #brand {
-  float: left;
-  margin-right: 100px;
-} */
-#mhm{
+
+#mhm {
   float: left;
   margin-left: 100px;
   margin-top: -2px;
-
-  /* idk why but only -2px then looks aligned  */
-} 
+}
 #nav {
   text-align: right;
-  /* float: right; */
-  margin-right: 50px; 
+  margin-right: 50px;
 }
 
-#nav a{
+#nav a {
   font-weight: bold;
-  color:lightslategray;
+  color: lightslategray;
 }
 
 #nav a.router-link-exact-active {
-  color:black;
+  color: black;
 }
 </style>
