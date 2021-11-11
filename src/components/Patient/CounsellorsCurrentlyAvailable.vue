@@ -133,20 +133,12 @@ export default {
             var slots = counsellor.data().available_slots;
 
             slots.forEach((slot) => {
-              console.log("slot.toDate().toUTCString() is ", String(slot.toDate().toUTCString()));
+              console.log(
+                "slot.toDate().toUTCString() is ",
+                String(slot.toDate().toUTCString())
+              );
               console.log("utc time is ", String(slot.toDate().toUTCString()));
-              console.log("time NOW is ", Timestamp.now().toDate())
-
-
-              // var date = new Date().toUTCString(); 
-              // console.log("date is ", date)
-              // var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-              // date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-
-              // var localDate = new Date(now_utc);
-              // console.log("localDate is ", localDate)
-
-
+              console.log("time NOW is ", Timestamp.now().toDate());
 
               const diff = slot.toDate() - Timestamp.now().toDate();
 
@@ -289,7 +281,7 @@ export default {
       const counsellor = await getDoc(counsellorDocRef); // because the backend might have changed - e.g. another user on platform booked an available slot while the focal user was navigating the Find Counsellor page.
 
       // let sessionID = counsellorID + String(slot.toDate()); // unique session ID
-      let sessionID = counsellorID + String(slot.toDate().toUTCString()) // slot is to be in UTC String format as different time zone/browser 
+      let sessionID = counsellorID + String(slot.toDate().toUTCString()); // slot is to be in UTC String format as different time zone/browser
 
       var upcomingSessions = counsellor.data().upcoming_counsellor_sessions;
 
