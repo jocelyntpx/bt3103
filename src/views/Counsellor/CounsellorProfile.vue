@@ -147,31 +147,31 @@
                     <input
                       type="checkbox"
                       id="stress"
-                      value="Stress "
+                      value="Stress"
                       v-model="this.checkedNames"
                     />
-                    <label for="stress">Stress</label>
+                    <label for="stress">Stress </label>
                     <input
                       type="checkbox"
                       id="career"
-                      value="Career "
+                      value="Career"
                       v-model="this.checkedNames"
                     />
-                    <label for="career">Career</label>
+                    <label for="career">Career </label>
                     <input
                       type="checkbox"
                       id="relationships"
-                      value="Relationships "
+                      value="Relationships"
                       v-model="this.checkedNames"
                     />
-                    <label for="relationships">Relationships</label>
+                    <label for="relationships">Relationships </label>
                     <input
                       type="checkbox"
                       id="others"
-                      value="Others "
+                      value="Others"
                       v-model="this.checkedNames"
                     />
-                    <label for="others">Others</label>
+                    <label for="others">Others </label>
                     <br />
                   </div>
 
