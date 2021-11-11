@@ -13,7 +13,7 @@
     <h3>Example custom controls</h3>
     <p>
       You can also create your own meeting controls using daily-js methods
-    </p> 
+    </p>
     <div>
       <button @click="toggleCamera">Toggle camera</button>
       <button @click="toggleMic">Toggle mic</button>
