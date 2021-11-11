@@ -87,11 +87,19 @@ export default {
       const docRef2 = doc(db, "Patients", this.fbuser);
       const docSnap2 = await getDoc(docRef2);
       let y = docSnap2.data();
-      y.upcoming_user_sessions.forEach((u) => {
-        if (new Date(u.substring(28)) > new Date()) {
-          this.display_patient_upcoming.push(new Date(u.substring(28)));
+      // y.upcoming_user_sessions.forEach((u) => {
+      //   if (new Date(u.substring(28)) > new Date()) {
+      //     this.display_patient_upcoming.push(new Date(u.substring(28)));
+      //   }
+      // });
+
+          for (const u of y.upcoming_user_sessions) {
+            const sessionSnap = await getDoc(doc(db, "Sessions", u))
+            const slotTime = sessionSnap.data().session_time // this is in local time.
+            if (slotTime.toDate() > new Date()) {
+                this.display_patient_upcoming.push(slotTime.toDate())
+            }
         }
-      });
 
       //green bar for counsellor avail
       this.attributes = [
@@ -134,37 +142,60 @@ export default {
         let s = slot.toDate();
 
         if (s > new Date()) {
-          let s_date = s.toDateString();
-          let s_time = s.toTimeString().substr(0, 5);
-          let s_gmtDate = new Date(s.setHours(s.getHours() + 8));
-          if (s_gmtDate.toISOString().substr(0, 10) == day.id) {
+
+          if (s.toDateString() == day.date.toDateString()) { 
             this.patient_upcoming.push({
-              date: s_date,
-              time: s_time,
-              name: counsellor_name,
-              session: s,
-            });
+                date: s.toDateString(),
+                time: s.toTimeString().substr(0,5),
+                name: counsellor_name,
+                session: s
+            })
           }
+
+
+          // let s_date = s.toDateString();
+          // let s_time = s.toTimeString().substr(0, 5);
+          // let s_gmtDate = new Date(s.setHours(s.getHours() + 8));
+          // if (s_gmtDate.toISOString().substr(0, 10) == day.id) {
+          //   this.patient_upcoming.push({
+          //     date: s_date,
+          //     time: s_time,
+          //     name: counsellor_name,
+          //     session: s,
+          //   });
+          // }
         }
       });
 
       avail.forEach(async (a) => {
-        const slotRef2 = doc(db, "Sessions", this.counsellor_ID + a.toDate());
+        // const slotRef2 = doc(db, "Sessions", this.counsellor_ID + a.toDate());
+        const slotRef2 = doc(db, "Sessions", this.counsellor_ID + a.toDate().toUTCString());
+        console.log("a.toDate().toUTCString() is ", a.toDate().toUTCString())
         const slotSnap2 = await getDoc(slotRef2);
         let slot = slotSnap2.data().session_time;
         let s = slot.toDate();
 
         if (s > new Date()) {
-          let s_date = s.toDateString();
-          let s_time = s.toTimeString().substr(0, 5);
-          let s_gmtDate = new Date(s.setHours(s.getHours() + 8));
-          if (s_gmtDate.toISOString().substr(0, 10) == day.id) {
+          // console.log("s is", s)
+          if (s.toDateString() == day.date.toDateString()) { 
             this.avail.push({
-              date: s_date,
-              time: s_time,
-              session: a.toDate(),
-            });
+                date: s.toDateString(),
+                time: s.toTimeString().substr(0,5),
+                session: a.toDate()
+            })
           }
+
+          
+          // let s_date = s.toDateString();
+          // let s_time = s.toTimeString().substr(0, 5);
+          // let s_gmtDate = new Date(s.setHours(s.getHours() + 8));
+          // if (s_gmtDate.toISOString().substr(0, 10) == day.id) {
+          //   this.avail.push({
+          //     date: s_date,
+          //     time: s_time,
+          //     session: a.toDate(),
+          //   });
+          // }
           this.avail.sort((x, y) => {
             return x.session - y.session;
           });
@@ -219,7 +250,8 @@ export default {
           let idx = avail_string.indexOf(item.session.toISOString());
           avail.splice(idx, 1);
           let upcoming = z.upcoming_counsellor_sessions;
-          upcoming.push(this.counsellor_ID + item.session);
+          // upcoming.push(this.counsellor_ID + item.session);
+          upcoming.push(this.counsellor_ID + item.session.toUTCString());
           await setDoc(
             counsellorRef,
             { upcoming_counsellor_sessions: upcoming, available_slots: avail },
@@ -228,13 +260,15 @@ export default {
 
           //edit session > set user_ID
           await setDoc(
-            doc(db, "Sessions", this.counsellor_ID + item.session),
+            // doc(db, "Sessions", this.counsellor_ID + item.session),
+            doc(db, "Sessions", this.counsellor_ID + item.session.toUTCString()),
             { user_ID: this.fbuser },
             { merge: true }
           );
 
           //edit patient > add to upcoming_user_sessions
-          patient_upcoming.push(this.counsellor_ID + item.session);
+          // patient_upcoming.push(this.counsellor_ID + item.session);
+          patient_upcoming.push(this.counsellor_ID + item.session.toUTCString());
           await setDoc(
             doc(db, "Patients", this.fbuser),
             { upcoming_user_sessions: patient_upcoming },

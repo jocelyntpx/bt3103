@@ -11,6 +11,7 @@
       </div>
 
       <v-date-picker v-model="date" mode="dateTime" />
+      <!-- <v-date-picker v-model="date" mode="dateTime" :model-config="modelConfig"/> -->
       <br /><br />
       <button class="btn btn-primary btn-sm mb-4" v-on:click="create()">
         Open Up Slot
@@ -91,6 +92,10 @@ export default {
       date: new Date(),
       attributes: [],
       createSession: false,
+    //   modelConfig: {
+    //       type: 'string',
+    //       mask: 'WWW MMM DD YYYY'
+    //   }
     };
   },
   mounted() {
@@ -118,11 +123,21 @@ export default {
         }
       });
       //counsellor upcoming sessions
-      z.upcoming_counsellor_sessions.forEach((u) => {
-        if (new Date(u.substring(28)) > new Date()) {
-          this.display_upcoming.push(new Date(u.substring(28)));
+    //   z.upcoming_counsellor_sessions.forEach((u) => {
+    //     if (new Date(u.substring(28)) > new Date()) {
+    //       this.display_upcoming.push(new Date(u.substring(28)));
+    //     }
+    //   });
+
+        for (const u of z.upcoming_counsellor_sessions) {
+            const sessionSnap = await getDoc(doc(db, "Sessions", u))
+            const slotTime = sessionSnap.data().session_time // this is in local time.
+            if (slotTime.toDate() > new Date()) {
+                this.display_upcoming.push(slotTime.toDate())
+            }
         }
-      });
+
+
       //green bar for avail, red bar for upcoming
       this.attributes = [
         {
@@ -152,16 +167,23 @@ export default {
 
         let a = session.toDate();
         if (a > new Date()) {
-          let a_date = a.toDateString();
-          let a_time = a.toTimeString().substr(0, 5);
-          let a_gmtDate = new Date(a.setHours(a.getHours() + 8));
+        //   let a_date = a.toDateString();
+        //   let a_time = a.toTimeString().substr(0, 5);
+        //   let a_gmtDate = new Date(a.setHours(a.getHours() + 8));
 
-          if (a_gmtDate.toISOString().substr(0, 10) == day.id) {
+        if (a.toDateString() == day.date.toDateString()) { 
             this.upcoming.push({
-              date: a_date,
-              time: a_time,
-            });
+                date: a.toDateString(),
+                time: a.toTimeString().substr(0,5),
+            })
           }
+
+        //   if (a_gmtDate.toISOString().substr(0, 10) == day.id) {
+        //     this.upcoming.push({
+        //       date: a_date,
+        //       time: a_time,
+        //     });
+        //   }
           this.upcoming.sort((x, y) => {
             return x.session - y.session;
           });
@@ -169,25 +191,41 @@ export default {
       });
 
       avail.forEach(async (x) => {
-        const slotRef = doc(db, "Sessions", this.counsellor_ID + x.toDate());
+        // const slotRef = doc(db, "Sessions", this.counsellor_ID + x.toDate());
+        const slotRef = doc(db, "Sessions", this.counsellor_ID + x.toDate().toUTCString());
         const slotSnap = await getDoc(slotRef);
         let slot = slotSnap.data().session_time;
         let s = slot.toDate();
-        if (s > new Date()) {
-          let s_date = s.toDateString();
-          let s_time = s.toTimeString().substr(0, 5);
-          let s_gmtDate = new Date(s.setHours(s.getHours() + 8));
 
-          if (s_gmtDate.toISOString().substr(0, 10) == day.id) {
-            let s_originalDate = new Date(
-              s_gmtDate.setHours(s_gmtDate.getHours() - 8)
-            );
+        console.log("s is " , s)
+        console.log("s datestring is", s.toDateString())
+        console.log("day.date is" , day.date.toDateString())
+
+        if (s > new Date()) {
+        //   let s_date = s.toDateString();
+        //   let s_time = s.toTimeString().substr(0, 5);
+        //   let s_gmtDate = new Date(s.setHours(s.getHours() + 8));
+
+          console.log("day.id ", day.id)
+
+          if (s.toDateString() == day.date.toDateString()) { 
             this.avail.push({
-              date: s_date,
-              time: s_time,
-              session: s_originalDate,
-            });
+                date: s.toDateString(),
+                time: s.toTimeString().substr(0,5),
+                session: s
+            })
           }
+
+        //   if (s_gmtDate.toISOString().substr(0, 10) == day.id) {
+            // let s_originalDate = new Date(
+            //   s_gmtDate.setHours(s_gmtDate.getHours() - 8)
+            // );
+            // this.avail.push({
+            //   date: s_date,
+            //   time: s_time,
+            //   session: s_originalDate,
+            // });
+        //   }
           this.avail.sort((x, y) => {
             return x.session - y.session;
           });
@@ -234,7 +272,8 @@ export default {
         await setDoc(docRef, { available_slots: avail }, { merge: true });
 
         //create new session
-        await setDoc(doc(db, "Sessions", this.counsellor_ID + this.date), {
+        // await setDoc(doc(db, "Sessions", this.counsellor_ID + this.date), {
+        await setDoc(doc(db, "Sessions", this.counsellor_ID + this.date.toUTCString()), {
           counsellor_ID: this.counsellor_ID,
           rating: null,
           room_ID: "",
@@ -266,7 +305,8 @@ export default {
         });
 
         //delete from sessions
-        await deleteDoc(doc(db, "Sessions", this.counsellor_ID + item.session));
+        // await deleteDoc(doc(db, "Sessions", this.counsellor_ID + item.session));
+        await deleteDoc(doc(db, "Sessions", this.counsellor_ID + item.session.toUTCString()));
 
         alert(
           "Session on " + item.date + " " + item.time + " has been cancelled"
