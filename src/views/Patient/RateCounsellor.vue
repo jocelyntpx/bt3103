@@ -53,7 +53,7 @@
             class="textarea h-24 textarea-bordered textarea-primary"
             v-model="review"
             id="reviewText"
-            placeholder="You can review about the counsellor's friendlliness, whether or not you enjoyed this session, whether it helped resolved an issue, or even areas you would like your counsellor to work on. It's up to you!"
+            placeholder="You can review about the counsellor's friendliness, whether or not you enjoyed this session, whether it helped resolved an issue, or even areas you would like your counsellor to work on. It's up to you!"
           ></textarea>
         </div>
         <br />
