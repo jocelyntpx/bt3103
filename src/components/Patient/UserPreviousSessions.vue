@@ -1,18 +1,14 @@
 <template>
-  <!-- This component templates the user's previous sessions (seen in Patients records, User's profile page ) -->
    <p class="text-xl">Past Appointments</p><br>
-    
-      <div>
+    <div>
         <table id="table3">
             <tr class=header> 
             <th>Date</th> 
-            <!-- <th>Time</th>  -->
             <th>Counsellor</th>
             <th>Rating</th>
             </tr>
-
-      </table>
-      </div>
+        </table>
+    </div>
 </template>
 
 <script>
@@ -43,17 +39,13 @@ export default {
     },
 
     methods: {
-
         async displayPastSessions(user) {
             let docRef = doc(db, "Patients", String(user));
             let patientDoc = await getDoc(docRef);
             let ind = 1
 
             let session = patientDoc.data().past_user_sessions
-            // console.log(session)
-
             for ( const pastSession of session) {
-                // console.log(pastSession)
                 let sessionDocRef = doc(db, "Sessions", pastSession);
                 let sessionID = await getDoc(sessionDocRef);
                 let counsellorDocRef = doc(db, "Counsellors", sessionID.data().counsellor_ID);
@@ -65,12 +57,10 @@ export default {
                 var row = table.insertRow(ind)
 
                 var date = sessionTime.toDateString() 
-                // var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var counsellorName = counsellor.data().name;
                 var rating =  sessionID.data().rating
 
                 var cell1 = row.insertCell(0); 
-                // var cell2 = row.insertCell(1); 
                 var cell3 = row.insertCell(1); 
                 var cell4 = row.insertCell(2); 
                 if (rating != null) {
@@ -102,8 +92,7 @@ export default {
                 }
 
                 cell1.innerHTML = date; 
-                // cell2.innerHTML = time;
-                // cell3.innerHTML = counsellorName; 
+
                 cell3.className = "nameToProfile"
                 var nameButton = document.createElement("button")
                 nameButton.innerHTML = "<button class='btn btn-link btn-sm text-black'>" +counsellorName; 
@@ -113,32 +102,24 @@ export default {
                 cell3.appendChild(nameButton)
 
                 if (rating != null) {
-                    // if (this.isCounsellor(user)) { //check the if else condition again
-                        cell4.innerHTML = rating
-                    // } else {
-                    // cell4.innerHTML = notes
-                    // }
-                }
-
-                                
+                    cell4.innerHTML = rating
+                }                      
             }                    
-
         }
-
     }
 }
 </script>
 
 <style scoped>
+
 #table3{
-    /* width: 630px; */
     font-family: Arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
     background-color:rgb(242, 242, 243);
 }
+
 th,td { 
-    /* background-color: whitesmoke;  */
     border: 1px solid #dddddd;
     padding: 8px;
     text-align: center;

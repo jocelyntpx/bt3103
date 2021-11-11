@@ -22,7 +22,6 @@ export default {
 
     data(){
         return{
-            //user:false,
             counsellorUser:"", // uid of counsellor
             count:"",
             upcomingArr: []
@@ -30,7 +29,6 @@ export default {
     },
 
     mounted() {
-        // console.log("UpcomingPatients.vue");
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;
@@ -43,16 +41,10 @@ export default {
         async displayUpcomingPatients(user) {
             let docRef = doc(db, "Counsellors", String(user));
             let counsellorDoc = await getDoc(docRef);
-            //let allCounsellors = await getDoc(collection(db,"Counsellors",String(user)))
-            //let allSessions = await getDocs(collection(db,"Sessions"))
-            //let allPatients = await getDocs(collection(db,"Patients"))
             let ind = 1
 
             let session = counsellorDoc.data().upcoming_counsellor_sessions
-            //console.log(session)
-
             for ( const upcomingSession of session) {
-                //console.log(upcomingSession);
                 let sessionDocRef = doc(db, "Sessions", upcomingSession);
                 let sessionID = await getDoc(sessionDocRef);
                 let patientDocRef = doc(db, "Patients", sessionID.data().user_ID);
@@ -62,9 +54,7 @@ export default {
                 let timeNow = Timestamp.now().toDate()
                 
                 if (timeNow - sessionTime > 60*60*1000) {
-                // if (timeNow - sessionTime > 3*60*1000) {
                     console.log(patient.data().name);
-                    // console.log("moved from upcoming to past", timeNow, sessionTime)
                     await updateDoc(doc(db,"Counsellors",user), {upcoming_counsellor_sessions: arrayRemove(sessionID.id)});
                     await updateDoc(doc(db,"Patients",patient.id), {upcoming_user_sessions: arrayRemove(sessionID.id)});
                     console.log("removed session from upcoming.")
@@ -74,15 +64,14 @@ export default {
                         await updateDoc(doc(db,"Counsellors",user), {past_counsellor_sessions: arrayUnion(sessionID.id)});
                         await updateDoc(doc(db,"Patients",patient.id), {past_user_sessions: arrayUnion(sessionID.id)});
                     }      
-
                     continue
+
                 } else {
                     this.upcomingArr.push(sessionID)
                 }
             }
 
             this.upcomingArr.sort((x,y)=> y.data().session_time - x.data().session_time)
-
 
             for ( const s of this.upcomingArr) {
                 let patientDocRef = doc(db, "Patients", s.data().user_ID);
@@ -92,8 +81,6 @@ export default {
 
                 var table = document.getElementById("table")
                 var row = table.insertRow(ind)
-
-                //console.log(sessionID.data())
 
                 var date = sessionTime.toDateString() 
                 var time = s.data().session_time.toDate().toLocaleTimeString()
@@ -127,14 +114,12 @@ export default {
                     linkSession.id = "linkSession"
                     linkSession.innerHTML = "<button class='btn btn-link btn-sm'>Join Session Now!"
                     linkSession.onclick = () => {
-                        this.$router.push({ name: 'DailyCounsellorView', params: { id: s.id } }) //prev id: upcomingSession
-                        // NOTE: This router link works, commented out bc DailyCounsellorView.vue not working properly yet
+                        this.$router.push({ name: 'DailyCounsellorView', params: { id: s.id } })
                     }
                     cell4.appendChild(linkSession)
                 }
 
                 cell5.innerHTML = "";
-
 
                 var bu = document.createElement("button")
                 bu.className = "bwt"
@@ -142,24 +127,17 @@ export default {
                 bu.innerHTML = "<button class='btn btn-sm btn-link text-error'>Cancel<button>"
                 bu.onclick = ()=>{
                     this.cancelSession(s.id,patient.id,user)
-                    //sessionID = doc name of session, patient.id = doc name of patient 
                 }
                 cell5.appendChild(bu)                              
             }
         },
     
-
-        async cancelSession(session, patient, user) { // all uid
+        async cancelSession(session, patient, user) { 
             var confirmDelete = confirm("Press 'OK' to proceed to cancel this appointment with Session ID of " + session);
-            //alert("You are going to cancel this appointment with Session ID of " + session)
             if (confirmDelete) { //pressed OK
-                //remove session from patient's and counsellor's upcoming appointments array
                 await updateDoc(doc(db,"Counsellors",user), {upcoming_counsellor_sessions: arrayRemove(session)});
                 await updateDoc(doc(db,"Patients",patient), {upcoming_user_sessions: arrayRemove(session)});
-                // NO NEED TO add session back to available slot because if counsellor cancel it, prolly not free!
-                // await updateDoc(doc(db,"Counsellors",user), {available_slots: arrayUnion(session)});
 
-                //delete session from sessions collection
                 await deleteDoc(doc(db,"Sessions",session))
                 console.log("Session successfully deleted!");
                 let tb = document.getElementById("table")
@@ -168,35 +146,24 @@ export default {
                 }
                 this.displayUpcomingPatients(this.counsellorUser); 
             }
-            
         }
     }
-
-    
 }
 
 </script>
 
-
 <style>
-
 .table{
-    /* width: 630px; */
     font-family: Arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
     background-color:rgb(242, 242, 243);
 }
 th,td { 
-    /* background-color: whitesmoke;  */
     border: 1px solid #dddddd;
     padding: 8px;
     text-align: center;
 }
-
-/* tr:nth-child(even){
-    background-color: #e3edee;
-} */
 
 .header {
     background-color: black;
@@ -208,12 +175,6 @@ th{
 
 .bwt{
     color:rgb(0, 0, 0);
-    /* background-color: rgb(255, 94, 0); */
 }
-
-/* .nameToProfile {
-    color:rgb(25, 69, 104);
-    text-decoration: underline;
-} */
 
 </style>

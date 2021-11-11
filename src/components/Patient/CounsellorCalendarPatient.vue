@@ -55,13 +55,7 @@ export default {
                 if (user.user_type == "counsellor") {
                     this.user_type = "counsellor";
                 }
-                // this.fbuser = user.email;
                 this.fbuser = user.uid;
-                // this.updateCurrentlyAvailable();
-                // this.avgRating(this.fbuser);
-                // this.mountedCheckCurrentlyAvailable();
-                console.log("bottom of mounted()");
-                // console.log("time is ", Timestamp.valueOf(Timestamp.now()))
             }
         })
         this.getAttributes()
@@ -136,7 +130,6 @@ export default {
                     let s_time = s.toTimeString().substr(0,5)
                     let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
                     if (s_gmtDate.toISOString().substr(0,10) == day.id) {
-                        //let s_originalDate = new Date(s_gmtDate.setHours(s_gmtDate.getHours() - 8 ))
                         this.patient_upcoming.push({
                             date: s_date,
                             time: s_time,
@@ -159,7 +152,6 @@ export default {
                     let s_time = s.toTimeString().substr(0,5)
                     let s_gmtDate = new Date(s.setHours(s.getHours() + 8))
                     if (s_gmtDate.toISOString().substr(0,10) == day.id) {
-                        //let s_originalDate = new Date(s_gmtDate.setHours(s_gmtDate.getHours() - 8 ))
                         this.avail.push({
                             date: s_date,
                             time: s_time,
@@ -171,63 +163,60 @@ export default {
                     })
                 }
             })
-
         }, 
-        async book(counsellor, item){
         
+        async book(counsellor, item){
             var confirmBook = confirm("Press 'OK' to proceed to book this appointment on " + item.date + " " + item.time);
 
             if (confirmBook) { //pressed OK
+                const patientRef = doc(db, "Patients", this.fbuser)
+                const patientSnap = await getDoc(patientRef)
+                let y = patientSnap.data()
+                let patient_upcoming = y.upcoming_user_sessions
+                let same_day_appointment = false
 
-            const patientRef = doc(db, "Patients", this.fbuser)
-            const patientSnap = await getDoc(patientRef)
-            let y = patientSnap.data()
-            let patient_upcoming = y.upcoming_user_sessions
-            let same_day_appointment = false
-
-            //patients are not allowed to book more than 1 appointment a day
-            patient_upcoming.forEach( u => {
-                if (u.substring(28,43) == item.session.toDateString()) {
-                    same_day_appointment = true
-                }
-            })
-            if (same_day_appointment) {
-                alert("You have booked another appointment on this date. Please cancel before booking a different time.")
-            }
-            //patient can have max. 5 upcoming appointments
-            else if (patient_upcoming.length == 5) {
-                alert('You have booked a maximum of 5 sessions!')
-            }
-            else {
-                //edit counsellor > remove from available_slots and add to upcoming_counsellor_sessions
-                const counsellorRef = doc(db, "Counsellors", this.counsellor_ID)
-                const counsellorSnap = await getDoc(counsellorRef)
-                let z = counsellorSnap.data()
-
-                //convert timestamps to strings for easy comparison
-                let avail = z.available_slots
-                let avail_string = []
-                avail.forEach(a=> {
-                    avail_string.push(a.toDate().toISOString())
+                //patients are not allowed to book more than 1 appointment a day
+                patient_upcoming.forEach( u => {
+                    if (u.substring(28,43) == item.session.toDateString()) {
+                        same_day_appointment = true
+                    }
                 })
+                if (same_day_appointment) {
+                    alert("You have booked another appointment on this date. Please cancel before booking a different time.")
+                }
+                //patient can have max. 5 upcoming appointments
+                else if (patient_upcoming.length == 5) {
+                    alert('You have booked a maximum of 5 sessions!')
+                }
+                else {
+                    //edit counsellor > remove from available_slots and add to upcoming_counsellor_sessions
+                    const counsellorRef = doc(db, "Counsellors", this.counsellor_ID)
+                    const counsellorSnap = await getDoc(counsellorRef)
+                    let z = counsellorSnap.data()
 
-                //remove from available slots
-                let idx = avail_string.indexOf(item.session.toISOString())
-                avail.splice(idx, 1)
-                let upcoming = z.upcoming_counsellor_sessions
-                upcoming.push(this.counsellor_ID+item.session)
-                await setDoc(counsellorRef, {upcoming_counsellor_sessions: upcoming, available_slots: avail}, {merge: true})
-            
-                //edit session > set user_ID
-                await setDoc(doc(db, "Sessions", this.counsellor_ID+item.session), {user_ID: this.fbuser}, {merge: true})
+                    //convert timestamps to strings for easy comparison
+                    let avail = z.available_slots
+                    let avail_string = []
+                    avail.forEach(a=> {
+                        avail_string.push(a.toDate().toISOString())
+                    })
+
+                    //remove from available slots
+                    let idx = avail_string.indexOf(item.session.toISOString())
+                    avail.splice(idx, 1)
+                    let upcoming = z.upcoming_counsellor_sessions
+                    upcoming.push(this.counsellor_ID+item.session)
+                    await setDoc(counsellorRef, {upcoming_counsellor_sessions: upcoming, available_slots: avail}, {merge: true})
                 
-                //edit patient > add to upcoming_user_sessions
-                patient_upcoming.push(this.counsellor_ID+item.session)
-                await setDoc(doc(db, "Patients", this.fbuser), {upcoming_user_sessions: patient_upcoming}, {merge: true})
-                alert("New appointment booked for " + item.time + " " + item.date + "!")
-            }
-            
-            location.reload()
+                    //edit session > set user_ID
+                    await setDoc(doc(db, "Sessions", this.counsellor_ID+item.session), {user_ID: this.fbuser}, {merge: true})
+                    
+                    //edit patient > add to upcoming_user_sessions
+                    patient_upcoming.push(this.counsellor_ID+item.session)
+                    await setDoc(doc(db, "Patients", this.fbuser), {upcoming_user_sessions: patient_upcoming}, {merge: true})
+                    alert("New appointment booked for " + item.time + " " + item.date + "!")
+                }
+                location.reload()
             }
         },
     }

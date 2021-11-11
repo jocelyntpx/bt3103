@@ -1,20 +1,14 @@
 <template>
-  <!-- This component templates the user's previous sessions (seen in Patients records, User's profile page ) -->
-   <p class="text-xl">Past Appointments</p><br>
-    
-      <div>
+    <p class="text-xl">Past Appointments</p><br>
+    <div>
         <table id="table3">
-          <!-- <div v-if = "user"> -->
-      <!-- would ultimately have some kind of for loop to pull the appropriate fields from Firebase Sessions collection -->
             <tr class=header> 
-            <th>Date</th> 
-            <!-- <th>Time</th>  -->
-            <th>Counsellor</th>
-            <th>Notes</th> 
-
+                <th>Date</th> 
+                <th>Counsellor</th>
+                <th>Notes</th> 
             </tr>
-      </table>
-      </div>
+        </table>
+    </div>
 </template>
 
 <script>
@@ -30,7 +24,7 @@ export default {
     data(){
         return{
             user:false,
-            user_ID:"", // counsellor's uid
+            user_ID:"", 
             user_type: "counsellor",
             patient_id:this.$route.params.id
         }
@@ -40,9 +34,6 @@ export default {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             this.user = user;
-            // if (user.user_type == "counsellor") {
-            //   this.counsellor = true;
-            // }
         })
         this.user_ID = auth.currentUser.uid;
         this.displayPastSessions(this.patient_id);
@@ -55,7 +46,6 @@ export default {
             let ind = 1
 
             let session = patientDoc.data().past_user_sessions
-            // console.log(session)
 
             for ( const pastSession of session) {
                 console.log(pastSession)
@@ -70,17 +60,14 @@ export default {
                 var row = table.insertRow(ind)
 
                 var date = sessionTime.toDateString() 
-                // var time = sessionID.data().session_time.toDate().toLocaleTimeString()
                 var counsellorName = counsellor.data().name;
 
                 var cell1 = row.insertCell(0); 
-                // var cell2 = row.insertCell(1); 
                 var cell3 = row.insertCell(1); 
                 var cell4 = row.insertCell(2); 
                 var notes = sessionID.data().session_notes
 
                 cell1.innerHTML = date; 
-                // cell2.innerHTML = time;
                 cell3.innerHTML = counsellorName; 
                 cell4.className = "notesCell"
 
@@ -92,17 +79,9 @@ export default {
                     }
                 } else {
                     cell4.innerHTML = notes
-                }
-
-                // cell4.innerHTML = notes
-
-                
-
-                                
+                }             
             }                    
-
         }
-
     }
 }
 </script>

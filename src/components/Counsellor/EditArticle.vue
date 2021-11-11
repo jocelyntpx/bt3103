@@ -1,31 +1,21 @@
 <template>
-<div class="flex space-x-4 space-y-4">
-    <div class = "grid grid-flow-row grid-cols-3 gap-10">
+    <div class="flex space-x-4 space-y-4">
+        <div class = "grid grid-flow-row grid-cols-3 gap-10">
             <a  v-for= "article in HelpResources" v-bind:key="article.index">
-                <!-- <div id="article_box"> -->
-                    <div class="card text-center shadow-2xl lg:card-side bg-secondary text-accent-content">
-                        <div class="card-body">
-                            <p class="text-xl font-semibold">{{article.id}}</p> 
-                            <img :src=article.data().picture alt="Picture cannot be displayed" id="articlePic">
-                            <h5 id="category"> {{article.data().category}}</h5>
-                            <p class="italic text-sm" id="author"> You posted on {{article.data().post_date}}</p>
-                            <div class="justify-center card-actions">
+                <div class="card text-center shadow-2xl lg:card-side bg-secondary text-accent-content">
+                    <div class="card-body">
+                        <p class="text-xl font-semibold">{{article.id}}</p> 
+                        <img :src=article.data().picture alt="Picture cannot be displayed" id="articlePic">
+                        <h5 id="category"> {{article.data().category}}</h5>
+                        <p class="italic text-sm" id="author"> You posted on {{article.data().post_date}}</p>
+                        <div class="justify-center card-actions">
                             <button class="btn btn-sm" @click="this.$router.push({name: 'EditPage', params: { id: article.id }})">View/Edit</button>
                         </div>
                     </div>
-
-                    <!-- <h3><router-link :to="{ name: 'ArticlePage', params: { id: article.id}}"> {{article.id}} </router-link></h3>
-                    <img :src=article.data().picture alt="Picture cannot be displayed" width="200" height="120">
-                    <h5 id="category"> {{article.data().category}}</h5>
-                    <em><h6 id="author"> You posted on {{article.data().post_date}}</h6></em>
-                    <button type="submit" @click="edit(article.id)">Edit Article</button> -->
-
-                <!-- </div> -->
                 </div>
             </a>
+        </div>
     </div>
-</div>
-
 </template>
 
 <script>
@@ -66,11 +56,9 @@ export default {
             let counsellorDoc = await getDoc(docRef);
             console.log(counsellorDoc.data().my_articles)
             for (const title in counsellorDoc.data().my_articles) {
-                // console.log(counsellorDoc.data().my_articles[title])
                 let HRdocRef = doc(db, "HelpResources", counsellorDoc.data().my_articles[title]);
                 let HRDoc = await getDoc(HRdocRef);
                 this.HelpResources.push(HRDoc)
-                // console.log(HRDoc.data())
             }
 
             this.HelpResources = this.HelpResources.filter(doc => {
