@@ -5,18 +5,18 @@
                 <p class='text-lg'>Select Date to Open Up New Slot</p>
             <br>
             <div id = "backBtn">
-                    <button class="btn btn-link text-info" v-on:click="back()">← Back to Appointments Calendar</button>
+                <button class="btn btn-link text-info" v-on:click="back()">← Back to Appointments Calendar</button>
             </div>            
 
             <v-date-picker v-model="date" mode="dateTime"/>
             <br><br>
             <button class="btn btn-primary btn-sm mb-4" v-on:click="create()">Open Up Slot</button>
-            <!-- <button class="btn btn-outline btn-sm" v-on:click="back()">Back to Appointments Calendar</button> -->
         </div>
         <div v-else>
             <br>
-                <p class='text-lg'>Select Date to View Upcoming Appointments</p>
+            <p class='text-lg'>Select Date to View Upcoming Appointments</p>
             <br>
+
             <v-date-picker v-model="date" :attributes="attributes" @dayclick="onDayClick"/>
             <br><br>
             <div v-if="upcoming.length != 0">
@@ -55,7 +55,6 @@ export default {
     data() {
         return {
         user:false,
-        // fbuser:"",
         user_type:"patient",
         counsellor_ID: this.$route.params.id, // UID
         display_avail: [],
@@ -75,13 +74,7 @@ export default {
                 if (user.user_type == "counsellor") {
                     this.user_type = "counsellor";
                 }
-                // this.fbuser = user.email;
-                // this.getDetails(this.fbuser);
-                // this.updateCurrentlyAvailable();
-                // this.avgRating(this.fbuser);
-                // this.mountedCheckCurrentlyAvailable();
                 console.log("bottom of mounted()");
-                // console.log("time is ", Timestamp.valueOf(Timestamp.now()))
             }
         })
         this.getAttributes()
@@ -149,14 +142,9 @@ export default {
             })
 
             avail.forEach(async (x) => {
-                // console.log("x is ", x)
-                // console.log("x.toDate() is ", x.toDate())
                 const slotRef = doc(db, "Sessions", this.counsellor_ID+x.toDate())
                 const slotSnap = await getDoc(slotRef)
-
                 let slot = slotSnap.data().session_time
-                // console.log("SLOT:",slot)
-                
                 let s = slot.toDate()
                 if (s > new Date()) {
                     let s_date = s.toDateString()
@@ -178,7 +166,6 @@ export default {
             })
         },
         async create(){
-           
             //edit counsellor > add to available_slots
             const docRef = doc(db, "Counsellors", this.counsellor_ID)
             const docSnap = await getDoc(docRef)

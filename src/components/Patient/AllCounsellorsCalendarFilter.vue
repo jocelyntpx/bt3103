@@ -14,13 +14,6 @@ export default {
     data() {
         return {
             date: "",
-            // attributes: [
-            //     {
-            //         key: this.date,
-            //         highlight: true,
-            //         dates: this.date
-            //     }
-            // ]
         }
     },
 
@@ -28,7 +21,7 @@ export default {
         onDayClick(day) {
             console.log("day.id from AllCounsellorsCalendarFilter: ", day.id);
             this.date = day.id
-            this.$emit("updateFilteredDays", day.id) // send to parent
+            this.$emit("updateFilteredDays", day.id) 
         }
     }
 }
